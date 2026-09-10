@@ -1,336 +1,295 @@
 import Image from "next/image";
 
+const navItems = ["Product", "Solutions", "Docs", "Playground", "Pricing", "Blog"];
+
+const lifecycle = [
+  {
+    label: "Build",
+    heading: "Assemble AI systems that can reason, retry, and recover.",
+    text: "Design agent workflows with code or no-code, then orchestrate them through a runtime built for long-running execution and explicit control.",
+  },
+  {
+    label: "Test",
+    heading: "Validate behavior before your system ever reaches production.",
+    text: "Create realistic task traces, score each decision, and turn agent runs into reusable eval datasets that improve quality over time.",
+  },
+  {
+    label: "Deploy",
+    heading: "Ship agents onto infrastructure designed for state and scale.",
+    text: "Run multi-step execution environments with resilient history, branch isolation, and production-safe execution boundaries.",
+  },
+  {
+    label: "Monitor",
+    heading: "Surface drift, failures, and costly mistakes before they spread.",
+    text: "Track metrics, signal anomalies, and inspect every action with full provenance across agent runs and workspaces.",
+  },
+  {
+    label: "Govern",
+    heading: "Keep every decision inside a trusted policy envelope.",
+    text: "Apply permission boundaries, detect sensitive data, and enforce proof gates before a task can be promoted to live operations.",
+  },
+];
+
+const metrics = [
+  { value: "350M+", label: "monthly open source downloads" },
+  { value: "7K+", label: "active platform customers" },
+  { value: "5", label: "of the Fortune 10 are using agent tooling" },
+];
+
+const logos = ["OpenAI", "Anthropic", "Vercel", "AWS", "MongoDB", "GitHub", "Databricks", "Notion"];
+
+const customerStories = [
+  {
+    quote:
+      "GenOS cut our agent debugging cycles from days to minutes, giving every workflow a traceable execution history.",
+    author: "Klarna",
+    metric: "80% faster case resolution",
+  },
+  {
+    quote:
+      "We can now compare branches, replay recovery paths, and hold every output to proof before promotion.",
+    author: "Monday.com",
+    metric: "8.7x faster eval loops",
+  },
+  {
+    quote:
+      "The control plane made our multi-agent workflows explainable, safer, and dramatically easier to operate at scale.",
+    author: "ServiceNow",
+    metric: "90% fewer escalations",
+  },
+];
+
 const pillars = [
-  {
-    title: "Runtime",
-    description:
-      "Executions isolated, snapshots, retries, memory-aware orchestration, and deterministic recovery loops for production agent systems.",
-  },
-  {
-    title: "Genome",
-    description:
-      "Each agent cell carries its own genome, constraints, identity, and context adaptations without behavioral drift.",
-  },
-  {
-    title: "Memory",
-    description:
-      "Long-term context, synaptic traces, provenance, and learning loops that preserve trust across decision chains.",
-  },
-  {
-    title: "Workspaces",
-    description:
-      "Fork, compare, isolate, and restore states to test counterfactuals without contaminating the main execution path.",
-  },
-  {
-    title: "Proof Gates",
-    description:
-      "Every action is checked, weighted, and proven before promotion — making reliability part of the product experience.",
-  },
-];
-
-const differentiators = [
-  {
-    label: "Evidence-first",
-    text: "Trace every decision, branch, and validation to a proof object instead of a vague success signal.",
-  },
-  {
-    label: "Bilingual",
-    text: "A product that speaks to global teams from day one, without forcing a monolingual English-only story.",
-  },
-  {
-    label: "Production-grade trust",
-    text: "Security, compliance, workspace isolation, and recoverability are core product features, not add-ons.",
-  },
-];
-
-const brands = ["Next.js", "TypeScript", "Tailwind CSS", "Fumadocs", "PostHog", "Sentry", "WebContainers"];
-
-const statCards = [
-  { value: "5", label: "core pillars" },
-  { value: "∞", label: "execution branches" },
-  { value: "FR/EN", label: "global positioning" },
-  { value: "100%", label: "proof before promotion" },
-];
-
-const matrix = [
-  ["LangChain", "Massive docs and observability, but limited proof-before-promotion for live decision reliability."],
-  ["CrewAI", "Fast builder and crew marketplace, yet weaker provenance and rigorous validation of agent outcomes."],
-  ["AutoGen", "Research-driven benchmarks, but less emphasis on security, trust, and deployable reliability."],
-  ["GenOS", "Biomimetic runtime built around trust, provenance, memory, recovery, and controlled promotion."],
+  { title: "Runtime", text: "Isolated execution, retries, memory-aware orchestration, and deterministic recovery loops." },
+  { title: "Genome", text: "Each agent cell carries identity, constraints, and context without behavioral drift." },
+  { title: "Memory", text: "Long-term context, provenance, and learning traces across sequential decisions." },
+  { title: "Workspaces", text: "Fork, diff, and restore execution branches safely without contaminating live workflows." },
+  { title: "Proof Gates", text: "Promote only when evidence, policy, and validation all agree." },
 ];
 
 export default function Home() {
   return (
-    <main className="relative overflow-hidden bg-white text-[#111827]">
-      <div className="top-glow absolute inset-x-0 top-0 h-[540px]" />
+    <main className="relative overflow-hidden bg-[#09090b] text-white">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_center,_rgba(134,98,255,0.34),_rgba(134,98,255,0)_60%)]" />
 
-      <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#09090b]/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
-              <Image src="/genos-logo.png" alt="GenOS logo" width={64} height={64} priority />
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5">
+              <Image src="/genos-logo.png" alt="GenOS" width={28} height={28} priority />
             </div>
-            <div className="text-xl font-semibold tracking-[-0.04em] text-slate-900">GenOS</div>
+            <span className="text-lg font-semibold tracking-[-0.05em] text-white">GenOS</span>
           </div>
 
-          <nav className="hidden items-center gap-7 text-sm text-slate-600 lg:flex">
-            <a href="#product" className="transition hover:text-slate-900">Product</a>
-            <a href="#solutions" className="transition hover:text-slate-900">Solutions</a>
-            <a href="#docs" className="transition hover:text-slate-900">Docs</a>
-            <a href="#playground" className="transition hover:text-slate-900">Playground</a>
-            <a href="#benchmarks" className="transition hover:text-slate-900">Benchmarks</a>
-            <a href="#pricing" className="transition hover:text-slate-900">Pricing</a>
-            <a href="#blog" className="transition hover:text-slate-900">Blog</a>
+          <nav className="hidden items-center gap-7 text-sm text-zinc-300 lg:flex">
+            {navItems.map((item) => (
+              <a key={item} href="#" className="transition hover:text-white">
+                {item}
+              </a>
+            ))}
           </nav>
 
           <div className="flex items-center gap-3">
-            <button className="hidden rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-50 md:inline-flex">
+            <button className="hidden rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:bg-white/10 md:inline-flex">
               GitHub ★
             </button>
-            <button className="rounded-full bg-[#7f5af0] px-4 py-2 text-sm font-medium text-white shadow-[0_10px_25px_rgba(127,90,240,0.25)] transition hover:bg-[#6a49de]">
-              Get Started →
+            <button className="rounded-full bg-white px-4 py-2 text-sm font-medium text-[#09090b] transition hover:bg-zinc-200">
+              Get started
             </button>
           </div>
         </div>
       </header>
 
-      <section className="relative mx-auto max-w-7xl px-6 pb-16 pt-14 lg:px-8 lg:pb-24 lg:pt-20">
-        <div className="hero-grid absolute inset-0 -z-10 opacity-60" />
+      <section className="relative mx-auto max-w-7xl px-6 pb-18 pt-18 lg:px-8 lg:pt-22">
+        <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr]">
+          <div>
+            <div className="mb-6 inline-flex rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-2 text-[10px] font-medium uppercase tracking-[0.22em] text-violet-200">
+              Agentic runtime
+            </div>
 
-        <div className="mx-auto max-w-5xl text-center">
-          <div className="mb-8 inline-flex rounded-full border border-[#e9d5ff] bg-[#f5f0ff] px-4 py-2 text-[11px] font-medium uppercase tracking-[0.2em] text-[#5b3ec5]">
-            proof before promotion
+            <h1 className="max-w-2xl text-5xl font-semibold leading-[0.94] tracking-[-0.08em] text-white md:text-7xl">
+              Own your intelligence.<br />
+              Ship systems you can trust.
+            </h1>
+
+            <p className="mt-6 max-w-xl text-lg leading-8 text-zinc-300 md:text-xl">
+              Build, evaluate, deploy, and govern agentic workflows with full provenance, resilient memory, and proof-before-promotion controls.
+            </p>
+
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <a href="#" className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-[#09090b] transition hover:bg-zinc-200">
+                Start building
+              </a>
+              <a href="#" className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-zinc-200 transition hover:bg-white/10">
+                Book a demo
+              </a>
+            </div>
+
+            <div className="mt-12 grid gap-4 sm:grid-cols-3">
+              {metrics.map((item) => (
+                <div key={item.label} className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <div className="text-2xl font-semibold tracking-[-0.06em] text-violet-200">{item.value}</div>
+                  <div className="mt-2 text-xs leading-5 text-zinc-400">{item.label}</div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <h1 className="text-balance text-5xl font-semibold tracking-[-0.07em] text-slate-950 md:text-7xl">
-            The agentic runtime for systems that need trust, not just speed.
-          </h1>
-
-          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-slate-600 md:text-xl">
-            GenOS gives autonomous agents a controlled execution model: memory, branches, safety gates, provenance, and recovery loops built for production reliability.
-          </p>
-
-          <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
-            <a
-              href="#product"
-              className="rounded-full bg-slate-950 px-6 py-3 text-sm font-medium text-white transition hover:bg-slate-800"
-            >
-              Explore the platform
-            </a>
-            <a
-              href="#playground"
-              className="rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-50"
-            >
-              Run in browser
-            </a>
-          </div>
-
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {statCards.map((card) => (
-              <div key={card.label} className="soft-panel rounded-2xl p-5 text-left">
-                <div className="text-3xl font-semibold tracking-[-0.05em] text-[#5b3ec5]">{card.value}</div>
-                <div className="mt-2 text-sm text-slate-500">{card.label}</div>
+          <div className="relative">
+            <div className="absolute inset-4 rounded-[32px] bg-violet-600/20 blur-3xl" />
+            <div className="relative rounded-[32px] border border-white/10 bg-[#101014] p-4 shadow-[0_40px_80px_rgba(12,11,20,0.9)]">
+              <div className="mb-4 flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                <div className="flex gap-2">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#ff6b6b]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#ffd166]" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#7ef7b7]" />
+                </div>
+                <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-2 py-1 text-[9px] font-medium uppercase tracking-[0.16em] text-violet-200">
+                  runtime active
+                </span>
               </div>
-            ))}
+
+              <div className="rounded-2xl border border-white/10 bg-[#121217] p-5">
+                <div className="mb-5 flex items-center justify-between text-xs text-zinc-400">
+                  <span>workflow: research_cell_04</span>
+                  <span className="font-medium text-violet-200">ready</span>
+                </div>
+
+                <div className="space-y-3">
+                  {[
+                    ["Branch state", "stable"],
+                    ["Proof gate", "passed"],
+                    ["Promotion risk", "low"],
+                    ["Memory traces", "synced"],
+                  ].map(([label, value]) => (
+                    <div key={label} className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-zinc-200">
+                      <span>{label}</span>
+                      <span className="font-medium text-violet-200">{value}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 pb-12 lg:px-8">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-y border-slate-200 py-5 text-xs font-medium uppercase tracking-[0.18em] text-slate-500">
-          <span>Built for</span>
-          <div className="flex flex-wrap gap-6 text-slate-600">
-            {brands.map((brand) => (
-              <span key={brand}>{brand}</span>
-            ))}
-          </div>
+      <section className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
+        <div className="rounded-full border border-white/10 bg-white/5 px-6 py-4 text-xs uppercase tracking-[0.22em] text-zinc-400">
+          Trusted by teams building the future of work
+        </div>
+        <div className="mt-6 grid grid-cols-2 gap-3 text-center text-sm font-medium uppercase tracking-[0.18em] text-zinc-500 sm:grid-cols-4 lg:grid-cols-8">
+          {logos.map((logo) => (
+            <div key={logo} className="rounded-xl border border-white/10 bg-white/5 px-3 py-4">
+              {logo}
+            </div>
+          ))}
         </div>
       </section>
 
-      <section id="product" className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="mb-10 max-w-2xl">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#5b3ec5]">Product</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-slate-950 md:text-5xl">
-            A biomimetic operating system for agentic execution.
+      <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+        <div className="mb-10 max-w-3xl">
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-violet-200">Accelerating the agent development lifecycle</p>
+          <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl">
+            Build, test, deploy, monitor, and govern with one platform.
           </h2>
         </div>
 
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
-          {pillars.map((pillar) => (
-            <article key={pillar.title} className="soft-panel rounded-3xl p-6">
-              <div className="mb-5 h-11 w-11 rounded-2xl bg-[#f3ecff] ring-1 ring-[#d9c9ff]" />
-              <h3 className="text-xl font-semibold tracking-[-0.04em] text-slate-950">{pillar.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">{pillar.description}</p>
+          {lifecycle.map((item) => (
+            <article key={item.label} className="rounded-3xl border border-white/10 bg-white/5 p-5 md:p-6">
+              <div className="mb-5 inline-flex rounded-full border border-violet-500/30 bg-violet-500/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-violet-200">
+                {item.label}
+              </div>
+              <h3 className="text-2xl font-semibold tracking-[-0.05em] text-white">{item.heading}</h3>
+              <p className="mt-4 text-sm leading-7 text-zinc-300">{item.text}</p>
             </article>
           ))}
         </div>
       </section>
 
-      <section id="solutions" className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_2fr] lg:items-start">
+      <section className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
+        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#5b3ec5]">Why it matters</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-slate-950 md:text-5xl">
-              Built to replace “it worked once” with “it was proven.”
+            <p className="text-xs font-medium uppercase tracking-[0.18em] text-violet-200">Why teams choose GenOS</p>
+            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl">
+              A faster way to own every agent decision.
             </h2>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-3">
-            {differentiators.map((item) => (
-              <div key={item.label} className="soft-panel rounded-3xl p-6">
-                <div className="text-xs font-medium uppercase tracking-[0.18em] text-[#5b3ec5]">{item.label}</div>
-                <p className="mt-4 text-base leading-7 text-slate-600">{item.text}</p>
+          <div className="grid gap-4 md:grid-cols-3">
+            {pillars.map((pillar) => (
+              <div key={pillar.title} className="rounded-3xl border border-white/10 bg-white/5 p-5">
+                <div className="mb-4 h-10 w-10 rounded-2xl bg-violet-500/15 ring-1 ring-violet-500/30" />
+                <h3 className="text-xl font-semibold tracking-[-0.04em] text-white">{pillar.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-zinc-300">{pillar.text}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="docs" className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="soft-panel rounded-[32px] p-6 md:p-10">
-          <div className="grid gap-10 lg:grid-cols-[1.15fr_1.9fr]">
-            <div>
-              <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#5b3ec5]">Architecture</p>
-              <h2 className="mt-4 text-3xl font-semibold tracking-[-0.05em] text-slate-950 md:text-5xl">
-                One control plane. Multiple execution cells.
-              </h2>
-            </div>
-
-            <div className="space-y-5">
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                <div className="text-sm font-semibold text-[#5b3ec5]">Control plane</div>
-                <p className="mt-2 text-slate-600">
-                  Orchestration, policy, evidence gates, and public APIs for teams building trustworthy autonomous systems.
-                </p>
-              </div>
-              <div className="grid gap-5 md:grid-cols-2">
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                  <div className="text-sm font-semibold text-[#5b3ec5]">Execution layer</div>
-                  <p className="mt-2 text-slate-600">
-                    Isolated workspaces, memory traces, branch comparisons, and recoverable execution states.
-                  </p>
-                </div>
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                  <div className="text-sm font-semibold text-[#5b3ec5]">Trust layer</div>
-                  <p className="mt-2 text-slate-600">
-                    Security, provenance, and governance convert uncertain actions into explicit proof before promotion.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="benchmarks" className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="mb-8 max-w-2xl">
-          <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#5b3ec5]">Comparison</p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-slate-950 md:text-5xl">
-            Better than static agent tooling. Built for real deployment and trust.
+      <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+        <div className="mb-10 max-w-3xl">
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-violet-200">Customer stories</p>
+          <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl">
+            Learn from teams running agents in production.
           </h2>
         </div>
 
-        <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white">
-          <table className="w-full text-left text-sm text-slate-700">
-            <thead className="bg-slate-50 text-slate-900">
-              <tr>
-                <th className="px-5 py-4 font-semibold">Ecosystem</th>
-                <th className="px-5 py-4 font-semibold">Market gap</th>
-              </tr>
-            </thead>
-            <tbody>
-              {matrix.map(([name, text]) => (
-                <tr key={name} className="border-t border-slate-200">
-                  <td className="px-5 py-4 font-semibold text-slate-900">{name}</td>
-                  <td className="px-5 py-4 text-slate-600">{text}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="grid gap-5 lg:grid-cols-3">
+          {customerStories.map((story) => (
+            <article key={story.author} className="rounded-[28px] border border-white/10 bg-[#101014] p-6">
+              <div className="mb-6 text-3xl text-violet-200">“</div>
+              <p className="text-lg leading-8 text-zinc-200">{story.quote}</p>
+              <div className="mt-8 border-t border-white/10 pt-5">
+                <div className="text-sm font-medium text-white">{story.author}</div>
+                <div className="mt-1 text-xs uppercase tracking-[0.14em] text-violet-200">{story.metric}</div>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
-      <section id="playground" className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_1.8fr] lg:items-center">
-          <div>
-            <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#5b3ec5]">Playground</p>
-            <h2 className="mt-4 text-3xl font-semibold tracking-[-0.05em] text-slate-950 md:text-5xl">
-              Run GenOS in your browser.
-            </h2>
-            <p className="mt-5 max-w-lg text-lg leading-8 text-slate-600">
-              Fork a workspace, compare execution branches, inspect proofs, and resume after failure without leaving the browser.
-            </p>
-          </div>
-
-          <div className="soft-panel rounded-[30px] p-6">
-            <div className="mb-5 flex items-center justify-between">
-              <div className="flex gap-2">
-                <span className="h-3 w-3 rounded-full bg-[#ff7d7d]" />
-                <span className="h-3 w-3 rounded-full bg-[#ffd166]" />
-                <span className="h-3 w-3 rounded-full bg-[#7ef7b7]" />
-              </div>
-              <div className="rounded-full border border-[#d9c9ff] bg-[#f5f0ff] px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-[#5b3ec5]">
-                runtime active
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-              <div className="mb-3 flex items-center justify-between text-sm text-slate-700">
-                <span>agent: research_cell_04</span>
-                <span className="font-medium text-[#5b3ec5]">ready</span>
-              </div>
-              <div className="space-y-3 text-sm text-slate-700">
-                <div className="flex items-center justify-between rounded-xl bg-white px-3 py-2 ring-1 ring-slate-200">
-                  <span>Branch state</span>
-                  <span className="font-medium text-[#5b3ec5]">stable</span>
-                </div>
-                <div className="flex items-center justify-between rounded-xl bg-white px-3 py-2 ring-1 ring-slate-200">
-                  <span>Proof gate</span>
-                  <span className="font-medium text-[#5b3ec5]">passed</span>
-                </div>
-                <div className="flex items-center justify-between rounded-xl bg-white px-3 py-2 ring-1 ring-slate-200">
-                  <span>Promotion risk</span>
-                  <span className="font-medium text-[#5b3ec5]">low</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="pricing" className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
-        <div className="soft-panel rounded-[32px] p-8 md:p-10">
+      <section className="mx-auto max-w-7xl px-6 pb-20 pt-8 lg:px-8">
+        <div className="rounded-[32px] border border-violet-500/20 bg-[linear-gradient(135deg,#101014_0%,#171720_100%)] p-8 md:p-12">
           <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="text-xs font-medium uppercase tracking-[0.2em] text-[#5b3ec5]">Pricing</p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-[-0.05em] text-slate-950 md:text-5xl">
-                Open-source core. Enterprise trust layer.
+            <div className="max-w-2xl">
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-violet-200">Get started</p>
+              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl">
+                The platform for trusted AI execution.
               </h2>
             </div>
-            <div className="rounded-full border border-[#d9c9ff] bg-[#f5f0ff] px-4 py-2 text-sm text-[#4d3ab3]">
-              Open source core + cloud + enterprise
+
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <a href="#" className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-medium text-[#09090b] transition hover:bg-zinc-200">
+                Start building
+              </a>
+              <a href="#" className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-zinc-200 transition hover:bg-white/10">
+                Get a demo
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      <footer className="mx-auto max-w-7xl px-6 pb-20 pt-10 lg:px-8">
-        <div className="flex flex-col justify-between gap-8 border-t border-slate-200 pt-8 md:flex-row">
+      <footer className="mx-auto max-w-7xl px-6 pb-16 lg:px-8">
+        <div className="flex flex-col gap-10 border-t border-white/10 pt-8 md:flex-row md:items-start md:justify-between">
           <div>
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-white ring-1 ring-slate-200">
-                <Image src="/genos-logo.png" alt="GenOS logo" width={44} height={44} />
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5">
+                <Image src="/genos-logo.png" alt="GenOS" width={28} height={28} />
               </div>
-              <div className="text-xl font-semibold text-slate-950">GenOS</div>
+              <span className="text-lg font-semibold tracking-[-0.05em] text-white">GenOS</span>
             </div>
-            <p className="mt-4 max-w-sm text-slate-600">
-              Agentic runtime for executing, comparing, securing, and promoting AI decisions with explicit proof.
+            <p className="mt-4 max-w-sm text-sm leading-7 text-zinc-400">
+              The agentic runtime for building, evaluating, securing, and operating AI systems with proof and trust built in.
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-10 text-sm text-slate-600">
+          <div className="grid gap-8 text-sm text-zinc-400 sm:grid-cols-3">
             <div>
-              <div className="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-[#5b3ec5]">Product</div>
+              <div className="mb-3 text-[11px] font-medium uppercase tracking-[0.18em] text-violet-200">Product</div>
               <ul className="space-y-2">
                 <li>Runtime</li>
                 <li>Genome</li>
@@ -339,21 +298,21 @@ export default function Home() {
               </ul>
             </div>
             <div>
-              <div className="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-[#5b3ec5]">Developer</div>
+              <div className="mb-3 text-[11px] font-medium uppercase tracking-[0.18em] text-violet-200">Resources</div>
               <ul className="space-y-2">
                 <li>Docs</li>
-                <li>CLI</li>
                 <li>API</li>
-                <li>Benchmarks</li>
+                <li>Blog</li>
+                <li>Community</li>
               </ul>
             </div>
             <div>
-              <div className="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-[#5b3ec5]">Company</div>
+              <div className="mb-3 text-[11px] font-medium uppercase tracking-[0.18em] text-violet-200">Company</div>
               <ul className="space-y-2">
                 <li>About</li>
                 <li>Careers</li>
                 <li>Trust</li>
-                <li>Community</li>
+                <li>Contact</li>
               </ul>
             </div>
           </div>
