@@ -13,18 +13,18 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GenOS | Provenance, mémoire et preuve avant promotion",
+  title: "GenOS | Agentic runtime for trusted AI execution",
   description:
-    "GenOS V3 est une runtime agentique biomimétique pour exécuter, comparer, valider et promouvoir des décisions d’IA avec traçabilité et sécurité.",
+    "GenOS V3 is a biomimetic agentic runtime for execution, memory, proof, recovery, and safe promotion of AI decisions.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="fr"
+      lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#050d0b] text-white">
+      <body className="min-h-full flex flex-col bg-white text-[#0b0d0f]">
         {children}
       </body>
     </html>
