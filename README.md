@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GenOS V3 — Runtime d'Orchestration Biologique
 
-## Getting Started
+> Site public GenOS : runtime d'orchestration d'agents autonomes, inspiré des systèmes biologiques et du versionnement déterministe.
 
-First, run the development server:
+Ce dépôt contient le site public de GenOS V3, construit avec [Next.js](https://nextjs.org/) et [Tailwind CSS v4](https://tailwindcss.com/).
+
+- **Landing** : `/` — présentation, 8 modes d'orchestration, architecture
+- **Docs** : `/docs` — concepts, modes détaillés, architecture, roadmap
+- **Features** : `/features` — caractéristiques par catégorie, comparaison
+- **Pricing** : `/pricing` — communauté gratuite + enterprise
+
+## Démarrage rapide
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# → http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```bash
+npm run build
+npm run start
+# → build production + serveur statique
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run lint
+# → vérification ESLint
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Structure du site
 
-## Learn More
+```
+GenoSWork/
+├── app/
+│   ├── layout.tsx          # Root layout (head, nav, footer)
+│   ├── page.tsx            # Landing page
+│   ├── docs.tsx            # Documentation page
+│   ├── features.tsx        # Caractéristiques
+│   ├── pricing.tsx         # Tarifs + FAQ
+│   ├── globals.css         # Tailwind v4 + variables
+│   └── favicon.ico
+├── public/
+│   ├── genos-logo.png      # Logo GenOS
+│   ├── favicon.ico
+│   └── ... (assets de base)
+├── package.json
+├── next.config.ts
+├── tsconfig.json
+└── README.md
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Construit avec
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Next.js 16.3.4** — framework React, SSR/SSG
+- **React 19.2.8** — UI components
+- **Tailwind CSS 4.x** — utility-first CSS
+- **TypeScript 5.x** — typage strict
+- **ESLint 9** — linting moderne avec `eslint-config-next`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Gradients et palette
 
-## Deploy on Vercel
+- Primaire : `#5b4fcf` → `#3d33a0`
+- Secondaire : `#3b82f6` → `#1d4ed8`
+- Succès : `#10b981` → `#047857`
+- Alerte : `#ef4444` → `#b91c1c`
+- Accent : `#f59e0b` → `#d97706`
+- Violet : `#8b5cf6` → `#6d28d9`
+- Rose : `#ec4899` → `#db2777`
+- Teal : `#14b8a6` → `#0f766e`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Liens
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Site public** : https://genoswork.vercel.app
+- **Repo GenOS (backend + code)** : https://github.com/PISSARAW/GenOS
+- **Documentation officielle** : https://github.com/PISSARAW/GenOS/tree/main/docs
+- **Démo** : `examples/safe-debugging-demo` (zéro token)
+
+## Contribuer
+
+1. Forkez ce dépôt
+2. Créez votre branche (`git checkout -b feature/amazing-feature`)
+3. Committez vos changements (`git commit -m 'feat: add amazing feature'`)
+4. Push (`git push origin feature/amazing-feature`)
+5. Ouvrez une Pull Request
+
+## Licence
+
+Projet open-source sous licence [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0). Voir le fichier LICENSE dans le dépôt principal GenOS.
+
+---
+
+*GenOS — parce que l'agentic computation mérite un runtime qui croit aux snapshots plus qu'au succès.*

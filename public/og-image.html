@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GenOS V3 — Runtime d'orchestration biologique</title>
+<meta name="description" content="GenOS V3 est un runtime d'agent autonome inspiré des systèmes biologiques. 8 modes d'orchestration, snapshots, forks, replay déterministe, promotion par preuve.">
+<meta property="og:title" content="GenOS V3 — Orchestration biologique d'agents">
+<meta property="og:description" content="Un runtime pour agents autonomes où une exécution réussie n'est pas une preuve, et une erreur n'est pas fatale. 8 modes d'orchestration, snapshots, forks, replay, promotion par preuve.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://genoswork.vercel.app">
+<meta property="og:image" content="https://genoswork.vercel.app/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GenOS V3 — Orchestration biologique d'agents">
+<meta name="twitter:description" content="Runtime d'agents autonomes inspiré des systèmes biologiques. Snapshots, forks, replay, promotion par preuve.">
+<style>
+  :root {
+    --bg: #06080a;
+    --fg: #e8ecf0;
+    --muted: #9ca3af;
+    --accent: #5b4fcf;
+    --accent2: #3b82f6;
+    --line: #1e2430;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  a { color: inherit; text-decoration: none; }
+  .gradient-text {
+    background: linear-gradient(135deg, #5b4fcf, #3b82f6, #10b981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(6,8,10,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+  .logo-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #5b4fcf, #3b82f6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(91,79,207,0.3);
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .nav-links a:hover { color: var(--fg); }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(91,79,207,0.3);
+  }
+  .btn-primary:hover { background: #6d5ff0; transform: translateY(-1px); }
+  .btn-ghost {
+    background: rgba(26,31,44,0.6);
+    color: var(--fg);
+    border: 1px solid var(--line);
+  }
+  .btn-ghost:hover { background: rgba(37,44,60,0.8); }
+
+  /* HERO */
+  .hero {
+    padding: 80px 0 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.05;
+    background:
+      radial-gradient(circle at 30% 20%, #5b4fcf 0%, transparent 40%),
+      radial-gradient(circle at 70% 80%, #3b82f6 0%, transparent 40%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 100px;
+    background: rgba(91,79,207,0.12);
+    border: 1px solid rgba(91,79,207,0.2);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #7c6df0;
+    margin-bottom: 24px;
+  }
+  .hero-badge .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #5b4fcf;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto 32px;
+  }
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* STATS */
+  .stats {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: rgba(12,16,24,0.4);
+    padding: 32px 0;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 24px;
+    text-align: center;
+  }
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #fff, #9ca3af);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-top: 4px;
+  }
+
+  /* SECTIONS */
+  section { padding: 80px 0; }
+  .section-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .section-header h2 {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .section-header p {
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+  }
+
+  /* MODES GRID */
+  .modes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .mode-card {
+    background: rgba(12,16,24,0.5);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.25s ease;
+  }
+  .mode-card:hover {
+    border-color: rgba(91,79,207,0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(91,79,207,0.1);
+  }
+  .mode-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+  .mode-card h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .mode-card p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .mode-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .mode-tag::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .mode-target {
+    font-size: 0.8rem;
+    color: #6b7280;
+  }
+  .mode-target strong { color: #8892a4; font-weight: 600; }
+
+  /* HIGHLIGHT BOX */
+  .highlight-box {
+    background: rgba(12,16,24,0.6);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 32px;
+    margin-top: 40px;
+  }
+  .highlight-box h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .highlight-box p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  /* ARCHITECTURE */
+  .arch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  .arch-card {
+    background: rgba(12,16,24,0.5);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .arch-card.featured {
+    border-color: rgba(91,79,207,0.25);
+    background: rgba(91,79,207,0.05);
+  }
+  .arch-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+  }
+  .arch-card.featured .arch-icon {
+    background: rgba(91,79,207,0.15);
+    color: var(--accent);
+  }
+  .arch-card .arch-icon {
+    background: var(--line);
+    color: var(--accent);
+  }
+  .arch-card h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .arch-card p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  /* FLOW */
+  .flow-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .flow-step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: rgba(12,16,24,0.4);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 20px;
+  }
+  .flow-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(91,79,207,0.15);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+  .flow-step p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  @media (max-width: 640px) {
+    .flow-list { grid-template-columns: 1fr; }
+  }
+
+  /* CTA */
+  .cta {
+    background: linear-gradient(180deg, rgba(12,16,24,0.3), rgba(6,8,10,0.9));
+    text-align: center;
+    padding: 80px 0;
+    border-top: 1px solid var(--line);
+  }
+  .cta h2 {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .cta p {
+    color: var(--muted);
+    max-width: 480px;
+    margin: 0 auto 32px;
+    font-size: 1.05rem;
+  }
+  .cta-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 32px 0;
+    text-align: center;
+  }
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .footer-links a:hover { color: var(--fg); }
+  .footer-copy {
+    color: var(--muted);
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero { padding: 48px 0 40px; }
+    section { padding: 48px 0; }
+    .stats { padding: 24px 0; }
+  }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #2a3344; }
+
+  /* SELECTION */
+  ::selection { background: rgba(91,79,207,0.4); color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <div class="logo-mark">G</div>
+      <span>GenOS</span>
+    </a>
+    <div class="nav-links">
+      <a href="#modes">Modes</a>
+      <a href="#architecture">Architecture</a>
+      <a href="https://github.com/PISSARAW/GenOS" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+    <a href="https://github.com/PISSARAW/GenOS" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Démarrer</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Runtime d'Orchestration Biologique — V3
+    </div>
+    <h1>
+      Orchestrez des agents<br>
+      <span class="gradient-text">comme la nature</span>
+    </h1>
+    <p class="hero-sub">
+      GenOS V3 est un runtime d'exécution d'agents autonomes inspiré des systèmes biologiques.
+      <strong style="color:#fff">8 modes d'orchestration</strong> — de la comparaison triadique (Trinity) aux communautés coopératives (Biocénose) — vous donnent le contrôle sur la façon dont vos agents travaillent ensemble.
+    </p>
+    <div class="hero-cta">
+      <a href="#modes" class="btn btn-primary">Découvrir les modes</a>
+      <a href="https://github.com/PISSARAW/GenOS" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Voir sur GitHub</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div>
+        <div class="stat-value">8</div>
+        <div class="stat-label">modes d'orchestration</div>
+      </div>
+      <div>
+        <div class="stat-value">∞</div>
+        <div class="stat-label">combinaisons possibles</div>
+      </div>
+      <div>
+        <div class="stat-value">V3</div>
+        <div class="stat-label">version biomimétique</div>
+      </div>
+      <div>
+        <div class="stat-value">0</div>
+        <div class="stat-label">agent mort sans raison</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODES -->
+<section id="modes">
+  <div class="container">
+    <div class="section-header">
+      <h2>Les 8 modes d'orchestration</h2>
+      <p>Chaque mode correspond à un principe biologique. Choisissez celui qui correspond à votre besoin, ou combinez-les.</p>
+    </div>
+
+    <div class="modes-grid">
+
+      <div class="mode-card">
+        <div class="mode-icon" style="background: linear-gradient(135deg, #5b4fcf, #3d33a0)">T</div>
+        <h3>Trinity</h3>
+        <p>Trois mondes d'exécution parallèles (thèse, antithese, synthèse) pour explorer des implémentations alternatives et fusionner les résultats les plus robustes.</p>
+        <div class="mode-tag">comparaison + fusion</div>
+        <div class="mode-target"><strong>Cible :</strong> Décision critique / conception architecturale</div>
+      </div>
+
+      <div class="mode-card">
+        <div class="mode-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8)">A</div>
+        <h3>A-Team</h3>
+        <p>Une équipe plurisciplinaire de spécialistes (design, frontend, contenu, sécurité...) coalesce autour d'un objectif commun. Chaque membre opère dans sa zone de compétence.</p>
+        <div class="mode-tag">spécialisation + fusion</div>
+        <div class="mode-target"><strong>Cible :</strong> Projet de bout en bout nécessitant diverses compétences</div>
+      </div>
+
+      <div class="mode-card">
+        <div class="mode-icon" style="background: linear-gradient(135deg, #10b981, #047857)">B</div>
+        <h3>Biocénose</h3>
+        <p>Une communauté d'agents coopératifs évoluant dans un même écosystème. L'interaction et la concurrence douce produisent des comportements émergents stables.</p>
+        <div class="mode-tag">coopération + compétition douce</div>
+        <div class="mode-target"><strong>Cible :</strong> Environnement de développement continu et auto-optimisé</div>
+      </div>
+
+      <div class="mode-card">
+        <div class="mode-icon" style="background: linear-gradient(135deg, #ef4444, #b91c1c)">H</div>
+        <h3>Holobionte</h3>
+        <p>Sécurité intégrée à l'agent : détection de menaces, confinement, autorisations fines, traçabilité complète. L'agent est conçu pour opérer dans des contextes sensibles.</p>
+        <div class="mode-tag">défense en profondeur</div>
+        <div class="mode-target"><strong>Cible :</strong> Opérations critiques, données sensibles, conformité</div>
+      </div>
+
+      <div class="mode-card">
+        <div class="mode-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706)">S</div>
+        <h3>Syncytium</h3>
+        <p>Un état partagé entre agents : mémoire collective, contexte commun, cohérence des décisions. Permet une coordination fine sans centralisation rigide.</p>
+        <div class="mode-tag">mémoire partagée + cohérence</div>
+        <div class="mode-target"><strong>Cible :</strong> Résolution de problèmes distribuée nécessitant une vision commune</div>
+      </div>
+
+      <div class="mode-card">
+        <div class="mode-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9)">B</div>
+        <h3>Biome</h3>
+        <p>Des populations d'agents spécialisés par tâche, évoluant en parallèle dans des niches distinctes. Chaque population est optimisée pour son rôle.</p>
+        <div class="mode-tag">spécialisation par population</div>
+        <div class="mode-target"><strong>Cible :</strong> Grande échelle : plusieurs flux de travail parallèles</div>
+      </div>
+
+      <div class="mode-card">
+        <div class="mode-icon" style="background: linear-gradient(135deg, #ec4899, #db2777)">R</div>
+        <h3>Rhizome</h3>
+        <p>Architecture non hiérarchique : les agents s'auto-organisent en réseau. Chaque agent peut se connecter à tout autre agent, créant des chemins adaptatif et résilient.</p>
+        <div class="mode-tag">auto-organisation + réseau</div>
+        <div class="mode-target"><strong>Cible :</strong> Systèmes adaptatifs où les besoins évoluent rapidement</div>
+      </div>
+
+      <div class="mode-card">
+        <div class="mode-icon" style="background: linear-gradient(135deg, #14b8a6, #0f766e)">M</div>
+        <h3>Métapopulation</h3>
+        <p>Plusieurs populations semi-indépendantes coexistent dans un même espace. Chaque population a ses propres règles, mais échange avec les voisines pour diversifier et robustifier.</p>
+        <div class="mode-tag">diversité + échange inter-populations</div>
+        <div class="mode-target"><strong>Cible :</strong> Organisations complexes avec plusieurs équipes / projets en parallèle</div>
+      </div>
+
+    </div>
+
+    <div class="highlight-box">
+      <h3>Combiner les modes</h3>
+      <p>Un projet complexe peut utiliser <strong>Trinity</strong> pour explorer 3 architectures, puis <strong>A-Team</strong> pour implémenter chacune avec les spécialistes adéquats, et <strong>Holobionte</strong> pour garantir la sécurité de chaque décision. La biomimétique, c'est l'arbitraire — pas la rigidité.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section id="architecture" style="background: rgba(12,16,24,0.3)">
+  <div class="container">
+    <div class="section-header">
+      <h2>Architecture</h2>
+      <p>GenOS s'articule autour d'un runtime central, d'un orchestrateur et d'agents autonomes exécutés dans des capsules isolées.</p>
+    </div>
+
+    <div class="arch-grid">
+      <div class="arch-card featured">
+        <div class="arch-icon">O</div>
+        <h3>Orchestrateur</h3>
+        <p>Le cerveau de la mission. Il choisit la stratégie, compose les équipes, assigne les tâches, supervise les résultats et décide des actions correctives.</p>
+      </div>
+      <div class="arch-card">
+        <div class="arch-icon">A</div>
+        <h3>Agents Autonomes</h3>
+        <p>Chaque agent est une capsule isolée avec son propre contexte, son budget cognitif et son périmètre d'action. Ils produisent du code, des décisions ou des artefacts après réflexion.</p>
+      </div>
+      <div class="arch-card featured">
+        <div class="arch-icon">R</div>
+        <h3>Runtime & Infrastructure</h3>
+        <p>Le runtime assure l'isolation (workspaces, capsules), la traçabilité (mémoire épisodique, traces), la supervision (PID, stderr, timeout), et la récupération (auto-relance, quorum).</p>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top: 32px">
+      <h3 style="margin-bottom: 16px">Flux typique d'une mission</h3>
+      <div class="flow-list">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <p>L'orchestrateur reçoit la mission et choisit la stratégie (Trinity, A-Team, etc.)</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <p>Les agents sont créés dans des capsules isolées avec un budget cognitif et un périmètre</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <p>Chaque agent exécute sa tâche, produit des artefacts (code, décisions, preuves)</p>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <p>L'orchestrateur synthétise les résultats, valide la cohérence, et décide de la prochaine étape</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container">
+    <h2>Prêt à orchestrer vos agents ?</h2>
+    <p>Démarrez avec la documentation, explorez les modes, et construisez votre premier projet avec GenOS.</p>
+    <div class="cta-buttons">
+      <a href="https://github.com/PISSARAW/GenOS" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Explorer le code</a>
+      <a href="https://github.com/PISSARAW/GenOS/releases" target="_blank" rel="noopener noreferrer" class="btn btn-ghost">Télécharger l'alpha</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo-mark" style="width:28px;height:28px;font-size:0.9rem">G</div>
+      <span>GenOS</span>
+    </div>
+    <div class="footer-links">
+      <a href="#modes">Modes</a>
+      <a href="https://github.com/PISSARAW/GenOS" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://github.com/PISSARAW/GenOS/tree/main/docs" target="_blank" rel="noopener noreferrer">Docs</a>
+    </div>
+    <div class="footer-copy">© 2026 — Runtime d'orchestration biologique — Apache 2.0</div>
+  </div>
+</footer>
+
+</body>
+</html>
