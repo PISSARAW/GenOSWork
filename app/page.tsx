@@ -1,323 +1,252 @@
-import Image from "next/image";
+import Link from "next/link";
 
-const navItems = ["Product", "Solutions", "Docs", "Playground", "Pricing", "Blog"];
-
-const lifecycle = [
+// Les 8 modes d'orchestration GenOS
+const modes = [
   {
-    label: "Build",
-    heading: "Assemble AI systems that can reason, retry, and recover.",
-    text: "Design agent workflows with code or no-code, then orchestrate them through a runtime built for long-running execution and explicit control.",
+    nom: "Trinity",
+    description: "Trois mondes d'exécution parallèles (thèse, antithese, synthèse) pour explorer des implémentations alternatives et fusionner les résultats les plus robustes.",
+    strategie: "comparaison + fusion",
+    cible: "Decision critique / conception architecturale",
+    accent: "from-[#5b4fcf] to-[#3d33a0]",
   },
   {
-    label: "Test",
-    heading: "Validate behavior before your system ever reaches production.",
-    text: "Create realistic task traces, score each decision, and turn agent runs into reusable eval datasets that improve quality over time.",
+    nom: "A-Team",
+    description: "Une équipe plurisciplinaire de spécialistes (design, frontend, contenu, sécurité...) coalesce autour d'un objectif commun. Chaque membre opère dans sa zone de compétence.",
+    strategie: "specialisation + fusion",
+    cible: "Projet de bout en bout nécessitant diverses compétences",
+    accent: "from-[#3b82f6] to-[#1d4ed8]",
   },
   {
-    label: "Deploy",
-    heading: "Ship agents onto infrastructure designed for state and scale.",
-    text: "Run multi-step execution environments with resilient history, branch isolation, and production-safe execution boundaries.",
+    nom: "Biocénose",
+    description: "Une communauté d'agents coopératifs évoluant dans un même écosystème. L'interaction et la concurrence douce produisent des comportements émergents stables.",
+    strategie: "coopération + compétition douce",
+    cible: "Environnement de développement continu et auto-optimisé",
+    accent: "from-[#10b981] to-[#047857]",
   },
   {
-    label: "Monitor",
-    heading: "Surface drift, failures, and costly mistakes before they spread.",
-    text: "Track metrics, signal anomalies, and inspect every action with full provenance across agent runs and workspaces.",
+    nom: "Holobionte",
+    description: "Sécurité intégrée à l'agent : détection de menaces, confinement, autorisations fines, traçabilité complète. L'agent est conçu pour opérer dans des contextes sensibles.",
+    strategie: "défense en profondeur",
+    cible: "Opérations critiques, données sensibles, conformité",
+    accent: "from-[#ef4444] to-[#b91c1c]",
   },
   {
-    label: "Govern",
-    heading: "Keep every decision inside a trusted policy envelope.",
-    text: "Apply permission boundaries, detect sensitive data, and enforce proof gates before a task can be promoted to live operations.",
+    nom: "Syncytium",
+    description: "Un état partagé entre agents : mémoire collective, contexte commun, cohérence des décisions. Permet une coordination fine sans centralisation rigide.",
+    strategie: "mémoire partagée + cohérence",
+    cible: "Résolution de problèmes distribuée nécessitant une vision commune",
+    accent: "from-[#f59e0b] to-[#d97706]",
+  },
+  {
+    nom: "Biome",
+    description: "Des populations d'agents spécialisés par tâche, évoluant en parallèle dans des niches distinctes. Chaque population est optimisée pour son rôle.",
+    strategie: "spécialisation par population",
+    cible: "Grande échelle : plusieurs flux de travail parallèles",
+    accent: "from-[#8b5cf6] to-[#6d28d9]",
+  },
+  {
+    nom: "Rhizome",
+    description: "Architecture non hiérarchique : les agents s'auto-organisent en réseau. Chaque agent peut se connecter à tout autre agent, créant des chemins adaptatif et résilient.",
+    strategie: "auto-organisation + réseau",
+    cible: "Systèmes adaptatifs où les besoins évoluent rapidement",
+    accent: "from-[#ec4899] to-[#db2777]",
+  },
+  {
+    nom: "Métapopulation",
+    description: "Plusieurs populations semi-indépendantes coexistent dans un même espace. Chaque population a ses propres règles, mais échange avec les voisines pour diversifier et robustifier.",
+    strategie: "diversité + échange inter-populations",
+    cible: "Orgues complexes avec plusieurs équipes / projets en parallèle",
+    accent: "from-[#14b8a6] to-[#0f766e]",
   },
 ];
 
-const metrics = [
-  { value: "350M+", label: "monthly open source downloads" },
-  { value: "7K+", label: "active platform customers" },
-  { value: "5", label: "of the Fortune 10 are using agent tooling" },
-];
-
-const logos = ["OpenAI", "Anthropic", "Vercel", "AWS", "MongoDB", "GitHub", "Databricks", "Notion"];
-
-const customerStories = [
-  {
-    quote:
-      "GenOS cut our agent debugging cycles from days to minutes, giving every workflow a traceable execution history.",
-    author: "Klarna",
-    metric: "80% faster case resolution",
-  },
-  {
-    quote:
-      "We can now compare branches, replay recovery paths, and hold every output to proof before promotion.",
-    author: "Monday.com",
-    metric: "8.7x faster eval loops",
-  },
-  {
-    quote:
-      "The control plane made our multi-agent workflows explainable, safer, and dramatically easier to operate at scale.",
-    author: "ServiceNow",
-    metric: "90% fewer escalations",
-  },
-];
-
-const pillars = [
-  { title: "Runtime", text: "Isolated execution, retries, memory-aware orchestration, and deterministic recovery loops." },
-  { title: "Genome", text: "Each agent cell carries identity, constraints, and context without behavioral drift." },
-  { title: "Memory", text: "Long-term context, provenance, and learning traces across sequential decisions." },
-  { title: "Workspaces", text: "Fork, diff, and restore execution branches safely without contaminating live workflows." },
-  { title: "Proof Gates", text: "Promote only when evidence, policy, and validation all agree." },
-];
-
-export default function Home() {
+// Le contenu de la page
+export default function HomePage() {
   return (
-    <main className="relative overflow-hidden bg-[#09090b] text-white">
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[520px] bg-[radial-gradient(circle_at_center,_rgba(134,98,255,0.34),_rgba(134,98,255,0)_60%)]" />
-
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#09090b]/80 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5">
-              <Image src="/genos-logo.png" alt="GenOS" width={28} height={28} priority />
-            </div>
-            <span className="text-lg font-semibold tracking-[-0.05em] text-white">GenOS</span>
+    <>
+      {/* HERO */}
+      <section className="relative overflow-hidden pt-20 pb-32">
+        <div className="absolute inset-0 opacity-[0.04]">
+          <div className="inset-0" style={{ background: "radial-gradient(circle at 30% 20%, #5b4fcf 0%, transparent 50%), radial-gradient(circle at 70% 80%, #3b82f6 0%, transparent 50%)" }} />
+        </div>
+        <div className="relative mx-auto max-w-4xl text-center">
+          <div className="mb-6 flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#7c6df0]">
+            <span className="h-8 w-8 rounded-full bg-[#5b4fcf]/20 flex items-center justify-center text-[#7c6df0]">v3</span>
+            Runtime d'Orchestration Biologique
           </div>
 
-          <nav className="hidden items-center gap-7 text-sm text-zinc-300 lg:flex">
-            {navItems.map((item) => (
-              <a key={item} href="#" className="transition hover:text-white">
-                {item}
-              </a>
+          <h1 className="text-5xl font-extrabold leading-[1.05] tracking-tight text-white md:text-7xl lg:text-8xl">
+            Orchestrez des agents
+            <br />
+            <span className="bg-gradient-to-r from-[#5b4fcf] via-[#3b82f6] to-[#10b981] bg-clip-text text-transparent">
+              comme la nature
+            </span>
+          </h1>
+
+          <p className="mx-auto mt-8 max-w-2xl text-xl leading-relaxed text-[#9ca3af]">
+            GenOS V3 est un runtime d'exécution d'agents autonomes inspiré des systèmes biologiques.
+            <br />
+            <span className="text-white font-medium">8 modes d'orchestration</span> — de la comparaison triadique (Trinity) aux communautés coopératives (Biocénose) — vous donnent le contrôle sur la façon dont vos agents travaillent ensemble.
+          </p>
+
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/docs"
+              className="rounded-xl bg-[#5b4fcf] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#5b4fcf]/25 transition hover:bg-[#6d5ff0] focus:outline-none focus:ring-2 focus:ring-[#5b4fcf]/50"
+            >
+              Consulter la documentation
+            </Link>
+            <Link
+              href="#modes"
+              className="rounded-xl border border-[#3a4252] bg-[#1a1f2c] px-8 py-4 text-base font-semibold text-white transition hover:bg-[#252c3c] focus:outline-none focus:ring-2 focus:ring-[#5b4fcf]/30"
+            >
+              Découvrir les modes
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* STATS BAR */}
+      <section className="border-y border-[#1e2430] bg-[#0c1018] py-6">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+            {[
+              { value: "8", label: "modes d'orchestration" },
+              { value: "∞", label: "combinaisons possibles" },
+              { value: "V3", label: "version biomimétique" },
+              { value: "0", label: "agent mort sans raison" },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center">
+                <div className="text-3xl font-extrabold tracking-tight text-white">{stat.value}</div>
+                <div className="mt-1 text-sm text-[#7a8294]">{stat.label}</div>
+              </div>
             ))}
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <button className="hidden rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-zinc-200 transition hover:bg-white/10 md:inline-flex">
-              GitHub ★
-            </button>
-            <button className="rounded-full bg-white px-4 py-2 text-sm font-medium text-[#09090b] transition hover:bg-zinc-200">
-              Get started
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <section className="relative mx-auto max-w-7xl px-6 pb-18 pt-18 lg:px-8 lg:pt-22">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr]">
-          <div>
-            <div className="mb-6 inline-flex rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-2 text-[10px] font-medium uppercase tracking-[0.22em] text-violet-200">
-              Agentic runtime
-            </div>
-
-            <h1 className="max-w-2xl text-5xl font-semibold leading-[0.94] tracking-[-0.08em] text-white md:text-7xl">
-              Own your intelligence.<br />
-              Ship systems you can trust.
-            </h1>
-
-            <p className="mt-6 max-w-xl text-lg leading-8 text-zinc-300 md:text-xl">
-              Build, evaluate, deploy, and govern agentic workflows with full provenance, resilient memory, and proof-before-promotion controls.
-            </p>
-
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <a href="#" className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-medium text-[#09090b] transition hover:bg-zinc-200">
-                Start building
-              </a>
-              <a href="#" className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-6 py-3 text-sm font-medium text-zinc-200 transition hover:bg-white/10">
-                Book a demo
-              </a>
-            </div>
-
-            <div className="mt-12 grid gap-4 sm:grid-cols-3">
-              {metrics.map((item) => (
-                <div key={item.label} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                  <div className="text-2xl font-semibold tracking-[-0.06em] text-violet-200">{item.value}</div>
-                  <div className="mt-2 text-xs leading-5 text-zinc-400">{item.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative">
-            <div className="absolute inset-4 rounded-[32px] bg-violet-600/20 blur-3xl" />
-            <div className="relative rounded-[32px] border border-white/10 bg-[#101014] p-4 shadow-[0_40px_80px_rgba(12,11,20,0.9)]">
-              <div className="mb-4 flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-                <div className="flex gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#ff6b6b]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#ffd166]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#7ef7b7]" />
-                </div>
-                <span className="rounded-full border border-violet-500/30 bg-violet-500/10 px-2 py-1 text-[9px] font-medium uppercase tracking-[0.16em] text-violet-200">
-                  runtime active
-                </span>
-              </div>
-
-              <div className="rounded-2xl border border-white/10 bg-[#121217] p-5">
-                <div className="mb-5 flex items-center justify-between text-xs text-zinc-400">
-                  <span>workflow: research_cell_04</span>
-                  <span className="font-medium text-violet-200">ready</span>
-                </div>
-
-                <div className="space-y-3">
-                  {[
-                    ["Branch state", "stable"],
-                    ["Proof gate", "passed"],
-                    ["Promotion risk", "low"],
-                    ["Memory traces", "synced"],
-                  ].map(([label, value]) => (
-                    <div key={label} className="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm text-zinc-200">
-                      <span>{label}</span>
-                      <span className="font-medium text-violet-200">{value}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
-        <div className="rounded-full border border-white/10 bg-white/5 px-6 py-4 text-xs uppercase tracking-[0.22em] text-zinc-400">
-          Trusted by teams building the future of work
-        </div>
-        <div className="mt-6 grid grid-cols-2 gap-3 text-center text-sm font-medium uppercase tracking-[0.18em] text-zinc-500 sm:grid-cols-4 lg:grid-cols-8">
-          {logos.map((logo) => (
-            <div key={logo} className="rounded-xl border border-white/10 bg-white/5 px-3 py-4">
-              {logo}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-        <div className="mb-10 max-w-3xl">
-          <p className="text-xs font-medium uppercase tracking-[0.18em] text-violet-200">Accelerating the agent development lifecycle</p>
-          <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl">
-            Build, test, deploy, monitor, and govern with one platform.
-          </h2>
-        </div>
-
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
-          {lifecycle.map((item) => (
-            <article key={item.label} className="rounded-3xl border border-white/10 bg-white/5 p-5 md:p-6">
-              <div className="mb-5 inline-flex rounded-full border border-violet-500/30 bg-violet-500/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.18em] text-violet-200">
-                {item.label}
-              </div>
-              <h3 className="text-2xl font-semibold tracking-[-0.05em] text-white">{item.heading}</h3>
-              <p className="mt-4 text-sm leading-7 text-zinc-300">{item.text}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
-        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-          <div>
-            <p className="text-xs font-medium uppercase tracking-[0.18em] text-violet-200">Why teams choose GenOS</p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl">
-              A faster way to own every agent decision.
+      {/* MODES D'ORCHESTRATION */}
+      <section id="modes" className="border-t border-[#1e2430] py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mb-16 text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl">
+              Les 8 modes d'orchestration
             </h2>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-3">
-            {pillars.map((pillar) => (
-              <div key={pillar.title} className="rounded-3xl border border-white/10 bg-white/5 p-5">
-                <div className="mb-4 h-10 w-10 rounded-2xl bg-violet-500/15 ring-1 ring-violet-500/30" />
-                <h3 className="text-xl font-semibold tracking-[-0.04em] text-white">{pillar.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-zinc-300">{pillar.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
-        <div className="mb-10 max-w-3xl">
-          <p className="text-xs font-medium uppercase tracking-[0.18em] text-violet-200">Customer stories</p>
-          <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl">
-            Learn from teams running agents in production.
-          </h2>
-        </div>
-
-        <div className="grid gap-5 lg:grid-cols-3">
-          {customerStories.map((story) => (
-            <article key={story.author} className="rounded-[28px] border border-white/10 bg-[#101014] p-6">
-              <div className="mb-6 text-3xl text-violet-200">“</div>
-              <p className="text-lg leading-8 text-zinc-200">{story.quote}</p>
-              <div className="mt-8 border-t border-white/10 pt-5">
-                <div className="text-sm font-medium text-white">{story.author}</div>
-                <div className="mt-1 text-xs uppercase tracking-[0.14em] text-violet-200">{story.metric}</div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 pb-20 pt-8 lg:px-8">
-        <div className="rounded-[32px] border border-violet-500/20 bg-[linear-gradient(135deg,#101014_0%,#171720_100%)] p-8 md:p-12">
-          <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-2xl">
-              <p className="text-xs font-medium uppercase tracking-[0.18em] text-violet-200">Get started</p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.06em] text-white md:text-5xl">
-                The platform for trusted AI execution.
-              </h2>
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <a href="#" className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-medium text-[#09090b] transition hover:bg-zinc-200">
-                Start building
-              </a>
-              <a href="#" className="inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-zinc-200 transition hover:bg-white/10">
-                Get a demo
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <footer className="mx-auto max-w-7xl px-6 pb-16 lg:px-8">
-        <div className="flex flex-col gap-10 border-t border-white/10 pt-8 md:flex-row md:items-start md:justify-between">
-          <div>
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5">
-                <Image src="/genos-logo.png" alt="GenOS" width={28} height={28} />
-              </div>
-              <span className="text-lg font-semibold tracking-[-0.05em] text-white">GenOS</span>
-            </div>
-            <p className="mt-4 max-w-sm text-sm leading-7 text-zinc-400">
-              The agentic runtime for building, evaluating, securing, and operating AI systems with proof and trust built in.
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-[#9ca3af]">
+              Chaque mode correspond à un principe biologique. Choisissez celui qui correspond à votre besoin, ou combinez-les.
             </p>
           </div>
 
-          <div className="grid gap-8 text-sm text-zinc-400 sm:grid-cols-3">
-            <div>
-              <div className="mb-3 text-[11px] font-medium uppercase tracking-[0.18em] text-violet-200">Product</div>
-              <ul className="space-y-2">
-                <li>Runtime</li>
-                <li>Genome</li>
-                <li>Memory</li>
-                <li>Workspaces</li>
-              </ul>
-            </div>
-            <div>
-              <div className="mb-3 text-[11px] font-medium uppercase tracking-[0.18em] text-violet-200">Resources</div>
-              <ul className="space-y-2">
-                <li>Docs</li>
-                <li>API</li>
-                <li>Blog</li>
-                <li>Community</li>
-              </ul>
-            </div>
-            <div>
-              <div className="mb-3 text-[11px] font-medium uppercase tracking-[0.18em] text-violet-200">Company</div>
-              <ul className="space-y-2">
-                <li>About</li>
-                <li>Careers</li>
-                <li>Trust</li>
-                <li>Contact</li>
-              </ul>
-            </div>
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {modes.map((mode) => (
+              <div
+                key={mode.nom}
+                className={`rounded-2xl border border-[#1e2430]/80 bg-[#0c1018] p-6 transition hover:border-[#5b4fcf]/30 hover:shadow-lg hover:shadow-[#5b4fcf]/5`}
+              >
+                <div className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${mode.accent} text-white font-bold text-lg shadow-md`}>
+                  {mode.nom[0]}
+                </div>
+                <h3 className="text-xl font-bold tracking-tight text-white">{mode.nom}</h3>
+                <p className="mt-3 text-base leading-relaxed text-[#9ca3af]">{mode.description}</p>
+                <div className="mt-5 flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-[#5b4fcf]">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#5b4fcf]" />
+                  {mode.strategie}
+                </div>
+                <div className="mt-4 text-sm text-[#6b7280]">
+                  <span className="font-medium text-[#8892a4]">Cible :</span> {mode.cible}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 rounded-2xl border border-[#1e2430] bg-[#0c1018] p-8">
+            <h3 className="text-xl font-bold text-white">Combiner les modes</h3>
+            <p className="mt-3 text-base text-[#9ca3af]">
+              Un projet complexe peut utiliser Trinity pour explorer 3 architectures, puis A-Team pour implémenter chacune avec les spécialistes adéquats, et Holobionte pour garantir la sécurité de chaque décision. La biomimétique, c'est l'arbitraire — pas la rigidité.
+            </p>
           </div>
         </div>
-      </footer>
-    </main>
+      </section>
+
+      {/* ARCHITECTURE */}
+      <section id="architecture" className="border-t border-[#1e2430] bg-[#0c1018] py-24">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="mb-16 text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl">
+              Architecture
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-lg text-[#9ca3af]">
+              GenOS s'articule autour d'un runtime central, d'un orchestrateur et d'agents autonomes exécutés dans des capsules isolées.
+            </p>
+          </div>
+
+          <div className="grid gap-8 lg:grid-cols-3">
+            {[
+              { titre: "Orchestrateur", desc: "Le cerveau de la mission. Il choisit la stratégie, compose les équipes, assigne les tâches, supervise les résultats et décide des actions correctives." },
+              { titre: "Agents Autonomes", desc: "Chaque agent est une capsule isolée avec son propre contexte, son budget cognitif et son périmètre d'action. Ils produisent du code, des décisions ou des artefacts après réflexion." },
+              { titre: "Runtime & Infrastructure", desc: "Le runtime assure l'isolation (workspaces, capsules), la traçabilité (mémoire épisodique, traces), la supervision (PID, stderr, timeout), et la récupération (auto-relance, quorum).", accent: true },
+            ].map((block) => (
+              <div key={block.titre} className={`rounded-2xl border ${block.accent ? "border-[#5b4fcf]/20 bg-[#5b4fcf]/5" : "border-[#1e2430] bg-[#0c1018]"} p-6`}>
+                <div className={`mb-4 flex h-10 w-10 items-center justify-center rounded-lg ${block.accent ? "bg-[#5b4fcf]/20 text-[#5b4fcf]" : "bg-[#1e2430] text-[#5b4fcf]"} font-bold`}>
+                  {block.titre[0]}
+                </div>
+                <h3 className="text-lg font-bold text-white">{block.titre}</h3>
+                <p className="mt-3 text-base leading-relaxed text-[#9ca3af]">{block.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 rounded-2xl border border-[#1e2430] bg-[#0c1018] p-8">
+            <h3 className="text-xl font-bold text-white">Flux typique d'une mission</h3>
+            <ol className="mt-4 grid gap-4 text-base leading-relaxed text-[#9ca3af] lg:grid-cols-2">
+              <li className="flex gap-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#5b4fcf]/20 text-[#5b4fcf] font-bold">1</span>
+                <span>L'orchestrateur reçoit la mission et choisit la stratégie (Trinity, A-Team, etc.)</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#5b4fcf]/20 text-[#5b4fcf] font-bold">2</span>
+                <span>Les agents sont créés dans des capsules isolées avec un budget cognitif et un périmètre</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#5b4fcf]/20 text-[#5b4fcf] font-bold">3</span>
+                <span>Chaque agent exécute sa tâche, produit des artefacts (code, décisions, preuves)</span>
+              </li>
+              <li className="flex gap-3">
+                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#5b4fcf]/20 text-[#5b4fcf] font-bold">4</span>
+                <span>L'orchestrateur synthetise les résultats, valide la cohérence, et décide de la prochaine étape</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="border-t border-[#1e2430] bg-gradient-to-b from-[#0c1018] to-[#06080a] py-24">
+        <div className="mx-auto max-w-3xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-white md:text-5xl">
+            Prêt à orchestrer vos agents ?
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-lg text-[#9ca3af]">
+            Démarrez avec la documentation, explorez les modes, et construisez votre premier projet avec GenOS.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <Link
+              href="/docs"
+              className="rounded-xl bg-[#5b4fcf] px-8 py-4 text-base font-semibold text-white shadow-lg shadow-[#5b4fcf]/25 transition hover:bg-[#6d5ff0] focus:outline-none focus:ring-2 focus:ring-[#5b4fcf]/50"
+            >
+              Lire la documentation
+            </Link>
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-xl border border-[#3a4252] bg-[#1a1f2c] px-8 py-4 text-base font-semibold text-white transition hover:bg-[#252c3c] focus:outline-none focus:ring-2 focus:ring-[#5b4fcf]/30"
+            >
+              Voir sur GitHub
+            </a>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
