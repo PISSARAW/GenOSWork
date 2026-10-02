@@ -15,7 +15,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const item = morphogenesisCases.find((candidate) => candidate.slug === slug);
   if (!item) return { title: "Morphogenesis use case not found" };
-  return { title: item.title, description: item.summary, alternates: { canonical: `/morphogenesis/cases/${item.slug}` } };
+  const localizedPath = `/en/morphogenesis/cases/${item.slug}`;
+  return {
+    title: item.title,
+    description: item.summary,
+    alternates: {
+      canonical: localizedPath,
+      languages: {
+        en: localizedPath,
+        fr: `/fr/morphogenesis/cases/${item.slug}`,
+      },
+    },
+  };
 }
 
 export default async function MorphogenesisCasePage({ params }: Props) {

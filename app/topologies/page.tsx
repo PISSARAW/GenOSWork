@@ -3,7 +3,7 @@ import { Eyebrow } from "@/components/eyebrow";
 import { TopologyCard } from "@/components/topology-card";
 import { topologies } from "@/components/topologies";
 
-export const metadata: Metadata = { title: "Orchestration topologies", description: "Explore the eight GenOS orchestration topologies and their runtime profiles, contracts and known limits.", alternates: { canonical: "/topologies" } };
+export const metadata: Metadata = { title: "Orchestration topologies", description: "Explore the eight GenOS orchestration topologies and their runtime profiles, contracts and known limits.", alternates: { canonical: "/en/topologies" } };
 
 export default function TopologiesPage() {
   return (

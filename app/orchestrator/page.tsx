@@ -5,7 +5,7 @@ import { Eyebrow } from "@/components/eyebrow";
 export const metadata: Metadata = {
   title: "The orchestrator",
   description: "How GenOS plans and supervises missions, dispatches bounded workers, and checks evidence before a result can be closed or promoted.",
-  alternates: { canonical: "/orchestrator" },
+  alternates: { canonical: "/en/orchestrator" },
 };
 
 const stages = [

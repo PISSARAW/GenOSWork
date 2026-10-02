@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Eyebrow } from "@/components/eyebrow";
 
-export const metadata: Metadata = { title: "How GenOS works", description: "Explore the GenOS runtime lifecycle: version state, compose workers, execute under constraints and review evidence.", alternates: { canonical: "/runtime" } };
+export const metadata: Metadata = { title: "How GenOS works", description: "Explore the GenOS runtime lifecycle: version state, compose workers, execute under constraints and review evidence.", alternates: { canonical: "/en/runtime" } };
 
 const steps = [
   ["01", "Frame the mission", "Turn a request into explicit work, constraints, budgets and evidence obligations."],

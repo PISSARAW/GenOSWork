@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Eyebrow } from "@/components/eyebrow";
 
-export const metadata: Metadata = { title: "Développer avec GenOS", description: "Prise en main en français du runtime open source GenOS et liens vers ses contrats source REST et MCP.", alternates: { canonical: "/fr/developers", languages: { en: "/developers", fr: "/fr/developers" } }, openGraph: { locale: "fr_FR" } };
+export const metadata: Metadata = { title: "Développer avec GenOS", description: "Prise en main en français du runtime open source GenOS et liens vers ses contrats source REST et MCP.", alternates: { canonical: "/fr/developers", languages: { en: "/en/developers", fr: "/fr/developers" } }, openGraph: { locale: "fr_FR" } };
 
 export default function FrenchDevelopersPage() {
   return <div className="page-shell" lang="fr">

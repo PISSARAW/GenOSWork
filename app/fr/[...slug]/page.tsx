@@ -5,6 +5,7 @@ import { Eyebrow } from "@/components/eyebrow";
 import { concepts } from "@/components/concepts";
 import { topologies } from "@/components/topologies";
 import { morphogenesisCases } from "@/components/morphogenesis-cases";
+import { TranslationNotice } from "@/components/locale-controls";
 
 type Summary = { title: string; emphasis: string; intro: string; bullets: string[]; family: string };
 
@@ -12,6 +13,12 @@ const summaries: Record<string, Summary> = {
   orchestrator: { title: "Orchestrer", emphasis: "avec intention.", intro: "Le planificateur GenOS décompose un objectif, distribue le travail, recueille les sorties puis les soumet aux contrôles et aux limites prévus.", bullets: ["Choisir une topologie et des capacités", "Limiter les ressources et les permissions", "Relier décisions, traces et résultats"], family: "ORCHESTRATION" },
   runtime: { title: "Un état versionné", emphasis: "pour le travail des agents.", intro: "GenOS conserve les snapshots, branches, changements et traces d’exécution afin que le travail puisse être comparé et repris.", bullets: ["Capturer et inspecter des états", "Créer des branches de trajectoire", "Rejouer à partir de snapshots vérifiés"], family: "RUNTIME" },
   "runtime/supervision": { title: "Superviser", emphasis: "chaque frontière.", intro: "Le plan de contrôle expose les espaces de travail, budgets, événements, mémoires et preuves associés aux exécutions.", bullets: ["Contrôler portée et autorité", "Observer budgets et événements", "Examiner preuves et provenance"], family: "SUPERVISION" },
+  "runtime/supervision/agents": { title: "Observer les agents", emphasis: "pendant leur exécution.", intro: "La supervision des agents suit leur cycle de vie, leurs handoffs et les résultats produits pendant une mission.", bullets: ["Suivre les états des agents", "Relier événements et résultats", "Examiner les limites du processus"], family: "SUPERVISION" },
+  "runtime/supervision/workspaces": { title: "Isoler les workspaces", emphasis: "et leurs trajectoires.", intro: "Les workspaces isolent les changements candidats et les snapshots afin de comparer le travail sans confondre les états.", bullets: ["Examiner les workspaces", "Comparer des branches candidates", "Reprendre un snapshot"], family: "SUPERVISION" },
+  "runtime/supervision/budgets": { title: "Borner une mission", emphasis: "par des budgets.", intro: "Les budgets déclarent les ressources et limites d’exécution associées à une mission GenOS.", bullets: ["Lire les budgets déclarés", "Observer les consommations", "Comprendre les limites d’application"], family: "SUPERVISION" },
+  "runtime/supervision/events": { title: "Reconstituer une exécution", emphasis: "dans l’ordre des événements.", intro: "L’historique d’événements relie les étapes, les handoffs et les résultats d’une exécution supervisée.", bullets: ["Suivre la chronologie", "Examiner handoffs et statuts", "Relier les événements aux artifacts"], family: "SUPERVISION" },
+  "runtime/supervision/memory": { title: "Gérer une mémoire", emphasis: "avec sa provenance.", intro: "La mémoire runtime associe récupération de contexte, portée et provenance pour rendre les éléments utilisés inspectables.", bullets: ["Comprendre la portée", "Examiner les éléments récupérés", "Suivre leur provenance"], family: "SUPERVISION" },
+  "runtime/supervision/evidence": { title: "Relier les affirmations", emphasis: "aux artifacts et contrôles.", intro: "Les rapports de preuve associent les affirmations d’une exécution aux artifacts, vérifications, provenances et décisions de promotion.", bullets: ["Examiner les artifacts", "Lire les vérifications", "Suivre provenance et décision"], family: "SUPERVISION" },
   workers: { title: "Workers spécialisés", emphasis: "missions bornées.", intro: "Les workers prennent en charge des sous-tâches avec des rôles, des capacités et des autorisations transmis par l’orchestrateur.", bullets: ["Assigner un rôle et une tâche", "Définir le budget et le périmètre", "Garder les handoffs inspectables"], family: "WORKERS" },
   daemons: { title: "Des services de fond", emphasis: "sous contrôle.", intro: "Les daemons maintiennent certaines fonctions du runtime et appliquent des limites de cycle de vie et d’autorité.", bullets: ["Séparer service et mission", "Observer état et erreurs", "Rester dans les frontières configurées"], family: "DAEMONS" },
   topologies: { title: "Huit modes de travail", emphasis: "une même gouvernance.", intro: "Les topologies décrivent comment les workers se coordonnent. Chaque mode relie des services différents et conserve ses limites d’implémentation.", bullets: ["Trinity : candidats parallèles et comparaison", "A-Team : spécialistes et transmissions", "Biocenose : communauté et votes", "Holobionte : hôte et symbiotes", "Syncytium : état partagé et cohérence", "Rhizome : capacités et traces", "Métapopulation : groupes régionaux et reprise", "Biome : allocation et collecte bornée"], family: "TOPOLOGIES" },
@@ -44,7 +51,6 @@ function chooseSummary(path: string): Summary | undefined {
     if (!morphogenesisCases.some((c) => c.slug === slug)) return undefined;
     return { title: "Un cas de morphogenèse", emphasis: "avec changements vérifiables.", intro: "L'étude de cas détaillée reste en anglais et documente le contexte, la trajectoire et les preuves de changement.", bullets: ["Explorer le laboratoire de morphogenèse", "Ouvrir l'étude complète en anglais", "Suivre les éléments de preuve"], family: "ÉTUDE DE CAS" };
   }
-  if (path.startsWith("runtime/supervision/")) return summaries["runtime/supervision"];
   return undefined;
 }
 
@@ -68,7 +74,7 @@ export async function generateMetadata({ params }: PageProps<"/fr/[...slug]">): 
   const { slug } = await params;
   const path = slug.join("/");
   const summary = chooseSummary(path);
-  return summary ? { title: summary.family + " GenOS", description: summary.intro, alternates: { canonical: "/fr/" + path, languages: { en: "/" + path, fr: "/fr/" + path } }, openGraph: { locale: "fr_FR" } } : { title: "GenOS en français" };
+  return summary ? { title: summary.family + " GenOS", description: summary.intro, alternates: { canonical: "/fr/" + path, languages: { en: "/en/" + path, fr: "/fr/" + path } }, openGraph: { locale: "fr_FR" } } : { title: "GenOS en français" };
 }
 
 export default async function FrenchOverviewPage({ params }: PageProps<"/fr/[...slug]">) {
@@ -76,7 +82,7 @@ export default async function FrenchOverviewPage({ params }: PageProps<"/fr/[...
   const path = slug.join("/");
   const summary = chooseSummary(path);
   if (!summary) notFound();
-  const englishHref = "/" + path;
+  const englishHref = "/en/" + path;
   const sourceHref = path.startsWith("concepts/") ? "https://github.com/PISSARAW/GenOS/tree/v3/docs/01-concepts" : path.startsWith("topologies/") ? "https://github.com/PISSARAW/GenOS/blob/v3/docs/02-orchestration/topologies-et-capacites.md" : "https://github.com/PISSARAW/GenOS/tree/v3/docs";
-  return <div className="page-shell french-overview" lang="fr"><section className="page-hero section-wrap api-reference-hero"><Eyebrow>{summary.family} · APERÇU EN FRANÇAIS</Eyebrow><h1>{summary.title}<br /><em>{summary.emphasis}</em></h1><p>{summary.intro}</p><ul>{summary.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul><div className="hero-actions"><Link className="button button-dark" href={englishHref}>Ouvrir la page détaillée en anglais <span>↗</span></Link><a className="button button-quiet" href={sourceHref} target="_blank" rel="noreferrer">Documentation GenOS ↗</a></div></section><section className="section-wrap french-overview-note"><Eyebrow>ÉTAT DE LA TRADUCTION</Eyebrow><p>Cette page fournit un résumé français de la section. Les explications détaillées, les exemples et les références ligne par ligne restent disponibles sur la page anglaise et dans la documentation source GenOS.</p><Link href="/fr">Retour à la présentation française →</Link></section></div>;
+  return <div className="page-shell french-overview" lang="fr"><section className="page-hero section-wrap api-reference-hero"><Eyebrow>{summary.family} · APERÇU EN FRANÇAIS</Eyebrow><h1>{summary.title}<br /><em>{summary.emphasis}</em></h1><p>{summary.intro}</p><ul>{summary.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul><div className="hero-actions"><Link className="button button-dark" href={englishHref}>Ouvrir la page détaillée en anglais <span>↗</span></Link><a className="button button-quiet" href={sourceHref} target="_blank" rel="noreferrer">Documentation GenOS ↗</a></div></section><section className="section-wrap french-overview-note"><TranslationNotice enPath={englishHref} /><Link href="/fr">Retour à la présentation française →</Link></section></div>;
 }

@@ -17,7 +17,14 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const topology = getTopology(slug);
-  return topology ? { title: topology.name, description: `${topology.summary} Read its GenOS runtime profile and known limits.`, alternates: { canonical: `/topologies/${slug}` } } : {};
+  return topology ? {
+    title: topology.name,
+    description: `${topology.summary} Read its GenOS runtime profile and known limits.`,
+    alternates: {
+      canonical: `/en/topologies/${slug}`,
+      languages: { en: `/en/topologies/${slug}`, fr: `/fr/topologies/${slug}` },
+    },
+  } : {};
 }
 
 export default async function TopologyDetailPage({ params }: Props) {

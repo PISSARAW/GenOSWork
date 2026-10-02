@@ -6,7 +6,7 @@ import { supervisionPages } from "@/components/supervision-data";
 export const metadata: Metadata = {
   title: "Supervised agent runtime",
   description: "Explore the concrete GenOS runtime surfaces for launching and supervising agents, isolated workspaces, budgets, events, memory and evidence reports.",
-  alternates: { canonical: "/runtime/supervision" },
+  alternates: { canonical: "/en/runtime/supervision" },
 };
 
 const events = [

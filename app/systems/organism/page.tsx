@@ -6,7 +6,7 @@ import { OrganismMap } from "@/components/system-maps";
 export const metadata: Metadata = {
   title: "Biological Organism Map",
   description: "Explore GenOS biology-inspired software concepts alongside explicit limits of each analogy.",
-  alternates: { canonical: "/systems/organism" },
+  alternates: { canonical: "/en/systems/organism" },
 };
 
 export default function OrganismMapPage() {

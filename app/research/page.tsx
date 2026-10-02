@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Eyebrow } from "@/components/eyebrow";
 import { researchDocsBase, researchSections } from "@/components/research-program";
+import { primaryMechanismReferences } from "@/components/mechanism-literature";
 
 export const metadata: Metadata = {
   title: "GenOS Research",
   description: "A map of documented GenOS research areas: agent runtime, orchestration, memory, epistemology, evolution, and biomimetic systems.",
-  alternates: { canonical: "/research", languages: { en: "/research", fr: "/fr/research" } },
+  alternates: { canonical: "/en/research", languages: { en: "/en/research", fr: "/fr/research" } },
 };
 
 const docs = researchDocsBase;
@@ -42,6 +43,11 @@ export default function ResearchPage() {
             </article>
           ))}
         </div>
+      </section>
+
+      <section className="section-wrap research-literature" aria-labelledby="research-literature-title">
+        <div className="research-intro"><Eyebrow>PRIMARY REFERENCES · MECHANISMS</Eyebrow><h2 id="research-literature-title">Sources for the<br /><em>mechanisms.</em></h2><p>These primary sources describe selected scientific mechanisms used as design analogies. They do not test or validate GenOS code.</p></div>
+        <div className="research-literature-grid">{primaryMechanismReferences.map((reference) => <article key={reference.id}><span>{reference.mechanism} · {reference.year}</span><h3>{reference.title}</h3><p>{reference.authors} · <i>{reference.venue}</i></p><a href={reference.url} target="_blank" rel="noreferrer">Open source ↗</a></article>)}</div>
       </section>
 
       <section className="research-bottom section-wrap">

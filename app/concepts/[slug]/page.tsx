@@ -3,17 +3,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Eyebrow } from "@/components/eyebrow";
 import { ConceptDiagramView } from "@/components/concept-diagram";
-import { concepts, getConcept, type Concept } from "@/components/concepts";
+import { concepts, getConcept, conceptModelBySlug, type Concept } from "@/components/concepts";
 import { conceptFamilies } from "@/components/concept-catalog";
 import { RealityBar, genosSourceCommit, type DocItem } from "@/components/reality-bar";
-
-const modelByConcept: Record<string, string> = {
-  agow: "agow", attention: "agow", genome: "genome", epigenetics: "genome", "agent-dna": "agent-dna",
-  evidence: "evidence", beliefs: "evidence", claims: "evidence", contradictions: "evidence", provenance: "evidence",
-  memoire: "memory", "episodic-memory": "memory", "semantic-memory": "memory", "procedural-memory": "memory",
-  maladies: "immunity", "immune-system": "immunity", "adaptive-epistemic-immunity": "immunity", pathologies: "immunity",
-  "lean-verification": "lean", "proof-artifact": "lean", "deterministic-verification": "lean",
-};
+import { referencesForConcept } from "@/components/mechanism-literature";
 
 export function generateStaticParams() {
   return concepts.map(({ slug }) => ({ slug }));
@@ -27,9 +20,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: concept.title,
     description: concept.intro,
     alternates: {
-      canonical: `/concepts/${concept.slug}`,
+      canonical: `/en/concepts/${concept.slug}`,
       languages: {
-        en: `/concepts/${concept.slug}`,
+        en: `/en/concepts/${concept.slug}`,
         fr: `/fr/concepts/${concept.slug}`,
       },
     },
@@ -48,6 +41,7 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
   const integration = concept.integration ?? "unassessed";
   const evidence = concept.evidence ?? "unassessed";
   const related = (concept.related ?? []).map((relatedSlug) => getConcept(relatedSlug)).filter((item): item is Concept => item !== undefined);
+  const primaryReferences = referencesForConcept(concept.slug);
   const doc: DocItem[] = [
     { key: "science", label: "Science", state: concept.scienceBasis ? "full" : concept.biologyInspired ? "partial" : "na" },
     { key: "math", label: "Mathematics", state: concept.mathModel ? "full" : concept.hasMathematics ? "partial" : "na" },
@@ -115,9 +109,21 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
           <div className="concept-architecture-details">
             <article><span>IMPLEMENTATION DETAIL</span><p>{concept.statusNote ?? "No concept-specific status record has been curated in the atlas."}</p></article>
             <article><span>FAILURE MODES</span><p>{concept.failureModes?.join(" · ") ?? "Failure modes have not yet been separately cataloged for this entry; follow the source and evidence links before relying on the mechanism."}</p></article>
-            <article><span>CODE REFERENCES</span><p>{concept.codeSources?.length ? concept.codeSources.join(" · ") : "No implementation file is pinned to this concept entry yet."}</p></article>
+            <article><span>CODE REFERENCES</span>{concept.codeSources?.length ? <ul>{concept.codeSources.map((source) => <li key={source}><a href={`https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/${source}`} target="_blank" rel="noreferrer"><code>{source}</code> ↗</a></li>)}</ul> : <p>No implementation file is pinned to this concept entry yet.</p>}</article>
           </div>
         </div>
+      </section>
+
+      <section className="section-wrap concept-literature" aria-labelledby="concept-literature-title">
+        <div className="concept-section-heading"><Eyebrow>PRIMARY LITERATURE · MECHANISM LEVEL</Eyebrow><h2 id="concept-literature-title">The mechanism<br /><em>behind the analogy.</em></h2></div>
+        {primaryReferences.length ? <div className="concept-literature-list">{primaryReferences.map((reference) => <article key={`${reference.mechanismId}-${reference.year}`}>
+          <span>{reference.mechanism.toUpperCase()} · {reference.year}</span>
+          <h3>{reference.title}</h3>
+          <p>{reference.authors} · <i>{reference.venue}</i></p>
+          <p>{reference.relevance}</p>
+          <a href={reference.url} target="_blank" rel="noreferrer">Open publication ↗</a>
+        </article>)}</div> : <p className="concept-literature-gap">A mechanism-specific primary reference has not yet been curated for this entry. The linked GenOS source remains the product contract; no scientific reference is inferred from the concept label.</p>}
+        <p className="concept-literature-note">Primary source means the original paper or chapter describing the cited mechanism. These references contextualize the mechanism and do not validate the GenOS implementation.</p>
       </section>
 
       {concept.slug === "ontogenese" && (
@@ -170,8 +176,8 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
             <a href={`https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/docs/${concept.source}`} target="_blank" rel="noreferrer">Read the pinned source: {concept.sourceLabel} <span>↗</span></a>
             <Link href="/evidence">Open the evidence ledger <span>→</span></Link>
             {concept.hasBenchmark && <Link href="/benchmarks">Browse benchmark protocols <span>→</span></Link>}
-            {modelByConcept[concept.slug]
-              ? <Link href={`/lab/models?model=${modelByConcept[concept.slug]}`}>Experiment with this concept <span>→</span></Link>
+            {conceptModelBySlug[concept.slug]
+              ? <Link href={`/lab/models?model=${conceptModelBySlug[concept.slug]}`}>Experiment with this concept <span>→</span></Link>
               : <Link href="/lab/models">Explore teaching simulations <span>→</span></Link>}
           </div>
         </div>

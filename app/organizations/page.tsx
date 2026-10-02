@@ -7,7 +7,7 @@ import { organizationFamilies, organizations } from "@/components/organizations"
 export const metadata: Metadata = {
   title: "Dynamic organizations",
   description: "Explore the 19 GenOS dynamic organizations and the algorithms that guide consensus, adversarial review, swarm search, routing, recovery and memory.",
-  alternates: { canonical: "/organizations" },
+  alternates: { canonical: "/en/organizations" },
 };
 
 export default function OrganizationsPage() {

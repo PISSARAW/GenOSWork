@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Eyebrow } from "@/components/eyebrow";
 
-export const metadata: Metadata = { title: "Developers", description: "Build with GenOS: open-source Rust runtime, Node.js control plane, CLI and MCP integrations.", alternates: { canonical: "/developers" } };
+export const metadata: Metadata = { title: "Developers", description: "Build with GenOS: open-source Rust runtime, Node.js control plane, CLI and MCP integrations.", alternates: { canonical: "/en/developers" } };
 
 export default function DevelopersPage() {
   return (

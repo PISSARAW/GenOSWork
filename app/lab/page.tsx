@@ -3,7 +3,7 @@ import Link from "next/link";
 import { MorphogenesisLab } from "@/components/morphogenesis-lab";
 import { TruthBadge } from "@/components/truth-badge";
 
-export const metadata: Metadata = { title: "Morphogenesis Lab", description: "Explore an illustrative, local-only visualization of how an agent mission can branch into candidate work and evidence review.", alternates: { canonical: "/lab", languages: { en: "/lab", fr: "/fr/lab" } } };
+export const metadata: Metadata = { title: "Morphogenesis Lab", description: "Explore an illustrative, local-only visualization of how an agent mission can branch into candidate work and evidence review.", alternates: { canonical: "/en/lab", languages: { en: "/en/lab", fr: "/fr/lab" } } };
 
 export default function LabPage() {
   return <div className="lab-page">

@@ -15,6 +15,6 @@ export async function GET() {
     version: "1.0.0",
     sourceCommit: genosSourceCommit,
     ledger,
-    routes: { en: "/evidence", fr: "/fr/evidence" },
+    routes: { en: "/en/evidence", fr: "/fr/evidence" },
   });
 }

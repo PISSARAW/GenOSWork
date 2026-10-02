@@ -8,11 +8,13 @@ import { primaryNav } from "@/components/site-config";
 export function SiteHeader() {
   const pathname = usePathname();
   const isFrench = pathname === "/fr" || pathname.startsWith("/fr/");
+  const isEnglishPrefix = pathname === "/en" || pathname.startsWith("/en/");
+  const englishHref = (href: string) => isEnglishPrefix ? `/en${href === "/" ? "" : href}` : href;
   return (
     <header className="site-header" id="top">
       <Link
         className="brand"
-        href={isFrench ? "/fr" : "/"}
+        href={isFrench ? "/fr" : englishHref("/")}
         aria-label={isFrench ? "Accueil GenOS" : "GenOS home"}
       >
         <span className="brand-mark" aria-hidden="true">
@@ -32,7 +34,7 @@ export function SiteHeader() {
           <div className="nav-group" key={entry.id}>
             <Link
               className="nav-group-label"
-              href={isFrench ? entry.hrefFr : entry.hrefEn}
+              href={isFrench ? entry.hrefFr : englishHref(entry.hrefEn)}
               title={isFrench ? entry.questionFr : entry.questionEn}
             >
               {isFrench ? entry.labelFr : entry.labelEn}
@@ -45,7 +47,7 @@ export function SiteHeader() {
                 ? entry.childrenFr ?? entry.children
                 : entry.children
               ).map((child) => (
-                <Link key={child.href} href={child.href} role="menuitem">
+                <Link key={child.href} href={isFrench ? child.href : englishHref(child.href)} role="menuitem">
                   {child.label}
                   {child.note && <small>{child.note}</small>}
                 </Link>
@@ -62,7 +64,7 @@ export function SiteHeader() {
           {primaryNav.map((entry) => (
             <Link
               key={entry.id}
-              href={isFrench ? entry.hrefFr : entry.hrefEn}
+              href={isFrench ? entry.hrefFr : englishHref(entry.hrefEn)}
             >
               {isFrench ? entry.labelFr : entry.labelEn}
             </Link>
@@ -72,7 +74,7 @@ export function SiteHeader() {
               (child) => (
                 <Link
                   key={child.href}
-                  href={child.href}
+                  href={isFrench ? child.href : englishHref(child.href)}
                   className="mobile-nav-child"
                 >
                   {"— "}

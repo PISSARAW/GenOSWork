@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Eyebrow } from "@/components/eyebrow";
 
-export const metadata: Metadata = { title: "GenOS en français", description: "Présentation française de GenOS, son runtime multi-agents, ses preuves, ses benchmarks et sa référence API / MCP.", alternates: { canonical: "/fr", languages: { en: "/", fr: "/fr" } }, openGraph: { locale: "fr_FR" } };
+export const metadata: Metadata = { title: "GenOS en français", description: "Présentation française de GenOS, son runtime multi-agents, ses preuves, ses benchmarks et sa référence API / MCP.", alternates: { canonical: "/fr", languages: { en: "/en", fr: "/fr" } }, openGraph: { locale: "fr_FR" } };
 
 const links = [
   { n: "01", title: "Référence API / MCP", body: "Routes REST, jetons, scopes tenant, permissions, schémas d’outils et erreurs.", href: "/fr/api-mcp", label: "Lire la référence" },

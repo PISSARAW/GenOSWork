@@ -1,5 +1,6 @@
 import { concepts } from "@/components/concepts";
 import { conceptFamilies } from "@/components/concept-catalog";
+import { genosSourceCommit } from "@/components/reality-bar";
 
 export const dynamic = "force-static";
 
@@ -20,9 +21,16 @@ export async function GET() {
       hasMathematics: c.hasMathematics ?? false,
       hasSimulation: c.hasSimulation ?? false,
       hasBenchmark: c.hasBenchmark ?? false,
+      science: c.scienceBasis ?? null,
+      mathematicalModel: c.mathModel ?? null,
+      literatureMechanisms: c.literatureMechanisms ?? [],
+      useCases: c.useCases ?? [],
+      failureModes: c.failureModes ?? [],
+      codeSources: (c.codeSources ?? []).map((path) => ({ path, url: `https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/${path}` })),
       related: c.related ?? [],
       source: c.source,
-      routes: { en: `/concepts/${c.slug}`, fr: `/fr/concepts/${c.slug}` },
+      routes: { en: `/en/concepts/${c.slug}`, fr: `/fr/concepts/${c.slug}` },
     })),
+    sourceCommit: genosSourceCommit,
   });
 }

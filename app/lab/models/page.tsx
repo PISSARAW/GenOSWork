@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "GenOS Simulation Studio",
   description: "Adjust explicit parameters in local teaching models for GenOS topologies and concepts.",
-  alternates: { canonical: "/lab/models", languages: { en: "/lab/models", fr: "/fr/lab/models" } },
+  alternates: { canonical: "/en/lab/models", languages: { en: "/en/lab/models", fr: "/fr/lab/models" } },
 };
 
 export default async function ModelLabPage({ searchParams }: { searchParams: Promise<{ model?: string }> }) {

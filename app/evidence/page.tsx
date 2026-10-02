@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Eyebrow } from "@/components/eyebrow";
 
-export const metadata: Metadata = { title: "Evidence and implementation status", description: "Review GenOS capability claims alongside implementation status, source documentation and known limitations.", alternates: { canonical: "/evidence" } };
+export const metadata: Metadata = { title: "Evidence and implementation status", description: "Review GenOS capability claims alongside implementation status, source documentation and known limitations.", alternates: { canonical: "/en/evidence" } };
 
 const evidenceCommit = "0c2de1f5b644f58cef0f8bc4a08afd76ce5b2f30";
 const evidenceSource = `https://github.com/PISSARAW/GenOS/blob/${evidenceCommit}/`;

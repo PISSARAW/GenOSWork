@@ -7,7 +7,7 @@ import { TruthBadge } from "@/components/truth-badge";
 export const metadata: Metadata = {
   title: "Recorded GenOS runs",
   description: "Inspect a published historical GenOS topology campaign, mission by mission, with source provenance and verification failures.",
-  alternates: { canonical: "/runs", languages: { en: "/runs", fr: "/fr/runs" } },
+  alternates: { canonical: "/en/runs", languages: { en: "/en/runs", fr: "/fr/runs" } },
 };
 
 export default function RunsPage() {

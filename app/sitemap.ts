@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { topologies } from "@/components/topologies";
 import { concepts } from "@/components/concepts";
-import { siteUrl } from "@/components/site-config";
+import { hasFrenchPage, siteUrl } from "@/components/site-config";
 
 const baseRoutes = [
   "",
@@ -37,17 +37,21 @@ const supervisionRoutes = [
 ];
 
 function withLanguages(route: string): MetadataRoute.Sitemap[number] {
-  const url = `${siteUrl}${route || "/"}`;
+  const localizedRoute = `/en${route}`;
+  const url = `${siteUrl}${localizedRoute || "/en"}`;
+  const hasLocalizedPage =
+    hasFrenchPage(route || "/") ||
+    route.startsWith("/concepts/") ||
+    route.startsWith("/topologies/") ||
+    route.startsWith("/morphogenesis/cases/");
+  const languages = hasLocalizedPage
+    ? { en: url, fr: `${siteUrl}/fr${route}` }
+    : { en: url };
   return {
     url,
     changeFrequency: "weekly" as const,
     priority: route === "" ? 1 : route.startsWith("/topologies/") ? 0.7 : 0.8,
-    alternates: {
-      languages: {
-        en: url,
-        fr: `${siteUrl}/fr${route === "" ? "" : route}`,
-      },
-    },
+    alternates: { languages },
   };
 }
 
@@ -71,7 +75,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${siteUrl}/fr`,
     changeFrequency: "weekly" as const,
     priority: 0.9,
-    alternates: { languages: { en: `${siteUrl}/`, fr: `${siteUrl}/fr` } },
+    alternates: { languages: { en: `${siteUrl}/en`, fr: `${siteUrl}/fr` } },
   };
   return [withLanguages(""), frenchShell, ...all.filter((r) => r !== "").map(withLanguages)];
 }

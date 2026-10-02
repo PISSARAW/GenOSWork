@@ -14,6 +14,17 @@ type Model = {
   evaluate: (values: Record<string, number>) => Result;
 };
 
+const topologyExperiments: Record<string, { question: string; baseline: string; metric: string; falsifier: string }> = {
+  trinity: { question: "At equal total compute, do independent candidates raise verified success over one candidate?", baseline: "One candidate with the same total token and time budget.", metric: "Verified success per unit cost; retain failures and correlated strategies.", falsifier: "No improvement across the preregistered task set, or an improvement that disappears after cost normalization." },
+  "a-team": { question: "Do explicit specialist dependencies reduce critical-path time without losing deliverable quality?", baseline: "One worker with the same total budget and task instructions.", metric: "Verified completion, critical-path duration, handoff repairs, and total cost.", falsifier: "No quality-preserving time or cost benefit, or integration errors increase." },
+  biocenose: { question: "Does an explicit ballot improve forecast calibration over the strongest individual forecast?", baseline: "Best individual forecaster, scored on the same resolved outcomes.", metric: "Brier score, coverage, abstention, and preserved dissent.", falsifier: "The aggregate has worse Brier score or hides unresolved outcomes or minority evidence." },
+  holobionte: { question: "Does capability-constrained specialist composition meet the task more reliably than a fixed team?", baseline: "Fixed team under the same capability and resource budget.", metric: "Verified task coverage, resource use, and contract violations.", falsifier: "No coverage gain at equal budget, or any increase in unauthorized work." },
+  syncytium: { question: "Do shared-state operations converge while preserving declared invariants under concurrent writes?", baseline: "Serialized writes to the same initial state.", metric: "Convergence rate, invariant violations, rejected operations, and latency.", falsifier: "Any promoted divergent state or invariant violation; report workload assumptions." },
+  rhizome: { question: "Does capability-link exploration find more useful routes than direct member selection at equal budget?", baseline: "Direct selection from the same composed member set.", metric: "Verified reachable tasks, search cost, and invalid or missing routes.", falsifier: "No route-coverage gain at equal budget, or added routes fail verification." },
+  metapopulation: { question: "Does bounded migration recover more functioning groups after local failures than isolated groups?", baseline: "Same group count and resources with migration disabled.", metric: "Recovery rate, time to recovery, capability diversity, and transfer cost.", falsifier: "No recovery improvement or higher resource cost without compensating capability retention." },
+  biome: { question: "Does adaptive allocation improve verified output under changing resource supply over a fixed allocation?", baseline: "Fixed allocation with the same cumulative resource budget.", metric: "Verified output, resource use, constraint violations, and recovery after shocks.", falsifier: "No output or resilience gain at equal budget, or any hard-bound violation." },
+};
+
 const models: Model[] = [
   {
     id: "trinity", title: "Trinity", domain: "topology", summary: "Compare independent candidates against evidence and trade-offs.",
@@ -90,6 +101,16 @@ const models: Model[] = [
     parameters: [{ id: "candidate", label: "Proof candidate completeness", min: 0, max: 100, initial: 72, unit: "%" }, { id: "kernel", label: "Kernel check available", min: 0, max: 1, initial: 1 }, { id: "complexity", label: "Obligation complexity", min: 1, max: 10, initial: 4 }],
     evaluate: (v) => { const ready = v.kernel === 1 && v.candidate >= 50 + v.complexity * 4; return { headline: ready ? "Candidate reaches the illustrative verifier boundary" : "Candidate does not reach the verifier boundary", explanation: "No Lean compiler or kernel is run here. A real pass requires the exact proposition, proof artifact, and successful kernel result.", metrics: [{ label: "Candidate completeness", value: v.candidate, display: `${v.candidate}%` }, { label: "Verifier availability", value: v.kernel * 100, display: v.kernel ? "Available in model" : "Unavailable" }, { label: "Obligation complexity", value: v.complexity * 10, display: `${v.complexity} / 10` }], stages: ["State proposition", "Generate proof candidate", ready ? "Submit to kernel" : "Repair or simplify", ready ? "Await actual verifier result" : "No proof claim"], state: ready ? "CANDIDATE ONLY" : "NOT VERIFIED" }; },
   },
+  {
+    id: "brier", title: "Brier calibration", domain: "concept", summary: "Score a probability against a resolved outcome and compare a baseline.",
+    parameters: [{ id: "forecast", label: "Forecast probability", min: 0, max: 100, initial: 70, unit: "%" }, { id: "outcome", label: "Resolved outcome", min: 0, max: 1, initial: 1 }, { id: "baseline", label: "Baseline probability", min: 0, max: 100, initial: 50, unit: "%" }],
+    evaluate: (v) => { const p = v.forecast / 100; const b = v.baseline / 100; const score = (p - v.outcome) ** 2; const baselineScore = (b - v.outcome) ** 2; const better = score < baselineScore; return { headline: better ? "Forecast scores better than this baseline" : score === baselineScore ? "Forecast ties this baseline" : "Forecast scores worse than this baseline", explanation: `Binary Brier score = (p − o)² = ${score.toFixed(3)}. Lower is better for the same event definition and resolved outcome; one case does not establish calibration.`, metrics: [{ label: "Forecast Brier", value: (1 - score) * 100, display: score.toFixed(3) }, { label: "Baseline Brier", value: (1 - baselineScore) * 100, display: baselineScore.toFixed(3) }, { label: "Outcome", value: v.outcome * 100, display: v.outcome ? "Resolved: yes" : "Resolved: no" }], stages: ["State event", "Record probability", "Wait for resolution", better ? "Lower error on this case" : "No improvement on this case"], state: better ? "LOWER CASE ERROR" : "BASELINE NOT BEATEN" }; },
+  },
+  {
+    id: "stdp", title: "STDP timing rule", domain: "concept", summary: "Illustrate a pair-based timing window without claiming neural or runtime equivalence.",
+    parameters: [{ id: "delta", label: "Post − pre timing", min: -50, max: 50, initial: 10, unit: " ms" }, { id: "window", label: "Learning window", min: 5, max: 50, initial: 20, unit: " ms" }, { id: "amplitude", label: "Maximum update", min: 0, max: 100, initial: 40, unit: "%" }],
+    evaluate: (v) => { const magnitude = Math.abs(v.delta) <= v.window ? v.amplitude * Math.exp(-Math.abs(v.delta) / v.window) : 0; const update = v.delta > 0 ? magnitude : v.delta < 0 ? -magnitude : 0; const bounded = Math.max(-100, Math.min(100, update)); return { headline: bounded > 0 ? "Illustrative potentiation" : bounded < 0 ? "Illustrative depression" : "No update outside the declared window", explanation: `Pair rule: Δw = sign(Δt) · A · exp(−|Δt|/τ) inside the window. This simplified curve is not the full biological model or the GenOS runtime's exact rule.`, metrics: [{ label: "Signed weight change", value: Math.abs(bounded), display: `${bounded > 0 ? "+" : ""}${bounded.toFixed(1)}` }, { label: "Timing window", value: v.window * 2, display: `±${v.window} ms` }, { label: "Event order", value: v.delta > 0 ? 100 : v.delta < 0 ? 0 : 50, display: v.delta > 0 ? "Pre before post" : v.delta < 0 ? "Post before pre" : "Simultaneous" }], stages: ["Observe event pair", "Measure Δt", "Apply bounded curve", "Validate on a declared task"], state: bounded > 0 ? "POTENTIATION MODEL" : bounded < 0 ? "DEPRESSION MODEL" : "NO CHANGE" }; },
+  },
 ];
 
 function ModelRunner({ model }: { model: Model }) {
@@ -120,7 +141,7 @@ export function P2ModelLab({ initialModelId }: { initialModelId?: string }) {
   return <section className="section-wrap p2-model-lab" aria-label="Interactive GenOS models">
     <div className="model-domain-tabs" role="group" aria-label="Model category">
       <button type="button" aria-pressed={domain === "topology"} onClick={() => { setDomain("topology"); setSelectedId("trinity"); }}>8 topology models</button>
-      <button type="button" aria-pressed={domain === "concept"} onClick={() => { setDomain("concept"); setSelectedId("agow"); }}>7 concept models</button>
+      <button type="button" aria-pressed={domain === "concept"} onClick={() => { setDomain("concept"); setSelectedId("agow"); }}>{models.filter((model) => model.domain === "concept").length} concept models</button>
     </div>
     <div className="model-workbench">
       <nav className="model-picker" aria-label={`${domain === "topology" ? "Topology" : "Concept"} model selection`}>
@@ -130,6 +151,7 @@ export function P2ModelLab({ initialModelId }: { initialModelId?: string }) {
         <header className="model-card-heading"><div><span className="learning-kicker">{active.domain === "topology" ? "TOPOLOGY MODEL" : "CONCEPT MODEL"} · LOCAL SIMULATION</span><h2>{active.title}</h2><p>{active.summary}</p></div><span className="demo-badge">BROWSER SIMULATION</span></header>
         <ModelRunner key={active.id} model={active} />
         <p className="model-disclaimer">Teaching model only. It does not call GenOS, execute agents, prove a claim, or represent a recorded run.</p>
+        {active.domain === "topology" && topologyExperiments[active.id] && <section className="model-experiment" aria-labelledby="model-experiment-title"><span className="learning-kicker">COMPARABLE EXPERIMENT PROTOCOL · PROPOSED</span><h3 id="model-experiment-title">A question this model cannot answer alone</h3><dl><dt>Hypothesis</dt><dd>{topologyExperiments[active.id].question}</dd><dt>Control</dt><dd>{topologyExperiments[active.id].baseline}</dd><dt>Measure</dt><dd>{topologyExperiments[active.id].metric}</dd><dt>Falsifier</dt><dd>{topologyExperiments[active.id].falsifier}</dd></dl><p>Pre-register task population, software/model versions, random seeds, and a shared budget before running either arm. The browser simulation is not evidence for this hypothesis.</p></section>}
       </article>
     </div>
   </section>;

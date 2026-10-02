@@ -5,7 +5,7 @@ import { BenchmarkExplorer } from "@/components/p3-explorers";
 export const metadata: Metadata = {
   title: "Experiment registry",
   description: "Published GenOS results on LoCoMo, SWE-bench Lite, and local experiments, with question, protocol, scope, reproduction, and interpretation limits.",
-  alternates: { canonical: "/benchmarks", languages: { en: "/benchmarks", fr: "/fr/benchmarks" } },
+  alternates: { canonical: "/en/benchmarks", languages: { en: "/en/benchmarks", fr: "/fr/benchmarks" } },
 };
 
 const repo = "https://github.com/PISSARAW/GenOS/blob/v3/";

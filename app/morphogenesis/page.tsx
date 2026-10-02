@@ -7,7 +7,7 @@ import { morphogenesisCases } from "@/components/morphogenesis-cases";
 export const metadata: Metadata = {
   title: "Morphogenesis — compose work graphs",
   description: "Explore executable Morphogenesis graphs: sequence, parallelism, nesting, gates, and illustrated use cases.",
-  alternates: { canonical: "/morphogenesis" },
+  alternates: { canonical: "/en/morphogenesis" },
 };
 
 const operators = [

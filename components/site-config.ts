@@ -183,15 +183,50 @@ export const frenchFullRoutes = new Set([
   "/sandbox",
 ]);
 
+/** Explicit French summaries published by app/fr/[...slug]. Keep this list in
+ * sync with the summary registry there so sitemap and language links never
+ * advertise a French URL that resolves to a 404. Dynamic concept, topology,
+ * and morphogenesis case routes are added by the sitemap from their registries.
+ */
+export const frenchSummaryRoutes = new Set([
+  "/orchestrator",
+  "/runtime",
+  "/runtime/supervision",
+  "/runtime/supervision/agents",
+  "/runtime/supervision/workspaces",
+  "/runtime/supervision/budgets",
+  "/runtime/supervision/events",
+  "/runtime/supervision/memory",
+  "/runtime/supervision/evidence",
+  "/workers",
+  "/daemons",
+  "/topologies",
+  "/morphogenesis",
+  "/organizations",
+  "/research",
+  "/concepts",
+  "/systems",
+  "/systems/organism",
+  "/lab",
+  "/lab/models",
+  "/evidence",
+]);
+
+export function hasFrenchPage(path: string): boolean {
+  return frenchFullRoutes.has(path) || frenchSummaryRoutes.has(path);
+}
+
 export function frenchStatus(path: string): TranslationStatus {
-  return frenchFullRoutes.has(path) ? "FULL" : "SUMMARY";
+  const canonicalPath = path.replace(/^\/en(?=\/|$)/, "") || "/";
+  return frenchFullRoutes.has(canonicalPath) ? "FULL" : "SUMMARY";
 }
 
 export function oppositeLocalePath(pathname: string): string {
   const isFr = pathname === "/fr" || pathname.startsWith("/fr/");
   if (isFr) {
-    const en = pathname.replace(/^\/fr(?=\/|$)/, "") || "/";
-    return en;
+    const englishPath = pathname.replace(/^\/fr(?=\/|$)/, "") || "/";
+    return `/en${englishPath === "/" ? "" : englishPath}`;
   }
-  return pathname === "/" ? "/fr" : `/fr${pathname}`;
+  const unprefixedPath = pathname.replace(/^\/en(?=\/|$)/, "") || "/";
+  return unprefixedPath === "/" ? "/fr" : `/fr${unprefixedPath}`;
 }

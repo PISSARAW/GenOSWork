@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
-import { getConcept } from "@/components/concepts";
+import { getConcept, conceptModelBySlug } from "@/components/concepts";
+import { genosSourceCommit } from "@/components/reality-bar";
+import { referencesForConcept } from "@/components/mechanism-literature";
 
 export const dynamic = "force-static";
 
@@ -20,10 +22,14 @@ export async function GET(
     evidence: concept.evidence ?? "unassessed",
     science: concept.scienceBasis ?? null,
     mathematicalModel: concept.mathModel ?? null,
-    simulations: concept.hasSimulation ? [`/lab/models?model=${concept.slug}`] : [],
+    simulations: conceptModelBySlug[concept.slug] ? [`/en/lab/models?model=${conceptModelBySlug[concept.slug]}`] : [],
     benchmarks: concept.hasBenchmark ? ["/benchmarks"] : [],
+    useCases: concept.useCases ?? [],
+    failureModes: concept.failureModes ?? [],
+    codeSources: (concept.codeSources ?? []).map((path) => ({ path, url: `https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/${path}` })),
+    primaryReferences: referencesForConcept(concept.slug),
     related: concept.related ?? [],
-    routes: { en: `/concepts/${concept.slug}`, fr: `/fr/concepts/${concept.slug}` },
-    sourceCommit: "0c2de1f5b644f58cef0f8bc4a08afd76ce5b2f30",
+    routes: { en: `/en/concepts/${concept.slug}`, fr: `/fr/concepts/${concept.slug}` },
+    sourceCommit: genosSourceCommit,
   });
 }

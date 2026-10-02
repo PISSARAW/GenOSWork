@@ -7,10 +7,12 @@ import { primaryNav, genosRepo } from "@/components/site-config";
 export function SiteFooter() {
   const pathname = usePathname();
   const isFrench = pathname === "/fr" || pathname.startsWith("/fr/");
+  const isEnglishPrefix = pathname === "/en" || pathname.startsWith("/en/");
+  const englishHref = (href: string) => isEnglishPrefix ? `/en${href === "/" ? "" : href}` : href;
   return (
     <footer className="site-footer">
       <div className="footer-main">
-        <Link className="brand brand-footer" href={isFrench ? "/fr" : "/"}>
+        <Link className="brand brand-footer" href={isFrench ? "/fr" : englishHref("/")}>
           <span className="brand-mark" aria-hidden="true">
             <i />
             <i />
@@ -40,7 +42,7 @@ export function SiteFooter() {
             <div className="footer-group" key={entry.id}>
               <Link
                 className="footer-group-title"
-                href={isFrench ? entry.hrefFr : entry.hrefEn}
+                href={isFrench ? entry.hrefFr : englishHref(entry.hrefEn)}
               >
                 {isFrench ? entry.labelFr : entry.labelEn}
               </Link>
@@ -48,7 +50,7 @@ export function SiteFooter() {
                 ? entry.childrenFr ?? entry.children
                 : entry.children
               ).map((child) => (
-                <Link key={child.href} href={child.href}>
+                <Link key={child.href} href={isFrench ? child.href : englishHref(child.href)}>
                   {child.label}
                 </Link>
               ))}

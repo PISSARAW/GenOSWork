@@ -6,7 +6,7 @@ import "../workers.css";
 export const metadata: Metadata = {
   title: "Workers and types",
   description: "Explore the role of a GenOS worker, its execution contract, and 19 types grouped into five families.",
-  alternates: { canonical: "/workers" },
+  alternates: { canonical: "/en/workers" },
 };
 
 const families = [

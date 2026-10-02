@@ -5,7 +5,7 @@ import "./daemons.css";
 export const metadata: Metadata = {
   title: "Resident daemons",
   description: "The GenOS resident daemon, its organelles and phenotypes, and related components that should not be confused with it.",
-  alternates: { canonical: "/daemons" },
+  alternates: { canonical: "/en/daemons" },
 };
 
 const organelles = [

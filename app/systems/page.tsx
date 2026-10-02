@@ -8,7 +8,7 @@ import { SystemMap } from "@/components/system-maps";
 export const metadata: Metadata = {
   title: "GenOS systems",
   description: "A map of the systems that organize GenOS concepts, runtime mechanisms, and evidence.",
-  alternates: { canonical: "/systems", languages: { en: "/systems", fr: "/fr/systems" } },
+  alternates: { canonical: "/en/systems", languages: { en: "/en/systems", fr: "/fr/systems" } },
 };
 
 const intentions = [

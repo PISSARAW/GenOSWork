@@ -10,6 +10,7 @@ import "./p2.css";
 import "./p3.css";
 import "./p4.css";
 import "./p4-overview.css";
+import "./p5-research.css";
 
 import { siteUrl } from "@/components/site-config";
 
@@ -26,9 +27,9 @@ export const metadata: Metadata = {
     siteName: "GenOS Agent Runtime",
     title: "GenOS — An agent runtime built for what happens next",
     description: "Fork a trajectory. Inspect the evidence. Decide what earns promotion.",
-    url: siteUrl,
+    url: `${siteUrl}/en`,
   },
-  alternates: { canonical: "/", languages: { en: "/", fr: "/fr" } },
+  alternates: { canonical: "/en", languages: { en: "/en", fr: "/fr" } },
   robots: { index: true, follow: true },
 };
 

@@ -9,8 +9,8 @@ export async function GET() {
     topologies: topologies.map((t) => ({
       id: t.slug,
       name: t.name,
-      routes: { en: `/topologies/${t.slug}`, fr: `/fr/topologies/${t.slug}` },
-      simulation: `/lab/models?model=${t.slug}`,
+      routes: { en: `/en/topologies/${t.slug}`, fr: `/fr/topologies/${t.slug}` },
+      simulation: `/en/lab/models?model=${t.slug}`,
     })),
   });
 }
