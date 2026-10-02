@@ -1,0 +1,27 @@
+# GenOS Agent Runtime
+
+> GenOS is an open-source runtime for versioned agent state, counterfactual execution, supervised multi-agent orchestration and evidence-aware promotion.
+
+## Public website
+
+- [Overview](https://genoswork.vercel.app/)
+- [Runtime](https://genoswork.vercel.app/runtime)
+- [Orchestration topologies](https://genoswork.vercel.app/topologies)
+- [Morphogenesis Lab](https://genoswork.vercel.app/lab)
+- [Evidence ledger](https://genoswork.vercel.app/evidence)
+- [Developer entry point](https://genoswork.vercel.app/developers)
+
+## Canonical sources
+
+- [Source repository](https://github.com/PISSARAW/GenOS)
+- [Runtime overview](https://github.com/PISSARAW/GenOS/blob/main/README.md)
+- [Topology and capability contracts](https://github.com/PISSARAW/GenOS/blob/main/docs/02-orchestration/topologies-et-capacites.md)
+- [Morphogenesis topology plugins and limitations](https://github.com/PISSARAW/GenOS/blob/main/docs/03-reference/plugins-topologies-morphogenese.md)
+- [Documentation index](https://github.com/PISSARAW/GenOS/blob/main/docs/README.md)
+
+## Qualifications
+
+- The eight topology modes are wired to runtime paths, but services and capabilities vary by mode.
+- A capability contract does not mean every listed capability is activated in every execution.
+- The interactive topology lab is a local illustration, not a live GenOS run.
+- Consult the runtime documentation for current implementation status, evidence and known limitations.
