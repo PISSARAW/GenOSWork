@@ -24,7 +24,7 @@ function SimulationGraphic({ family, variant, steps, activeStep }: { family: str
   const nodeWidth = 166;
   const stepWidth = nodeWidth + gap;
   const width = steps.length * stepWidth - gap + 32;
-  return <svg className="topology-sim-svg" viewBox={`0 0 ${width} 175`} role="img" aria-label={`Déroulé pédagogique ${family}, variant ${variant}, étape ${activeStep + 1} sur ${steps.length}`}>
+  return <svg className="topology-sim-svg" viewBox={`0 0 ${width} 175`} role="img" aria-label={`Illustrated workflow for ${family}, variant ${variant}, step ${activeStep + 1} of ${steps.length}`}>
     {steps.map((step, index) => {
       const x = 16 + index * stepWidth;
       const isComplete = index < activeStep;
@@ -32,7 +32,7 @@ function SimulationGraphic({ family, variant, steps, activeStep }: { family: str
       const lines = wrapStep(step);
       return <g key={`${variant}-${index}`} className={isCurrent ? "simulation-step-current" : isComplete ? "simulation-step-complete" : "simulation-step-pending"}>
         {index < steps.length - 1 && <line className="simulation-step-connector" x1={x + nodeWidth} y1="93" x2={x + stepWidth} y2="93"/>}
-        <text className="simulation-step-index" x={x + 5} y="44">{String(index + 1).padStart(2, "0")}{isComplete ? " · FAIT" : isCurrent ? " · EN COURS" : " · À VENIR"}</text>
+        <text className="simulation-step-index" x={x + 5} y="44">{String(index + 1).padStart(2, "0")}{isComplete ? " · DONE" : isCurrent ? " · IN PROGRESS" : " · UPCOMING"}</text>
         <rect className="simulation-step-box" x={x} y="57" width={nodeWidth} height="76" rx="4"/>
         <circle className="simulation-step-dot" cx={x + 14} cy="72" r="4"/>
         <text className="simulation-step-label" x={x + 12} y={lines.length === 1 ? "99" : lines.length === 2 ? "92" : "86"}>
@@ -60,26 +60,26 @@ export function TopologySimulation({ family, guide }: { family: string; guide: T
 
   return <div className="topology-learning section-wrap">
     <section className="learning-block">
-      <div className="learning-copy"><span className="learning-kicker">01 / MODÈLE</span><h2>Le principe<br/>et son équation</h2><p>{guide.explanation}</p></div>
-      <div className="math-card"><span className="learning-kicker">FORMALISATION SIMPLIFIÉE</span><p className="math-formula">{guide.formula}</p><p>{guide.formulaNote}</p></div>
+      <div className="learning-copy"><span className="learning-kicker">01 / MODEL</span><h2>The principle<br/>and its equation</h2><p>{guide.explanation}</p></div>
+      <div className="math-card"><span className="learning-kicker">SIMPLIFIED FORMALIZATION</span><p className="math-formula">{guide.formula}</p><p>{guide.formulaNote}</p></div>
     </section>
     <section className="variant-simulation" aria-labelledby="variant-title">
-      <div className="variant-heading"><span className="learning-kicker">02 / VARIANTS ET CAS D’USAGE</span><h2 id="variant-title">Choisir une politique</h2><p>Sélectionne un variant pour parcourir les étapes correspondant à son contrat documenté. Cette illustration ne lance aucun agent et n’appelle aucun service runtime.</p></div>
+      <div className="variant-heading"><span className="learning-kicker">02 / VARIANTS AND USE CASES</span><h2 id="variant-title">Choose a policy</h2><p>Select a variant to explore steps based on its documented contract. This illustration does not run agents or call runtime services.</p></div>
       <div className="variant-layout">
-        <nav className="variant-picker" aria-label="Variants de la topologie">
+        <nav className="variant-picker" aria-label="Topology variants">
           {guide.variants.map((item) => <button type="button" key={item.id} className={item.id === activeId ? "variant-option is-selected" : "variant-option"} aria-pressed={item.id === activeId} onClick={() => { setActiveId(item.id); setActiveStep(0); }}><span>{item.id.replaceAll("_", " ").replaceAll("-", " ")}</span><b>↗</b></button>)}
         </nav>
         <article className="variant-card">
-          <div className="variant-card-top"><span className="learning-kicker">SIMULATION LOCALE · PÉDAGOGIQUE</span><span className="variant-counter">{String(guide.variants.findIndex((item) => item.id === activeId) + 1).padStart(2, "0")} / {String(guide.variants.length).padStart(2, "0")}</span></div>
-          <h3>{active.id.replaceAll("_", " ").replaceAll("-", " ")} <span className={partialVariants[family]?.has(active.id) ? "maturity-tag maturity-partial" : "maturity-tag"}>{partialVariants[family]?.has(active.id) ? "PARTIEL" : "CATALOGUÉ"}</span></h3>
+          <div className="variant-card-top"><span className="learning-kicker">LOCAL SIMULATION · ILLUSTRATIVE</span><span className="variant-counter">{String(guide.variants.findIndex((item) => item.id === activeId) + 1).padStart(2, "0")} / {String(guide.variants.length).padStart(2, "0")}</span></div>
+          <h3>{active.id.replaceAll("_", " ").replaceAll("-", " ")} <span className={partialVariants[family]?.has(active.id) ? "maturity-tag maturity-partial" : "maturity-tag"}>{partialVariants[family]?.has(active.id) ? "PARTIAL" : "CATALOGED"}</span></h3>
           <p className="variant-usecase">{active.useCase}</p>
-          <div className="simulation-canvas"><TopologyGraphic family={family} variant={active.id} steps={steps} activeStep={activeStep}/><span className="simulation-caption">REPRÉSENTATION DU CONTRAT · AUCUN AGENT EXÉCUTÉ</span></div>
-          <div className="simulation-controls"><button type="button" onClick={() => setActiveStep((current) => (current + 1) % steps.length)}>Étape suivante <span aria-hidden="true">→</span></button><button type="button" onClick={() => setActiveStep(0)}>Recommencer <span aria-hidden="true">↺</span></button><span role="status" aria-live="polite">{activeStep + 1}/{steps.length} · {steps[activeStep]}</span></div>
-          <p className="simulation-explainer">Le déroulé met en avant les opérations ou contrôles décrits dans la politique de ce variant. Les services disponibles peuvent nécessiter un appel explicite, un adaptateur ou un vérificateur; les limites sont indiquées dans la documentation canonique.</p>
+          <div className="simulation-canvas"><TopologyGraphic family={family} variant={active.id} steps={steps} activeStep={activeStep}/><span className="simulation-caption">CONTRACT ILLUSTRATION · NO AGENT EXECUTED</span></div>
+          <div className="simulation-controls"><button type="button" onClick={() => setActiveStep((current) => (current + 1) % steps.length)}>Next step <span aria-hidden="true">→</span></button><button type="button" onClick={() => setActiveStep(0)}>Restart <span aria-hidden="true">↺</span></button><span role="status" aria-live="polite">{activeStep + 1}/{steps.length} · {steps[activeStep]}</span></div>
+          <p className="simulation-explainer">The workflow highlights operations or checks described by this variant's policy. Available services may require an explicit call, adapter, or verifier; limits are listed in the canonical documentation.</p>
         </article>
       </div>
     </section>
-    <p className="catalog-note">Maturité : les variants partiels restent indiqués comme tels dans le catalogue central. Leur présence ne signifie ni sélection automatique, ni activation de toutes les capacités du contrat.</p>
+    <p className="catalog-note">Maturity: partial variants remain marked as such in the central catalog. Their presence does not mean they are selected automatically or that every contract capability is activated.</p>
   </div>;
 }
 

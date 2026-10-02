@@ -39,7 +39,13 @@ export default function HomePage() {
         <div className="section-end-link"><Link className="text-link" href="/topologies">Explore all eight topologies <span>→</span></Link><span>CAPABILITIES VARY BY MODE · CONTRACTS ARE NOT AUTOMATIC EFFECTS</span></div>
       </section>
 
-      <section className="home-lab"><div className="section-wrap home-lab-inner"><div><Eyebrow light>03 — EXPLORE THE IDEA</Eyebrow><h2>What kind of team<br />does a mission <em>need?</em></h2><p>Trace a sample mission through parallel strategies in the browser. It is an illustration of the model, not a live runtime connection.</p><Link className="button button-white" href="/lab">Open Morphogenesis Lab <span>↗</span></Link></div><div className="home-lab-visual" aria-hidden="true"><span>MISSION</span><i /><div><b>Trinity</b><b>A-Team</b><b>Biome</b></div><i /><span>EVIDENCE</span></div></div></section>
+      <section className="section-wrap organization-teaser">
+        <div><Eyebrow>19 DYNAMIC ORGANIZATIONS</Eyebrow><h2>Structure the team.<br /><em>Guide the next step.</em></h2><p>Consensus with abstention, blind adversarial review, swarm search, mycelial routing, isolated recovery and more. Dynamic organizations are algorithmic decision rules, separate from the eight topologies.</p></div>
+        <div className="organization-teaser-visual" aria-hidden="true"><div className="teaser-ring"><i /><i /><i /><i /><i /><i /></div><div className="teaser-core">STEP</div><span>19 ALGORITHMS</span></div>
+        <Link className="button button-dark" href="/organizations">Explore all 19 organizations <span>→</span></Link>
+      </section>
+
+      <section className="home-lab"><div className="section-wrap home-lab-inner"><div><Eyebrow light>03 — EXPLORE THE IDEA</Eyebrow><h2>What kind of team<br />does a mission <em>need?</em></h2><p>Trace a sample mission through parallel strategies in the browser. It is an illustration of the model, not a live runtime connection.</p><Link className="button button-white" href="/lab">Open Morphogenesis Lab <span>↗</span></Link><Link className="morph-home-link" href="/morphogenesis">Explore executable graph compositions <span>→</span></Link></div><div className="home-lab-visual" aria-hidden="true"><span>MISSION</span><i /><div><b>Trinity</b><b>A-Team</b><b>Biome</b></div><i /><span>EVIDENCE</span></div></div></section>
 
       <section className="section-wrap section-space"><div className="home-evidence"><div><Eyebrow>04 — CLAIMS NEED RECEIPTS</Eyebrow><h2>See where the claim<br /><em>meets the code.</em></h2></div><p>Implemented, partial and proposed are different states. Explore the implementation ledger, read the source contracts and follow their stated limits.</p><Link className="button button-dark" href="/evidence">Open the evidence ledger <span>→</span></Link></div></section>
     </>

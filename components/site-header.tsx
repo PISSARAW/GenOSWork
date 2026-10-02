@@ -1,11 +1,17 @@
 import Link from "next/link";
 
 const links = [
+  ["Orchestrator", "/orchestrator"],
   ["Supervision", "/runtime/supervision"],
   ["Runtime", "/runtime"],
   ["Daemons", "/daemons"],
+  ["Workers", "/workers"],
   ["Topologies", "/topologies"],
+  ["Morphogenesis", "/morphogenesis"],
+  ["Organizations", "/organizations"],
+  ["Research", "/research"],
   ["Concepts", "/concepts"],
+  ["Benchmarks", "/benchmarks"],
   ["Lab", "/lab"],
   ["Evidence", "/evidence"],
   ["Developers", "/developers"],

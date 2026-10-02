@@ -1,18 +1,18 @@
 import type { ConceptDiagram } from "@/components/concepts";
 
 const diagrams: Record<ConceptDiagram, { labels: string[]; colors: string[]; detail: string[] }> = {
-  clinical: { labels: ["SIGNAUX", "QUALIFIER", "CONTENIR", "RÉÉVALUER"], colors: ["#4b91aa", "#8378d5", "#dd8756", "#5b9a83"], detail: ["surveillance", "diagnostic", "mesure bornée", "état vérifié"] },
-  memory: { labels: ["ÉPISODES", "INDEX", "RAPPEL", "MISSION"], colors: ["#dd8756", "#8378d5", "#4b91aa", "#5b9a83"], detail: ["actions · résultats", "lexical + vectoriel", "score + provenance", "contexte enrichi"] },
-  cortex: { labels: ["DEMANDE", "MÉMOIRES", "CLASSEMENT", "AGENT"], colors: ["#dd8756", "#4b91aa", "#8378d5", "#5b9a83"], detail: ["contexte", "épisodique · sémantique", "rappel sélectionné", "réponse vérifiable"] },
-  ontogenesis: { labels: ["PLANIFIER", "EXÉCUTER", "VÉRIFIER", "INTÉGRER"], colors: ["#8378d5", "#4b91aa", "#dd8756", "#5b9a83"], detail: ["tâche admissible", "mission bornée", "preuves requises", "retour au backlog"] },
-  ontology: { labels: ["ENTITÉS", "RELATIONS", "HYPOTHÈSES", "ANALYSE"], colors: ["#4b91aa", "#5b9a83", "#dd8756", "#8378d5"], detail: ["identité · propriétés", "observations", "mondes possibles", "provenance · incertitude"] },
+  clinical: { labels: ["SIGNALS", "CLASSIFY", "CONTAIN", "REASSESS"], colors: ["#4b91aa", "#8378d5", "#dd8756", "#5b9a83"], detail: ["monitoring", "diagnosis", "bounded measure", "verified state"] },
+  memory: { labels: ["EPISODES", "INDEX", "RETRIEVE", "MISSION"], colors: ["#dd8756", "#8378d5", "#4b91aa", "#5b9a83"], detail: ["actions · outcomes", "lexical + vector", "score + provenance", "enriched context"] },
+  cortex: { labels: ["REQUEST", "MEMORIES", "RANKING", "AGENT"], colors: ["#dd8756", "#4b91aa", "#8378d5", "#5b9a83"], detail: ["context", "episodic · semantic", "selected recall", "verifiable response"] },
+  ontogenesis: { labels: ["PLAN", "EXECUTE", "VERIFY", "INTEGRATE"], colors: ["#8378d5", "#4b91aa", "#dd8756", "#5b9a83"], detail: ["eligible task", "bounded mission", "required evidence", "return to backlog"] },
+  ontology: { labels: ["ENTITIES", "RELATIONS", "HYPOTHESES", "ANALYSIS"], colors: ["#4b91aa", "#5b9a83", "#dd8756", "#8378d5"], detail: ["identity · properties", "observations", "possible worlds", "provenance · uncertainty"] },
 };
 
 export function ConceptDiagramView({ kind, title, description }: { kind: ConceptDiagram; title: string; description: string }) {
   const diagram = diagrams[kind];
   return (
     <figure className="concept-diagram" aria-labelledby={`diagram-${kind}-title`}>
-      <figcaption><span className="concept-diagram-kicker">SCHÉMA DE FONCTIONNEMENT</span><strong id={`diagram-${kind}-title`}>{title}</strong></figcaption>
+      <figcaption><span className="concept-diagram-kicker">HOW IT WORKS</span><strong id={`diagram-${kind}-title`}>{title}</strong></figcaption>
       <svg viewBox="0 0 760 220" role="img" aria-labelledby={`diagram-${kind}-svg-title diagram-${kind}-svg-desc`}>
         <title id={`diagram-${kind}-svg-title`}>{title}</title>
         <desc id={`diagram-${kind}-svg-desc`}>{description}</desc>
@@ -35,7 +35,7 @@ export function ConceptDiagramView({ kind, title, description }: { kind: Concept
         {kind === "cortex" && <path className="concept-feedback" d="M660 176 C660 207 96 207 96 176" markerEnd={`url(#arrow-${kind})`} />}
         {kind === "ontogenesis" && <path className="concept-feedback" d="M660 176 C660 207 96 207 96 176" markerEnd={`url(#arrow-${kind})`} />}
       </svg>
-      <div className="concept-diagram-foot"><span>ENTRÉE</span><i /><span>TRAITEMENT</span><i /><span>RÉSULTAT AVEC CONTEXTE</span></div>
+      <div className="concept-diagram-foot"><span>INPUT</span><i /><span>PROCESSING</span><i /><span>RESULT WITH CONTEXT</span></div>
     </figure>
   );
 }

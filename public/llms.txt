@@ -7,6 +7,8 @@
 - [Overview](https://genoswork.vercel.app/)
 - [Runtime](https://genoswork.vercel.app/runtime)
 - [Orchestration topologies](https://genoswork.vercel.app/topologies)
+- [Research map](https://genoswork.vercel.app/research)
+- [Benchmark results and protocols](https://genoswork.vercel.app/benchmarks)
 - [Morphogenesis Lab](https://genoswork.vercel.app/lab)
 - [Evidence ledger](https://genoswork.vercel.app/evidence)
 - [Developer entry point](https://genoswork.vercel.app/developers)
