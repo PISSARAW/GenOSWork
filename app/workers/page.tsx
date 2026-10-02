@@ -141,7 +141,7 @@ export default function WorkersPage() {
 
       <section className="section-wrap worker-evidence-note">
         <div><Eyebrow>CONTRACTS AND INTEGRATION STATUS</Eyebrow><h2>A type defines a frame.<br /><em>Evidence shows what runs.</em></h2></div>
-        <div><p>The canonical catalog of 19 <code>WorkerKind</code> values is defined in the Rust runtime. The Node registry knows all 19 identifiers, but some profiles map to shared phenotypes, so the effective contracts differ between the two layers.</p><p>A successful artifact or transport does not prove a result is valid. GenOS checks the expected format and provenance according to the execution path and evidence gate used.</p><div className="worker-source-links"><a href="https://github.com/PISSARAW/GenOS/blob/main/docs/03-reference/types-de-workers.md" target="_blank" rel="noreferrer">Read the catalog and its limits <span>↗</span></a><Link href="/evidence">View the evidence registry <span>→</span></Link></div></div>
+        <div><p>The canonical catalog of 19 <code>WorkerKind</code> values is defined in the Rust runtime. The Node registry knows all 19 identifiers, but some profiles map to shared phenotypes, so the effective contracts differ between the two layers.</p><p>A successful artifact or transport does not prove a result is valid. GenOS checks the expected format and provenance according to the execution path and evidence gate used.</p><div className="worker-source-links"><a href="https://github.com/PISSARAW/GenOS/blob/v3/docs/03-reference/types-de-workers.md" target="_blank" rel="noreferrer">Read the catalog and its limits <span>↗</span></a><Link href="/evidence">View the evidence registry <span>→</span></Link></div></div>
       </section>
     </div>
   );

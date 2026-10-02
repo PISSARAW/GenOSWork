@@ -56,7 +56,7 @@ export default function OrganizationsPage() {
         })}
       </section>
 
-      <section className="organization-caveat"><div className="section-wrap"><Eyebrow light>IMPLEMENTATION STATUS</Eyebrow><h2>Available guidance<br /><em>needs real-world proof.</em></h2><p>GenOS describes the 19 organizations as a deterministic, local step. Its product contract currently marks these entries partial or experimental: registration and an algorithm do not by themselves prove that an orchestrator selected the organization, dispatched it for a mission, or improved the result.</p><a href="https://github.com/PISSARAW/GenOS/blob/main/docs/03-reference/contrat-produit-et-completude.md" target="_blank" rel="noreferrer">Read the implementation contract ↗</a></div></section>
+      <section className="organization-caveat"><div className="section-wrap"><Eyebrow light>IMPLEMENTATION STATUS</Eyebrow><h2>Available guidance<br /><em>needs real-world proof.</em></h2><p>GenOS describes the 19 organizations as a deterministic, local step. Its product contract currently marks these entries partial or experimental: registration and an algorithm do not by themselves prove that an orchestrator selected the organization, dispatched it for a mission, or improved the result.</p><a href="https://github.com/PISSARAW/GenOS/blob/v3/docs/03-reference/contrat-produit-et-completude.md" target="_blank" rel="noreferrer">Read the implementation contract ↗</a></div></section>
     </div>
   );
 }

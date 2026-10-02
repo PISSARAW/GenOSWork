@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/benchmarks" },
 };
 
-const repo = "https://github.com/PISSARAW/GenOS/blob/main/";
+const repo = "https://github.com/PISSARAW/GenOS/blob/v3/";
 
 const evaluations = [
   {
@@ -137,7 +137,7 @@ export default function BenchmarksPage() {
       </section>
 
       <section className="section-wrap benchmark-method-note"><span>READ BEFORE INTERPRETING</span><p>These evaluations reflect the documentation reviewed on October 2, 2026. Each result applies only to the tasks, versions, models, and conditions stated in its source. The repository notes that a test result alone does not prove business correctness or generalization.</p><a href={`${repo}docs/01-concepts/epistemologie-et-evidence.md`} target="_blank" rel="noreferrer">GenOS evidence principles ↗</a><a href="/research">Explore research areas →</a></section>
-      <section className="section-wrap benchmark-catalog-links"><span>FULL CATALOGS</span><a href={`${repo}docs/06-benchmarks/README.md`} target="_blank" rel="noreferrer">Documented protocols and reports ↗</a><a href={`${repo}docs/06-qualite-preuves/benchmarks/README.md`} target="_blank" rel="noreferrer">LoCoMo and SWE-bench evaluations ↗</a><a href="https://github.com/PISSARAW/GenOS/tree/main/benchmarks" target="_blank" rel="noreferrer">Benchmark harnesses, suites, and artifacts ↗</a></section>
+      <section className="section-wrap benchmark-catalog-links"><span>FULL CATALOGS</span><a href={`${repo}docs/06-benchmarks/README.md`} target="_blank" rel="noreferrer">Documented protocols and reports ↗</a><a href={`${repo}docs/06-qualite-preuves/benchmarks/README.md`} target="_blank" rel="noreferrer">LoCoMo and SWE-bench evaluations ↗</a><a href="https://github.com/PISSARAW/GenOS/tree/v3/benchmarks" target="_blank" rel="noreferrer">Benchmark harnesses, suites, and artifacts ↗</a></section>
     </div>
   );
 }

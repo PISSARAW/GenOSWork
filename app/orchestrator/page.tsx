@@ -52,7 +52,7 @@ export default function OrchestratorPage() {
 
       <section className="section-wrap orchestrator-runtime-note">
         <div><Eyebrow>IMPLEMENTATION BOUNDARY</Eyebrow><h2>Two runtimes,<br /><em>different jobs.</em></h2></div>
-        <div className="orchestrator-runtime-copy"><p>The backend Node.js control plane plans and supervises missions and their workers. The Rust <code>genos-orchestrator</code> crate runs a local ecosystem simulation; it does not launch those backend workers or certify a Node mission’s deliverable.</p><p>The main mission path still uses the historical morphology preparer. Morphogenesis V2 can run as an opt-in shadow preflight, which evaluates a proposal without applying or committing a transition.</p><a href="https://github.com/PISSARAW/GenOS/blob/main/docs/02-orchestration/orchestration.md" target="_blank" rel="noreferrer">Read the operational orchestration contract ↗</a></div>
+        <div className="orchestrator-runtime-copy"><p>The backend Node.js control plane plans and supervises missions and their workers. The Rust <code>genos-orchestrator</code> crate runs a local ecosystem simulation; it does not launch those backend workers or certify a Node mission’s deliverable.</p><p>The main mission path still uses the historical morphology preparer. Morphogenesis V2 can run as an opt-in shadow preflight, which evaluates a proposal without applying or committing a transition.</p><a href="https://github.com/PISSARAW/GenOS/blob/v3/docs/02-orchestration/orchestration.md" target="_blank" rel="noreferrer">Read the operational orchestration contract ↗</a></div>
       </section>
 
       <section className="section-wrap orchestrator-next-links" aria-label="Related pages">

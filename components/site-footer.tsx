@@ -15,7 +15,7 @@ export function SiteFooter() {
           <Link href="/concepts">Concepts</Link>
           <Link href="/research">Research</Link><Link href="/benchmarks">Benchmarks</Link>
           <Link href="/evidence">Evidence</Link>
-          <a href="https://github.com/PISSARAW/GenOS/tree/main/docs" target="_blank" rel="noreferrer">Documentation ↗</a>
+          <a href="https://github.com/PISSARAW/GenOS/tree/v3/docs" target="_blank" rel="noreferrer">Documentation ↗</a>
           <a href="https://github.com/PISSARAW/GenOS" target="_blank" rel="noreferrer">GitHub ↗</a>
         </div>
       </div>

@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/research" },
 };
 
-const docs = "https://github.com/PISSARAW/GenOS/blob/main/docs/";
+const docs = "https://github.com/PISSARAW/GenOS/blob/v3/docs/";
 const sections = [
   {
     index: "01",
@@ -86,7 +86,7 @@ export default function ResearchPage() {
         <p>GenOS studies how agents can preserve state, work together, and learn from results under supervision. This page maps the main documented research areas and links to canonical repository documents.</p>
         <div className="hero-actions">
           <a className="button button-dark" href={`${docs}README.md`} target="_blank" rel="noreferrer">Browse all documentation <span>↗</span></a>
-          <a className="button button-quiet" href="https://github.com/PISSARAW/GenOS/blob/main/docs/adr/README.md" target="_blank" rel="noreferrer">Read ADR decisions <span>↗</span></a>
+          <a className="button button-quiet" href="https://github.com/PISSARAW/GenOS/blob/v3/docs/adr/README.md" target="_blank" rel="noreferrer">Read ADR decisions <span>↗</span></a>
         </div>
         <div className="research-scope"><span>SCOPE</span><p>A summary of the material currently documented in GenOS, not an exhaustive review of external scientific literature. Prototypes, hypotheses, and measured results retain distinct statuses.</p></div>
       </section>

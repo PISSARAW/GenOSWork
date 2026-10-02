@@ -16,10 +16,10 @@
 ## Canonical sources
 
 - [Source repository](https://github.com/PISSARAW/GenOS)
-- [Runtime overview](https://github.com/PISSARAW/GenOS/blob/main/README.md)
-- [Topology and capability contracts](https://github.com/PISSARAW/GenOS/blob/main/docs/02-orchestration/topologies-et-capacites.md)
-- [Morphogenesis topology plugins and limitations](https://github.com/PISSARAW/GenOS/blob/main/docs/03-reference/plugins-topologies-morphogenese.md)
-- [Documentation index](https://github.com/PISSARAW/GenOS/blob/main/docs/README.md)
+- [Runtime overview](https://github.com/PISSARAW/GenOS/blob/v3/README.md)
+- [Topology and capability contracts](https://github.com/PISSARAW/GenOS/blob/v3/docs/02-orchestration/topologies-et-capacites.md)
+- [Morphogenesis topology plugins and limitations](https://github.com/PISSARAW/GenOS/blob/v3/docs/03-reference/plugins-topologies-morphogenese.md)
+- [Documentation index](https://github.com/PISSARAW/GenOS/blob/v3/docs/README.md)
 
 ## Qualifications
 

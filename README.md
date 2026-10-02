@@ -30,4 +30,4 @@ Open `http://localhost:3000`.
 
 GenOS runtime and evidence: [github.com/PISSARAW/GenOS](https://github.com/PISSARAW/GenOS)
 
-Public capability statements should stay aligned with the [topology and capability contract](https://github.com/PISSARAW/GenOS/blob/main/docs/02-orchestration/topologies-et-capacites.md) and [morphogenesis plugin limits](https://github.com/PISSARAW/GenOS/blob/main/docs/03-reference/plugins-topologies-morphogenese.md). A capability contract does not mean every declared capability is automatically active.
+Public capability statements should stay aligned with the [topology and capability contract](https://github.com/PISSARAW/GenOS/blob/v3/docs/02-orchestration/topologies-et-capacites.md) and [morphogenesis plugin limits](https://github.com/PISSARAW/GenOS/blob/v3/docs/03-reference/plugins-topologies-morphogenese.md). A capability contract does not mean every declared capability is automatically active.

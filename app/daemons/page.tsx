@@ -92,7 +92,7 @@ export default function DaemonsPage() {
           <Eyebrow light>SCOPE AND LIMITS</Eyebrow>
           <h2>An experimental observation system.</h2>
           <p>The runtime, territories, findings, handoffs, reconciliation, and evaluation are implemented. Overall maturity remains <strong>EXPERIMENTAL</strong>: available live results are too limited to establish a general benefit. Knowledge can also become stale when the territory's HEAD changes.</p>
-          <a href="https://github.com/PISSARAW/GenOS/blob/main/docs/03-reference/types-de-daemons.md" target="_blank" rel="noreferrer">Read the daemon reference catalog <span>↗</span></a>
+          <a href="https://github.com/PISSARAW/GenOS/blob/v3/docs/03-reference/types-de-daemons.md" target="_blank" rel="noreferrer">Read the daemon reference catalog <span>↗</span></a>
         </div>
       </section>
     </div>

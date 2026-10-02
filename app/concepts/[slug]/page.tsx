@@ -90,7 +90,7 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
             <div className="ontogenesis-compare-links">
               <Link href="/orchestrator">View the orchestration flow <span>→</span></Link>
               <Link href="/benchmarks">View available benchmarks <span>→</span></Link>
-              <a href="https://github.com/PISSARAW/GenOS/blob/main/docs/02-orchestration/ontogenese-boucle.md" target="_blank" rel="noreferrer">Read the operational loop ↗</a>
+              <a href="https://github.com/PISSARAW/GenOS/blob/v3/docs/02-orchestration/ontogenese-boucle.md" target="_blank" rel="noreferrer">Read the operational loop ↗</a>
             </div>
           </div>
         </section>
@@ -101,7 +101,7 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
           <Eyebrow light>SCOPE AND LIMITS</Eyebrow>
           <h2>{concept.scopeTitle}</h2>
           <p>{concept.scope}</p>
-          <a href={`https://github.com/PISSARAW/GenOS/blob/main/docs/${concept.source}`} target="_blank" rel="noreferrer">Read the source: {concept.sourceLabel} <span>↗</span></a>
+          <a href={`https://github.com/PISSARAW/GenOS/blob/v3/docs/${concept.source}`} target="_blank" rel="noreferrer">Read the source: {concept.sourceLabel} <span>↗</span></a>
         </div>
       </section>
 
