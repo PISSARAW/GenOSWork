@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Eyebrow } from "@/components/eyebrow";
+import { DaemonExplorer } from "@/components/daemon-explorer";
 import "./daemons.css";
+import "./daemon-explorer.css";
 
 export const metadata: Metadata = {
   title: "Resident daemons",
@@ -53,6 +55,8 @@ export default function DaemonsPage() {
         <div><span>ORCHESTRATOR</span><strong>Chooses the mission</strong></div><b aria-hidden="true">→</b>
         <div><span>WORKER</span><strong>Acts under control</strong></div>
       </section>
+
+      <DaemonExplorer locale="en" />
 
       <section className="section-wrap daemon-section">
         <div className="daemon-section-heading"><Eyebrow>01 · THE ARCHETYPE</Eyebrow><h2>One resident,<br /><em>one territory.</em></h2></div>
