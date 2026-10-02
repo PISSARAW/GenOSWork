@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { Eyebrow } from "@/components/eyebrow";
 import { P2ModelLab } from "@/components/p2-model-lab";
+import { TruthBadge } from "@/components/truth-badge";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "GenOS Simulation Studio",
   description: "Adjust explicit parameters in local teaching models for GenOS topologies and concepts.",
-  alternates: { canonical: "/lab/models" },
+  alternates: { canonical: "/lab/models", languages: { en: "/lab/models", fr: "/fr/lab/models" } },
 };
 
 export default async function ModelLabPage({ searchParams }: { searchParams: Promise<{ model?: string }> }) {
@@ -13,6 +16,7 @@ export default async function ModelLabPage({ searchParams }: { searchParams: Pro
   return <div className="page-shell lab-model-page">
     <section className="page-hero section-wrap lab-model-hero">
       <Eyebrow>GENOS LAB · P2 MODELS</Eyebrow>
+      <div style={{ margin: "14px 0" }}><TruthBadge mode="SIMULATION" /></div>
       <h1>Change a signal.<br /><em>See the model respond.</em></h1>
       <p>Explore eight topology models and seven concept models with bounded, inspectable inputs. Each result is computed in your browser and labeled as a teaching simulation.</p>
     </section>

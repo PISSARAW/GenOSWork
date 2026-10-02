@@ -17,15 +17,26 @@ export default function HomePage() {
       <section className="hero section-wrap">
         <div className="hero-copy">
           <Eyebrow><span className="eyebrow-pulse" /> OPEN-SOURCE AGENT RUNTIME</Eyebrow>
-          <h1>Build for what<br />happens <em>next.</em></h1>
-          <p className="hero-lede">Agents fail. Plans change. Evidence disagrees. GenOS gives multi-agent work a versioned state, so you can fork a path, inspect what happened, and decide what deserves to move forward.</p>
-          <div className="hero-actions"><Link className="button button-dark" href="/runtime">Explore the runtime <span>→</span></Link><a className="button button-quiet" href="https://github.com/PISSARAW/GenOS" target="_blank" rel="noreferrer">Read the source <span>↗</span></a></div>
+          <h1>GenOS Agent<br />Runtime <em>for long-running work.</em></h1>
+          <p className="hero-lede">A reproducible runtime for long-running and multi-agent work. Version state. Compose organizations. Test alternatives. Preserve evidence. Replay what happened.</p>
+          <p className="hero-lede" style={{ fontSize: 13 }}>Understand the system. Change the model. Observe a run. Inspect the evidence. Reproduce the result.</p>
+          <div className="hero-actions"><Link className="button button-dark" href="/systems">Understand GenOS <span>→</span></Link><Link className="button button-quiet" href="/lab">Try the Lab <span>→</span></Link><Link className="button button-quiet" href="/evidence">View the evidence <span>→</span></Link></div>
           <div className="hero-proof"><span className="proof-dot" /> Snapshots · forks · replay · evidence gates</div>
         </div>
         <TrajectoryGraphic />
         <div className="hero-index"><span>01 / 04</span><span>THE RUNTIME LAYER</span><span>SCROLL TO EXPLORE ↓</span></div>
       </section>
       <section className="signal-strip" aria-label="GenOS runtime characteristics"><div><strong>State</strong><span>versioned by default</span></div><b>×</b><div><strong>Execution</strong><span>supervised and bounded</span></div><b>×</b><div><strong>Promotion</strong><span>gated by evidence</span></div><b>×</b><div><strong>Recovery</strong><span>built into the workflow</span></div></section>
+
+      <section className="section-wrap section-space home-journey" aria-label="Understand GenOS in five minutes">
+        <SectionHeading index="00" label="FIVE MINUTES" title="From idea to" emphasis="evidence." body="Follow one chain without getting lost: what GenOS is, how organization changes work, what you can touch, what really ran, and what the evidence supports." />
+        <div className="journey-grid">
+          <div className="journey-card"><span>01 · SYSTEM</span><strong>See how parts fit</strong><p>Runtime, orchestration, memory, evidence, and verification on one map.</p><Link href="/systems">Open the system map →</Link></div>
+          <div className="journey-card"><span>02 · SIMULATION</span><strong>Change a model</strong><p>Browser-only teaching models. No runtime claim, full parameter control.</p><Link href="/lab/models">Open simulations →</Link></div>
+          <div className="journey-card"><span>03 · RECORDED RUN</span><strong>Watch what ran</strong><p>Historical artifacts with failures preserved — dispatch is not proof.</p><Link href="/runs">Replay a run →</Link></div>
+          <div className="journey-card"><span>04 · EVIDENCE</span><strong>Check what holds</strong><p>Benchmarks with protocol, scope, limits, and reproduction commands.</p><Link href="/benchmarks">Inspect evidence →</Link></div>
+        </div>
+      </section>
 
       <section className="section-wrap section-space" id="runtime">
         <SectionHeading index="01" label="THE RUNTIME" title="Make the work" emphasis="inspectable." body="Most orchestration starts with a prompt and ends with an answer. GenOS keeps the execution history in view—so a successful run can still be questioned, and a failed one can still teach you something." />

@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Eyebrow } from "@/components/eyebrow";
+import { concepts } from "@/components/concepts";
+import { topologies } from "@/components/topologies";
+import { morphogenesisCases } from "@/components/morphogenesis-cases";
 
 type Summary = { title: string; emphasis: string; intro: string; bullets: string[]; family: string };
 
@@ -26,11 +29,39 @@ const summaries: Record<string, Summary> = {
 function chooseSummary(path: string): Summary | undefined {
   const exact = summaries[path];
   if (exact) return exact;
-  if (path.startsWith("concepts/")) return { title: "Une fiche de concept", emphasis: "ancrée dans le runtime.", intro: "La fiche anglaise détaille son mécanisme, son état d’implémentation et les preuves disponibles. Le résumé français de l’atlas présente les familles et les principes transverses.", bullets: ["Lire le concept dans l’Atlas français", "Ouvrir la fiche complète en anglais", "Vérifier les liens de preuve dans le dépôt"], family: "CONCEPT GENOS" };
-  if (path.startsWith("topologies/")) return { title: "Une topologie GenOS", emphasis: "et son contrat d’exécution.", intro: "La fiche anglaise distingue le principe de coordination, les services connectés, les preuves et les limites du mode.", bullets: ["Voir la synthèse des huit topologies", "Ouvrir la fiche complète en anglais", "Consulter le contrat canonique"], family: "TOPOLOGIE" };
-  if (path.startsWith("morphogenesis/cases/")) return { title: "Un cas de morphogenèse", emphasis: "avec changements vérifiables.", intro: "L’étude de cas détaillée reste en anglais et documente le contexte, la trajectoire et les preuves de changement.", bullets: ["Explorer le laboratoire de morphogenèse", "Ouvrir l’étude complète en anglais", "Suivre les éléments de preuve"], family: "ÉTUDE DE CAS" };
+  if (path.startsWith("concepts/")) {
+    const slug = path.slice("concepts/".length);
+    if (!concepts.some((c) => c.slug === slug)) return undefined;
+    return { title: "Une fiche de concept", emphasis: "ancrée dans le runtime.", intro: "La fiche anglaise détaille son mécanisme, son état d'implémentation et les preuves disponibles. Le résumé français de l'atlas présente les familles et les principes transverses.", bullets: ["Lire le concept dans l'Atlas français", "Ouvrir la fiche complète en anglais", "Vérifier les liens de preuve dans le dépôt"], family: "CONCEPT GENOS" };
+  }
+  if (path.startsWith("topologies/")) {
+    const slug = path.slice("topologies/".length);
+    if (!topologies.some((t) => t.slug === slug)) return undefined;
+    return { title: "Une topologie GenOS", emphasis: "et son contrat d'exécution.", intro: "La fiche anglaise distingue le principe de coordination, les services connectés, les preuves et les limites du mode.", bullets: ["Voir la synthèse des huit topologies", "Ouvrir la fiche complète en anglais", "Consulter le contrat canonique"], family: "TOPOLOGIE" };
+  }
+  if (path.startsWith("morphogenesis/cases/")) {
+    const slug = path.slice("morphogenesis/cases/".length);
+    if (!morphogenesisCases.some((c) => c.slug === slug)) return undefined;
+    return { title: "Un cas de morphogenèse", emphasis: "avec changements vérifiables.", intro: "L'étude de cas détaillée reste en anglais et documente le contexte, la trajectoire et les preuves de changement.", bullets: ["Explorer le laboratoire de morphogenèse", "Ouvrir l'étude complète en anglais", "Suivre les éléments de preuve"], family: "ÉTUDE DE CAS" };
+  }
   if (path.startsWith("runtime/supervision/")) return summaries["runtime/supervision"];
   return undefined;
+}
+
+export async function generateStaticParams() {
+  const staticPaths = Object.keys(summaries).map((path) => ({
+    slug: path.split("/"),
+  }));
+  const conceptPaths = concepts.map(({ slug }) => ({
+    slug: ["concepts", slug],
+  }));
+  const topologyPaths = topologies.map(({ slug }) => ({
+    slug: ["topologies", slug],
+  }));
+  const casePaths = morphogenesisCases.map(({ slug }) => ({
+    slug: ["morphogenesis", "cases", slug],
+  }));
+  return [...staticPaths, ...conceptPaths, ...topologyPaths, ...casePaths];
 }
 
 export async function generateMetadata({ params }: PageProps<"/fr/[...slug]">): Promise<Metadata> {

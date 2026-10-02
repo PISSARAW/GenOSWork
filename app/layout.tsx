@@ -3,7 +3,6 @@ import type { ReactNode } from "react";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { LocaleFrame, SkipLink } from "@/components/locale-controls";
-import { headers } from "next/headers";
 import "./globals.css";
 import "./supervision.css";
 import "./morphogenesis.css";
@@ -12,9 +11,7 @@ import "./p3.css";
 import "./p4.css";
 import "./p4-overview.css";
 
-const siteUrl = "https://genoswork.vercel.app";
-
-export const dynamic = "force-dynamic";
+import { siteUrl } from "@/components/site-config";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -31,14 +28,13 @@ export const metadata: Metadata = {
     description: "Fork a trajectory. Inspect the evidence. Decide what earns promotion.",
     url: siteUrl,
   },
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/", languages: { en: "/", fr: "/fr" } },
   robots: { index: true, follow: true },
 };
 
-export default async function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
-  const locale = (await headers()).get("x-genos-locale") === "fr" ? "fr" : "en";
+export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang={locale}>
+    <html lang="en">
       <body>
         <LocaleFrame>
         <SkipLink />

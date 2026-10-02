@@ -63,3 +63,34 @@
 .ontogenesis-compare-wrap{background:#efeee8;border-top:1px solid #e3e1da;border-bottom:1px solid #e3e1da}.ontogenesis-compare{padding-top:75px;padding-bottom:78px}.ontogenesis-compare-heading{display:grid;grid-template-columns:1fr 1fr;column-gap:55px;align-items:end;margin-bottom:30px}.ontogenesis-compare-heading>.eyebrow{grid-column:1/-1;margin-bottom:17px}.ontogenesis-compare-heading h2{font:600 clamp(39px,4.8vw,58px)/1.04 var(--display);letter-spacing:-.065em;margin:0}.ontogenesis-compare-heading h2 em{font-style:normal;color:#8c83db}.ontogenesis-compare-heading>p{font-size:12px;line-height:1.75;color:#74717a;margin:0 0 3px;max-width:460px}.ontogenesis-compare-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.onto-compare-card{min-height:205px;padding:19px 18px 17px;border:1px solid #deddd6;border-radius:4px;background:#f9f8f4;display:flex;flex-direction:column}.onto-compare-card>span{font:8px var(--mono);letter-spacing:.08em;color:#94919a}.onto-compare-card h3{font:600 19px var(--display);letter-spacing:-.035em;margin:28px 0 9px}.onto-compare-card p{font-size:11px;line-height:1.65;color:#74717a;margin:0 0 19px}.onto-compare-card small{margin-top:auto;font:7px var(--mono);letter-spacing:.06em;color:#92909a}.onto-compare-genos{background:#292832;border-color:#292832;color:#f1f0f3}.onto-compare-genos>span,.onto-compare-genos small{color:#b4b0c0}.onto-compare-genos h3{color:#f6f4f8}.onto-compare-genos p{color:#c4c1ca}.ontogenesis-compare-note{display:flex;gap:13px;align-items:flex-start;margin-top:16px;padding:14px 16px;border:1px solid #ddd9cd;background:#f5f3eb}.ontogenesis-compare-note>span{display:grid;place-items:center;flex:0 0 20px;width:20px;height:20px;border-radius:50%;background:#e7e4f1;color:#7065bc;font:italic 13px Georgia}.ontogenesis-compare-note p{font-size:10px;line-height:1.7;color:#74717a;margin:0}.ontogenesis-compare-note strong{color:#48464f}.ontogenesis-compare-links{display:flex;flex-wrap:wrap;gap:15px 24px;margin-top:18px}.ontogenesis-compare-links a{font-size:9px;font-weight:700;color:#655db0;text-decoration:underline;text-underline-offset:4px}.ontogenesis-compare-links a span{margin-left:6px}
 @media(max-width:900px){.ontogenesis-compare-grid{grid-template-columns:1fr 1fr}.onto-compare-genos{grid-column:1/-1}.ontogenesis-compare-heading{column-gap:30px}}
 @media(max-width:640px){.ontogenesis-compare{padding-top:54px;padding-bottom:57px}.ontogenesis-compare-heading{grid-template-columns:1fr;gap:13px;margin-bottom:23px}.ontogenesis-compare-heading>.eyebrow{grid-column:auto;margin-bottom:3px}.ontogenesis-compare-heading h2{font-size:45px}.ontogenesis-compare-heading>p{font-size:11px}.ontogenesis-compare-grid{grid-template-columns:1fr;gap:8px}.onto-compare-card{min-height:175px;padding:16px}.onto-compare-card h3{margin-top:20px;font-size:18px}.onto-compare-genos{grid-column:auto}.ontogenesis-compare-note{padding:12px}.ontogenesis-compare-note p{font-size:9px}.ontogenesis-compare-links{flex-direction:column;gap:12px}}
+
+/* GenOSWork IA: 6-intent navigation + truth modes */
+.site-nav-groups{gap:22px}
+.nav-group{position:relative}
+.nav-group-label{font-size:12px;font-weight:600;color:#64626b;padding:10px 2px;display:inline-block}
+.nav-group-label:hover{color:var(--purple)}
+.nav-panel{position:absolute;top:calc(100% + 10px);left:50%;transform:translateX(-50%);min-width:260px;background:#f8f7f3;border:1px solid #deddd6;border-radius:4px;box-shadow:0 14px 30px #25242d1a;padding:12px;display:none;flex-direction:column;gap:2px;z-index:20}
+.nav-group:hover .nav-panel,.nav-group:focus-within .nav-panel{display:flex}
+.nav-panel-question{font:8px var(--mono);letter-spacing:.08em;color:#8a8791;margin:0 0 6px;line-height:1.5}
+.nav-panel a{font-size:12px;font-weight:600;color:#45434c;padding:8px 9px;border-radius:3px;display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.nav-panel a small{font:8px var(--mono);color:#96939b;font-weight:400}
+.nav-panel a:hover{background:#eeecf6;color:#5f56a6}
+.locale-switch{display:flex;align-items:center;gap:6px;font:10px var(--mono);color:#77757d}
+.locale-switch a{padding:6px 4px}
+.footer-links-groups{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;grid-column:1/-1}
+.footer-group{display:flex;flex-direction:column;gap:8px}
+.footer-group-title{font:8px var(--mono);letter-spacing:.1em;color:#22212a;font-weight:700}
+.truth-badge{display:inline-flex;align-items:center;gap:8px;font:8px var(--mono);letter-spacing:.1em;padding:7px 9px;border:1px solid #d9d6ce;border-radius:2px;background:#f7f6f2;color:#57555f}
+.truth-badge em{font-style:normal;letter-spacing:0;text-transform:none;font-family:var(--sans);font-size:10px;color:#77757d}
+.truth-badge i{width:7px;height:7px;border-radius:50%;background:#999}
+.truth-simulation i{background:#b79a4e}
+.truth-recorded i{background:#5e8da3}
+.truth-live i{background:#4d9b85}
+.translation-notice{display:flex;gap:10px;align-items:flex-start;border-left:2px solid #8b82d8;background:#efeee8;padding:12px 14px;font-size:11px;color:#57555f;margin-top:16px}
+.translation-notice strong{font:8px var(--mono);letter-spacing:.08em;white-space:nowrap;padding-top:2px}
+.journey-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:18px}
+.journey-card{border:1px solid #deddd6;border-radius:4px;background:#f9f8f4;padding:16px;display:flex;flex-direction:column;gap:8px}
+.journey-card span{font:8px var(--mono);letter-spacing:.1em;color:#8a8791}
+.journey-card strong{font:600 15px var(--display)}
+.journey-card p{font-size:11px;color:#73717a;line-height:1.6;margin:0}
+.journey-card a{font-size:11px;font-weight:700;color:#6558d3}

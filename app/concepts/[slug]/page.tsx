@@ -26,7 +26,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: concept.title,
     description: concept.intro,
-    alternates: { canonical: `/concepts/${concept.slug}` },
+    alternates: {
+      canonical: `/concepts/${concept.slug}`,
+      languages: {
+        en: `/concepts/${concept.slug}`,
+        fr: `/fr/concepts/${concept.slug}`,
+      },
+    },
   };
 }
 
