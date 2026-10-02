@@ -7,7 +7,7 @@ import { TopologyDiagram } from "@/components/topology-visuals";
 
 const partialVariants: Record<string, Set<string>> = {
   trinity: new Set(["heterogeneous", "adversarial", "counterfactual", "pareto", "jury", "adaptive", "temporal", "exploratory"]),
-  "a-team": new Set(["matrix_team", "incident_command", "adaptive"]),
+  "a-team": new Set(["cross_functional_pod", "boundary_spanner", "matrix_team", "incident_command", "multiteam", "adaptive"]),
   biocenose: new Set(["argumentation_community", "polycentric_council", "byzantine_resilient_community", "representative_community", "persistent_community"]),
   holobionte: new Set(["organelle", "adaptive-microbiome", "immune-critical", "local-first", "regenerative", "cloud-core/edge-symbionts", "edge-core/cloud-symbionts", "memory-rich", "competitive-partner", "procedural", "tool", "cloud-core/edge-sync"]),
   metapopulation: new Set(["balanced", "resilient", "exploratory", "conservative", "classic_patch", "island_search", "heterogeneous_islands", "source_sink", "rescue_network", "stepping_stone", "anti_synchrony", "federated", "ephemeral_patch", "persistent", "evolutionary", "cultural"]),

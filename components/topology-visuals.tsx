@@ -63,7 +63,7 @@ function Trinity({ variant, activeStep }: Props) {
 function ATeam({ variant }: Props) {
   if (variant === "pipeline") return <>
     <Node x={24} y={138} w={112} title="INPUT" note="typed contract" className="diagram-node diagram-source"/>
-    {[{x:160,t:"EXTRACT",n:"schema + bounded retry"},{x:340,t:"VERIFY",n:"accept / repair"},{x:520,t:"SYNTHESIZE",n:"validated output"}].map((item,i)=><g key={item.t}><Link d={`M${i ? item.x - 12 : 136} 162 H${item.x}`}/><Node x={item.x} y={132} w={142} title={item.t} note={item.n} className={i===2?"diagram-node diagram-gate":"diagram-node diagram-member"}/><Label x={item.x + 10} y={202} className="diagram-micro">{i < 2 ? `typed handoff ${i+1} → ${i+2}` : "integration barrier"}</Label></g>)}
+    {[{x:160,t:"EXTRACT",n:"schema + bounded retry"},{x:340,t:"VERIFY",n:"accept / repair"},{x:520,t:"SYNTHESIZE",n:"validated output"}].map((item,i)=><g key={item.t}><Link d={`M${i ? item.x - 38 : 136} 162 H${item.x}`}/><Node x={item.x} y={132} w={142} title={item.t} note={item.n} className={i===2?"diagram-node diagram-gate":"diagram-node diagram-member"}/><Label x={item.x + 10} y={202} className="diagram-micro">{i < 2 ? `typed handoff ${i+1} → ${i+2}` : "integration barrier"}</Label></g>)}
   </>;
   if (variant === "relay_team") return <>
     <Label x={292} y={48} className="diagram-micro">ONE OWNER HOLDS CONTEXT AT A TIME</Label>
@@ -75,7 +75,7 @@ function ATeam({ variant }: Props) {
     <Link d="M380 66 V91 H190 V116 M380 91 H570 V116"/>
     <Node x={100} y={116} w={180} title="DOCUMENTATION" note="READY · independent branch" className="diagram-node diagram-member"/>
     <Node x={480} y={116} w={180} title="TESTS" note="READY · independent branch" className="diagram-node diagram-member"/>
-    <Link d="M190 164 V195 H380 V216 M570 164 V195 H380"/>
+    <Link d="M190 164 V195 H380 V216 M570 164 V195 H380 V216"/>
     <Node x={290} y={216} w={180} title="BUILD / VALIDATE" note="waits for both outputs" className="diagram-node diagram-gate"/>
     <Link d="M380 264 V276"/><Label x={291} y={292} className="diagram-micro">failed branch blocks its consumers · independent work can continue</Label>
   </>;
@@ -124,9 +124,11 @@ function ATeam({ variant }: Props) {
   </>;
   if (variant === "multiteam") return <>
     <Node x={300} y={20} w={160} title="PROGRAM GRAPH" note="explicit subteam contracts" className="diagram-node diagram-source"/>
-    <Link d="M380 68 V96 H160 V124 M380 96 V124 M380 96 H600 V124"/>
-    {[{x:80,t:"TEAM A",n:"contract + budget"},{x:300,t:"TEAM B",n:"contract + budget"},{x:520,t:"TEAM C",n:"dependent"}].map(item=><Node key={item.t} x={item.x} y={124} w={160} title={item.t} note={item.n} className="diagram-node diagram-member"/>)}
-    <Link d="M380 172 V207 H600 V172" className="diagram-link diagram-context"/><Node x={276} y={221} w={208} title="COORDINATION COUNCIL" note="join only verified contracts" className="diagram-node diagram-gate"/>
+    <Link d="M380 68 V91 H165 V116 M380 91 H595 V116"/>
+    <Node x={80} y={116} w={170} title="TEAM A" note="contract + budget" className="diagram-node diagram-member"/>
+    <Node x={510} y={116} w={170} title="TEAM B" note="contract + budget" className="diagram-node diagram-member"/>
+    <Link d="M165 164 V189 H380 V210 M595 164 V189 H380 V210" className="diagram-link diagram-context"/>
+    <Node x={300} y={210} w={160} title="TEAM C" note="waits for both proofs" className="diagram-node diagram-gate"/>
     <Label x={258} y={281} className="diagram-micro">subteam runner needs a verified executeTeam adapter</Label>
   </>;
   if (variant === "adaptive") return <>
