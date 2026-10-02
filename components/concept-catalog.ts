@@ -114,8 +114,8 @@ const familyRows: Record<string, { source: string; rows: Row[] }> = {
       ["holobionte", "Holobiont", "A host composes specialist symbionts under capability, resource, lifecycle, and execution contracts.", "../02-orchestration/topologies/holobionte.md", ["symbionts", "immune-system", "metabolism"], true, true, true],
       ["syncytium", "Syncytium", "Members coordinate around shared, versioned state with merge operations and invariant checks.", "../02-orchestration/topologies/syncytium.md", ["shared-state", "evidence", "morphogenesis"], true, true, true],
       ["rhizome", "Rhizome", "A versioned capability graph with bounded multi-hop routing, local traces, and evidence-gated growth admission.", "../02-orchestration/topologies/rhizome.md", ["agent-relationships", "stigmergy", "worker-kinds"], true, true, true],
-      ["metapopulation", "Metapopulation", "Semi-independent regional groups coordinate through explicit quorum, migration, and recovery planning.", "../02-orchestration/topologies/metapopulation.md", ["populations", "evolution-selection", "resilience"], true, true, true],
-      ["biome", "Biome", "A resource environment with niches and a bounded, mission-triggered observe–propose–constrain–act–verify loop.", "../02-orchestration/topologies/biome.md", ["niches", "metabolism", "web-foraging"], true, true, true],
+      ["metapopulation", "Metapopulation", "Semi-independent demes exchange typed propagules over directed corridors, with receiver validation, verified migration cycles, and gated recolonization.", "../02-orchestration/topologies/metapopulation.md", ["populations", "evolution-selection", "resilience"], true, true, true],
+      ["biome", "Biome", "A persisted niche and resource model with eleven bounded, caller-invoked variant operations; the complete autonomous ecology loop is partial.", "../02-orchestration/topologies/biome.md", ["niches", "metabolism", "web-foraging"], true, true, true],
     ],
   },
   "evolution-ecology": {

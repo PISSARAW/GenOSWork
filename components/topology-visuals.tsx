@@ -539,23 +539,329 @@ function Rhizome({ variant }: Props) {
   </>;
 }
 
+function MetapopDeme({ x, y, title, note, kind = "diagram-member", w = 132 }: { x: number; y: number; title: string; note: string; kind?: string; w?: number }) {
+  return <g className="diagram-patch"><circle cx={x + w / 2} cy={y + 27} r="55"/><Node x={x} y={y} w={w} h={54} title={title} note={note} className={`diagram-node ${kind}`}/></g>;
+}
+
 function Metapopulation({ variant }: Props) {
-  const patches = [{x:79,y:95,t:"PATCH A",n:"local deme"},{x:280,y:50,t:"PATCH B",n:"source"},{x:500,y:93,t:"PATCH C",n:"local deme"},{x:180,y:214,t:"PATCH D",n:"refuge"},{x:410,y:214,t:"PATCH E",n:"sink"}];
+  if (variant === "classic_patch") return <>
+    <Label x={80} y={49} className="diagram-micro">PATCH OCCUPANCY IS SEPARATE FROM DEME LIFECYCLE</Label>
+    <MetapopDeme x={48} y={111} title="DEME A" note="COLLAPSED" kind="diagram-failed-route"/>
+    <Link d="M180 138 H228" className="diagram-link diagram-reject-path"/>
+    <Node x={228} y={114} w={126} title="PATCH A" note="VACANT" className="diagram-node diagram-advisory-node"/>
+    <Link d="M354 138 H392" className="diagram-link diagram-context"/>
+    <Node x={392} y={103} w={156} h={68} title="FOUNDER TRIAL" note="2 distinct lineages" className="diagram-node diagram-source"/>
+    <Link d="M548 137 H582"/>
+    <Node x={582} y={111} w={142} title="LOCAL EVALUATOR" note="viability proof" className="diagram-node diagram-gate"/>
+    <Link d="M653 165 V216 H472" className="diagram-link diagram-evidence-link"/>
+    <Node x={352} y={216} w={240} h={44} title="NEW DEME · ACTIVE ONLY AFTER PROOF" className="diagram-node diagram-gate"/>
+    <Label x={249} y={284} className="diagram-micro">classic_patch starts the bounded trial · evaluator decides viability</Label>
+  </>;
+  if (variant === "island_search") return <>
+    <Label x={285} y={43} className="diagram-micro">INDEPENDENT SEARCH · POLICY-GATED RING MIGRATION</Label>
+    <Link d="M186 105 H558 M624 157 V253 H120 V157" className="diagram-link diagram-corridor" markerEnd={false}/>
+    <MetapopDeme x={54} y={80} title="ISLAND A" note="local search"/>
+    <MetapopDeme x={558} y={80} title="ISLAND B" note="local search"/>
+    <MetapopDeme x={558} y={180} title="ISLAND C" note="local search"/>
+    <MetapopDeme x={54} y={180} title="ISLAND D" note="local search"/>
+    <Link d="M186 92 H558" className="diagram-link diagram-resource-flow"/>
+    <Label x={285} y={75} className="diagram-edge-label">PERIODIC ELITE + COUNTEREXAMPLE</Label>
+    <Label x={282} y={277} className="diagram-micro">local incumbents move around the ring · diversity stays local between exchanges</Label>
+  </>;
+  if (variant === "heterogeneous_islands") return <>
+    <Label x={282} y={45} className="diagram-micro">COMPLEMENTARY REGIONS · DIFFERENT SEARCH METHODS</Label>
+    <Link d="M190 124 L312 95 M442 95 L566 124 M190 155 L312 182 M442 182 L566 155" className="diagram-link diagram-corridor" markerEnd={false}/>
+    <MetapopDeme x={58} y={104} title="SAT ISLAND" note="constraint search" w={132}/>
+    <MetapopDeme x={310} y={70} title="ILP ISLAND" note="exact optimization" kind="diagram-source" w={132}/>
+    <MetapopDeme x={566} y={104} title="EVOLUTION ISLAND" note="population search" w={132}/>
+    <MetapopDeme x={310} y={155} title="LOCAL SEARCH" note="neighborhood method" w={132}/>
+    <Node x={270} y={239} w={220} h={40} title="COMPLEMENTARY PROPAGULES" note="receiver validates locally" className="diagram-node diagram-gate"/>
+    <Label x={281} y={291} className="diagram-micro">algorithm · provider · lineage diversity</Label>
+  </>;
+  if (variant === "source_sink") return <>
+    <Label x={284} y={49} className="diagram-micro">DIRECTED SUPPORT · A → B DOES NOT IMPLY B → A</Label>
+    <Link d="M222 138 H327 M458 128 L554 95 M458 151 L554 191" className="diagram-link diagram-resource-flow"/>
+    <MetapopDeme x={88} y={111} title="SOURCE DEME" note="net contributor" kind="diagram-source" w={134}/>
+    <MetapopDeme x={326} y={104} title="SOURCE / SINK" note="role can rotate" w={132}/>
+    <MetapopDeme x={554} y={70} title="SINK B" note="targeted pull" kind="diagram-advisory-node" w={132}/>
+    <MetapopDeme x={554} y={175} title="SINK C" note="rescue candidate" kind="diagram-failed-route" w={132}/>
+    <Label x={284} y={270} className="diagram-micro">migration utility + directed corridor gate · temporal roles need supplied history</Label>
+  </>;
+  if (variant === "rescue_network") return <>
+    <Label x={276} y={45} className="diagram-micro">REDUNDANT CORRIDORS · TARGETED AT-RISK RESCUE</Label>
+    <Link d="M180 110 L310 76 M442 76 L570 110 M180 151 L310 199 M442 199 L570 151 M376 101 V176 M180 130 H570" className="diagram-link diagram-corridor" markerEnd={false}/>
+    <MetapopDeme x={48} y={102} title="SOURCE A" note="compatible lineage" kind="diagram-source"/>
+    <MetapopDeme x={310} y={50} title="SOURCE B" note="alternate route" kind="diagram-source"/>
+    <MetapopDeme x={570} y={102} title="AT-RISK DEME" note="protected capability" kind="diagram-failed-route"/>
+    <MetapopDeme x={310} y={155} title="REFUGE" note="fallback population"/>
+    <Node x={279} y={242} w={202} h={40} title="FITNESS + ROLLBACK GATE" note="receiver adapter required" className="diagram-node diagram-gate"/>
+    <Label x={258} y={290} className="diagram-micro">rescue plan is explicit and bounded · no fixed recovery SLA</Label>
+  </>;
+  if (variant === "stepping_stone") return <>
+    <Label x={263} y={49} className="diagram-micro">LOCAL CORRIDORS ONLY · NO DIRECT A → C JUMP</Label>
+    <Link d="M183 150 H246 M378 150 H441 M573 150 H636" className="diagram-link diagram-corridor"/>
+    <MetapopDeme x={51} y={123} title="PATCH A" note="local source" w={132}/>
+    <MetapopDeme x={246} y={123} title="PATCH B" note="relay + local test" w={132}/>
+    <MetapopDeme x={441} y={123} title="PATCH C" note="relay + local test" w={132}/>
+    <MetapopDeme x={636} y={123} title="PATCH D" note="local receiver" w={112}/>
+    <Link d="M183 128 H246 M378 128 H441 M573 128 H636" className="diagram-link diagram-trace-network"/>
+    <Label x={289} y={240} className="diagram-edge-label">NOVELTY / CULTURAL PROPAGULE · RECEIVER QUARANTINE</Label>
+    <Label x={276} y={277} className="diagram-micro">each hop tests compatibility before the next corridor</Label>
+  </>;
+  if (variant === "anti_synchrony") return <>
+    <Label x={287} y={44} className="diagram-micro">CORRELATED ERRORS · ADAPTIVE FIREBREAKS</Label>
+    <Link d="M190 122 H321 M440 122 H570 M190 188 H321 M440 188 H570" className="diagram-link diagram-corridor" markerEnd={false}/>
+    <Link d="M190 140 H321 M440 140 H570" className="diagram-link diagram-reject-path" markerEnd={false}/>
+    <MetapopDeme x={58} y={96} title="DEME A" note="error pattern α" w={132}/>
+    <MetapopDeme x={308} y={96} title="DEME B" note="correlated α" kind="diagram-failed-route" w={132}/>
+    <MetapopDeme x={558} y={96} title="DEME C" note="independent β" kind="diagram-source" w={132}/>
+    <Node x={299} y={222} w={162} h={42} title="CORRIDOR GOVERNOR" note="reduce weight / freeze" className="diagram-node diagram-gate"/>
+    <Link d="M374 222 V204" className="diagram-link diagram-context"/>
+    <Label x={267} y={288} className="diagram-micro">firebreak limits contagion · does not trigger extinction or recolonization</Label>
+  </>;
+  if (variant === "federated") return <>
+    <Label x={286} y={41} className="diagram-micro">DATA SOVEREIGNTY · VERIFIED PROPAGULES ONLY</Label>
+    <rect x="38" y="62" width="270" height="164" rx="9" className="diagram-trust-boundary"/><rect x="452" y="62" width="270" height="164" rx="9" className="diagram-trust-boundary"/>
+    <Label x={65} y={82} className="diagram-edge-label">REGION A · LOCAL STATE</Label><Label x={480} y={82} className="diagram-edge-label">REGION B · LOCAL STATE</Label>
+    <MetapopDeme x={101} y={119} title="DEME A" note="private workspace" w={144}/><MetapopDeme x={514} y={119} title="DEME B" note="private workspace" w={144}/>
+    <Node x={322} y={112} w={116} h={62} title="CLASSIFY" note="verify + authorize" className="diagram-node diagram-gate"/>
+    <Link d="M245 146 H322 M438 146 H514" className="diagram-link diagram-federated-link"/>
+    <Label x={286} y={258} className="diagram-micro">only admitted, attested summaries or propagules cross the boundary</Label>
+  </>;
+  if (variant === "ephemeral_patch") return <>
+    <Label x={284} y={44} className="diagram-micro">DYNAMIC PATCH AVAILABILITY · DORMANCY / REATTACHMENT</Label>
+    <MetapopDeme x={55} y={111} title="ACTIVE DEME" note="temporary patch" kind="diagram-source" w={144}/>
+    <Link d="M199 138 H250" className="diagram-link diagram-corridor"/>
+    <Node x={250} y={111} w={142} title="PATCH LOST" note="unavailable" className="diagram-node diagram-failed-route"/>
+    <Link d="M392 138 H438" className="diagram-link diagram-context"/>
+    <Node x={438} y={103} w={122} h={68} title="SPORE STORE" note="dormant state" className="diagram-node diagram-advisory-node"/>
+    <Link d="M560 138 H604" className="diagram-link diagram-trace-network"/>
+    <Node x={604} y={111} w={142} title="PATCH RETURNS" note="reattach / trial" className="diagram-node diagram-gate"/>
+    <Label x={262} y={250} className="diagram-micro">cryptobiosis and reactivation are service-backed; patch quality still needs review</Label>
+    <Label x={285} y={278} className="diagram-micro">volatile patch does not mean unbounded automatic recreation</Label>
+  </>;
+  if (variant === "persistent") return <>
+    <rect x="38" y="54" width="684" height="190" rx="9" className="diagram-session-boundary"/>
+    <Label x={62} y={75} className="diagram-micro">RESIDENT DEMES · VERSIONED REGIONAL SESSION ACROSS MISSIONS</Label>
+    <Link d="M202 145 H310 M442 145 H550" className="diagram-link diagram-corridor"/>
+    <MetapopDeme x={70} y={118} title="RESIDENT A" note="local lineage" w={132}/>
+    <MetapopDeme x={310} y={118} title="RESIDENT B" note="episodic memory" kind="diagram-source" w={132}/>
+    <MetapopDeme x={550} y={118} title="RESIDENT C" note="lease validated" w={132}/>
+    <Node x={284} y={207} w={192} h={35} title="SESSION MEMORY + HISTORY" className="diagram-node diagram-gate"/>
+    <Link d="M376 172 V207" className="diagram-link diagram-trace-network"/>
+    <Label x={287} y={279} className="diagram-micro">resident daemons require explicit, current leases</Label>
+  </>;
+  if (variant === "evolutionary") return <>
+    <Label x={276} y={44} className="diagram-micro">LOCAL REPRODUCTION · SELECTION · SELECTIVE MIGRATION</Label>
+    <Link d="M196 121 H328 M460 121 H592" className="diagram-link diagram-corridor"/>
+    <MetapopDeme x={64} y={94} title="DEME A" note="evaluate local fitness" w={132}/>
+    <MetapopDeme x={328} y={94} title="DEME B" note="evaluate local fitness" kind="diagram-source" w={132}/>
+    <MetapopDeme x={592} y={94} title="DEME C" note="evaluate local fitness" w={132}/>
+    <Node x={85} y={195} w={150} h={44} title="MUTATE / SELECT" note="local offspring" className="diagram-node diagram-member"/>
+    <Node x={317} y={195} w={154} h={44} title="MIGRATE" note="elite + novelty" className="diagram-node diagram-gate"/>
+    <Node x={525} y={195} w={168} h={44} title="ENGINE ADAPTER" note="required for Rust path" className="diagram-node diagram-advisory-node"/>
+    <Link d="M160 195 V176 M394 176 V195 M658 176 V195" className="diagram-link diagram-context"/>
+    <Label x={284} y={278} className="diagram-micro">evolutionary mechanisms remain partial and adapter-dependent</Label>
+  </>;
+  if (variant === "cultural") return <>
+    <Label x={280} y={44} className="diagram-micro">AGENTS STAY RESIDENT · PROCEDURES / ARTIFACTS TRAVEL</Label>
+    <MetapopDeme x={73} y={102} title="DEME A" note="resident agents" w={132}/>
+    <MetapopDeme x={329} y={102} title="DEME B" note="resident agents" kind="diagram-source" w={132}/>
+    <MetapopDeme x={585} y={102} title="DEME C" note="resident agents" w={132}/>
+    <Node x={288} y={204} w={214} h={48} title="CULTURAL PROPAGULE" note="procedure · artifact · test" className="diagram-node diagram-gate"/>
+    <Link d="M139 156 V185 H288 M502 228 H535 V185 H651 V156" className="diagram-link diagram-resource-flow"/>
+    <Label x={288} y={281} className="diagram-micro">receiver provenance and compatibility gates apply to each transfer</Label>
+  </>;
+  if (variant === "conservative") return <>
+    <Label x={296} y={48} className="diagram-micro">COUNTEREVIDENCE FIRST · STRICT REGIONAL QUORUM</Label>
+    <Link d="M210 137 H302 M458 137 H550" className="diagram-link diagram-corridor"/>
+    <MetapopDeme x={78} y={110} title="REGION A" note="claim + provenance" w={132}/>
+    <Node x={302} y={108} w={156} h={58} title="COUNTEREXAMPLE" note="challenge propagule" className="diagram-node diagram-adversary"/>
+    <MetapopDeme x={550} y={110} title="REGION B" note="local review" kind="diagram-source" w={132}/>
+    <Node x={295} y={207} w={170} h={46} title="WEIGHTED QUORUM" note="ABSTAIN blocks support" className="diagram-node diagram-gate"/>
+    <Link d="M144 164 V186 H295 M616 164 V186 H465" className="diagram-link diagram-evidence-link"/>
+    <Label x={270} y={280} className="diagram-micro">quorum is independent of the local migration policy · no fixed threshold here</Label>
+  </>;
+  if (variant === "exploratory") return <>
+    <Label x={278} y={45} className="diagram-micro">NOVELTY PROPAGULES · DIVERSE LOCAL SEARCH</Label>
+    <Link d="M190 140 L311 102 M443 102 L563 140 M190 158 L311 206 M443 206 L563 158" className="diagram-link diagram-corridor" markerEnd={false}/>
+    <MetapopDeme x={58} y={115} title="FRONTIER A" note="new hypothesis" kind="diagram-source" w={132}/>
+    <MetapopDeme x={311} y={76} title="REGION B" note="novelty accepted" w={132}/>
+    <MetapopDeme x={563} y={115} title="FRONTIER C" note="alternate method" w={132}/>
+    <MetapopDeme x={311} y={180} title="REGION D" note="local exploration" w={132}/>
+    <Label x={270} y={279} className="diagram-micro">novel candidates cross admitted corridors · receiving region evaluates locally</Label>
+  </>;
+  if (variant === "balanced") return <>
+    <Label x={284} y={43} className="diagram-micro">REGIONAL COVERAGE · EXPLORATION · RECOVERY BALANCED BY POLICY</Label>
+    <Link d="M186 121 L312 80 M444 80 L570 121 M186 155 L312 189 M444 189 L570 155 M378 104 V164" className="diagram-link diagram-corridor" markerEnd={false}/>
+    <MetapopDeme x={54} y={111} title="DEME A" note="local capability" w={132}/>
+    <MetapopDeme x={312} y={54} title="DEME B" note="complementary" kind="diagram-source" w={132}/>
+    <MetapopDeme x={570} y={111} title="DEME C" note="local capability" w={132}/>
+    <MetapopDeme x={312} y={164} title="DEME D" note="recovery reserve" w={132}/>
+    <Node x={302} y={249} w={152} h={40} title="WEIGHTED QUORUM" note="policy-defined" className="diagram-node diagram-gate"/>
+  </>;
+  if (variant === "resilient") return <>
+    <Label x={291} y={43} className="diagram-micro">LOCAL FAILURES · CONTINUITY THROUGH ALTERNATE REGIONS</Label>
+    <Link d="M195 116 H316 M448 116 H565 M195 150 L316 187 M448 187 L565 150 M382 140 V160" className="diagram-link diagram-corridor" markerEnd={false}/>
+    <MetapopDeme x={63} y={105} title="DEME A" note="critical function" kind="diagram-source" w={132}/>
+    <MetapopDeme x={316} y={88} title="DEME B" note="at risk" kind="diagram-failed-route" w={132}/>
+    <MetapopDeme x={565} y={105} title="DEME C" note="alternate capability" w={132}/>
+    <MetapopDeme x={316} y={160} title="DEME D" note="refuge / recovery" w={132}/>
+    <Node x={282} y={249} w={200} h={40} title="EXPLICIT RECOVERY PLAN" note="evidence + budget gates" className="diagram-node diagram-gate"/>
+  </>;
   return <>
-    <Link d="M199 119 L280 82 M410 82 L500 118 M147 143 L216 214 M346 82 L250 214 M410 82 L464 214 M310 238 H410" className={`diagram-link ${variant === "federated" ? "diagram-federated-link" : "diagram-corridor"}`} markerEnd={false}/>
-    {patches.map((item,i)=><g key={item.t} className="diagram-patch"><circle cx={item.x + 63} cy={item.y + 30} r="57"/><Node x={item.x} y={item.y} w={126} h={54} title={item.t} note={item.n} className={`diagram-node ${i === 1 ? "diagram-source" : "diagram-member"}`}/></g>)}
-    <Label x={275} y={294} className="diagram-micro">{variant === "federated" ? "sovereign regions · attested results cross boundary" : variant === "anti_synchrony" ? "circuit breakers · limit contagion" : "local work · weighted quorum · recovery corridors"}</Label>
+    <Label x={284} y={43} className="diagram-micro">REGIONAL POPULATIONS · DIRECTED CORRIDORS · LOCAL STATE</Label>
+    <Link d="M186 121 L312 80 M444 80 L570 121 M186 155 L312 208 M444 208 L570 155 M378 104 V184" className="diagram-link diagram-corridor" markerEnd={false}/>
+    <MetapopDeme x={54} y={111} title="DEME A" note="local work" w={132}/>
+    <MetapopDeme x={312} y={54} title="DEME B" note="regional source" kind="diagram-source" w={132}/>
+    <MetapopDeme x={570} y={111} title="DEME C" note="local work" w={132}/>
+    <MetapopDeme x={312} y={184} title="DEME D" note="regional sink" w={132}/>
+    <Label x={280} y={278} className="diagram-micro">patch = opportunity · deme = population · migration requires an admitted corridor</Label>
   </>;
 }
 
 function Biome({ variant }: Props) {
-  const scales = variant === "multi_scale";
+  if (variant === "resource") return <>
+    <Node x={275} y={20} w={210} h={48} title="MISSION RESOURCE POOL" note="tokens · time · quota · CPU / GPU" className="diagram-node diagram-source"/>
+    <Link d="M380 68 V91 H142 V116 M380 91 V116 M380 91 H618 V116" className="diagram-link diagram-resource-flow"/>
+    <Node x={43} y={116} w={198} title="RESEARCH NICHE" note="demand + minimum" className="diagram-node diagram-member"/>
+    <Node x={281} y={116} w={198} title="COMPUTE NICHE" note="quota + capacity" className="diagram-node diagram-member"/>
+    <Node x={519} y={116} w={198} title="VERIFY NICHE" note="evidence reserve" className="diagram-node diagram-member"/>
+    <rect x="60" y="184" width="164" height="8" rx="4" className="diagram-budget-track"/><rect x="60" y="184" width="108" height="8" rx="4" className="diagram-budget-fill"/>
+    <rect x="298" y="184" width="164" height="8" rx="4" className="diagram-budget-track"/><rect x="298" y="184" width="72" height="8" rx="4" className="diagram-budget-fill"/>
+    <rect x="536" y="184" width="164" height="8" rx="4" className="diagram-budget-track"/><rect x="536" y="184" width="94" height="8" rx="4" className="diagram-budget-fill"/>
+    <Link d="M142 197 V217 H310 M380 197 V217 M618 197 V217 H450" className="diagram-link diagram-context"/>
+    <Node x={292} y={217} w={176} h={48} title="RESERVE + CONSTRAINTS" note="Σ allocation ≤ budget" className="diagram-node diagram-gate"/>
+    <Label x={267} y={286} className="diagram-micro">this cycle records yield · it does not learn productivity across missions</Label>
+  </>;
+  if (variant === "exploration") return <>
+    <Label x={273} y={45} className="diagram-micro">PATCH YIELD · CURIOSITY · EVIDENCE ARCHIVE</Label>
+    <Link d="M157 145 H184 M326 145 H360 M510 145 H548" className="diagram-link diagram-resource-flow"/>
+    <Node x={25} y={119} w={132} title="PATCH A" note="yield below baseline" className="diagram-node diagram-advisory-node"/>
+    <Node x={184} y={119} w={142} title="SCOUT" note="curiosity + stagnation" className="diagram-node diagram-source"/>
+    <Node x={360} y={119} w={150} title="LEVY STEP" note="local / macro proposal" className="diagram-node diagram-member"/>
+    <Node x={548} y={119} w={172} title="PATCH ARCHIVE" note="proof + transfer target" className="diagram-node diagram-gate"/>
+    <Label x={263} y={204} className="diagram-edge-label">compare marginal yield with expected environment return</Label>
+    <Link d="M634 167 V226 H531" className="diagram-link diagram-context"/>
+    <Node x={345} y={226} w={186} h={42} title="WORKER PATCH REQUEST" note="worker performs execution" className="diagram-node diagram-gate"/>
+    <Label x={270} y={287} className="diagram-micro">foraging and movement are bounded proposals · patch execution is a worker request</Label>
+  </>;
+  if (variant === "quality_diversity") return <>
+    <Label x={303} y={43} className="diagram-micro">DESCRIPTOR SPACE · ELITE PER CELL</Label>
+    <Label x={395} y={67} className="diagram-edge-label">DESCRIPTOR 1 →</Label>
+    <Label x={70} y={153} className="diagram-edge-label">DESCRIPTOR 2 ↑</Label>
+    {[0,1,2,3].map((col)=><g key={`qd-col-${col}`}>{[0,1,2].map((row)=><rect key={`qd-cell-${row}-${col}`} x={234+col*78} y={82+row*43} width="72" height="37" rx="3" className="diagram-matrix-frame"/>)}</g>)}
+    {[{x:258,y:100},{x:362,y:143},{x:492,y:100},{x:520,y:186},{x:285,y:185}].map((dot,i)=><circle key={`qd-elite-${i}`} cx={dot.x} cy={dot.y} r="6" className="diagram-sample-dot"/>)}
+    <Label x={245} y={220} className="diagram-micro">local elite · novelty · competition</Label>
+    <Node x={60} y={235} w={196} h={44} title="VARIATION QUEUE" note="caller supplies operators" className="diagram-node diagram-source"/>
+    <Link d="M256 257 H294 M466 257 H504" className="diagram-link diagram-context"/>
+    <Node x={294} y={235} w={172} h={44} title="OFFSPRING" note="mutation / crossover" className="diagram-node diagram-member"/>
+    <Node x={504} y={235} w={196} h={44} title="FITNESS EVALUATOR" note="external evidence" className="diagram-node diagram-gate"/>
+    <Label x={274} y={293} className="diagram-micro">descriptors and fitness are inputs · the archive preserves diverse candidates</Label>
+  </>;
+  if (variant === "successional") return <>
+    <Label x={284} y={48} className="diagram-micro">POPULATION PHASES ADVANCE ONLY WHEN THEIR GATES PASS</Label>
+    <Node x={45} y={126} w={134} title="PIONEER" note="colonize niche" className="diagram-node diagram-member"/>
+    <Link d="M179 150 H207"/>
+    <Node x={207} y={120} w={116} h={60} title="EVIDENCE GATE" note="proof + yield" className="diagram-node diagram-gate"/>
+    <Link d="M323 150 H350"/>
+    <Node x={350} y={126} w={134} title="SPECIALIST" note="exploit validated niche" className="diagram-node diagram-source"/>
+    <Link d="M484 150 H511"/>
+    <Node x={511} y={120} w={116} h={60} title="STABILITY GATE" note="measure supplied" className="diagram-node diagram-gate"/>
+    <Link d="M627 150 H652"/>
+    <Node x={652} y={126} w={96} title="STABILIZER" note="late phase" className="diagram-node diagram-member"/>
+    <Label x={258} y={225} className="diagram-micro">stability evidence missing? transition stays blocked</Label>
+    <Label x={282} y={274} className="diagram-micro">each advance_variant call records one bounded phase change</Label>
+  </>;
+  if (variant === "resilience") return <>
+    <Label x={286} y={44} className="diagram-micro">REDUNDANCY · KEYSTONE IMPACT · FUNDED RECOVERY</Label>
+    <ellipse cx="380" cy="145" rx="300" ry="86" className="diagram-session-boundary"/>
+    <Node x={49} y={108} w={156} title="NICHE A" note="critical function" className="diagram-node diagram-member"/>
+    <Node x={302} y={108} w={156} title="KEYSTONE NICHE" note="impact if removed" className="diagram-node diagram-gate"/>
+    <Node x={555} y={108} w={156} title="BACKUP NICHE" note="functional redundancy" className="diagram-node diagram-source"/>
+    <Link d="M205 132 H302 M458 132 H555" className="diagram-link diagram-corridor" markerEnd={false}/>
+    <Node x={57} y={209} w={178} h={42} title="CONFIRMED DISTURBANCE" note="evidence required" className="diagram-node diagram-failed-route"/>
+    <Node x={291} y={209} w={178} h={42} title="RECOVERY RESERVE" note="fund refuge / restore" className="diagram-node diagram-invariant"/>
+    <Node x={525} y={209} w={178} h={42} title="LOCAL RECOVERY" note="explicit operation" className="diagram-node diagram-gate"/>
+    <Link d="M235 230 H291 M469 230 H525" className="diagram-link diagram-context"/>
+    <Label x={271} y={281} className="diagram-micro">deletion needs confirmed evidence · recovery reserve is explicit, not a background loop</Label>
+  </>;
+  if (variant === "persistent") return <>
+    <rect x="38" y="57" width="684" height="195" rx="9" className="diagram-session-boundary"/>
+    <Label x={61} y={78} className="diagram-micro">PERSISTENCE KEY · RESUME THE SAME ECOLOGICAL SESSION</Label>
+    <Node x={57} y={110} w={155} title="MISSION 01" note="niches + populations" className="diagram-node diagram-member"/>
+    <Node x={303} y={110} w={155} title="BIOFILM / MEMORY" note="season + evidence" className="diagram-node diagram-gate"/>
+    <Node x={548} y={110} w={155} title="MISSION 02" note="resumed state" className="diagram-node diagram-source"/>
+    <Link d="M212 134 H303 M458 134 H548" className="diagram-link diagram-trace-network"/>
+    <Node x={274} y={193} w={212} h={48} title="RETENTION / DECAY" note="configured session policy" className="diagram-node diagram-advisory-node"/>
+    <Link d="M380 158 V193" className="diagram-link diagram-context"/>
+    <Label x={272} y={281} className="diagram-micro">persisted history survives between calls · no autonomous seasonal daemon</Label>
+  </>;
+  if (variant === "open_ended") return <>
+    <Label x={281} y={43} className="diagram-micro">BOUNDED CHILD ENVIRONMENTS · VERIFY BEFORE OPENING A NICHE</Label>
+    <Node x={34} y={120} w={150} title="CHILD WORLD" note="bounded generation" className="diagram-node diagram-source"/>
+    <Link d="M184 144 H218"/>
+    <Node x={218} y={120} w={150} title="NOVELTY ARCHIVE" note="candidate environment" className="diagram-node diagram-member"/>
+    <Link d="M368 144 H402"/>
+    <Node x={402} y={114} w={160} h={60} title="VERIFIER" note="utility + cost + proof" className="diagram-node diagram-gate"/>
+    <Link d="M562 144 H596"/>
+    <Node x={596} y={120} w={150} title="NEW NICHE" note="opened on evidence" className="diagram-node diagram-member"/>
+    <Link d="M480 174 V222 H270" className="diagram-link diagram-reject-path"/>
+    <Node x={117} y={222} w={153} h={42} title="NO EVIDENCE" note="do not open niche" className="diagram-node diagram-advisory-node"/>
+    <Node x={498} y={222} w={184} h={42} title="STERILE-CYCLE PAUSE" note="after five cycles" className="diagram-node diagram-failed-route"/>
+    <Link d="M270 243 H498" className="diagram-link diagram-reject-path"/>
+    <Label x={268} y={286} className="diagram-micro">the verifier supplies evidence · repeated sterile search pauses</Label>
+  </>;
+  if (variant === "adversarial") return <>
+    <Label x={284} y={44} className="diagram-micro">ABSTRACT CHALLENGE / DEFENSE · NO REAL ATTACK EXECUTION</Label>
+    <rect x="46" y="70" width="274" height="150" rx="9" className="diagram-trust-boundary"/><rect x="440" y="70" width="274" height="150" rx="9" className="diagram-local-boundary"/>
+    <Label x={70} y={91} className="diagram-edge-label">CHALLENGE POPULATION</Label><Label x={464} y={91} className="diagram-edge-label">DEFENSE POPULATION</Label>
+    <Node x={83} y={116} w={196} title="ABSTRACT SCENARIO" note="bounded challenge" className="diagram-node diagram-adversary"/>
+    <Node x={482} y={116} w={196} title="MITIGATION" note="evidence + response" className="diagram-node diagram-defender"/>
+    <Link d="M279 140 H342 M418 140 H482" className="diagram-link diagram-attack"/>
+    <Node x={342} y={115} w={76} h={54} title="GATE" note="reject exec" className="diagram-node diagram-gate"/>
+    <Node x={276} y={239} w={208} h={43} title="COUNTEREXAMPLE ARCHIVE" note="references only" className="diagram-node diagram-source"/>
+    <Link d="M180 164 V199 H276 M580 164 V199 H484" className="diagram-link diagram-context"/>
+    <Label x={279} y={288} className="diagram-micro">scenario-level coevolution only · payloads and live exploits are excluded</Label>
+  </>;
+  if (variant === "knowledge") return <>
+    <Label x={291} y={44} className="diagram-micro">SOURCE COLLECTIONS ARE NICHES · PROVENANCE STAYS ATTACHED</Label>
+    <ellipse cx="380" cy="161" rx="345" ry="90" className="diagram-explore-boundary"/>
+    <Node x={57} y={103} w={154} title="SOURCE A" note="freshness + credibility" className="diagram-node diagram-source"/>
+    <Node x={303} y={78} w={154} title="SOURCE B" note="duplication check" className="diagram-node diagram-member"/>
+    <Node x={549} y={103} w={154} title="SOURCE C" note="contradiction scan" className="diagram-node diagram-member"/>
+    <Link d="M211 127 L303 102 M457 102 L549 127" className="diagram-link diagram-evidence-link"/>
+    <Node x={279} y={199} w={202} h={46} title="THEME NICHE" note="cross-pollinate with citations" className="diagram-node diagram-gate"/>
+    <Link d="M134 151 V174 H279 M380 126 V199 M626 151 V174 H481" className="diagram-link diagram-trace-network"/>
+    <Label x={274} y={278} className="diagram-micro">source discovery and verification remain external to the Biome cycle</Label>
+  </>;
+  if (variant === "compute") return <>
+    <Label x={299} y={44} className="diagram-micro">FEASIBILITY → COST / LATENCY / ENERGY RECOMMENDATION</Label>
+    <Node x={38} y={112} w={160} title="WORKLOAD" note="memory + parallelism" className="diagram-node diagram-source"/>
+    <Link d="M198 136 H235"/>
+    <Node x={235} y={104} w={178} h={64} title="RESOURCE PROFILE" note="CPU · GPU · RAM · quota" className="diagram-node diagram-invariant"/>
+    <Link d="M413 136 H449"/>
+    <Node x={449} y={104} w={160} h={64} title="FEASIBLE OPTIONS" note="locality + migration cost" className="diagram-node diagram-member"/>
+    <Link d="M609 136 H640"/>
+    <Node x={640} y={112} w={108} title="RANK" note="recommend" className="diagram-node diagram-gate"/>
+    <Label x={280} y={216} className="diagram-edge-label">candidate providers: estimated price · latency · energy</Label>
+    <Node x={263} y={238} w={234} h={43} title="RECOMMENDATION ONLY" note="does not move worker or call provider" className="diagram-node diagram-advisory-node"/>
+    <Label x={278} y={288} className="diagram-micro">placement and provider execution require a separate caller</Label>
+  </>;
+  if (variant === "multi_scale") return <>
+    <Label x={303} y={43} className="diagram-micro">AGGREGATE UP · PROPAGATE CONSTRAINTS DOWN</Label>
+    {[{x:48,t:"INDIVIDUALS",n:"local signals"},{x:224,t:"POPULATIONS",n:"fitness + diversity"},{x:400,t:"COMMUNITIES",n:"relationships"},{x:576,t:"ECOSYSTEM",n:"global summary"}].map((item,i)=><g key={item.t}><Node x={item.x} y={90} w={136} title={item.t} note={item.n} className={i===3?"diagram-node diagram-gate":"diagram-node diagram-member"}/>{i<3&&<Link d={`M${item.x+136} 114 H${item.x+176}`} className="diagram-link diagram-context"/>}</g>)}
+    <Link d="M644 139 V218 H468 V139 M468 218 H292 V139 M292 218 H116 V139" className="diagram-link diagram-hierarchy-link"/>
+    {[{x:83,t:"i₁"},{x:118,t:"i₂"},{x:259,t:"P₁"},{x:294,t:"P₂"},{x:435,t:"C₁"},{x:470,t:"C₂"},{x:611,t:"Σ"},{x:646,t:"↧"}].map((item,i)=><g key={`${item.t}-${i}`}><circle cx={item.x} cy="173" r="11" className="diagram-sample-dot"/><Label x={item.x-3} y={176} className="diagram-edge-label">{item.t}</Label></g>)}
+    <Label x={276} y={247} className="diagram-micro">apply only authorized policies at each resolution</Label>
+    <Label x={284} y={276} className="diagram-micro">summaries flow upward · constraints flow down · no nested topology generation</Label>
+  </>;
   return <>
-    <Node x={293} y={15} w={174} title="MISSION RESOURCES" note={variant === "compute" ? "CPU · GPU · quota" : "budget · evidence · signals"} className="diagram-node diagram-source"/>
-    <Link d="M380 63 V89 H150 V111 M380 89 V111 M380 89 H610 V111" className="diagram-link diagram-resource-flow"/>
-    {[{x:68,t:variant === "exploration" ? "UNKNOWN PATCH" : "NICHE A",n:"observe / forage"},{x:310,t:variant === "quality_diversity" ? "NICHE B · ELITE" : "NICHE B",n:"specialist population"},{x:550,t:variant === "adversarial" ? "CHALLENGE NICHE" : "NICHE C",n:"verify / recover"}].map((item,i)=><g key={item.t}><ellipse cx={item.x + 80} cy="171" rx="82" ry="54" className={`diagram-niche niche-${i+1}`}/><Node x={item.x} y={139} w={160} title={item.t} note={item.n} className="diagram-node diagram-member"/><rect x={item.x + 17} y="204" width={[85,54,104][i]} height="6" rx="3" className="diagram-budget-fill"/></g>)}
-    {scales && <g><Link d="M150 220 V253 H380 M390 220 V253 M610 220 V253 H380" className="diagram-link"/><Node x={292} y={253} w={176} title="ECOSYSTEM SUMMARY" note="constraints propagate down" className="diagram-node diagram-gate"/></g>}
-    {!scales && <Label x={274} y={271} className="diagram-micro">{variant === "resilience" ? "reserve → refuge → recolonization" : variant === "successional" ? "pioneer → evidence gate → specialist → stabilizer" : "allocate within budget · verify yield"}</Label>}
+    <Node x={293} y={20} w={174} title="MISSION ENVIRONMENT" note="resources · signals · evidence" className="diagram-node diagram-source"/>
+    <Link d="M380 68 V95 H150 V118 M380 95 V118 M380 95 H610 V118" className="diagram-link diagram-resource-flow"/>
+    {[{x:68,t:"NICHE A",n:"specialist work"},{x:310,t:"NICHE B",n:"local population"},{x:550,t:"NICHE C",n:"verification"}].map((item,i)=><g key={item.t}><ellipse cx={item.x+80} cy="179" rx="82" ry="54" className={`diagram-niche niche-${i+1}`}/><Node x={item.x} y={147} w={160} title={item.t} note={item.n} className="diagram-node diagram-member"/></g>)}
+    <Node x={288} y={243} w={184} h={42} title="BOUNDED VARIANT CYCLE" note="observe → constrain → verify" className="diagram-node diagram-gate"/>
+    <Label x={274} y={296} className="diagram-micro">the caller advances each session cycle · no autonomous ecology loop</Label>
   </>;
 }
 

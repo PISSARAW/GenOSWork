@@ -144,6 +144,7 @@
 .topology-diagram .diagram-world.is-active .diagram-world-artifact{stroke:#9285d2}
 .topology-diagram .diagram-budget{fill:#696575}
 .topology-diagram .diagram-budget-fill{fill:#b3a8ff}
+.topology-diagram .diagram-budget-track{fill:#36343e;stroke:#696575;stroke-width:1}
 .topology-diagram .diagram-advisory{stroke-dasharray:4 4;stroke:#c3ad72}
 .topology-diagram .diagram-advisory-node rect{fill:#413d33;stroke:#9b8354}
 .topology-diagram .diagram-community-boundary{fill:#34343b;stroke:#668c78;stroke-width:1.3;stroke-dasharray:4 4}
