@@ -20,7 +20,7 @@ export default function RuntimePage() {
         <Eyebrow>THE RUNTIME · A WORKING MODEL</Eyebrow>
         <h1>An execution history<br />you can <em>return to.</em></h1>
         <p>GenOS is an open-source runtime for supervised multi-agent work. Its central promise is practical: preserve enough state and evidence to inspect what happened, compare alternatives and recover without pretending every successful transport produced a correct decision.</p>
-        <div className="hero-actions"><a className="button button-dark" href="https://github.com/PISSARAW/GenOS" target="_blank" rel="noreferrer">Read the source <span>↗</span></a><Link className="button button-quiet" href="/evidence">See implementation status <span>→</span></Link></div>
+        <div className="hero-actions"><Link className="button button-dark" href="/runtime/supervision">Explore supervision <span>→</span></Link><a className="button button-quiet" href="https://github.com/PISSARAW/GenOS" target="_blank" rel="noreferrer">Read the source <span>↗</span></a></div>
       </section>
       <section className="section-wrap section-space runtime-lifecycle">
         <div className="eyebrow">THE EXECUTION LIFECYCLE</div>
