@@ -147,48 +147,395 @@ function ATeam({ variant }: Props) {
 }
 
 function Biocenose({ variant }: Props) {
-  const center = variant.includes("jury") || variant.includes("community") ? "EVIDENCE AGGREGATE" : variant.includes("delphi") ? "ANONYMOUS MEDIAN" : variant.includes("forecast") ? "CALIBRATED FORECAST" : "COMMUNITY DECISION";
+  if (variant === "delphi_community") return <>
+    <Label x={72} y={47} className="diagram-micro">PRIVATE · ANONYMOUS · CONTROLLED FEEDBACK</Label>
+    {[{x:70,t:"ROUND 0",n:"private estimates"},{x:300,t:"ROUND 1",n:"anonymous aggregate"},{x:530,t:"ROUND 2+",n:"reconsider / stability"}].map((item,i)=><g key={item.t}><Node x={item.x} y={88} w={160} title={item.t} note={item.n} className="diagram-node diagram-member"/><g className="diagram-anon-cloud"><circle cx={item.x+30} cy="168" r="10"/><circle cx={item.x+55} cy="168" r="10"/><circle cx={item.x+80} cy="168" r="10"/><circle cx={item.x+105} cy="168" r="10"/><circle cx={item.x+130} cy="168" r="10"/></g>{i<2&&<Link d={`M${item.x+160} 111 H${item.x+230}`} className="diagram-link diagram-round-link"/>}</g>)}
+    <Node x={275} y={215} w={210} h={43} title="SPREAD / IQR" note="convergence is not required" className="diagram-node diagram-gate"/>
+    <Label x={254} y={285} className="diagram-micro">stop: spread threshold · max rounds · budget exhausted</Label>
+  </>;
+  if (variant === "adversarial_assembly") return <>
+    <Node x={303} y={20} w={154} title="SEALED CLAIMS" note="reveal after commitment" className="diagram-node diagram-source"/>
+    <Node x={70} y={108} w={178} title="RED REVIEWERS" note="attack · counterexample" className="diagram-node diagram-adversary"/>
+    <Node x={512} y={108} w={178} title="BLUE DEFENDERS" note="respond with evidence" className="diagram-node diagram-defender"/>
+    <Node x={303} y={104} w={154} h={46} title="CLAIM / ARGUMENT" note="shared review target" className="diagram-node diagram-source"/>
+    <Link d="M380 62 V104" className="diagram-link diagram-community-link"/><Link d="M248 132 H303" className="diagram-link diagram-attack"/><Link d="M457 132 H512" className="diagram-link diagram-defend"/>
+    <Node x={292} y={194} w={176} title="NEUTRAL VERIFIER" note="check evidence / refutation" className="diagram-node diagram-gate"/>
+    <Link d="M159 156 L330 194" className="diagram-link diagram-attack"/><Link d="M601 156 L430 194" className="diagram-link diagram-defend"/>
+    <Label x={251} y={276} className="diagram-micro">persuasion is not authority · verified counterexample can block</Label>
+  </>;
+  if (variant === "forecasting_crowd") return <>
+    <Node x={300} y={18} w={160} title="QUESTION / EVENT" note="outcome unresolved" className="diagram-node diagram-source"/>
+    {[0,1,2,3,4].map(i=><g key={i}><circle cx={108+i*136} cy="115" r="20" className="diagram-forecaster"/><Label x={92+i*136} y={119} className="diagram-node-title">F{i+1}</Label><Label x={87+i*136} y={154} className="diagram-micro">p={([".2", ".4", ".5", ".7", ".8"])[i]}</Label><Link d={`M${108+i*136} 135 V184 H380`} className="diagram-link diagram-forecast-link" markerEnd={false}/></g>)}
+    <Node x={280} y={185} w={200} title="WEIGHTED AGGREGATE" note="calibration + independence" className="diagram-node diagram-gate"/>
+    <Link d="M380 233 V255"/><Node x={300} y={255} w={160} h={38} title="RESOLVED OUTCOME" note="external ground truth" className="diagram-node diagram-source"/>
+    <Label x={513} y={277} className="diagram-micro">Brier score after resolution</Label>
+  </>;
+  if (variant === "argumentation_community") return <>
+    <Label x={276} y={43} className="diagram-micro">CLAIMS + SOURCED RELATIONS · PERSISTENT GRAPH</Label>
+    <Link d="M207 113 L332 82 M419 82 L540 119 M190 146 L250 221 M390 100 L354 214 M495 146 L412 221" className="diagram-link diagram-argument-edge" markerEnd={true}/>
+    <Node x={90} y={96} w={120} title="CLAIM A" note="source ref" className="diagram-node diagram-member"/>
+    <Node x={330} y={57} w={120} title="CLAIM B" note="source ref" className="diagram-node diagram-member"/>
+    <Node x={540} y={96} w={120} title="CLAIM C" note="counterclaim" className="diagram-node diagram-member"/>
+    <Node x={190} y={214} w={124} title="CLAIM D" note="qualifies A" className="diagram-node diagram-member"/>
+    <Node x={412} y={214} w={124} title="CLAIM E" note="refutes C" className="diagram-node diagram-member"/>
+    <Label x={260} y={108} className="diagram-edge-label">SUPPORT</Label><Label x={471} y={108} className="diagram-edge-label">ATTACK</Label><Label x={436} y={191} className="diagram-edge-label">REFUTE</Label>
+    <Label x={277} y={286} className="diagram-micro">graph records relations · it does not prove logical validity</Label>
+  </>;
+  if (variant === "polycentric_council") return <>
+    {[{x:80,t:"LOCAL COUNCIL A",n:"local views + dissent"},{x:300,t:"LOCAL COUNCIL B",n:"local views + dissent"},{x:520,t:"LOCAL COUNCIL C",n:"local views + dissent"}].map((item,i)=><g key={item.t}><circle cx={item.x+80} cy="137" r="72" className="diagram-council-boundary"/><Node x={item.x} y={111} w={160} title={item.t} note={item.n} className="diagram-node diagram-member"/><Link d={`M${item.x+80} 183 V221 H380 V246`} className="diagram-link diagram-council-link"/></g>)}
+    <Node x={282} y={246} w={196} h={42} title="CENTRAL COUNCIL" note="aggregate without erasing dissent" className="diagram-node diagram-gate"/>
+  </>;
+  if (variant === "byzantine_resilient_community") return <>
+    <rect x="255" y="59" width="250" height="154" rx="8" className="diagram-trust-boundary"/><Label x={303} y={52} className="diagram-micro">TRUST BOUNDARY · QUARANTINE IS AUDITED</Label>
+    <Node x={38} y={100} w={152} title="MEMBER SIGNALS" note="provenance required" className="diagram-node diagram-adversary"/>
+    <Link d="M190 124 H255" className="diagram-link diagram-attack"/><Node x={278} y={88} w={204} title="FILTER / ROUTE" note="exclude quarantined ids" className="diagram-node diagram-source"/>
+    <Link d="M380 136 V163"/><Node x={280} y={163} w={200} title="EVIDENCE VERIFIER" note="no receipt → unverified" className="diagram-node diagram-gate"/>
+    <Link d="M482 124 H553" className="diagram-link diagram-council-link"/><Node x={553} y={100} w={168} title="ACTIVE COMMUNITY" note="review verified evidence" className="diagram-node diagram-member"/>
+    <Node x={83} y={224} w={164} h={40} title="QUARANTINE" note="reversible · auditable" className="diagram-node diagram-advisory-node"/>
+    <Label x={286} y={280} className="diagram-micro">resilience tools exist · no Byzantine fault-tolerance guarantee</Label>
+  </>;
+  if (variant === "minority_preserving_jury") return <>
+    <Node x={303} y={18} w={154} title="CRITICAL CLAIM" note="evidence + risk" className="diagram-node diagram-source"/>
+    {[0,1,2].map(i=><g key={i}><Node x={78+i*230} y={95} w={150} title={`JUROR ${i+1}`} note={i===2?"minority view":"independent ballot"} className="diagram-node diagram-member"/><Link d={`M${153+i*230} 143 L${380} 178`} className="diagram-link diagram-community-link"/></g>)}
+    <Node x={285} y={174} w={190} title="COMMUNITY JUDGMENT" note="consensus · uncertainty" className="diagram-node diagram-gate"/>
+    <Link d="M360 222 V250 H188" className="diagram-link diagram-dissent-link"/><Node x={70} y={250} w={178} h={39} title="DISSENT LEDGER" note="append-only" className="diagram-node diagram-advisory-node"/>
+    <Link d="M400 222 V250 H568" className="diagram-link diagram-attack"/><Node x={510} y={250} w={190} h={39} title="VERIFIED MINORITY VETO" note="can block promotion" className="diagram-node diagram-adversary"/>
+  </>;
+  if (variant === "representative_community") return <>
+    <Node x={40} y={123} w={170} title="POPULATION" note="perspectives / domains" className="diagram-node diagram-source"/>
+    <Link d="M210 147 H280"/><Node x={280} y={97} w={200} h={100} title="PANEL SAMPLE" note="representative design · partial" className="diagram-node diagram-gate"/>
+    {[0,1,2].map(i=><g key={i}><circle cx={320+i*62} cy="169" r="7" className="diagram-sample-dot"/></g>)}
+    <Link d="M480 147 H550"/><Node x={550} y={123} w={170} title="DISTRIBUTION" note="weights + minorities" className="diagram-node diagram-member"/>
+    <Label x={286} y={244} className="diagram-micro">do not turn panel summary into a unanimous vote</Label>
+    <Label x={305} y={267} className="diagram-micro">runtime does not yet implement representative sampling</Label>
+  </>;
+  if (variant === "persistent_community") return <>
+    <Node x={54} y={93} w={170} title="PRIOR SESSIONS" note="history · partial" className="diagram-node diagram-source"/>
+    <Link d="M224 117 H285"/><Node x={285} y={86} w={190} h={74} title="CURRENT ROUND" note="claims · review · judgment" className="diagram-node diagram-member"/>
+    <Link d="M475 117 H536"/><Node x={536} y={93} w={170} title="APPEND-ONLY RECORD" note="belief revisions" className="diagram-node diagram-gate"/>
+    <Link d="M620 141 V205 H140 V141" className="diagram-link diagram-round-link"/>
+    <Node x={260} y={220} w={240} h={46} title="DISSENT + CALIBRATION HISTORY" note="inter-mission reputation partial" className="diagram-node diagram-advisory-node"/>
+    <Label x={285} y={291} className="diagram-micro">session history persists · full reputation lifecycle is not implemented</Label>
+  </>;
+  if (variant === "human_ai_deliberation") return <>
+    <Label x={279} y={50} className="diagram-micro">ATTRIBUTED COMMITMENTS · HUMAN JUDGMENT REQUIRED</Label>
+    <Node x={83} y={107} w={170} title="AI REVIEWERS" note="evidence + alternatives" className="diagram-node diagram-member"/>
+    <Node x={507} y={107} w={170} title="AI REVIEWERS" note="dissent + uncertainty" className="diagram-node diagram-member"/>
+    <Node x={290} y={181} w={180} title="JOINT REVIEW" note="keep views attributed" className="diagram-node diagram-source"/>
+    <Link d="M253 131 L320 181"/><Link d="M507 131 L440 181"/>
+    <Link d="M380 229 V250" className="diagram-link diagram-dissent-link"/><Node x={291} y={250} w={178} h={40} title="HUMAN DECISION" note="normative authority" className="diagram-node diagram-gate"/>
+  </>;
+  if (variant === "hybrid_oracle_community") return <>
+    <Node x={301} y={20} w={158} title="COMMUNITY CLAIMS" note="propose · discuss · cite" className="diagram-node diagram-source"/>
+    <Link d="M340 68 V104 H175 V131 M420 68 V104 H585 V131"/>
+    <Node x={82} y={131} w={186} title="DETERMINISTIC CHECK" note="tests · proof · oracle" className="diagram-node diagram-gate"/>
+    <Node x={492} y={131} w={186} title="COMMUNITY REVIEW" note="context · limitations" className="diagram-node diagram-member"/>
+    <Link d="M175 179 V215 H380 M585 179 V215 H380"/><Node x={286} y={215} w={188} title="EVIDENCE-FIRST RESULT" note="failed check can block" className="diagram-node diagram-gate"/>
+    <Label x={260} y={281} className="diagram-micro">facts remain unverified when no eligible verifier is supplied</Label>
+  </>;
   return <>
-    <circle cx="380" cy="157" r="70" className="diagram-community-boundary"/><Label x={324} y={78} className="diagram-micro">COMMUNITY · ROLES / QUORUM</Label>
-    {[
-      {x:92,y:102,t:"EXPERT A",n:"claim + evidence"},{x:538,y:102,t:"EXPERT B",n:"review / attack"},
-      {x:92,y:200,t:"EXPERT C",n:"independent view"},{x:538,y:200,t:"EXPERT D",n:"minority / dissent"},
-    ].map(item=><g key={item.t}><Link d={`M${item.x < 300 ? 222 : 538} ${item.y + 22} L${item.x < 300 ? 313 : 447} 157`} className="diagram-link diagram-community-link"/><Node x={item.x} y={item.y} w={130} h={45} title={item.t} note={item.n} className="diagram-node diagram-member"/></g>)}
-    <circle cx="380" cy="157" r="44" className="diagram-aggregate"/><Label x={332} y={153} className="diagram-node-title">{center}</Label><Label x={348} y={171} className="diagram-node-note">explicit ballots</Label>
-    <Node x={280} y={259} w={200} h={36} title={variant.includes("adversarial") ? "COUNTEREXAMPLE CAN VETO" : "PRESERVE DISSENT"} className="diagram-node diagram-gate"/>
+    <Node x={303} y={18} w={154} title="SHARED CLAIM + EVIDENCE" note="independent sealed judgments" className="diagram-node diagram-source"/>
+    {[{x:75,t:"JUDGE A",n:"expert profile"},{x:305,t:"JUDGE B",n:"expert profile"},{x:535,t:"JUDGE C",n:"expert profile"}].map(item=><g key={item.t}><Link d={`M380 66 V91 H${item.x+75} V117`} className="diagram-link diagram-community-link"/><Node x={item.x} y={117} w={150} title={item.t} note={item.n} className="diagram-node diagram-member"/><Label x={item.x+8} y={184} className="diagram-micro">sealed commitment</Label></g>)}
+    <Link d="M150 165 V215 H380 M380 165 V215 M610 165 V215 H380"/><Node x={278} y={215} w={204} h={42} title="REVEAL → EVIDENCE REVIEW" note="after all active commitments" className="diagram-node diagram-gate"/>
+    <Label x={286} y={284} className="diagram-micro">independent verdicts · explicit evidence · no direct confrontation</Label>
   </>;
 }
 
 function Holobionte({ variant }: Props) {
-  const local = variant.includes("local") || variant.includes("edge");
+  if (variant === "organelle") return <>
+    <circle cx="380" cy="156" r="116" className="diagram-host-boundary diagram-core-ring"/><Label x={310} y={31} className="diagram-micro">CORE CAPABILITIES · HOST AUTHORITY</Label>
+    <circle cx="380" cy="156" r="47" className="diagram-host-core"/><Label x={350} y={153} className="diagram-node-title">HOST CORE</Label><Label x={342} y={173} className="diagram-node-note">identity · invariants</Label>
+    {[{x:260,y:73,t:"MEMORY",n:"lineage"},{x:426,y:73,t:"SPECIALIST",n:"core capability"},{x:260,y:193,t:"IMMUNE",n:"validation"},{x:426,y:193,t:"SPECIALIST",n:"core capability"}].map(item=><g key={`${item.t}-${item.x}-${item.y}`}><Link d={`M380 156 L${item.x+56} ${item.y+23}`} className="diagram-link diagram-symbiosis"/><Node x={item.x} y={item.y} w={112} title={item.t} note={item.n} className="diagram-node diagram-symbiont"/></g>)}
+    <Label x={255} y={285} className="diagram-micro">concept: deeply integrated residents · any core replacement needs host approval</Label>
+  </>;
+  if (variant === "adaptive-microbiome") return <>
+    <Node x={28} y={127} w={142} title="CAPABILITY GAP" note="mission need changes" className="diagram-node diagram-source"/>
+    <Link d="M170 151 H208"/><Node x={208} y={98} w={150} title="CANDIDATE" note="contract + evidence" className="diagram-node diagram-symbiont"/>
+    <Link d="M358 122 H395"/><Node x={395} y={98} w={150} title="BOUNDED TRIAL" note="contribution measured" className="diagram-node diagram-member"/>
+    <Link d="M545 122 H582"/><Node x={582} y={98} w={150} title="RESIDENT" note="host-approved" className="diagram-node diagram-gate"/>
+    <Node x={278} y={194} w={204} title="SUCCESSION / REASSIGNMENT" note="plan + evidence · partial" className="diagram-node diagram-advisory-node"/>
+    <Link d="M470 146 V194" className="diagram-link diagram-context"/><Label x={275} y={274} className="diagram-micro">adaptive acquisition and replacement are not automatic in every path</Label>
+  </>;
+  if (variant === "immune-critical") return <>
+    <Node x={303} y={18} w={154} title="SYMBIONT OUTPUT" note="declared threat model" className="diagram-node diagram-source"/>
+    <Link d="M380 60 V86 H175 V111 M380 86 V111 M380 86 H585 V111"/>
+    <Node x={82} y={111} w={186} title="THREAT SCREEN" note="unknown signal → hold" className="diagram-node diagram-adversary"/>
+    <Node x={287} y={111} w={186} title="INDEPENDENT REVIEWER" note="verify claim / evidence" className="diagram-node diagram-gate"/>
+    <Node x={492} y={111} w={186} title="HOST VETO" note="approve · refine · reject" className="diagram-node diagram-gate"/>
+    <Link d="M175 159 V199 H380 M380 159 V199 M585 159 V199 H380" className="diagram-link diagram-immune-link"/><Node x={286} y={199} w={188} title="CONTROLLED RESULT" note="human escalation if critical" className="diagram-node diagram-gate"/>
+    <Label x={280} y={280} className="diagram-micro">immune functions are primitives · no universal immune loop is guaranteed</Label>
+  </>;
+  if (variant === "local-first") return <>
+    <rect x="44" y="42" width="506" height="218" rx="12" className="diagram-local-boundary"/><Label x={67} y={65} className="diagram-micro">LOCAL TRUST / DATA BOUNDARY</Label>
+    <circle cx="288" cy="157" r="44" className="diagram-host-core"/><Label x={258} y={154} className="diagram-node-title">LOCAL HOST</Label><Label x={258} y={174} className="diagram-node-note">authority + budget</Label>
+    <Node x={82} y={118} w={135} title="LOCAL SPECIALIST" note="local executor" className="diagram-node diagram-symbiont"/><Node x={361} y={118} w={150} title="LOCAL MEMORY" note="provenance kept local" className="diagram-node diagram-symbiont"/>
+    <Link d="M217 142 L246 157 M332 157 L361 142" className="diagram-link diagram-symbiosis"/>
+    <Node x={588} y={120} w={152} title="REMOTE EGRESS" note="restricted by policy" className="diagram-node diagram-advisory-node"/><Link d="M550 157 H588" className="diagram-link diagram-attack"/>
+    <Label x={83} y={239} className="diagram-micro">placement depends on an available local executor · not guaranteed</Label>
+  </>;
+  if (variant === "regenerative") return <>
+    <Node x={36} y={125} w={150} title="HEALTH SIGNAL" note="resident lost / degraded" className="diagram-node diagram-source"/>
+    <Link d="M186 149 H227"/><Node x={227} y={125} w={150} title="RECOVERY RESERVE" note="budget + fallback" className="diagram-node diagram-member"/>
+    <Link d="M377 149 H418"/><Node x={418} y={125} w={150} title="RESTORE PLAN" note="candidate succession" className="diagram-node diagram-advisory-node"/>
+    <Link d="M568 149 H605"/><Node x={605} y={125} w={132} title="HOST GATE" note="evidence required" className="diagram-node diagram-gate"/>
+    <Label x={259} y={225} className="diagram-micro">verify restoration evidence and compatibility before a transition</Label>
+    <Label x={312} y={253} className="diagram-micro">recovery is proposed · no automatic repair</Label>
+  </>;
+  if (variant === "cloud-core/edge-symbionts") return <>
+    <rect x="38" y="46" width="286" height="204" rx="10" className="diagram-cloud-boundary"/><Label x={73} y={68} className="diagram-micro">CLOUD CONTROL PLANE</Label>
+    <circle cx="180" cy="146" r="48" className="diagram-host-core"/><Label x={150} y={143} className="diagram-node-title">CLOUD HOST</Label><Label x={150} y={163} className="diagram-node-note">policy · coordination</Label>
+    <rect x="408" y="46" width="310" height="204" rx="10" className="diagram-edge-boundary"/><Label x={505} y={68} className="diagram-micro">EDGE EXECUTION ZONE</Label>
+    <Node x={445} y={100} w={112} title="EDGE A" note="near data" className="diagram-node diagram-symbiont"/><Node x={578} y={100} w={112} title="EDGE B" note="local capability" className="diagram-node diagram-symbiont"/>
+    <Link d="M228 146 H335 V123 H445 M335 123 H578" className="diagram-link diagram-context"/><Node x={449} y={180} w={228} title="LEASE + PROVENANCE" note="adapter required for execution" className="diagram-node diagram-gate"/>
+    <Label x={197} y={282} className="diagram-micro">placement is a policy concept · edge execution requires a supplied adapter</Label>
+  </>;
+  if (variant === "edge-core/cloud-symbionts") return <>
+    <rect x="38" y="46" width="286" height="204" rx="10" className="diagram-edge-boundary"/><Label x={86} y={68} className="diagram-micro">LOCAL / EDGE TRUST ZONE</Label>
+    <circle cx="180" cy="146" r="48" className="diagram-host-core"/><Label x={150} y={143} className="diagram-node-title">EDGE HOST</Label><Label x={150} y={163} className="diagram-node-note">local authority</Label>
+    <rect x="408" y="46" width="310" height="204" rx="10" className="diagram-cloud-boundary"/><Label x={510} y={68} className="diagram-micro">CLOUD CAPABILITIES</Label>
+    <Node x={448} y={112} w={112} title="CLOUD A" note="proxy capability" className="diagram-node diagram-symbiont"/><Node x={578} y={112} w={112} title="CLOUD B" note="proxy capability" className="diagram-node diagram-symbiont"/>
+    <Node x={442} y={184} w={236} title="REDACT · MINIMIZE · PROXY" note="no peripheral inheritance" className="diagram-node diagram-gate"/><Link d="M228 146 H352 V139 H448 M352 139 H578" className="diagram-link diagram-context"/>
+    <Label x={265} y={282} className="diagram-micro">cloud access is bounded by the edge host's data and authority policy</Label>
+  </>;
+  if (variant === "memory-rich") return <>
+    <Node x={303} y={18} w={154} title="HOST MISSION" note="memory contract" className="diagram-node diagram-source"/>
+    <circle cx="380" cy="153" r="48" className="diagram-host-core"/><Label x={350} y={150} className="diagram-node-title">HOST</Label><Label x={348} y={170} className="diagram-node-note">authority</Label>
+    {[{x:62,t:"SEMANTIC",n:"facts + sources"},{x:237,t:"EPISODIC",n:"events + lineage"},{x:412,t:"PROCEDURAL",n:"bounded know-how"},{x:587,t:"CONFLICTS",n:"retain provenance"}].map(item=><g key={item.t}><Link d={`M380 201 V228 H${item.x+55} V244`} className="diagram-link diagram-symbiosis"/><Node x={item.x} y={244} w={110} h={42} title={item.t} note={item.n} className="diagram-node diagram-symbiont"/></g>)}
+    <Label x={274} y={220} className="diagram-micro">memory symbiont · provenance before reuse</Label>
+  </>;
+  if (variant === "competitive-partner") return <>
+    <Node x={300} y={18} w={160} title="CAPABILITY NEED" note="shared task contract" className="diagram-node diagram-source"/>
+    <Link d="M380 66 V94 H190 V119 M380 94 H570 V119"/>
+    <Node x={94} y={119} w={192} title="SYMBIONT A · TRIAL" note="equal budget · isolated" className="diagram-node diagram-symbiont"/>
+    <Node x={474} y={119} w={192} title="SYMBIONT B · TRIAL" note="equal budget · isolated" className="diagram-node diagram-symbiont"/>
+    <Link d="M190 167 V207 H380 M570 167 V207 H380"/><Node x={280} y={207} w={200} title="COMPARE VERIFIED RESULTS" note="quality · cost · risk" className="diagram-node diagram-gate"/>
+    <Label x={254} y={282} className="diagram-micro">lasting assignment requires host approval · variant remains partial</Label>
+  </>;
+  if (variant === "procedural") return <>
+    <Node x={28} y={130} w={142} title="CAPABILITY GAP" note="declared by mission" className="diagram-node diagram-source"/>
+    <Link d="M170 154 H203"/><Node x={203} y={130} w={145} title="PROCEDURE PLAN" note="ordered steps" className="diagram-node diagram-member"/>
+    <Link d="M348 154 H381"/><Node x={381} y={130} w={145} title="BOUNDED STEP 1…N" note="contracted executor" className="diagram-node diagram-symbiont"/>
+    <Link d="M526 154 H559"/><Node x={559} y={130} w={170} title="MISSION STOP" note="condition / budget" className="diagram-node diagram-gate"/>
+    <Label x={275} y={236} className="diagram-micro">recruitment is a proposal · procedure stays within the mission contract</Label>
+  </>;
+  if (variant === "tool") return <>
+    <Node x={48} y={126} w={142} title="HOST REQUEST" note="declared capability" className="diagram-node diagram-source"/>
+    <Link d="M190 150 H235"/><rect x="235" y="86" width="291" height="135" rx="9" className="diagram-sandbox-boundary"/><Label x={288} y={107} className="diagram-micro">TOOL LEASE / SANDBOX BOUNDARY</Label>
+    <Node x={262} y={126} w={112} title="MANIFEST" note="capabilities" className="diagram-node diagram-member"/><Link d="M374 150 H414"/><Node x={414} y={126} w={94} title="TOOL" note="API / CLI" className="diagram-node diagram-symbiont"/>
+    <Link d="M526 150 H573"/><Node x={573} y={126} w={154} title="SCHEMA CHECK" note="stop conditions" className="diagram-node diagram-gate"/>
+    <Label x={251} y={263} className="diagram-micro">external capability runs only through its declared manifest and lease</Label>
+  </>;
+  if (variant === "cloud-core/edge-sync") return <>
+    <rect x="38" y="46" width="286" height="204" rx="10" className="diagram-cloud-boundary"/><Label x={73} y={68} className="diagram-micro">CLOUD HOST / CONTROL</Label>
+    <circle cx="180" cy="146" r="48" className="diagram-host-core"/><Label x={150} y={143} className="diagram-node-title">CLOUD HOST</Label><Label x={150} y={163} className="diagram-node-note">versioned state</Label>
+    <rect x="408" y="46" width="310" height="204" rx="10" className="diagram-edge-boundary"/><Label x={516} y={68} className="diagram-micro">EDGE RESIDENTS</Label>
+    <Node x={437} y={111} w={122} title="EDGE A" note="event queue" className="diagram-node diagram-symbiont"/><Node x={575} y={111} w={122} title="EDGE B" note="event queue" className="diagram-node diagram-symbiont"/>
+    <Link d="M228 137 H361 V123 H437 M361 123 H575" className="diagram-link diagram-async-link"/><Link d="M437 153 H361 V177 H228" className="diagram-link diagram-async-link"/>
+    <Node x={471} y={184} w={202} title="PROVENANCE / FRESHNESS" note="reject stale state" className="diagram-node diagram-gate"/>
+    <Label x={228} y={282} className="diagram-micro">asynchronous sync concept · stale or unattributed events must not merge</Label>
+  </>;
   return <>
-    <circle cx="380" cy="158" r="105" className="diagram-host-boundary"/><Label x={340} y={43} className="diagram-micro">{local ? "LOCAL / EDGE BOUNDARY" : "CAPABILITY CONTRACT BOUNDARY"}</Label>
-    <circle cx="380" cy="158" r="55" className="diagram-host-core"/><Label x={350} y={153} className="diagram-node-title">{variant === "organelle" ? "HOST CORE" : "HOST"}</Label><Label x={344} y={173} className="diagram-node-note">identity · lifecycle</Label>
-    {[
-      {x:242,y:75,t:"SYMBIONT A",n:"capability"},{x:426,y:75,t:"SYMBIONT B",n:"specialist"},
-      {x:238,y:197,t:"SYMBIONT C",n:variant.includes("immune") ? "independent verifier" : "contracted skill"},{x:430,y:197,t:"SYMBIONT D",n:variant.includes("memory") ? "provenance memory" : "bounded resource"},
-    ].map(item=><g key={item.t}><Link d={`M380 158 L${item.x + 58} ${item.y + 23}`} className="diagram-link diagram-symbiosis"/><Node x={item.x} y={item.y} w={116} h={46} title={item.t} note={item.n} className="diagram-node diagram-symbiont"/></g>)}
-    <Node x={275} y={270} w={210} h={34} title={variant.includes("immune") ? "VETO / THREAT CHECK" : "ADMIT · TRIAL · VERIFY"} className="diagram-node diagram-gate"/>
+    <circle cx="380" cy="158" r="105" className="diagram-host-boundary"/><Label x={340} y={43} className="diagram-micro">CAPABILITY CONTRACT BOUNDARY</Label>
+    <circle cx="380" cy="158" r="55" className="diagram-host-core"/><Label x={350} y={153} className="diagram-node-title">HOST</Label><Label x={344} y={173} className="diagram-node-note">identity · lifecycle</Label>
+    {[{x:242,y:75,t:"SPECIALIST",n:"contracted capability"},{x:426,y:75,t:"IMMUNE",n:"declared verifier"},{x:238,y:197,t:"MEMORY",n:"provenance store"},{x:430,y:197,t:"SPECIALIST",n:"bounded resource"}].map(item=><g key={`${item.t}-${item.x}-${item.y}`}><Link d={`M380 158 L${item.x+58} ${item.y+23}`} className="diagram-link diagram-symbiosis"/><Node x={item.x} y={item.y} w={116} h={46} title={item.t} note={item.n} className="diagram-node diagram-symbiont"/></g>)}
+    <Node x={275} y={270} w={210} h={34} title="HOST DECISION · CONTRACT GATE" className="diagram-node diagram-gate"/>
   </>;
 }
 
 function Syncytium({ variant }: Props) {
-  const local = variant.toLowerCase().includes("local");
+  if (variant === "hard") return <>
+    <Node x={70} y={128} w={148} title="PROPOSED WRITE" note="authority + preconditions" className="diagram-node diagram-source"/>
+    <Link d="M218 152 H276"/><Node x={276} y={112} w={190} h={80} title="STRICT INVARIANTS" note="validate affected rules" className="diagram-node diagram-invariant"/>
+    <Link d="M466 152 H522"/><Node x={522} y={100} w={190} title="COORDINATE / REJECT" note="invalid merge cannot pass" className="diagram-node diagram-gate"/>
+    <Link d="M618 148 V218 H380" className="diagram-link diagram-reject-path"/><Label x={251} y={247} className="diagram-micro">coordination required when independent writes cannot preserve the invariant</Label>
+    <Label x={280} y={275} className="diagram-micro">design model · no runtime gate is implemented</Label>
+  </>;
+  if (variant === "soft") return <>
+    {[{x:65,t:"REPLICA A",n:"local state S₀"},{x:303,t:"REPLICA B",n:"local state S₀"},{x:541,t:"REPLICA C",n:"local state S₀"}].map(item=><Node key={item.t} x={item.x} y={92} w={154} title={item.t} note={item.n} className="diagram-node diagram-replica"/>)}
+    <Link d="M142 140 V184 H380 M380 140 V184 M618 140 V184 H380" className="diagram-link diagram-delta"/><Node x={282} y={184} w={196} title="MERGE DELTAS" note="only supported merge types" className="diagram-node diagram-shared-state"/>
+    <Link d="M380 232 V254"/><Node x={285} y={254} w={190} h={38} title="RECONCILE CONFLICTS" note="convergence is conditional" className="diagram-node diagram-gate"/>
+    <Label x={259} y={55} className="diagram-micro">temporary divergence · causal and delivery assumptions matter</Label>
+  </>;
+  if (variant === "code") return <>
+    <Node x={299} y={20} w={162} title="SHARED CODE BASE" note="versioned starting point" className="diagram-node diagram-source"/>
+    <Link d="M380 68 V94 H178 V119 M380 94 H582 V119"/>
+    <Node x={83} y={119} w={190} title="EDIT BRANCH A" note="artifact + patch" className="diagram-node diagram-replica"/><Node x={487} y={119} w={190} title="EDIT BRANCH B" note="artifact + patch" className="diagram-node diagram-replica"/>
+    <Link d="M178 167 V199 H380 M582 167 V199 H380" className="diagram-link diagram-delta"/><Node x={279} y={199} w={202} title="MERGE / REPLAY CHECKS" note="imports · tests · provenance" className="diagram-node diagram-gate"/>
+    <Label x={276} y={277} className="diagram-micro">illustrative shared-code protocol · no concurrent runtime merge</Label>
+  </>;
+  if (variant === "document") return <>
+    <Node x={293} y={18} w={174} title="SHARED DOCUMENT" note="versioned text state" className="diagram-node diagram-source"/>
+    {[{x:58,t:"AUTHOR A",n:"paragraph delta"},{x:303,t:"AUTHOR B",n:"section delta"},{x:548,t:"AUTHOR C",n:"comment delta"}].map(item=><g key={item.t}><Node x={item.x} y={114} w={154} title={item.t} note={item.n} className="diagram-node diagram-replica"/><Link d={`M${item.x+77} 162 V202 H380`} className="diagram-link diagram-document-delta"/></g>)}
+    <Node x={279} y={202} w={202} title="RECONCILE CAUSAL ORDER" note="text merge ≠ semantic agreement" className="diagram-node diagram-gate"/>
+    <Label x={290} y={277} className="diagram-micro">a document CRDT needs its own delivery and merge assumptions</Label>
+  </>;
+  if (variant === "graph") return <>
+    <Label x={289} y={38} className="diagram-micro">NODES + EDGES · SHARED DEPENDENCY GRAPH</Label>
+    <Link d="M204 108 H320 M440 108 H555 M144 132 V188 H260 V218 M615 132 V188 H500 V218 M320 242 H440" className="diagram-link diagram-graph-edge" markerEnd={true}/>
+    <Node x={84} y={84} w={120} title="NODE A" note="dependency" className="diagram-node diagram-replica"/><Node x={320} y={84} w={120} title="NODE B" note="shared parent" className="diagram-node diagram-replica"/><Node x={555} y={84} w={120} title="NODE C" note="dependency" className="diagram-node diagram-replica"/>
+    <Node x={200} y={218} w={120} title="EDGE Δ" note="add / update" className="diagram-node diagram-source"/><Node x={440} y={218} w={120} title="VALIDATE" note="cycles · dangling" className="diagram-node diagram-gate"/>
+    <Label x={281} y={279} className="diagram-micro">projection rebuild or edge removal · graph merge remains conceptual</Label>
+  </>;
+  if (variant === "transactional") return <>
+    <Node x={62} y={130} w={146} title="PRECONDITIONS" note="version · resources" className="diagram-node diagram-source"/>
+    <Link d="M208 154 H245"/><rect x="245" y="79" width="278" height="150" rx="8" className="diagram-transaction-boundary"/><Label x={323} y={99} className="diagram-micro">ATOMIC TRANSACTION</Label>
+    <Node x={266} y={119} w={108} title="WRITE A" note="field delta" className="diagram-node diagram-replica"/><Link d="M374 143 H400"/><Node x={400} y={119} w={108} title="WRITE B" note="field delta" className="diagram-node diagram-replica"/>
+    <Node x={568} y={130} w={154} title="COMMIT / ROLLBACK" note="on failure · all-or-none" className="diagram-node diagram-gate"/>
+    <Link d="M523 154 H568" className="diagram-link diagram-transaction-link"/>
+    <Label x={260} y={269} className="diagram-micro">transaction isolation and rollback are design requirements, not current guarantees</Label>
+  </>;
+  if (variant === "epistemic") return <>
+    <Node x={296} y={18} w={168} title="VERSIONED FACT MAP" note="claim · source · confidence" className="diagram-node diagram-shared-state"/>
+    <Node x={50} y={116} w={160} title="SOURCE A" note="supports claim" className="diagram-node diagram-source"/><Node x={550} y={116} w={160} title="SOURCE B" note="counterevidence" className="diagram-node diagram-adversary"/>
+    <Link d="M210 140 H252 V42 H296" className="diagram-link diagram-evidence-link"/><Link d="M550 140 H508 V42 H464" className="diagram-link diagram-reject-path"/>
+    <Node x={287} y={168} w={186} title="PRESERVE BOTH" note="contradiction stays linked" className="diagram-node diagram-gate"/>
+    <Link d="M130 164 V192 H287 M630 164 V192 H473" className="diagram-link diagram-evidence-link"/>
+    <Label x={293} y={267} className="diagram-micro">provenance is part of the value · do not overwrite the counterclaim</Label>
+  </>;
+  if (variant === "blackboard") return <>
+    <rect x="244" y="54" width="272" height="174" rx="7" className="diagram-board-boundary"/><Label x={328} y={75} className="diagram-micro">SHARED BLACKBOARD</Label>
+    {[{x:273,y:93,t:"QUESTION"},{x:399,y:93,t:"EVIDENCE"},{x:273,y:153,t:"HYPOTHESIS"},{x:399,y:153,t:"OPEN ISSUE"}].map(item=><Node key={item.t} x={item.x} y={item.y} w={106} h={40} title={item.t} note="board entry" className="diagram-node diagram-board-entry"/>)}
+    {[{x:53,t:"AGENT A",n:"subscribe / post"},{x:574,t:"AGENT B",n:"subscribe / post"}].map(item=><g key={item.t}><Node x={item.x} y={123} w={133} title={item.t} note={item.n} className="diagram-node diagram-replica"/><Link d={item.x<100?"M186 147 H244":"M574 147 H516"} className="diagram-link diagram-delta"/></g>)}
+    <Node x={284} y={241} w={192} h={40} title="EVENT HISTORY" note="retain attribution" className="diagram-node diagram-gate"/>
+    <Label x={282} y={292} className="diagram-micro">unanswered critical question blocks closure</Label>
+  </>;
+  if (variant === "localFirst") return <>
+    <rect x="42" y="48" width="274" height="204" rx="10" className="diagram-replica-boundary"/><rect x="444" y="48" width="274" height="204" rx="10" className="diagram-replica-boundary"/>
+    <Label x={116} y={69} className="diagram-micro">LOCAL REPLICA A · OFFLINE</Label><Label x={521} y={69} className="diagram-micro">LOCAL REPLICA B · RECONNECTED</Label>
+    <Node x={95} y={102} w={166} title="LOCAL WRITE" note="queued delta" className="diagram-node diagram-replica"/><Node x={499} y={102} w={166} title="REMOTE DELTA" note="causal context" className="diagram-node diagram-source"/>
+    <Node x={95} y={174} w={166} title="OUTBOX" note="partition queue" className="diagram-node diagram-advisory-node"/><Node x={499} y={174} w={166} title="RECONCILE" note="check limits" className="diagram-node diagram-gate"/>
+    <Link d="M261 126 H386 V198 H499" className="diagram-link diagram-async-link"/><Label x={318} y={155} className="diagram-micro">sync on reconnect</Label>
+    <Label x={273} y={280} className="diagram-micro">offline-first is a design mode · partition budget and merge rules must be defined</Label>
+  </>;
+  if (variant === "speculative") return <>
+    <Node x={303} y={18} w={154} title="BASELINE STATE" note="immutable starting point" className="diagram-node diagram-source"/>
+    <Link d="M380 66 V92 H190 V116 M380 92 H570 V116" className="diagram-link diagram-speculative-link"/>
+    <rect x="65" y="106" width="250" height="119" rx="8" className="diagram-branch-boundary"/><rect x="445" y="106" width="250" height="119" rx="8" className="diagram-branch-boundary"/>
+    <Node x={96} y={133} w={188} title="BRANCH A" note="isolated assumptions" className="diagram-node diagram-replica"/><Node x={476} y={133} w={188} title="BRANCH B" note="isolated assumptions" className="diagram-node diagram-replica"/>
+    <Link d="M190 181 V241 H380 M570 181 V241 H380"/><Node x={279} y={241} w={202} h={42} title="VALIDATE → DISCARD / PROPOSE" note="promotion gate required" className="diagram-node diagram-gate"/>
+  </>;
+  if (variant === "hierarchical") return <>
+    <Node x={300} y={22} w={160} title="PARENT STATE" note="global constraints" className="diagram-node diagram-shared-state"/>
+    <Link d="M380 70 V100 H150 V126 M380 100 V126 M380 100 H610 V126" className="diagram-link diagram-hierarchy-link"/>
+    {[{x:70,t:"REGION A",n:"local details"},{x:310,t:"REGION B",n:"local details"},{x:550,t:"REGION C",n:"local details"}].map(item=><Node key={item.t} x={item.x} y={126} w={160} title={item.t} note={item.n} className="diagram-node diagram-replica"/>)}
+    <Link d="M150 174 V220 H380 M390 174 V220 M630 174 V220 H390" className="diagram-link diagram-async-link"/><Node x={282} y={220} w={196} title="RECONCILE AT BOUNDARY" note="propagate constraints down" className="diagram-node diagram-gate"/>
+    <Label x={270} y={284} className="diagram-micro">local detail ↔ regional summary · boundary invariant must hold</Label>
+  </>;
+  if (variant === "realtimeControl") return <>
+    <Node x={36} y={132} w={140} title="SIGNAL" note="timestamped input" className="diagram-node diagram-source"/>
+    <Link d="M176 156 H207"/><Node x={207} y={132} w={148} title="CONTROL DELTA" note="bounded action" className="diagram-node diagram-replica"/>
+    <Link d="M355 156 H386"/><Node x={386} y={132} w={148} title="SAFETY MONITOR" note="limits + latency" className="diagram-node diagram-gate"/>
+    <Link d="M534 156 H565"/><Node x={565} y={132} w={164} title="STOP / REPAIR" note="on safety signal" className="diagram-node diagram-adversary"/>
+    <Label x={226} y={229} className="diagram-micro">requires target-system latency bounds and a measured control loop</Label>
+    <Label x={291} y={258} className="diagram-micro">concept only · not a live control path</Label>
+  </>;
+  if (variant === "humanAi") return <>
+    <Label x={276} y={48} className="diagram-micro">ATTRIBUTED MUTATIONS · TRACEABLE AUTHORITY</Label>
+    <Node x={74} y={106} w={176} title="AI CONTRIBUTION" note="signed proposal" className="diagram-node diagram-replica"/><Node x={510} y={106} w={176} title="HUMAN CONTRIBUTION" note="attributed edit" className="diagram-node diagram-source"/>
+    <Link d="M250 130 L302 164 M510 130 L458 164" className="diagram-link diagram-delta"/><Node x={291} y={164} w={178} title="SHARED VERSIONED STATE" note="provenance per change" className="diagram-node diagram-shared-state"/>
+    <Link d="M380 212 V245" className="diagram-link diagram-hierarchy-link"/><Node x={278} y={245} w={204} h={42} title="REVIEW / ATTRIBUTED UNDO" note="consent and authority" className="diagram-node diagram-gate"/>
+  </>;
   return <>
-    <Node x={278} y={118} w={204} h={92} title={variant === "blackboard" ? "SHARED BLACKBOARD" : "SHARED STATE"} note={variant === "epistemic" ? "facts + provenance" : "versioned snapshot · invariant"} className="diagram-node diagram-shared-state"/>
-    {[{x:61,y:48,t:"AGENT A"},{x:569,y:48,t:"AGENT B"},{x:61,y:225,t:"AGENT C"},{x:569,y:225,t:"AGENT D"}].map((item,i)=><g key={item.t}><Node x={item.x} y={item.y} w={130} title={item.t} note={i === 0 && local ? "local replica" : "subscriber"} className="diagram-node diagram-member"/><Link d={`M${item.x < 300 ? 191 : 569} ${item.y + 24} ${item.x < 300 ? "H240" : "H520"} V164 ${item.x < 300 ? "H278" : "H482"}`} className={local && i < 2 ? "diagram-link diagram-replica-queued" : "diagram-link diagram-replica"}/></g>)}
-    <Label x={286} y={231} className="diagram-micro">{local ? "partition → queue → reconcile" : "delta → selective replication → reconcile"}</Label>
-    <Node x={280} y={268} w={200} h={36} title="INVARIANT / CONFLICT CHECK" className="diagram-node diagram-gate"/>
+    <Node x={278} y={118} w={204} h={92} title="SHARED STATE" note="versioned · invariant-bound" className="diagram-node diagram-shared-state"/>
+    {[{x:61,y:48,t:"AGENT A"},{x:569,y:48,t:"AGENT B"},{x:61,y:225,t:"AGENT C"},{x:569,y:225,t:"AGENT D"}].map(item=><g key={item.t}><Node x={item.x} y={item.y} w={130} title={item.t} note="participant" className="diagram-node diagram-member"/><Link d={`M${item.x < 300 ? 191 : 569} ${item.y + 24} ${item.x < 300 ? "H240" : "H520"} V164 ${item.x < 300 ? "H278" : "H482"}`} className="diagram-link diagram-replica"/></g>)}
+    <Node x={280} y={268} w={200} h={36} title="MERGE + INVARIANT CHECK" className="diagram-node diagram-gate"/>
+    <Label x={278} y={231} className="diagram-micro">generic shared-state concept · convergence depends on the chosen protocol</Label>
   </>;
 }
 
 function Rhizome({ variant }: Props) {
-  const nodes = [{x:130,y:80,t:"CAPABILITY A"},{x:350,y:38,t:"MEMBER B"},{x:550,y:92,t:"CAPABILITY C"},{x:96,y:214,t:"MEMBER D"},{x:337,y:204,t:"NEED / MATCH"},{x:568,y:221,t:"MEMBER E"}];
+  if (variant === "routing") return <>
+    <Node x={30} y={131} w={145} title="CAPABILITY NEED" note="cost · trust · evidence" className="diagram-node diagram-source"/>
+    <Link d="M175 155 H222"/><Node x={222} y={113} w={142} title="BOUNDED BFS" note="active graph edges" className="diagram-node diagram-gate"/>
+    <Link d="M364 137 L430 96 M364 151 H430 M364 165 L430 217" className="diagram-link diagram-route-candidate"/>
+    <Node x={430} y={73} w={146} title="PATH A" note="score · route receipt" className="diagram-node diagram-member"/><Node x={430} y={129} w={146} title="PATH B" note="score · route receipt" className="diagram-node diagram-member"/><Node x={430} y={195} w={146} title="PATH C" note="score · route receipt" className="diagram-node diagram-member"/>
+    <Link d="M576 96 L600 151 M576 151 H600 M576 217 L600 151" className="diagram-link diagram-route-candidate" markerEnd={false}/>
+    <Link d="M576 151 H623" className="diagram-link diagram-route-selected"/>
+    <Node x={623} y={128} w={118} title="PROVIDER" note="adapter runs it" className="diagram-node diagram-gate"/>
+    <Label x={270} y={274} className="diagram-micro">rank bounded candidate paths · external worker start is not implied</Label>
+  </>;
+  if (variant === "exploratory") return <>
+    <rect x="62" y="52" width="636" height="196" rx="10" className="diagram-explore-boundary"/><Label x={84} y={73} className="diagram-micro">SCOUT FRONTIER · BOUNDED SEARCH DEPTH</Label>
+    <Link d="M180 151 L300 108 M180 151 L300 188 M370 108 L491 91 M370 108 L491 148 M370 188 L491 207 M561 91 L631 133 M561 148 H631 M561 207 L631 157" className="diagram-link diagram-trace-network" markerEnd={false}/>
+    <Node x={80} y={128} w={100} title="SCOUT" note="start" className="diagram-node diagram-source"/><Node x={300} y={84} w={140} title="FRONTIER A" note="new capability" className="diagram-node diagram-member"/><Node x={300} y={166} w={140} title="FRONTIER B" note="new domain" className="diagram-node diagram-member"/>
+    <Node x={491} y={68} w={140} title="OBSERVE" note="trace deposit" className="diagram-node diagram-symbiont"/><Node x={491} y={126} w={140} title="FOLLOW TRACE" note="bounded next hop" className="diagram-node diagram-symbiont"/><Node x={491} y={185} w={140} title="SCOUT" note="continue / stop" className="diagram-node diagram-symbiont"/><Node x={631} y={110} w={113} title="GAP / STOP" note="budget reached" className="diagram-node diagram-gate"/>
+    <Label x={274} y={278} className="diagram-micro">exploration prioritizes scouting · growth still passes the admission gates</Label>
+  </>;
+  if (variant === "growth") return <>
+    <Node x={28} y={129} w={140} title="CAPABILITY GAP" note="versioned diagnosis" className="diagram-node diagram-source"/>
+    <Link d="M168 153 H200"/><Node x={200} y={105} w={145} title="GROWTH PLAN" note="candidate + evidence" className="diagram-node diagram-member"/>
+    <Link d="M345 129 H375"/><Node x={375} y={105} w={145} title="BUDGET / UTILITY" note="reuse before create" className="diagram-node diagram-invariant"/>
+    <Link d="M520 129 H550"/><Node x={550} y={105} w={178} title="VERIFIER RECEIPT" note="trusted provider gate" className="diagram-node diagram-gate"/>
+    <Link d="M639 153 V210 H380" className="diagram-link diagram-context"/><Node x={281} y={210} w={198} title="ADMIT CAPABILITY NODE" note="graph version must still match" className="diagram-node diagram-gate"/>
+    <Label x={272} y={279} className="diagram-micro">admission does not prove the external worker or service started</Label>
+  </>;
+  if (variant === "resilient") return <>
+    <Node x={30} y={128} w={136} title="ROUTE REQUEST" note="declared constraints" className="diagram-node diagram-source"/>
+    <Link d="M166 152 H209 V100 H263 M209 152 V210 H263" className="diagram-link diagram-route-candidate"/>
+    <Node x={263} y={77} w={142} title="PATH A" note="failed edge" className="diagram-node diagram-failed-route"/>
+    <Node x={263} y={187} w={142} title="PATH B" note="edge-disjoint route" className="diagram-node diagram-route-live"/>
+    <Link d="M405 101 H462 V152 H516 M405 211 H462 V152 H516" className="diagram-link diagram-route-live"/>
+    <Node x={516} y={128} w={190} title="ALTERNATE PROVIDER" note="route result + receipt" className="diagram-node diagram-gate"/>
+    <Node x={269} y={256} w={224} h={38} title="EXPLICIT RECOVERY OPERATION" className="diagram-node diagram-advisory-node"/>
+  </>;
+  if (variant === "sparse") return <>
+    <Label x={291} y={53} className="diagram-micro">LOW-DENSITY GRAPH · BRANCH / COST BOUNDS</Label>
+    <Link d="M180 140 H325 M395 140 H553 M180 157 L260 217" className="diagram-link diagram-rhizome-link"/>
+    <Link d="M180 140 L274 209 M465 140 H553 M395 166 L552 221" className="diagram-link diagram-proposed-edge" markerEnd={false}/>
+    <Node x={70} y={118} w={110} title="ROOT A" note="active" className="diagram-node diagram-member"/><Node x={325} y={118} w={140} title="BRIDGE B" note="active" className="diagram-node diagram-source"/><Node x={553} y={118} w={140} title="CAPABILITY C" note="active" className="diagram-node diagram-member"/>
+    <Node x={200} y={208} w={140} title="BRANCH D" note="active" className="diagram-node diagram-member"/><Node x={552} y={208} w={140} title="OPTIONAL EDGE" note="prune by budget" className="diagram-node diagram-advisory-node"/>
+    <Label x={278} y={281} className="diagram-micro">keep declared density and hop limits · dotted links are not admitted</Label>
+  </>;
+  if (variant === "persistent") return <>
+    <rect x="52" y="62" width="436" height="176" rx="8" className="diagram-session-boundary"/><Label x={81} y={83} className="diagram-micro">PERSISTED RHIZOME SESSION · GRAPH VERSION vₙ</Label>
+    <Link d="M149 150 H265 M363 150 H421" className="diagram-link diagram-rhizome-link"/><Node x={80} y={126} w={138} title="CAPABILITY A" note="route lineage" className="diagram-node diagram-member"/><Node x={265} y={126} w={138} title="MEMBER B" note="bounded lease" className="diagram-node diagram-source"/>
+    <Node x={522} y={101} w={190} title="TRACE STORE" note="positive + negative" className="diagram-node diagram-gate"/><Link d="M403 150 H522" className="diagram-link diagram-trace-network"/>
+    <Node x={279} y={235} w={202} h={40} title="MAINTAIN / EXPIRE / PRUNE" note="versioned operation" className="diagram-node diagram-advisory-node"/>
+    <Label x={272} y={292} className="diagram-micro">persistent traces and bounded leases survive across session steps</Label>
+  </>;
+  if (variant === "ephemeral") return <>
+    <rect x="83" y="54" width="590" height="188" rx="10" className="diagram-ephemeral-boundary"/><Label x={102} y={74} className="diagram-micro">MISSION SESSION · TEMPORARY GRAPH</Label>
+    <Node x={127} y={115} w={148} title="SHORT ROUTES" note="bounded hops" className="diagram-node diagram-source"/><Link d="M275 139 H325"/><Node x={325} y={115} w={148} title="FAST TRACE DECAY" note="short-lived state" className="diagram-node diagram-member"/><Link d="M473 139 H523"/><Node x={523} y={115} w={130} title="SESSION CLOSE" note="discard graph" className="diagram-node diagram-gate"/>
+    <Link d="M588 163 V211 H380" className="diagram-link diagram-context"/><Node x={280} y={211} w={200} h={38} title="SUMMARY FOSSIL ONLY" note="no mission artifacts" className="diagram-node diagram-advisory-node"/>
+    <Label x={256} y={281} className="diagram-micro">ephemeral close removes the graph · optional fossil summarizes the session</Label>
+  </>;
+  if (variant === "small_world") return <>
+    <Link d="M153 124 L351 80 M153 124 L351 218 M455 80 L596 124 M455 218 L596 124 M153 124 L596 124" className="diagram-link diagram-rhizome-link" markerEnd={false}/>
+    <Node x={76} y={102} w={154} title="LOCAL MEMBER A" note="observed edge" className="diagram-node diagram-member"/><Node x={351} y={57} w={154} title="OBSERVED HUB" note="short path · verified" className="diagram-node diagram-gate"/><Node x={351} y={195} w={154} title="LOCAL MEMBER B" note="alternate route" className="diagram-node diagram-member"/><Node x={596} y={102} w={154} title="TARGET CAPABILITY" note="selected provider" className="diagram-node diagram-source"/>
+    <Label x={252} y={277} className="diagram-micro">prefer observed hubs · shortcut edges still require admission and proof</Label>
+  </>;
+  if (variant === "private") return <>
+    <rect x="47" y="54" width="383" height="190" rx="10" className="diagram-trust-boundary"/><Label x={76} y={75} className="diagram-micro">TRUSTED DOMAIN · PRIVATE ROUTES</Label>
+    <Node x={84} y={119} w={130} title="PRIVATE A" note="admitted" className="diagram-node diagram-member"/><Node x={285} y={119} w={130} title="PRIVATE B" note="trusted route" className="diagram-node diagram-source"/><Link d="M214 143 H285" className="diagram-link diagram-private-link"/>
+    <Node x={508} y={112} w={200} title="DOMAIN GATEWAY" note="signed admission proof" className="diagram-node diagram-gate"/><Link d="M430 143 H508" className="diagram-link diagram-context"/>
+    <Node x={518} y={207} w={174} h={40} title="QUARANTINED NODE" note="excluded from routes" className="diagram-node diagram-failed-route"/>
+    <Label x={265} y={281} className="diagram-micro">cross-domain paths require a context-bound proof · trust score alone is insufficient</Label>
+  </>;
+  if (variant === "cross_representation") return <>
+    <Node x={34} y={129} w={136} title="TEXT" note="source form" className="diagram-node diagram-source"/><Link d="M170 153 H208"/>
+    <rect x="208" y="78" width="348" height="154" rx="8" className="diagram-bridge-boundary"/><Label x={300} y={98} className="diagram-micro">VERIFIED REPRESENTATION BRIDGE</Label>
+    <Node x={230} y={122} w={128} title="TRANSLATE" note="loss measured" className="diagram-node diagram-member"/><Link d="M358 146 H386"/><Node x={386} y={122} w={148} title="ROUND-TRIP CHECK" note="semantic equivalence" className="diagram-node diagram-gate"/>
+    <Link d="M556 153 H594"/><Node x={594} y={129} w={136} title="CODE / GRAPH" note="target form" className="diagram-node diagram-source"/>
+    <Label x={263} y={265} className="diagram-micro">compatibility threshold + verifier receipt gate the bridge</Label>
+  </>;
+  if (variant === "procedural") return <>
+    <Label x={299} y={52} className="diagram-micro">TYPED PROCEDURE · MAXIMUM DECLARED DEPTH</Label>
+    {[{x:40,t:"STEP 1",n:"input contract"},{x:180,t:"STEP 2",n:"local evidence"},{x:320,t:"STEP 3",n:"transform"},{x:460,t:"STEP 4",n:"test"},{x:600,t:"STEP 5·6",n:"causal check"}].map((item,i)=><g key={item.t}><Node x={item.x} y={128} w={122} title={item.t} note={item.n} className={i===4?"diagram-node diagram-gate":"diagram-node diagram-member"}/>{i<4&&<Link d={`M${item.x+122} 152 H${item.x+140}`} className="diagram-link diagram-context"/>}</g>)}
+    <Label x={258} y={225} className="diagram-micro">each handoff carries local proof before the next step runs</Label>
+    <Label x={281} y={252} className="diagram-micro">causal validation · compatible output · bounded pipeline</Label>
+  </>;
+  if (variant === "self_healing") return <>
+    <Node x={34} y={130} w={140} title="ROUTE FAILURE" note="verified receipt" className="diagram-node diagram-failed-route"/>
+    <Link d="M174 154 H210"/><Node x={210} y={130} w={142} title="DIAGNOSE" note="failed edge / domain" className="diagram-node diagram-source"/>
+    <Link d="M352 154 H388"/><Node x={388} y={130} w={146} title="ALTERNATE ROUTE" note="bounded disjoint path" className="diagram-node diagram-route-live"/>
+    <Link d="M534 154 H570"/><Node x={570} y={130} w={160} title="REPAIR GATE" note="≤ 5 rounds · evidence" className="diagram-node diagram-gate"/>
+    <Label x={267} y={234} className="diagram-micro">reconfiguration is bounded · no unlimited autonomous healing loop</Label>
+    <Label x={267} y={263} className="diagram-micro">adapter and verifier still govern the repaired capability</Label>
+  </>;
   return <>
-    <Link d="M255 104 L350 65 M467 65 L550 104 M195 126 L150 214 M235 236 L337 227 M467 227 L568 244 M195 104 L337 218 M467 65 L409 204" className="diagram-link diagram-rhizome-link" markerEnd={false}/>
-    {nodes.map((item,i)=><Node key={item.t} x={item.x} y={item.y} w={130} title={item.t} note={i === 4 ? "direct member selection" : "capability · trace"} className={`diagram-node ${i === 4 ? "diagram-gate" : "diagram-member"}`}/>)}
-    <Label x={271} y={121} className="diagram-micro">stigmergic trace · revisioned event</Label>
-    <Label x={340} y={287} className="diagram-micro">{variant === "growth" ? "growth proposal · explicit audited mutation" : "selection from composed members · local relationships"}</Label>
+    <Link d="M230 123 L352 79 M230 123 L352 216 M488 79 L596 123 M488 216 L596 123 M230 123 L596 123" className="diagram-link diagram-rhizome-link" markerEnd={false}/>
+    {[{x:76,y:101,t:"COORDINATOR",n:"provisional locus"},{x:352,y:55,t:"CAPABILITY NODE",n:"declared skill"},{x:352,y:192,t:"LOCAL BRIDGE",n:"contract + evidence"},{x:596,y:101,t:"MEMBER",n:"direct selection"}].map(item=><Node key={item.t} x={item.x} y={item.y} w={136} title={item.t} note={item.n} className="diagram-node diagram-member"/>)}
+    <Label x={278} y={270} className="diagram-micro">revisioned graph · local relationship · attributed stigmergic trace</Label>
   </>;
 }
 
@@ -228,6 +575,6 @@ export function TopologyDiagram({ family, variant, activeStep, stepCount }: Prop
   return <svg className={`topology-sim-svg topology-diagram topology-diagram-${family}`} data-variant={variant} viewBox="0 0 760 320" role="img" aria-label={`${family} topology structure, ${variant} variant, stage ${activeStep + 1} of ${stepCount}`}>
     <defs><marker id="diagram-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" className="diagram-arrowhead"/></marker></defs>
     {draw({ family, variant, activeStep, stepCount })}
-    <g className="diagram-stage"><rect x="18" y="299" width="724" height="1"/><text x="22" y="316">POLICY STAGE {String(activeStep + 1).padStart(2, "0")} / {String(stepCount).padStart(2, "0")}</text><text x="738" y="316" textAnchor="end">{variant.replaceAll("_", " ").replaceAll("-", " ").toUpperCase()}</text></g>
+    <g className="diagram-stage"><rect x="18" y="299" width="724" height="1"/><text x="22" y="316">{family === "syncytium" ? "CONCEPTUAL TARGET · NOT IMPLEMENTED" : `POLICY STAGE ${String(activeStep + 1).padStart(2, "0")} / ${String(stepCount).padStart(2, "0")}`}</text><text x="738" y="316" textAnchor="end">{variant.replaceAll("_", " ").replaceAll("-", " ").toUpperCase()}</text></g>
   </svg>;
 }
