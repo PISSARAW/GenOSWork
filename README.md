@@ -17,6 +17,7 @@ Open `http://localhost:3000`.
 
 - `/` — public overview
 - `/runtime` — runtime lifecycle and boundaries
+- `/daemons` — resident daemon archetype, organelles, phenotypes, and limits
 - `/topologies` — topology index
 - `/topologies/[slug]` — individual profile for each of the eight topologies
 - `/lab` — clearly labeled local illustration

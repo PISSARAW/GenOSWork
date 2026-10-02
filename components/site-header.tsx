@@ -3,6 +3,7 @@ import Link from "next/link";
 const links = [
   ["Supervision", "/runtime/supervision"],
   ["Runtime", "/runtime"],
+  ["Daemons", "/daemons"],
   ["Topologies", "/topologies"],
   ["Concepts", "/concepts"],
   ["Lab", "/lab"],
