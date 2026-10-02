@@ -10,7 +10,7 @@ export default function DevelopersPage() {
         <Eyebrow>DEVELOPERS · OPEN SOURCE</Eyebrow>
         <h1>Try it. Trace it.<br /><em>Change it.</em></h1>
         <p>GenOS is a polyglot agent runtime with a Rust workspace, Node.js control plane, CLI and MCP interfaces. Start with the zero-token safe debugging example, then follow its evidence into the source.</p>
-        <div className="hero-actions"><a className="button button-dark" href="https://github.com/PISSARAW/GenOS" target="_blank" rel="noreferrer">Browse the repository <span>↗</span></a><a className="button button-quiet" href="https://github.com/PISSARAW/GenOS/tree/v3/examples/safe-debugging-demo" target="_blank" rel="noreferrer">Zero-token demo <span>↗</span></a></div>
+        <div className="hero-actions"><a className="button button-dark" href="https://github.com/PISSARAW/GenOS" target="_blank" rel="noreferrer">Browse the repository <span>↗</span></a><a className="button button-quiet" href="https://github.com/PISSARAW/GenOS/tree/v3/examples/safe-debugging-demo" target="_blank" rel="noreferrer">Zero-token demo <span>↗</span></a><a className="button button-quiet" href="/api-mcp">REST / MCP reference <span>→</span></a></div>
       </section>
       <section className="section-wrap section-space dev-start">
         <div><Eyebrow>QUICK START</Eyebrow><h2>Run the runtime <em>locally.</em></h2><p>Install the required Rust and Node.js versions, clone GenOS and build the workspace. The safe debugging demo does not need an API key.</p><a className="text-link" href="https://github.com/PISSARAW/GenOS#setup" target="_blank" rel="noreferrer">Full setup guide <span>↗</span></a></div>

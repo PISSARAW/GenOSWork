@@ -19,6 +19,16 @@
 - [Morphogenesis Lab](https://genoswork.vercel.app/lab)
 - [Evidence ledger](https://genoswork.vercel.app/evidence)
 - [Developer entry point](https://genoswork.vercel.app/developers)
+- [REST and MCP API reference](https://genoswork.vercel.app/api-mcp)
+
+## Français
+
+- [Présentation française](https://genoswork.vercel.app/fr)
+- [Développeurs](https://genoswork.vercel.app/fr/developers)
+- [Référence API REST et MCP](https://genoswork.vercel.app/fr/api-mcp)
+- [Benchmarks interactifs](https://genoswork.vercel.app/fr/benchmarks)
+- [Exécutions GenOS enregistrées](https://genoswork.vercel.app/fr/runs)
+- [Sandbox GenOS en direct](https://genoswork.vercel.app/fr/sandbox)
 
 ## Canonical sources
 
@@ -35,4 +45,5 @@
 - The interactive topology lab is a local illustration, not a live GenOS run.
 - The benchmark explorer replays recorded result data; it does not rerun the benchmark suite.
 - The live sandbox sends a user-authorized request directly from the browser to the user's GenOS API endpoint.
+- French pages currently cover the introduction, developer entry point, API/MCP reference, benchmark explorer, recorded runs and live sandbox. Other architecture and concept pages remain in English.
 - Consult the runtime documentation for current implementation status, evidence and known limitations.

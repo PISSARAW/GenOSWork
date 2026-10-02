@@ -1,0 +1,13 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { Eyebrow } from "@/components/eyebrow";
+
+export const metadata: Metadata = { title: "Développer avec GenOS", description: "Prise en main en français du runtime open source GenOS et liens vers ses contrats source REST et MCP.", alternates: { canonical: "/fr/developers", languages: { en: "/developers", fr: "/fr/developers" } }, openGraph: { locale: "fr_FR" } };
+
+export default function FrenchDevelopersPage() {
+  return <div className="page-shell" lang="fr">
+    <section className="page-hero section-wrap api-reference-hero"><Eyebrow>DÉVELOPPEURS · OPEN SOURCE</Eyebrow><h1>Essayer. Tracer.<br /><em>Faire évoluer.</em></h1><p>GenOS associe un workspace Rust, un plan de contrôle Node.js, des interfaces CLI et MCP. Commencez par la démo de débogage sans jeton, puis suivez ses preuves dans le code source.</p><div className="hero-actions"><a className="button button-dark" href="https://github.com/PISSARAW/GenOS" target="_blank" rel="noreferrer">Dépôt GenOS <span>↗</span></a><a className="button button-quiet" href="https://github.com/PISSARAW/GenOS/tree/v3/examples/safe-debugging-demo" target="_blank" rel="noreferrer">Démo sans jeton <span>↗</span></a></div></section>
+    <section className="section-wrap french-dev-start"><div><Eyebrow>PRISE EN MAIN</Eyebrow><h2>Construire le runtime<br /><em>en local.</em></h2><p>Installez les versions Rust et Node.js requises, clonez GenOS et construisez le workspace. La démo de débogage sûre n’a pas besoin d’une clé API.</p><a className="text-link" href="https://github.com/PISSARAW/GenOS#setup" target="_blank" rel="noreferrer">Guide d’installation complet ↗</a></div><div className="terminal-card"><div className="terminal-top"><span><i /><i /><i /></span><span>DÉVELOPPEMENT LOCAL</span><span>RUST · NODE</span></div><pre><code>git clone https://github.com/PISSARAW/GenOS.git<br />cd GenOS<br />cargo build --workspace<br />cargo run -p genos-cli -- --help</code></pre><div className="terminal-foot"><span>RUST 1.88+ · NODE 20.19+</span><a href="https://github.com/PISSARAW/GenOS#how-to-use-it-without-going-insane" target="_blank" rel="noreferrer">AUTRES GUIDES ↗</a></div></div></section>
+    <section className="section-wrap french-api-callout"><div><Eyebrow>INTÉGRATION D’OUTILS</Eyebrow><h2>REST et MCP,<br /><em>avec leurs contrats.</em></h2><p>Consultez les routes, les permissions, le scope tenant, les conventions de schéma et le format des erreurs avant de brancher un client.</p></div><Link className="button button-dark" href="/fr/api-mcp">Ouvrir la référence API / MCP <span>→</span></Link></section>
+  </div>;
+}
