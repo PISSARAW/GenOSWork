@@ -12,7 +12,7 @@ export function SiteFooter() {
         <div className="footer-links">
           <Link href="/runtime">Runtime</Link><Link href="/orchestrator">Orchestrator</Link><Link href="/topologies">Topologies</Link><Link href="/morphogenesis">Morphogenesis</Link>
           <Link href="/organizations">Organizations</Link>
-          <Link href="/concepts">Concepts</Link>
+          <Link href="/concepts">Concept Atlas</Link><Link href="/systems">Systems</Link>
           <Link href="/research">Research</Link><Link href="/benchmarks">Benchmarks</Link>
           <Link href="/evidence">Evidence</Link>
           <a href="https://github.com/PISSARAW/GenOS/tree/v3/docs" target="_blank" rel="noreferrer">Documentation ↗</a>

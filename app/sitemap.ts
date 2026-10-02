@@ -5,7 +5,7 @@ import { concepts } from "@/components/concepts";
 const siteUrl = "https://genoswork.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = ["", "/runtime", "/orchestrator", "/workers", "/daemons", "/topologies", "/morphogenesis", "/organizations", "/research", "/concepts", "/benchmarks", "/lab", "/evidence", "/developers"];
+  const routes = ["", "/runtime", "/orchestrator", "/workers", "/daemons", "/topologies", "/morphogenesis", "/organizations", "/research", "/concepts", "/systems", "/benchmarks", "/lab", "/evidence", "/developers"];
   const supervisionRoutes = ["/runtime/supervision", "/runtime/supervision/agents", "/runtime/supervision/workspaces", "/runtime/supervision/budgets", "/runtime/supervision/events", "/runtime/supervision/memory", "/runtime/supervision/evidence"];
   const conceptRoutes = concepts.map(({ slug }) => `/concepts/${slug}`);
   const topologyRoutes = topologies.map(({ slug }) => `/topologies/${slug}`);

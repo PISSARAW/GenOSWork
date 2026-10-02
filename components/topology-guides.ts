@@ -1,5 +1,16 @@
 export type TopologyVariantGuide = { id: string; useCase: string };
-export type TopologyGuide = { explanation: string; formula: string; formulaNote: string; variants: TopologyVariantGuide[] };
+export type TopologyGuide = {
+  explanation: string;
+  formula: string;
+  formulaNote: string;
+  purpose: string;
+  selection: string;
+  scientificBasis: string;
+  failureModes: string[];
+  relatedConcepts: string[];
+  benchmarkPath?: string;
+  variants: TopologyVariantGuide[];
+};
 
 // Variants are the identifiers in the canonical GenOS catalog. Use cases below
 // describe when a policy is useful; they are not claims that it is auto-selected.
@@ -8,6 +19,11 @@ export const topologyGuides: Record<string, TopologyGuide> = {
     explanation: "Three independent worlds handle the same mission from a comparable initial state. They keep their records sealed until comparison; an evidence gate evaluates them before retaining or promoting a candidate artifact.",
     formula: "D = (x₁, x₂, x₃) ;  scoreᵢ = f(evidenceᵢ, constraints) ;  eligibleᵢ ⇔ evidenceᵢ ≥ threshold",
     formulaNote: "f represents a stated comparison rule, not a learned probability. Selection can retain several non-dominated solutions; promoting a candidate is not a production deployment.",
+    purpose: "Compare independent approaches to one mission while keeping their intermediate histories separate until evaluation.",
+    selection: "Choose Trinity when parallel candidate work fits the budget and the result can be assessed against shared constraints and comparable evidence.",
+    scientificBasis: "Its useful foundations are controlled comparison, independent replication, and multi-objective selection. The three-world name is a runtime design, not a claim of a specific biological mechanism.",
+    failureModes: ["Correlated strategies can share the same blind spot.", "Incomparable or empty evidence can make the gate inconclusive.", "A passing promotion gate does not deploy or certify a production system."],
+    relatedConcepts: ["counterfactual-workspaces", "evidence", "gvx", "a-team"],
     variants: [
       { id: "controlled", useCase: "Reproducible baseline: compare three fixed strategies on a migration or code review." },
       { id: "heterogeneous", useCase: "Reduce correlated errors when one model family could share the same blind spot." },
@@ -27,6 +43,12 @@ export const topologyGuides: Record<string, TopologyGuide> = {
     explanation: "A-Team distributes work among specialists by domain or step. Handoff contracts define inputs and outputs; integration assembles the deliverables. Dependencies can be sequential or parallel.",
     formula: "G = (V, E) ;  start(v) ≥ max(end(u) : (u,v) ∈ E) ;  result = integrate({outputᵥ})",
     formulaNote: "G is the work graph; E contains dependencies. Ideal duration is bounded by the critical path, while handoffs and coordination add real cost.",
+    purpose: "Split work across specialists when the mission has distinct domains, dependencies, or handoff boundaries.",
+    selection: "Choose A-Team when requirements can be represented as roles and work dependencies. Text-only mission descriptions may not produce a fully validated work graph.",
+    scientificBasis: "The technical model comes from task graphs, specialization, and dependency scheduling. Team metaphors do not guarantee that every role is staffed by an independent expert.",
+    failureModes: ["A missing specialist or invalid dependency can block downstream work.", "A handoff can lose context or provenance.", "Integration can hide disagreement or combine incompatible outputs."],
+    relatedConcepts: ["worker-kinds", "workflows", "morphogenesis", "evidence"],
+    benchmarkPath: "06-benchmarks/benchmark-ateam.md",
     variants: [
       { id: "expert_committee", useCase: "Architecture review or cross-functional audit that needs several specialties and a collective decision." },
       { id: "pipeline", useCase: "Strictly ordered processing, such as extracting, verifying, then synthesizing a report." },
@@ -45,6 +67,11 @@ export const topologyGuides: Record<string, TopologyGuide> = {
     explanation: "A community of roles examines the same proposals through evaluations, evidence, and preserved disagreements. Depending on policy, aggregation may prioritize evidence, a quorum, or a distribution of judgments.",
     formula: "S(c) = Σᵢ wᵢ sᵢ(c) / Σᵢ wᵢ ;  quorum(c) ⇔ Σᵢ wᵢ·voteᵢ(c) ≥ q·Σᵢ wᵢ",
     formulaNote: "sᵢ is a member's evaluation, wᵢ its declared weight, and q the quorum threshold. Numeric aggregation does not prove truth; evidence and abstentions must remain visible.",
+    purpose: "Make collective review and judgment explicit while retaining the evidence, abstentions, and dissent that inform an aggregate result.",
+    selection: "Choose Biocenosis when a decision benefits from several roles evaluating common proposals under a declared ballot and aggregation policy.",
+    scientificBasis: "The model draws on deliberation, epistemic aggregation, quorum, and probabilistic calibration. A majority or weighted score is not a truth oracle.",
+    failureModes: ["A quorum may not be reached or may conceal minority disagreement.", "Correlated judgments can amplify shared errors.", "Missing evidence or unresolved outcomes makes calibration scores incomplete."],
+    relatedConcepts: ["beliefs", "brier-calibration", "evidence", "adaptive-epistemic-immunity"],
     variants: [
       { id: "epistemic_jury", useCase: "Evaluate factual claims using experts and explicit evidence." },
       { id: "delphi_community", useCase: "Uncertain estimates where anonymous rounds can reduce anchoring and reveal the spread of opinion." },
@@ -64,6 +91,12 @@ export const topologyGuides: Record<string, TopologyGuide> = {
     explanation: "A host coordinates specialist symbionts under capability and resource contracts. The host sets boundaries and composes skills; veto or immune mechanisms are not guaranteed in every execution path.",
     formula: "Cₘ ⊆ ⋃ᵢ Cᵢ ;  allocationᵢ ≥ 0 ;  Σᵢ allocationᵢ ≤ budgetₘ",
     formulaNote: "Required capabilities Cₘ must be covered by symbiont capabilities Cᵢ. Budget compliance depends on the allocation contract; this formula does not model full safety.",
+    purpose: "Compose specialist capabilities around a host that keeps authority, resource allocation, and lifecycle state visible.",
+    selection: "Choose Holobiont when a mission needs a set of bounded specialist services coordinated by a host. Every capability and executor must be supplied under the run contract.",
+    scientificBasis: "The host–symbiont relationship is an ecological analogy translated into contracts, provisioning, execution, and health records. It does not imply automatic immunity or biological equivalence.",
+    failureModes: ["A required capability may have no admissible executor.", "Resource allocation can constrain or prevent a planned cycle.", "Host veto and immune checks are not guaranteed on every path."],
+    relatedConcepts: ["symbionts", "immune-system", "metabolism", "plasmids"],
+    benchmarkPath: "06-benchmarks/benchmark-longitudinal-holobionte.md",
     variants: [
       { id: "organelle", useCase: "Decompose a system into highly specialized symbionts around a coordinating host." },
       { id: "adaptive-microbiome", useCase: "A composition that adapts to available skills and the mission profile; mechanisms remain partial." },
@@ -83,6 +116,12 @@ export const topologyGuides: Record<string, TopologyGuide> = {
     explanation: "Members coordinate around shared, versioned state subject to invariants. CRDT operations can merge some concurrent writes; a consistency check then verifies business constraints.",
     formula: "Sₜ₊₁ = merge(Sₜ, Δ₁, …, Δₙ) ;  invariantⱼ(Sₜ₊₁) = true  ∀j",
     formulaNote: "Merging converges only for the supported operation types and replication assumptions. A transaction or semantic invariant may need additional checks.",
+    purpose: "Coordinate changes through shared versioned state and check declared invariants after supported merge operations.",
+    selection: "Choose Syncytium when participants need a shared state model and the operation types, merge assumptions, and invariants are explicit.",
+    scientificBasis: "The design uses distributed-state and CRDT ideas. The biological syncytium analogy does not establish network convergence or semantic consistency by itself.",
+    failureModes: ["Unsupported operations may not converge under concurrent writes.", "A structurally valid merge can violate a business invariant.", "A local session test does not demonstrate a complete distributed deployment."],
+    relatedConcepts: ["persistence", "evidence", "agent-relationships", "morphogenesis"],
+    benchmarkPath: "06-benchmarks/benchmark-syncytium.md",
     variants: [
       { id: "hard", useCase: "State where strict invariants take priority and invalid writes must be rejected." },
       { id: "soft", useCase: "Collaboration where some temporary divergence is acceptable before reconciliation." },
@@ -103,6 +142,11 @@ export const topologyGuides: Record<string, TopologyGuide> = {
     explanation: "Rhizome connects members through capabilities, traces, and local relationships. A session can select a composed member for a need and record stigmergic deposits; automatic multi-hop routing and autonomous growth remain proposals.",
     formula: "Gₜ = (Nₜ,Eₜ) ;  route₁(c) = arg maxᵢ score(cᵢ, need) ;  ρₜ₊₁(e)= (1−λ)ρₜ(e)+Δ(e)",
     formulaNote: "G is the graph and ρ a trace with decay λ. The formula illustrates routing and stigmergy; the runtime exposes direct member selection and calculations over supplied edges.",
+    purpose: "Represent capability relationships and traces that can inform direct member selection and controlled graph growth.",
+    selection: "Choose Rhizome when member capabilities or prior traces help route a request. Current selection is direct among composed members; multi-hop traversal is not implied.",
+    scientificBasis: "The design draws on graph routing and stigmergy, where traces can influence later activity. The runtime only calculates over supplied members or edges in the paths described by its contract.",
+    failureModes: ["A capability gap may have no composed member that can satisfy it.", "Stale or biased traces can mislead later selection.", "Automatic route traversal and branch creation remain proposed."],
+    relatedConcepts: ["agent-relationships", "stigmergy", "worker-kinds", "communication-ecology"],
     variants: [
       { id: "exploratory", useCase: "A mission whose needs are unknown at first and emerge during exploration." },
       { id: "routing", useCase: "Directly select a member compatible with a requested capability." },
@@ -122,6 +166,11 @@ export const topologyGuides: Record<string, TopologyGuide> = {
     explanation: "Semi-independent regional groups explore or process subspaces. Corridors control exchange and migration; quorum and recovery plans are explicit calls, not a permanent autonomous loop.",
     formula: "P = {P₁,…,Pₖ} ;  quorum ⇔ weighted votes ≥ q·Σwᵢ ;  migration(Pᵢ→Pⱼ) only if corridor is authorized",
     formulaNote: "q is the declared threshold and wᵢ a region's weight. Corridor topology, migration rules, and data sovereignty depend on the variant.",
+    purpose: "Coordinate regional groups while making migration, quorum, lineage, and recovery plans explicit.",
+    selection: "Choose Metapopulation when the task can be partitioned into semi-independent regions and the allowed exchange or recovery rules are known.",
+    scientificBasis: "The model comes from patch ecology and population exchange. Extinction, recolonization, and migration are modeled operations, not autonomous ecological behavior unless a runtime path explicitly runs them.",
+    failureModes: ["An empty or weak source region may not provide a useful recovery candidate.", "Migration can spread correlated errors if corridors are too permissive.", "Recovery services are explicit calls rather than an always-running loop."],
+    relatedConcepts: ["populations", "evolution-selection", "resilience", "cryptobiosis"],
     variants: [
       { id: "balanced", useCase: "A general starting point when diversity, exploration, and recovery should stay balanced." },
       { id: "resilient", useCase: "Groups exposed to losses where recovery and continuity take priority." },
@@ -145,6 +194,11 @@ export const topologyGuides: Record<string, TopologyGuide> = {
     explanation: "Biome treats a mission as an environment with resources, niches, and specialized populations. Its bounded loop observes, proposes, constrains, acts, and verifies; real effects require explicit authorization.",
     formula: "Aᵢ ≥ 0 ;  ΣᵢAᵢ ≤ B ;  xₜ₊₁ = verify(act(constrain(propose(observe(xₜ)))))",
     formulaNote: "Aᵢ is the allocation to an activity and B the budget. The loop is a sequential abstraction; simulated mode has no real effect and navigation is not autonomous.",
+    purpose: "Allocate bounded resources across activities in a mission environment with explicit observation and verification steps.",
+    selection: "Choose Biome when resource availability, niche choice, and bounded exploration are part of the task contract. The mission triggers the loop; it is not a continuous autonomous browser or ecology controller.",
+    scientificBasis: "The model uses ecological concepts such as niches, resources, and foraging as software abstractions. It does not simulate a biological ecosystem in full.",
+    failureModes: ["A poor observation or task estimate can make an allocation ineffective.", "A budget constraint can halt the proposed action.", "Simulated mode produces no real effect, and navigation is not autonomous."],
+    relatedConcepts: ["niches", "metabolism", "web-foraging", "populations"],
     variants: [
       { id: "resource", useCase: "A task with scarce resources where demand and explicit allocation dominate." },
       { id: "exploration", useCase: "A poorly understood environment where exploration should return uncertainty, information, and evidence." },

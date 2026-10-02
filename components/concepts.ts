@@ -1,4 +1,6 @@
-export type ConceptSlug = "maladies" | "memoire" | "cortex" | "ontogenese" | "ontologie";
+import { catalogConcepts, type EvidenceState, type ImplementationState, type IntegrationState } from "@/components/concept-catalog";
+
+export type ConceptSlug = string;
 export type ConceptDiagram = "clinical" | "memory" | "cortex" | "ontogenesis" | "ontology";
 
 export type Concept = {
@@ -9,7 +11,7 @@ export type Concept = {
   intro: string;
   status: string;
   statusTone: "green" | "amber" | "purple";
-  diagram: ConceptDiagram;
+  diagram?: ConceptDiagram;
   diagramTitle: string;
   diagramDescription: string;
   steps: { title: string; body: string }[];
@@ -17,9 +19,24 @@ export type Concept = {
   scope: string;
   source: string;
   sourceLabel: string;
+  familyId?: string;
+  implementation?: ImplementationState;
+  integration?: IntegrationState;
+  evidence?: EvidenceState;
+  statusNote?: string;
+  biologyInspired?: boolean;
+  hasMathematics?: boolean;
+  hasSimulation?: boolean;
+  hasBenchmark?: boolean;
+  related?: string[];
+  scienceBasis?: string;
+  mathModel?: string;
+  codeSources?: string[];
+  failureModes?: string[];
+  useCases?: string[];
 };
 
-export const concepts: Concept[] = [
+const authoredConcepts: Concept[] = [
   {
     slug: "maladies", number: "01", title: "Failure modes", eyebrow: "COMPUTATIONAL PATHOLOGY",
     intro: "GenOS models potential failures in an agent system: excessive alerts, cross-workspace contamination, unintended intervention effects, or degraded performance.",
@@ -100,6 +117,47 @@ export const concepts: Concept[] = [
     scope: "Ontology operations describe or compare hypothetical structures. They do not grant authorization, promote a result, or prove that a scenario occurred in the real world.",
     source: "03-reference/ontologie-operationnelle.md", sourceLabel: "Operational ontology contract",
   },
+];
+
+const authoredMetadata: Record<string, Partial<Concept>> = {
+  maladies: { familyId: "immunity-medicine", implementation: "partial", integration: "isolated", evidence: "unassessed", statusNote: "The source describes a clinical runtime model and marks its connected effects as partial.", related: ["nosology", "immune-system", "evidence"], biologyInspired: true },
+  memoire: { familyId: "memory-learning", implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Several retrieval and memory mechanisms are present; this status does not mean every memory type is integrated end to end.", related: ["episodic-memory", "semantic-memory", "vector-memory", "synaptic-plasticity"], biologyInspired: true, hasMathematics: true },
+  cortex: { familyId: "cognition-control", implementation: "conceptual", integration: "isolated", evidence: "none", statusNote: "Cortex is a documented architectural analogy, not a unified runtime organ.", related: ["agow", "semantic-memory", "theory-of-self"], biologyInspired: true },
+  ontogenese: { familyId: "identity-development", implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "The resident loop and persistence mechanisms exist; recovery is not guaranteed for every scenario.", related: ["workflows", "resident-daemons", "counterfactual-workspaces"], biologyInspired: true },
+  ontologie: { familyId: "knowledge-evidence", implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Bounded ontology services are callable; they do not prove that a described entity or scenario exists.", related: ["knowledge", "beliefs", "evidence"], hasMathematics: true },
+};
+
+const registeredConcepts: Concept[] = catalogConcepts.map((entry, index) => ({
+  slug: entry.slug as ConceptSlug,
+  number: String(authoredConcepts.length + index + 1).padStart(2, "0"),
+  title: entry.title,
+  eyebrow: entry.familyId.replaceAll("-", " ").toUpperCase(),
+  intro: entry.intro,
+  status: "Status not yet assessed",
+  statusTone: "amber",
+  diagram: undefined,
+  diagramTitle: "No site diagram registered",
+  diagramDescription: "This registry entry links the named concept to its canonical GenOS source.",
+  steps: [],
+  scopeTitle: "Source-led catalog entry",
+  scope: "This concept is indexed in the public atlas. The three implementation axes have not yet been mapped to a dedicated, versioned product contract for this entry; the linked GenOS source is the place to inspect its current scope.",
+  source: entry.source.replace(/^\.\.\//, ""),
+  sourceLabel: entry.title,
+  familyId: entry.familyId,
+  implementation: "unassessed",
+  integration: "unassessed",
+  evidence: "unassessed",
+  statusNote: "No concept-specific implementation, integration, or evidence record is registered in this atlas yet.",
+  biologyInspired: entry.biologyInspired,
+  hasMathematics: entry.hasMathematics,
+  hasSimulation: entry.hasSimulation,
+  hasBenchmark: entry.hasBenchmark,
+  related: entry.related,
+}));
+
+export const concepts: Concept[] = [
+  ...authoredConcepts.map((concept) => ({ ...concept, ...authoredMetadata[concept.slug] })),
+  ...registeredConcepts,
 ];
 
 export function getConcept(slug: string) {

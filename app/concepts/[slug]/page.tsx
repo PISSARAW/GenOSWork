@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Eyebrow } from "@/components/eyebrow";
 import { ConceptDiagramView } from "@/components/concept-diagram";
-import { concepts, getConcept } from "@/components/concepts";
+import { concepts, getConcept, type Concept } from "@/components/concepts";
+import { conceptFamilies } from "@/components/concept-catalog";
+import { RealityBar, genosSourceCommit } from "@/components/reality-bar";
 
 export function generateStaticParams() {
   return concepts.map(({ slug }) => ({ slug }));
@@ -27,31 +29,66 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
   const index = concepts.findIndex((item) => item.slug === concept.slug);
   const previous = concepts[(index - 1 + concepts.length) % concepts.length];
   const next = concepts[(index + 1) % concepts.length];
+  const family = conceptFamilies.find((item) => item.id === concept.familyId);
+  const implementation = concept.implementation ?? "unassessed";
+  const integration = concept.integration ?? "unassessed";
+  const evidence = concept.evidence ?? "unassessed";
+  const related = (concept.related ?? []).map((relatedSlug) => getConcept(relatedSlug)).filter((item): item is Concept => item !== undefined);
 
   return (
     <div className="page-shell" lang="en">
       <section className="page-hero section-wrap concept-detail-hero">
         <Link className="concept-back-link" href="/concepts">← All concepts</Link>
-        <Eyebrow>{concept.number} · {concept.eyebrow}</Eyebrow>
+        <Eyebrow>{concept.number} · {family?.name ?? concept.eyebrow}</Eyebrow>
         <h1>{concept.title}<br /><em>in GenOS.</em></h1>
         <p>{concept.intro}</p>
-        <span className={`concept-status concept-status-${concept.statusTone}`}><i />{concept.status}</span>
       </section>
 
-      <section className="section-wrap concept-explainer">
+      <div className="section-wrap concept-reality-wrap">
+        <RealityBar implementation={implementation} integration={integration} evidence={evidence} note={concept.statusNote} />
+      </div>
+
+      {concept.diagram && <section className="section-wrap concept-explainer">
         <ConceptDiagramView kind={concept.diagram} title={concept.diagramTitle} description={concept.diagramDescription} />
+      </section>}
+
+      <section className="section-wrap concept-model-section">
+        <div className="concept-section-heading"><Eyebrow>DEFINITION AND SCIENCE</Eyebrow><h2>What it means<br /><em>in GenOS.</em></h2></div>
+        <div className="concept-model-grid">
+          <article><span>IN ONE SENTENCE</span><p>{concept.intro}</p></article>
+          <article><span>BIOLOGICAL / SCIENTIFIC BASIS</span><p>{concept.scienceBasis ?? (concept.biologyInspired ? "The linked GenOS source documents the inspiration and its limits; this atlas entry has not yet summarized that evidence." : "No biological equivalence is asserted by this entry. See the linked source for the concept's stated foundations and scope.")}</p></article>
+          <article><span>GENOS TRANSLATION</span><p>{concept.steps.length ? concept.steps.map((step) => step.title).join(" → ") : concept.intro}</p></article>
+          <article className="concept-math-panel"><span>MATHEMATICAL / LOGICAL MODEL</span><p>{concept.mathModel ?? (concept.hasMathematics ? "A mathematical treatment is linked from the canonical source; this atlas entry does not restate it." : "No normalized mathematical model is registered in this atlas entry.")}</p></article>
+        </div>
       </section>
 
       <section className="section-wrap concept-steps">
-        <div className="concept-section-heading"><Eyebrow>HOW IT WORKS</Eyebrow><h2>Four steps,<br /><em>one mechanism.</em></h2></div>
+        <div className="concept-section-heading"><Eyebrow>PROCESS AND USE</Eyebrow><h2>{concept.steps.length ? "How it works" : "Use cases"}<br /><em>at a glance.</em></h2></div>
         <div className="concept-step-list">
-          {concept.steps.map((step, stepIndex) => (
+          {concept.steps.length ? concept.steps.map((step, stepIndex) => (
             <article className="concept-step" key={step.title}>
               <span>{String(stepIndex + 1).padStart(2, "0")}</span>
               <div><h3>{step.title}</h3><p>{step.body}</p></div>
               <b aria-hidden="true">↘</b>
             </article>
+          )) : (concept.useCases?.length ? concept.useCases : ["The linked canonical source describes the intended use; a reviewed example has not yet been added to this atlas entry."]).map((useCase, useCaseIndex) => (
+            <article className="concept-step" key={useCase}>
+              <span>{String(useCaseIndex + 1).padStart(2, "0")}</span>
+              <div><h3>Use case</h3><p>{useCase}</p></div>
+              <b aria-hidden="true">↘</b>
+            </article>
           ))}
+        </div>
+      </section>
+
+      <section className="concept-architecture-wrap">
+        <div className="section-wrap concept-architecture">
+          <div><Eyebrow light>RUNTIME IMPLEMENTATION</Eyebrow><h2>What is connected,<br /><em>and how far.</em></h2><p>{concept.scope}</p></div>
+          <div className="concept-architecture-details">
+            <article><span>IMPLEMENTATION DETAIL</span><p>{concept.statusNote ?? "No concept-specific status record has been curated in the atlas."}</p></article>
+            <article><span>FAILURE MODES</span><p>{concept.failureModes?.join(" · ") ?? "Failure modes have not yet been separately cataloged for this entry; follow the source and evidence links before relying on the mechanism."}</p></article>
+            <article><span>CODE REFERENCES</span><p>{concept.codeSources?.length ? concept.codeSources.join(" · ") : "No implementation file is pinned to this concept entry yet."}</p></article>
+          </div>
         </div>
       </section>
 
@@ -98,12 +135,21 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
 
       <section className="concept-scope-wrap">
         <div className="section-wrap concept-scope">
-          <Eyebrow light>SCOPE AND LIMITS</Eyebrow>
+          <Eyebrow light>EVIDENCE AND LIMITS</Eyebrow>
           <h2>{concept.scopeTitle}</h2>
           <p>{concept.scope}</p>
-          <a href={`https://github.com/PISSARAW/GenOS/blob/v3/docs/${concept.source}`} target="_blank" rel="noreferrer">Read the source: {concept.sourceLabel} <span>↗</span></a>
+          <div className="concept-evidence-links">
+            <a href={`https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/docs/${concept.source}`} target="_blank" rel="noreferrer">Read the pinned source: {concept.sourceLabel} <span>↗</span></a>
+            <Link href="/evidence">Open the evidence ledger <span>→</span></Link>
+            {concept.hasBenchmark && <Link href="/benchmarks">Browse benchmark protocols <span>→</span></Link>}
+          </div>
         </div>
       </section>
+
+      {related.length > 0 && <section className="section-wrap concept-related">
+        <Eyebrow>RELATED CONCEPTS</Eyebrow>
+        <div>{related.map((item) => <Link key={item.slug} href={`/concepts/${item.slug}`}><span>{item.title}</span><b>↗</b></Link>)}</div>
+      </section>}
 
       <nav className="section-wrap concept-pagination" aria-label="Navigation between concepts">
         <Link href={`/concepts/${previous.slug}`}><span>PREVIOUS</span><strong>← {previous.title}</strong></Link>
