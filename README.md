@@ -22,8 +22,10 @@ Open `http://localhost:3000`.
 - `/topologies/[slug]` — individual profile for each of the eight topologies
 - `/concepts` — searchable Concept Atlas grouped by 11 system families
 - `/concepts/[slug]` — concept definition, source, status axes, limits, and related concepts
-- `/systems` — overview of the Concept Atlas families
+- `/systems` — interactive System Map and overview of Concept Atlas families
+- `/systems/organism` — biological organism map with explicit analogy limits
 - `/lab` — clearly labeled local illustration
+- `/lab/models` — eight topology and seven concept browser simulations
 - `/evidence` — implementation status and source ledger
 - `/developers` — repository entry points and quick start
 

@@ -9,6 +9,8 @@
 - [Orchestration topologies](https://genoswork.vercel.app/topologies)
 - [GenOS Concept Atlas](https://genoswork.vercel.app/concepts)
 - [Concept system families](https://genoswork.vercel.app/systems)
+- [Biological organism map](https://genoswork.vercel.app/systems/organism)
+- [Interactive model studio](https://genoswork.vercel.app/lab/models)
 - [Research map](https://genoswork.vercel.app/research)
 - [Benchmark results and protocols](https://genoswork.vercel.app/benchmarks)
 - [Morphogenesis Lab](https://genoswork.vercel.app/lab)

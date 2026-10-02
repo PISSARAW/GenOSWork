@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 import "./supervision.css";
 import "./morphogenesis.css";
+import "./p2.css";
 
 const siteUrl = "https://genoswork.vercel.app";
 

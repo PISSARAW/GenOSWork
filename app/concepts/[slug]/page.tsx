@@ -7,6 +7,14 @@ import { concepts, getConcept, type Concept } from "@/components/concepts";
 import { conceptFamilies } from "@/components/concept-catalog";
 import { RealityBar, genosSourceCommit } from "@/components/reality-bar";
 
+const modelByConcept: Record<string, string> = {
+  agow: "agow", attention: "agow", genome: "genome", epigenetics: "genome", "agent-dna": "agent-dna",
+  evidence: "evidence", beliefs: "evidence", claims: "evidence", contradictions: "evidence", provenance: "evidence",
+  memoire: "memory", "episodic-memory": "memory", "semantic-memory": "memory", "procedural-memory": "memory",
+  maladies: "immunity", "immune-system": "immunity", "adaptive-epistemic-immunity": "immunity", pathologies: "immunity",
+  "lean-verification": "lean", "proof-artifact": "lean", "deterministic-verification": "lean",
+};
+
 export function generateStaticParams() {
   return concepts.map(({ slug }) => ({ slug }));
 }
@@ -142,6 +150,7 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
             <a href={`https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/docs/${concept.source}`} target="_blank" rel="noreferrer">Read the pinned source: {concept.sourceLabel} <span>↗</span></a>
             <Link href="/evidence">Open the evidence ledger <span>→</span></Link>
             {concept.hasBenchmark && <Link href="/benchmarks">Browse benchmark protocols <span>→</span></Link>}
+            {modelByConcept[concept.slug] && <Link href={`/lab/models?model=${modelByConcept[concept.slug]}`}>Explore the local teaching simulation <span>→</span></Link>}
           </div>
         </div>
       </section>

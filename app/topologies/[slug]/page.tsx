@@ -56,7 +56,7 @@ export default async function TopologyDetailPage({ params }: Props) {
       </section>
       <section className="section-wrap topology-related-section"><Eyebrow>RELATED CONCEPTS</Eyebrow><div>{guide.relatedConcepts.map((relatedSlug) => { const related = getRelatedConcept(relatedSlug); return related && <Link key={related.slug} href={`/concepts/${related.slug}`}><span>{related.title}</span><b>↗</b></Link>; })}</div></section>
       <section className="section-wrap profile-source"><span>CANONICAL CONTRACT</span><a href={`https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/docs/02-orchestration/topologies/${slug}.md`} target="_blank" rel="noreferrer">Read the {topology.name} documentation ↗</a><a href={`https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/docs/02-orchestration/topologies-et-capacites.md`} target="_blank" rel="noreferrer">Compare capability contracts ↗</a><a href={`https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/docs/03-reference/plugins-topologies-morphogenese.md`} target="_blank" rel="noreferrer">Read plugin boundaries ↗</a></section>
-      <section className="section-wrap profile-next"><span>EXPLORE MORE</span><Link href="/lab">Morphogenesis Lab →</Link><Link href="/evidence">Evidence ledger →</Link></section>
+      <section className="section-wrap profile-next"><span>EXPLORE MORE</span><Link href={`/lab/models?model=${slug}`}>Adjust this topology model →</Link><Link href="/lab">Morphogenesis Lab →</Link><Link href="/evidence">Evidence ledger →</Link></section>
     </div>
   );
 }
