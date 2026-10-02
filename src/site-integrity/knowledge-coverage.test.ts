@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { concepts } from "@/components/concepts";
 import { catalogConcepts, conceptFamilies } from "@/components/concept-catalog";
 import { topologies } from "@/components/topologies";
-import { primaryNav, frenchStatus } from "@/components/site-config";
+import { primaryNav, frenchStatus, truthModes } from "@/components/site-config";
+import { researchSections } from "@/components/research-program";
 
 describe("GenOS knowledge coverage (public contract)", () => {
   it("registers every catalog concept with route, definition, family, relations, statuses, source", () => {
@@ -78,5 +79,33 @@ describe("GenOS knowledge coverage (public contract)", () => {
     expect(frenchStatus("/benchmarks")).toBe("FULL");
     expect(frenchStatus("/concepts/agow")).toBe("SUMMARY");
     expect(frenchStatus("/topologies/trinity")).toBe("SUMMARY");
+  });
+
+  it("keeps three distinct truth modes (simulation is not a run, a run is not live)", () => {
+    expect(Object.keys(truthModes).sort()).toEqual(["LIVE", "RECORDED", "SIMULATION"]);
+    for (const mode of Object.values(truthModes)) {
+      expect(mode.label).toBeTruthy();
+      expect(mode.description).toBeTruthy();
+    }
+  });
+
+  it("chains every research area: external science, GenOS hypothesis, evidence, status", () => {
+    expect(researchSections.length).toBe(6);
+    const valid = new Set([
+      "HYPOTHESIS",
+      "PROTOCOL",
+      "RUNNING",
+      "SUPPORTED IN THIS EXPERIMENT",
+      "NOT SUPPORTED",
+      "INCONCLUSIVE",
+      "REPLICATED",
+    ]);
+    for (const section of researchSections) {
+      expect(section.externalBasis, `science ${section.index}`).toBeTruthy();
+      expect(section.genosHypothesis, `hypothesis ${section.index}`).toBeTruthy();
+      expect(section.evidenceHref, `evidence ${section.index}`).toBeTruthy();
+      expect(valid.has(section.status), `status ${section.index}`).toBe(true);
+      expect(section.links.length).toBeGreaterThan(0);
+    }
   });
 });
