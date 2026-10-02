@@ -13,6 +13,9 @@
 - [Interactive model studio](https://genoswork.vercel.app/lab/models)
 - [Research map](https://genoswork.vercel.app/research)
 - [Benchmark results and protocols](https://genoswork.vercel.app/benchmarks)
+- [Interactive benchmark result explorer](https://genoswork.vercel.app/benchmarks#benchmark-explorer-title)
+- [Recorded GenOS runs](https://genoswork.vercel.app/runs)
+- [Live GenOS sandbox](https://genoswork.vercel.app/sandbox)
 - [Morphogenesis Lab](https://genoswork.vercel.app/lab)
 - [Evidence ledger](https://genoswork.vercel.app/evidence)
 - [Developer entry point](https://genoswork.vercel.app/developers)
@@ -30,4 +33,6 @@
 - The eight topology modes are wired to runtime paths, but services and capabilities vary by mode.
 - A capability contract does not mean every listed capability is activated in every execution.
 - The interactive topology lab is a local illustration, not a live GenOS run.
+- The benchmark explorer replays recorded result data; it does not rerun the benchmark suite.
+- The live sandbox sends a user-authorized request directly from the browser to the user's GenOS API endpoint.
 - Consult the runtime documentation for current implementation status, evidence and known limitations.

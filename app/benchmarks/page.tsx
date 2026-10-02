@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Eyebrow } from "@/components/eyebrow";
+import { BenchmarkExplorer } from "@/components/p3-explorers";
 
 export const metadata: Metadata = {
   title: "Benchmarks and results",
@@ -128,6 +129,10 @@ export default function BenchmarksPage() {
         <div className="benchmark-subhead"><span>LOCAL EXPERIMENTS AND SIMULATIONS</span><i /></div>
         <div className="benchmark-grid">{experiments.map((item) => <EvaluationCard item={item} key={item.id} />)}</div>
       </section>
+
+      <BenchmarkExplorer />
+
+      <section className="section-wrap p3-cross-links"><a href="/runs"><span>RECORDED GENOS CAMPAIGN</span><strong>Inspect real run traces, including failed missions →</strong></a><a href="/sandbox"><span>LIVE RUNTIME</span><strong>Connect a scoped GenOS endpoint and run a mission →</strong></a></section>
 
       <section className="benchmark-planned">
         <div className="section-wrap benchmark-planned-inner">

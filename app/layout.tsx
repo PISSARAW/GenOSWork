@@ -6,6 +6,7 @@ import "./globals.css";
 import "./supervision.css";
 import "./morphogenesis.css";
 import "./p2.css";
+import "./p3.css";
 
 const siteUrl = "https://genoswork.vercel.app";
 

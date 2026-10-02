@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "provenance": {
+    "runId": "campaign-2026-09-25T14-31-31-114Z",
+    "sourceCommit": "b07e5426c93a3da506f79a5c9c581c99ddedac6b",
+    "sourceArtifact": "artifacts/topology-morphogenesis/campaign-2026-09-25T14-31-31-114Z/campaign-results.json",
+    "executor": "local",
+    "model": "qwen2.5:14b",
+    "database": "isolated campaign database",
+    "qualification": "historical experimental campaign; verification failed",
+    "capturedAt": "2026-09-25",
+    "sha256": "01D6434C6608D923C47808BCD791AC793CEB10C1B69715222C36A2F40E8251B3"
+  },
+  "summary": {
+    "missions": 12,
+    "verifiedMissions": 0,
+    "acceptedDispatches": 2,
+    "timeouts": 3,
+    "totalWorkerErrors": 8,
+    "sessionProbeVerified": 1
+  },
+  "missions": [
+    {
+      "name": "orchestrateur-simple",
+      "exitCode": 1,
+      "timedOut": false,
+      "durationMs": 306829,
+      "dispatchStatus": null,
+      "workerStatuses": [],
+      "passed": false,
+      "failures": [
+        "orchestrator receipt missing",
+        "process exited with code 1",
+        "completion gate did not authorize the mission",
+        "independent arithmetic proof missing or invalid"
+      ],
+      "sessionProbeVerified": null
+    },
+    {
+      "name": "topologie-trinity",
+      "exitCode": 1,
+      "timedOut": false,
+      "durationMs": 161854,
+      "dispatchStatus": null,
+      "workerStatuses": [],
+      "passed": false,
+      "failures": [
+        "orchestrator receipt missing",
+        "process exited with code 1",
+        "no persisted topology workers"
+      ],
+      "sessionProbeVerified": null
+    },
+    {
+      "name": "topologie-a-team",
+      "exitCode": 1,
+      "timedOut": false,
+      "durationMs": 146682,
+      "dispatchStatus": null,
+      "workerStatuses": [],
+      "passed": false,
+      "failures": [
+        "orchestrator receipt missing",
+        "process exited with code 1",
+        "no persisted topology workers"
+      ],
+      "sessionProbeVerified": null
+    },
+    {
+      "name": "topologie-biome",
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 276423,
+      "dispatchStatus": "accepted",
+      "workerStatuses": [
+        "error",
+        "error",
+        "error",
+        "error"
+      ],
+      "passed": false,
+      "failures": [
+        "4 topology worker(s) are not completed"
+      ],
+      "sessionProbeVerified": true
+    },
+    {
+      "name": "topologie-biocenose",
+      "exitCode": 0,
+      "timedOut": false,
+      "durationMs": 268321,
+      "dispatchStatus": "accepted",
+      "workerStatuses": [
+        "error",
+        "error",
+        "error",
+        "error"
+      ],
+      "passed": false,
+      "failures": [
+        "4 topology worker(s) are not completed"
+      ],
+      "sessionProbeVerified": null
+    },
+    {
+      "name": "topologie-holobionte",
+      "exitCode": 1,
+      "timedOut": false,
+      "durationMs": 27768,
+      "dispatchStatus": null,
+      "workerStatuses": [],
+      "passed": false,
+      "failures": [
+        "orchestrator receipt missing",
+        "process exited with code 1",
+        "no persisted topology workers"
+      ],
+      "sessionProbeVerified": null
+    },
+    {
+      "name": "topologie-syncytium",
+      "exitCode": 1,
+      "timedOut": false,
+      "durationMs": 15695,
+      "dispatchStatus": null,
+      "workerStatuses": [],
+      "passed": false,
+      "failures": [
+        "orchestrator receipt missing",
+        "process exited with code 1",
+        "no persisted topology workers"
+      ],
+      "sessionProbeVerified": null
+    },
+    {
+      "name": "topologie-rhizome",
+      "exitCode": null,
+      "timedOut": true,
+      "durationMs": 360344,
+      "dispatchStatus": null,
+      "workerStatuses": [],
+      "passed": false,
+      "failures": [
+        "mission timed out",
+        "orchestrator receipt missing",
+        "process exited with code unknown",
+        "no persisted topology workers"
+      ],
+      "sessionProbeVerified": null
+    },
+    {
+      "name": "topologie-metapopulation",
+      "exitCode": 1,
+      "timedOut": false,
+      "durationMs": 134272,
+      "dispatchStatus": null,
+      "workerStatuses": [],
+      "passed": false,
+      "failures": [
+        "orchestrator receipt missing",
+        "process exited with code 1",
+        "no persisted topology workers"
+      ],
+      "sessionProbeVerified": null
+    },
+    {
+      "name": "morphogenese-plan",
+      "exitCode": 1,
+      "timedOut": false,
+      "durationMs": 122577,
+      "dispatchStatus": null,
+      "workerStatuses": [],
+      "passed": false,
+      "failures": [
+        "orchestrator receipt missing",
+        "process exited with code 1",
+        "morphogenesis plan did not pass the completion gate"
+      ],
+      "sessionProbeVerified": null
+    },
+    {
+      "name": "morphogenese-shadow",
+      "exitCode": null,
+      "timedOut": true,
+      "durationMs": 360027,
+      "dispatchStatus": null,
+      "workerStatuses": [],
+      "passed": false,
+      "failures": [
+        "mission timed out",
+        "orchestrator receipt missing",
+        "process exited with code unknown",
+        "V2 shadow decision missing",
+        "shadow run committed or commit state is unproven",
+        "shadow mission completion gate did not pass"
+      ],
+      "sessionProbeVerified": null
+    },
+    {
+      "name": "garde-preuve-negative",
+      "exitCode": null,
+      "timedOut": true,
+      "durationMs": 360026,
+      "dispatchStatus": null,
+      "workerStatuses": [],
+      "passed": false,
+      "failures": [
+        "mission timed out",
+        "orchestrator receipt missing",
+        "negative control did not prove an evidence-based block"
+      ],
+      "sessionProbeVerified": null
+    }
+  ]
+}
