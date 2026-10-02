@@ -1,0 +1,157 @@
+export type ConceptFamily = { id: string; name: string; description: string };
+export type ImplementationState = "conceptual" | "proposed" | "partial" | "experimental" | "implemented" | "unassessed";
+export type IntegrationState = "isolated" | "callable" | "wired" | "end-to-end" | "unassessed";
+export type EvidenceState = "none" | "unit-tested" | "integration-tested" | "benchmark-protocol" | "benchmarked" | "replicated" | "unassessed";
+
+export type CatalogConcept = {
+  slug: string; title: string; familyId: string; intro: string; source: string;
+  biology: boolean; mathematics: boolean; simulation: boolean; benchmark: boolean; related: string[];
+};
+
+export const conceptFamilies: ConceptFamily[] = [
+  { id: "identity-development", name: "Identity & Development", description: "What agents inherit, how traits are shaped, and how projects continue between missions." },
+  { id: "cognition-control", name: "Cognition & Control", description: "Candidate workspaces, prediction, attention, and bounded control loops." },
+  { id: "knowledge-evidence", name: "Knowledge & Evidence", description: "Claims, sources, uncertainty, contradiction, and calibrated judgment." },
+  { id: "memory-learning", name: "Memory & Learning", description: "How episodes, knowledge, procedures, and learned changes are retained and retrieved." },
+  { id: "collective-intelligence", name: "Collective Intelligence", description: "Runtime components and communication patterns that let agents coordinate." },
+  { id: "orchestration", name: "Orchestration", description: "The eight topologies and the structures they use to organize work." },
+  { id: "evolution-ecology", name: "Evolution & Ecology", description: "Variation, selection, transfer, populations, niches, and recovery across groups." },
+  { id: "physiology-perception", name: "Physiology & Perception", description: "Resource regulation, sensing, foraging, and other bounded runtime processes." },
+  { id: "immunity-medicine", name: "Immunity & Medicine", description: "Threat response and pathology models, with the limits of computational health metaphors." },
+  { id: "formal-verification", name: "Formal Verification", description: "Deterministic procedures, proof artifacts, solvers, and verification boundaries." },
+  { id: "runtime-infrastructure", name: "Runtime & Infrastructure", description: "State, execution boundaries, integrations, authority, and observability." },
+];
+
+type Row = [string, string, string, string?, string?, boolean?, boolean?, boolean?, boolean?];
+const groups: Record<string, { source: string; rows: Row[] }> = {
+  "identity-development": { source: "01-concepts/genome-et-epigenetique.md", rows: [
+    ["genome", "Genome", "Inherited specifications and constraints shape an agent phenotype.", undefined, "epigenetics,agent-dna,phenotype", true, true],
+    ["epigenetics", "Epigenetics", "Contextual regulation changes how inherited specifications are expressed.", undefined, "genome,phenotype", true, true],
+    ["agent-dna", "AgentDNA", "A versioned binary representation for agent identity and runtime traits.", "01-concepts/agent-dna-runtime.md", "genome,phenotype"],
+    ["phenotype", "Phenotype", "An observable runtime profile shaped by identity, constraints, and environment.", "01-concepts/biologie-computationnelle.md", "genome,epigenetics,instinct", true],
+    ["instinct", "Instinct", "Bounded innate response patterns that may be selected or modulated by runtime context.", "01-concepts/instinct.md", "phenotype,homeostasis", true],
+    ["reproduction", "Reproduction", "Controlled creation of descendants or replicas with explicit lineage and inheritance rules.", "02-orchestration/reproduction-et-replication.md", "genome,plasmids,phenotype", true],
+    ["speciation-graft", "Speciation & grafting", "A documented path for proposing a capability or lineage and evaluating it before promotion.", "01-concepts/speciation-graft-autonome.md", "genome,evolution-selection,evidence", true],
+  ] },
+  "cognition-control": { source: "02-orchestration/agow.md", rows: [
+    ["agow", "AGOW", "An active workspace where candidate frames compete and selected content can be broadcast under policy.", undefined, "gvx,attention,episodic-memory,evidence", true, true, false, true],
+    ["gvx", "GVX", "A verified development loop that isolates changes, observes outcomes, and uses evidence to govern maturity.", "02-orchestration/adaptateurs-gvx-runtime.md", "agow,counterfactual-workspaces,proof-artifact", true, true, false, true],
+    ["theory-of-self", "Theory of self", "Runtime models describe agent identity, continuity, and change without asserting subjective experience.", "02-orchestration/theorie-du-soi-orchestrator.md", "self-model,genome,episodic-memory"],
+    ["self-model", "Self-model", "A bounded model of agent identity and continuity used for analysis, not as a claim of subjective experience.", "02-orchestration/theorie-du-soi-orchestrator.md", "theory-of-self,genome,episodic-memory"],
+    ["predictive-system", "Predictive system", "A multi-scale model relating observations, hypotheses, and expected outcomes.", "02-orchestration/systeme-predictif-multi-echelles.md", "agow,evidence,natural-search-control-plane", false, true],
+    ["natural-search-control-plane", "Natural Search Control Plane", "A bounded search model using pressure, causal progress, hypotheses, and explicit control.", "01-concepts/natural-search-control-plane.md", "gvx,evidence,mutation", true, true],
+    ["attention", "Attention & salience", "Signals used to prioritize limited agent work toward relevant inputs.", undefined, "agow,sensorium,metabolism", true, true],
+    ["consciousness-taxonomy", "Mind and consciousness taxonomy", "A vocabulary for computational indicators that separates them from claims of subjective experience.", "01-concepts/conscience-esprit-mental.md", "theory-of-self,functional-indicators"],
+    ["functional-indicators", "Functional indicators", "Observable indicators for bounded analysis; they do not establish subjective consciousness.", "01-concepts/indicateurs-fonctionnels.md", "consciousness-taxonomy,evidence", false, true],
+  ] },
+  "knowledge-evidence": { source: "01-concepts/epistemologie-et-evidence.md", rows: [
+    ["epistemics", "Epistemics", "Runtime vocabulary for representing what is known, uncertain, or contested.", undefined, "beliefs,claims,evidence,provenance", false, true],
+    ["beliefs", "Beliefs", "Versioned propositions with confidence, provenance, and revision history.", "01-concepts/savoir-et-epistemologie.md", "claims,evidence,contradictions,brier-calibration", false, true],
+    ["claims", "Claims", "Explicit statements that can be supported, challenged, scoped, and linked to evidence.", undefined, "evidence,provenance,contradictions"],
+    ["evidence", "Evidence", "Artifacts and observations used to support or reject a claim under a stated decision rule.", undefined, "claims,provenance,proof-artifact", false, true],
+    ["contradictions", "Contradictions", "Conflicting claims or observations preserved for review rather than silently collapsed.", "01-concepts/savoir-et-epistemologie.md", "beliefs,claims,brier-calibration"],
+    ["provenance", "Provenance", "Source and lineage information attached to evidence, findings, and decisions.", undefined, "evidence,agent-git,counterfactual-workspaces"],
+    ["brier-calibration", "Brier calibration", "A scoring method for comparing probabilistic forecasts with resolved outcomes.", "01-concepts/savoir-et-epistemologie.md", "beliefs,biocenose,evidence", false, true],
+    ["gettier", "Gettier problems", "A model for examining why a justified belief may still fail to count as knowledge.", "01-concepts/savoir-et-epistemologie.md", "beliefs,evidence,provenance", false, true],
+    ["knowledge", "Knowledge", "Structured representation of sources, claims, inference, and uncertainty.", "01-concepts/savoir-et-epistemologie.md", "epistemics,beliefs,evidence,provenance"],
+  ] },
+  "memory-learning": { source: "01-concepts/memoire-et-apprentissage.md", rows: [
+    ["episodic-memory", "Episodic memory", "Contextual records of events, actions, observations, and outcomes.", undefined, "semantic-memory,agent-git,provenance", true],
+    ["semantic-memory", "Semantic memory", "Indexed facts and relationships retrieved to supply context to a mission.", undefined, "episodic-memory,vector-memory,provenance", false, true],
+    ["vector-memory", "Vector memory", "Similarity-search representations used to retrieve related items from an embedding index.", undefined, "semantic-memory,episodic-memory"],
+    ["procedural-memory", "Procedural memory", "Reusable instructions or action sequences represented as runtime knowledge.", undefined, "episodic-memory,instinct,workflows"],
+    ["synaptic-plasticity", "Synaptic plasticity", "A bounded update of selected associations or weights based on observed signals.", "01-concepts/neurobiologie-et-plasticite.md", "stdp,episodic-memory,natural-search-control-plane", true, true],
+    ["stdp", "STDP", "Spike-timing-dependent plasticity as a timing-based computational update rule.", "01-concepts/neurobiologie-et-plasticite.md", "synaptic-plasticity,memory-fossilization", true, true],
+    ["memory-fossilization", "Fossilization", "Terminal archival of a lineage or experience while preserving its historical record.", "01-concepts/fossilisation.md", "episodic-memory,agent-git,evolution-selection", true],
+    ["memory-retrieval", "Memory retrieval", "A ranked selection of stored items that may inform, but cannot prove, a current decision.", undefined, "episodic-memory,semantic-memory,evidence", false, true],
+  ] },
+  "collective-intelligence": { source: "02-orchestration/README.md", rows: [
+    ["morphogenesis", "Morphogenesis", "Composition of bounded executable graphs from topology and control operators.", "02-orchestration/noyau-controle-morphogenetique.md", "trinity,a-team,worker-kinds,evidence", true, true, true],
+    ["dynamic-organizations", "Dynamic organizations", "Nineteen declared organization patterns with deterministic steps and varying maturity.", "02-orchestration/topologies-et-capacites.md", "swarm-intelligence,stigmergy,a-team", true, true],
+    ["worker-kinds", "Worker kinds", "Runtime worker types selected against role and method capability requirements.", "03-reference/types-de-workers.md", "resident-daemons,a-team,identity-authority"],
+    ["resident-daemons", "Resident daemons", "Long-lived project services that observe state and may propose bounded work under policy.", "03-reference/types-de-daemons.md", "ontogenese,worker-kinds,observability"],
+    ["agent-relationships", "Agent relationships", "Declared and measured links that shape coordination, routing, or communication.", "02-orchestration/relations-inter-agents.md", "communication-ecology,rhizome,stigmergy"],
+    ["communication-ecology", "Communication ecology", "Signals and channels for bounded, typed coordination between agents.", "02-orchestration/communication.md", "agent-relationships,signal-plane,worker-kinds"],
+    ["signal-plane", "Zero-text signal plane", "Typed signal transport for inter-agent events with explicit delivery boundaries.", "01-concepts/signal-plane-zero-text.md", "communication-ecology,agent-relationships"],
+    ["agent-git", "AgentGit", "Versioned agent state and lineage operations such as commit, branch, diff, replay, and merge.", "02-orchestration/git-agents.md", "counterfactual-workspaces,provenance,episodic-memory"],
+    ["counterfactual-workspaces", "Counterfactual workspaces", "Isolated workspaces used to compare alternative changes before promotion.", "02-orchestration/workspaces-contrefactuel.md", "agent-git,gvx,evidence", false, true],
+  ] },
+  orchestration: { source: "02-orchestration/topologies-et-capacites.md", rows: [
+    ["trinity", "Trinity", "Three candidate worlds are compared through an evidence barrier before a candidate is retained or promoted.", "02-orchestration/topologies/trinity.md", "evidence,counterfactual-workspaces,gvx", false, true, true],
+    ["a-team", "A-Team", "Specialists coordinate through dependencies, explicit handoffs, and integration of deliverables.", "02-orchestration/topologies/a-team.md", "worker-kinds,workflows,morphogenesis", false, true, true, true],
+    ["biocenose", "Biocenosis", "A community evaluates proposals through evidence, explicit ballots, and policy-bound aggregation.", "02-orchestration/topologies/biocenose.md", "beliefs,brier-calibration,evidence", true, true, true],
+    ["holobionte", "Holobiont", "A host composes specialist symbionts under capability, resource, lifecycle, and execution contracts.", "02-orchestration/topologies/holobionte.md", "symbionts,immune-system,metabolism", true, true, true, true],
+    ["syncytium", "Syncytium", "Members coordinate around shared, versioned state with merge operations and invariant checks.", "02-orchestration/topologies/syncytium.md", "shared-state,evidence,morphogenesis", true, true, true, true],
+    ["rhizome", "Rhizome", "A capability graph with direct member selection and stigmergic traces; automatic multi-hop routing remains proposed.", "02-orchestration/topologies/rhizome.md", "agent-relationships,stigmergy,worker-kinds", true, true, true],
+    ["metapopulation", "Metapopulation", "Semi-independent regional groups coordinate through explicit quorum, migration, and recovery planning.", "02-orchestration/topologies/metapopulation.md", "populations,evolution-selection,resilience", true, true, true],
+    ["biome", "Biome", "A resource environment with niches and a bounded, mission-triggered observe–propose–constrain–act–verify loop.", "02-orchestration/topologies/biome.md", "niches,metabolism,web-foraging", true, true, true],
+  ] },
+  "evolution-ecology": { source: "01-concepts/genome-et-epigenetique.md", rows: [
+    ["mutation", "Mutation", "A constrained change to inherited or runtime traits, subject to validation and lineage tracking.", undefined, "genome,evolution-selection,agent-dna", true, true],
+    ["evolution-selection", "Selection", "A policy for comparing candidates and retaining outcomes under explicit criteria.", "02-orchestration/reproduction-et-replication.md", "mutation,reproduction,trinity", true, true],
+    ["plasmids", "Plasmids", "Transferable capability packages acquired and applied under runtime rules.", "adr/0108-cycle-de-vie-plasmidique.md", "horizontal-transfer,genome,symbionts", true],
+    ["horizontal-transfer", "Horizontal transfer", "Governed transfer of capabilities or artifacts between agent lineages.", "adr/0108-cycle-de-vie-plasmidique.md", "plasmids,reproduction,evidence", true],
+    ["swarm-intelligence", "Swarm intelligence", "Local coordination and optimization patterns implemented as bounded organization steps.", "01-concepts/intelligence-de-nuee.md", "stigmergy,dynamic-organizations,populations", true, true],
+    ["stigmergy", "Stigmergy", "Coordination through traces deposited in a shared environment and read by later work.", "01-concepts/intelligence-de-nuee.md", "rhizome,swarm-intelligence,communication-ecology", true, true],
+    ["niches", "Niches", "Regions of a search environment associated with resources and specialized capabilities.", "01-concepts/natural-creative-ecology.md", "biome,populations,web-foraging", true],
+    ["populations", "Populations", "Groups of agents or candidate solutions whose composition changes under explicit policies.", "01-concepts/intelligence-de-nuee.md", "metapopulation,evolution-selection,mutation", true, true],
+    ["cryptobiosis", "Cryptobiosis & dormancy", "A bounded suspended state that preserves continuity until an explicit resume condition is met.", "01-concepts/continuite-mission.md", "ontogenese,resilience,episodic-memory", true],
+    ["natural-creative-ecology", "Natural creative ecology", "Open-ended search through recombination, exploration, plasticity, and selection.", "01-concepts/natural-creative-ecology.md", "mutation,evolution-selection,memory-fossilization", true, true],
+  ] },
+  "physiology-perception": { source: "01-concepts/organes-vitaux-agents.md", rows: [
+    ["sensorium", "Sensorium", "Runtime structures for observation and perception signals, with boundaries between simulated and real inputs.", undefined, "web-foraging,foveation,animal-senses", true],
+    ["metabolism", "Metabolism", "Resource accounting and allocation rules that constrain agent work.", "adr/0055-plan-metabolique-ressources-holobionte.md", "biome,homeostasis,attention", true, true],
+    ["homeostasis", "Homeostasis & allostasis", "Target regulation and anticipatory adjustment under changing conditions and declared bounds.", "adr/0065-homeostasie-environnement-hote.md", "metabolism,resilience,instinct", true, true],
+    ["resilience", "Resilience & recovery", "Recovery planning and bounded continuation after failure, loss, or interruption.", "04-exploitation/resilience-et-reprise.md", "metapopulation,cryptobiosis,ontogenese", true],
+    ["development", "Development", "A staged process for changing an agent or project while retaining lineage, constraints, and evidence.", "01-concepts/ontogenese.md", "genome,gvx,ontogenese", true],
+    ["symbionts", "Symbionts", "Specialist services composed by a host under explicit capability and execution contracts.", "adr/0079-daemons-symbiontes-residents.md", "holobionte,resident-daemons,plasmids", true],
+    ["web-foraging", "Web foraging", "A resource-selection calculation for web exploration, not by itself a continuous browser controller.", "01-concepts/biomimetisme/web-foraging.md", "sensorium,foveation,biome", true, true],
+    ["foveation", "Foveation", "Selection of a region of an observation for higher-resolution inspection.", "01-concepts/biomimetisme/sens-animaux.md", "sensorium,web-foraging,animal-control-primitives", true],
+    ["animal-senses", "Animal senses", "Sensory mechanisms used as constrained design analogies for runtime perception.", "01-concepts/biomimetisme/sens-animaux.md", "sensorium,foveation", true],
+    ["animal-control-primitives", "Animal control primitives", "Bounded control patterns inspired by animal behavior and translated into software operations.", "01-concepts/biomimetisme/primitives-controle-animal.md", "instinct,sensorium,homeostasis", true],
+  ] },
+  "immunity-medicine": { source: "01-concepts/adaptive-epistemic-immune-system.md", rows: [
+    ["adaptive-epistemic-immunity", "Adaptive epistemic immune system", "Threat-response model for checking claims and evidence while preserving authority and provenance boundaries.", undefined, "immune-system,evidence,biocenose", true, true],
+    ["immune-system", "Immune system", "Threat detection and containment mechanisms; no absolute immunity is implied.", undefined, "adaptive-epistemic-immunity,pathologies,holobionte", true],
+    ["nosology", "Nosology", "Classification of runtime pathologies used to describe failure patterns and possible responses.", "01-concepts/nosologie/pathologie-et-medecine.md", "pathologies,adaptive-epistemic-immunity"],
+    ["pathologies", "Computational pathologies", "A model of degraded or unsafe runtime states, not a medical diagnosis of people.", "01-concepts/nosologie/vue-ensemble.md", "nosology,immune-system,evidence"],
+    ["autoimmune", "Autoimmune failure", "Pathology category for safeguards that overreact to legitimate runtime behavior.", "01-concepts/nosologie/01-auto-immunes.md", "pathologies,immune-system"],
+    ["degenerative", "Degenerative failure", "Pathology category for progressive loss of runtime capability or state quality.", "01-concepts/nosologie/02-degeneratives.md", "pathologies,resilience"],
+    ["infectious", "Infectious failure", "Pathology category for unwanted propagation across agents or workspaces.", "01-concepts/nosologie/03-infectieuses.md", "pathologies,immune-system,sandbox"],
+    ["genetic-pathology", "Genetic failure", "Pathology category for harmful inherited or encoded agent traits.", "01-concepts/nosologie/04-genetiques.md", "pathologies,genome,agent-dna"],
+    ["cancerous", "Cancer-like failure", "Pathology category for uncontrolled growth or replication in a runtime model.", "01-concepts/nosologie/05-cancers.md", "pathologies,reproduction,governance"],
+    ["metabolic-pathology", "Metabolic failure", "Pathology category for unsustainable resource use or allocation.", "01-concepts/nosologie/06-metaboliques.md", "pathologies,metabolism,biome"],
+    ["cardiovascular", "Cardiovascular failure", "Pathology category for disrupted flows or communication in a runtime model.", "01-concepts/nosologie/07-cardiovasculaires.md", "pathologies,communication-ecology"],
+    ["psychiatric", "Psychiatric failure", "Pathology category for modeled behavioral instability, not human mental illness.", "01-concepts/nosologie/08-psychiatriques.md", "pathologies,cortex"],
+    ["environmental-pathology", "Environmental failure", "Pathology category for harmful interactions between runtime and operating environment.", "01-concepts/nosologie/09-environnementales.md", "pathologies,sensorium,resilience"],
+  ] },
+  "formal-verification": { source: "01-concepts/mathematical-organism.md", rows: [
+    ["lean-verification", "Lean verification", "A verification path that submits formal proof artifacts to a Lean kernel.", "03-reference/contrat-produit-et-completude.md", "proof-artifact,verification-registry,smt-solver", false, true],
+    ["proof-artifact", "ProofArtifact", "A structured artifact binding a formal claim, proof material, and verification result.", "03-reference/contrat-produit-et-completude.md", "lean-verification,evidence,verification-registry", false, true],
+    ["deterministic-verification", "Deterministic verification", "A repeatable check whose result depends on declared inputs and a bounded verifier.", "03-reference/contrat-produit-et-completude.md", "proof-artifact,deterministic-procedures,evidence", false, true],
+    ["mathematical-organism", "Mathematical organism", "A formal model of an agent system expressed through explicit structures and limits.", undefined, "lean-verification,deterministic-procedures,evidence", false, true],
+    ["verification-registry", "Verification registry", "A registry of verification contracts and their declared evidence requirements.", "03-reference/contrat-produit-et-completude.md", "proof-artifact,evidence,governance", false, true],
+    ["smt-solver", "SMT solver layer", "A solver integration surface whose maturity must be checked against its implementation record.", "03-reference/contrat-produit-et-completude.md", "lean-verification,deterministic-verification", false, true],
+    ["deterministic-procedures", "Deterministic procedures", "Bounded procedures whose declared inputs and rules make their results reproducible.", "02-orchestration/primitives-executables.md", "deterministic-verification,workflows,proof-artifact", false, true],
+  ] },
+  "runtime-infrastructure": { source: "01-concepts/runtime-agentique.md", rows: [
+    ["snapshots", "Snapshots", "Versioned captures of runtime or agent state that can support restoration and comparison.", "02-orchestration/git-agents.md", "agent-git,counterfactual-workspaces,provenance"],
+    ["vfs", "Virtual filesystem", "A bounded filesystem interface that scopes access to project and runtime files.", "05-securite-gouvernance/sandbox-execution-code.md", "sandbox,counterfactual-workspaces,identity-authority"],
+    ["persistence", "Persistence", "Storage and rehydration that preserve selected runtime state across calls or restarts.", "02-orchestration/topologies-et-capacites.md", "snapshots,memory-retrieval,syncytium"],
+    ["shared-state", "Shared state", "Versioned data multiple members can read or update under an explicit consistency policy.", "02-orchestration/topologies/syncytium.md", "syncytium,persistence,evidence", false, true],
+    ["sqlite", "SQLite persistence", "Local relational storage used by runtime services that persist sessions and operational state.", "04-exploitation/deploiement.md", "persistence,snapshots,syncytium"],
+    ["model-routing", "Model routing", "Selection and dispatch rules for inference providers and execution profiles.", "03-reference/contrat-produit-et-completude.md", "governance,identity-authority"],
+    ["mcp", "MCP interfaces", "Tool interfaces exposed through MCP with declared contracts and permissions.", "03-reference/outils-mcp.md", "identity-authority,sandbox,governance"],
+    ["sandbox", "Sandbox", "An execution boundary intended to constrain filesystem, process, or tool effects.", "05-securite-gouvernance/sandbox-execution-code.md", "vfs,mcp,governance"],
+    ["observability", "Observability", "Events and state views used to inspect runtime behavior and its evidence trail.", "04-exploitation/observabilite.md", "resident-daemons,provenance,evidence"],
+    ["identity-authority", "Identity & authority", "Identity, role, and permission rules that constrain runtime operations.", "02-orchestration/topologies-et-capacites.md", "governance,mcp,sandbox"],
+    ["governance", "Governance", "Approval, policy, and audit mechanisms that bound execution and promotion decisions.", "05-securite-gouvernance/README.md", "identity-authority,evidence,immune-system"],
+    ["workflows", "Workflows & jobs", "Persisted task graphs and jobs that coordinate execution, dependencies, and lifecycle events.", "02-orchestration/workflows-et-jobs.md", "a-team,ontogenese,worker-kinds"],
+  ] },
+};
+
+export const catalogConcepts: CatalogConcept[] = Object.entries(groups).flatMap(([familyId, group]) => group.rows.map(([slug, title, intro, source, related, biology, mathematics, simulation, benchmark]) => ({
+  slug, title, familyId, intro, source: source ?? group.source,
+  biology: biology ?? false, mathematics: mathematics ?? false, simulation: simulation ?? false, benchmark: benchmark ?? false,
+  related: related?.split(",") ?? [],
+})));

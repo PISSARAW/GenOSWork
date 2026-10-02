@@ -10,7 +10,7 @@ const links = [
   ["Morphogenesis", "/morphogenesis"],
   ["Organizations", "/organizations"],
   ["Research", "/research"],
-  ["Concepts", "/concepts"],
+  ["Atlas", "/concepts"],
   ["Benchmarks", "/benchmarks"],
   ["Lab", "/lab"],
   ["Evidence", "/evidence"],
