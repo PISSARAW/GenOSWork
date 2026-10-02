@@ -8,8 +8,17 @@ import { SystemMap } from "@/components/system-maps";
 export const metadata: Metadata = {
   title: "GenOS systems",
   description: "A map of the systems that organize GenOS concepts, runtime mechanisms, and evidence.",
-  alternates: { canonical: "/systems" },
+  alternates: { canonical: "/systems", languages: { en: "/systems", fr: "/fr/systems" } },
 };
+
+const intentions = [
+  { n: "LEARN", title: "What is GenOS?", body: "Mission, system map, orchestrator, concept atlas.", href: "/systems" },
+  { n: "SYSTEM", title: "What is it made of?", body: "Runtime, supervision, workers, daemons, topologies.", href: "/runtime" },
+  { n: "LAB", title: "Can I touch it?", body: "Simulations, recorded runs, live sandbox.", href: "/lab" },
+  { n: "EVALUATION", title: "What works?", body: "Benchmarks, evidence ledger, recorded runs.", href: "/benchmarks" },
+  { n: "RESEARCH", title: "What science?", body: "Foundations, models, open questions.", href: "/research" },
+  { n: "DEVELOPERS", title: "How to build?", body: "Quickstart, API / MCP reference.", href: "/developers" },
+];
 
 export default function SystemsPage() {
   return (
@@ -20,6 +29,16 @@ export default function SystemsPage() {
         <p>GenOS concepts describe related parts of identity, cognition, evidence, memory, collective work, and runtime infrastructure. Browse the families, then follow their links into the atlas.</p>
       </section>
       <SystemMap />
+      <section className="section-wrap systems-intentions" aria-label="Six ways to enter GenOS">
+        {intentions.map((item) => (
+          <article className="systems-intention" key={item.n}>
+            <span>{item.n}</span>
+            <strong>{item.title}</strong>
+            <p>{item.body}</p>
+            <Link href={item.href}>Enter <b>→</b></Link>
+          </article>
+        ))}
+      </section>
       <section className="section-wrap systems-grid" aria-label="GenOS concept families">
         {conceptFamilies.map((family, index) => {
           const count = concepts.filter((concept) => concept.familyId === family.id).length;

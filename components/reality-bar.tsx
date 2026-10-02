@@ -25,16 +25,38 @@ export function stateLabel(state: ImplementationState | IntegrationState | Evide
   return labels[state];
 }
 
+export type DocItem = { key: string; label: string; state: "full" | "partial" | "missing" | "na" };
+
+export function DocCompleteness({ items }: { items: DocItem[] }) {
+  return (
+    <div className="doc-completeness" aria-label="Documentation completeness">
+      <span className="doc-completeness-title">DOCUMENTATION</span>
+      <ul>
+        {items.map((item) => (
+          <li key={item.key} className={`doc-${item.state}`}>
+            <i aria-hidden="true">
+              {item.state === "full" ? "✓" : item.state === "partial" ? "△" : item.state === "na" ? "–" : "○"}
+            </i>
+            {item.label}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function RealityBar({
   implementation,
   integration,
   evidence,
   note,
+  doc,
 }: {
   implementation: ImplementationState;
   integration: IntegrationState;
   evidence: EvidenceState;
   note?: string;
+  doc?: DocItem[];
 }) {
   const axes = [
     ["IMPLEMENTATION", implementation],
@@ -57,6 +79,7 @@ export function RealityBar({
         </div>
       </div>
       {note && <p>{note}</p>}
+      {doc && <DocCompleteness items={doc} />}
     </section>
   );
 }

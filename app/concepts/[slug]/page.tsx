@@ -5,7 +5,7 @@ import { Eyebrow } from "@/components/eyebrow";
 import { ConceptDiagramView } from "@/components/concept-diagram";
 import { concepts, getConcept, type Concept } from "@/components/concepts";
 import { conceptFamilies } from "@/components/concept-catalog";
-import { RealityBar, genosSourceCommit } from "@/components/reality-bar";
+import { RealityBar, genosSourceCommit, type DocItem } from "@/components/reality-bar";
 
 const modelByConcept: Record<string, string> = {
   agow: "agow", attention: "agow", genome: "genome", epigenetics: "genome", "agent-dna": "agent-dna",
@@ -48,6 +48,14 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
   const integration = concept.integration ?? "unassessed";
   const evidence = concept.evidence ?? "unassessed";
   const related = (concept.related ?? []).map((relatedSlug) => getConcept(relatedSlug)).filter((item): item is Concept => item !== undefined);
+  const doc: DocItem[] = [
+    { key: "science", label: "Science", state: concept.scienceBasis ? "full" : concept.biologyInspired ? "partial" : "na" },
+    { key: "math", label: "Mathematics", state: concept.mathModel ? "full" : concept.hasMathematics ? "partial" : "na" },
+    { key: "simulation", label: "Simulation", state: concept.hasSimulation ? "full" : "missing" },
+    { key: "usecases", label: "Use cases", state: concept.useCases?.length || concept.steps.length ? "full" : "partial" },
+    { key: "benchmark", label: "Benchmark", state: concept.hasBenchmark ? "full" : "missing" },
+    { key: "fr", label: "FR translation", state: "partial" },
+  ];
 
   return (
     <div className="page-shell" lang="en">
@@ -59,14 +67,20 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
       </section>
 
       <div className="section-wrap concept-reality-wrap">
-        <RealityBar implementation={implementation} integration={integration} evidence={evidence} note={concept.statusNote} />
+        <RealityBar implementation={implementation} integration={integration} evidence={evidence} note={concept.statusNote} doc={doc} />
+        <nav className="concept-depth-nav" aria-label="Reading depths">
+          <span>READ IN</span>
+          <a href="#thirty-seconds">30 seconds ↓</a>
+          <a href="#five-minutes">5 minutes ↓</a>
+          <a href="#deep-dive">Deep dive ↓</a>
+        </nav>
       </div>
 
       {concept.diagram && <section className="section-wrap concept-explainer">
         <ConceptDiagramView kind={concept.diagram} title={concept.diagramTitle} description={concept.diagramDescription} />
       </section>}
 
-      <section className="section-wrap concept-model-section">
+      <section className="section-wrap concept-model-section" id="thirty-seconds">
         <div className="concept-section-heading"><Eyebrow>DEFINITION AND SCIENCE</Eyebrow><h2>What it means<br /><em>in GenOS.</em></h2></div>
         <div className="concept-model-grid">
           <article><span>IN ONE SENTENCE</span><p>{concept.intro}</p></article>
@@ -76,7 +90,7 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      <section className="section-wrap concept-steps">
+      <section className="section-wrap concept-steps" id="five-minutes">
         <div className="concept-section-heading"><Eyebrow>PROCESS AND USE</Eyebrow><h2>{concept.steps.length ? "How it works" : "Use cases"}<br /><em>at a glance.</em></h2></div>
         <div className="concept-step-list">
           {concept.steps.length ? concept.steps.map((step, stepIndex) => (
@@ -95,7 +109,7 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      <section className="concept-architecture-wrap">
+      <section className="concept-architecture-wrap" id="deep-dive">
         <div className="section-wrap concept-architecture">
           <div><Eyebrow light>RUNTIME IMPLEMENTATION</Eyebrow><h2>What is connected,<br /><em>and how far.</em></h2><p>{concept.scope}</p></div>
           <div className="concept-architecture-details">
@@ -156,7 +170,9 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
             <a href={`https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/docs/${concept.source}`} target="_blank" rel="noreferrer">Read the pinned source: {concept.sourceLabel} <span>↗</span></a>
             <Link href="/evidence">Open the evidence ledger <span>→</span></Link>
             {concept.hasBenchmark && <Link href="/benchmarks">Browse benchmark protocols <span>→</span></Link>}
-            {modelByConcept[concept.slug] && <Link href={`/lab/models?model=${modelByConcept[concept.slug]}`}>Explore the local teaching simulation <span>→</span></Link>}
+            {modelByConcept[concept.slug]
+              ? <Link href={`/lab/models?model=${modelByConcept[concept.slug]}`}>Experiment with this concept <span>→</span></Link>
+              : <Link href="/lab/models">Explore teaching simulations <span>→</span></Link>}
           </div>
         </div>
       </section>
