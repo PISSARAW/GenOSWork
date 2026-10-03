@@ -6,7 +6,7 @@ export const dynamic = "force-static";
 export async function GET() {
   return Response.json({
     version: "1.0.0",
-    runtime: { snapshots: "IMPLEMENTED", topologies: "WIRED", rhizomeRouting: "PROPOSED" },
+    runtime: { snapshots: "IMPLEMENTED", topologies: "WIRED", rhizomeRouting: "CALLABLE · BOUNDED" },
     topologyIds: topologies.map((t) => t.slug),
     conceptCoverage: {
       total: concepts.length,

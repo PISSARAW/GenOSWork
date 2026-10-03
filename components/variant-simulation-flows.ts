@@ -75,7 +75,7 @@ const flows: Record<string, Record<string, string[]>> = {
   },
   rhizome: {
     exploratory: ["Diagnose the capability gap", "Scout within declared depth and budget", "Follow and deposit local traces", "Stop when the frontier or budget is exhausted"],
-    routing: ["Request a capability with cost and trust limits", "Search active edges with bounded BFS", "Rank candidate paths deterministically", "Return route evidence; host adapter runs the provider"],
+    routing: ["Request a capability with cost and trust limits", "Search the persisted session graph within hop bounds", "Rank candidate paths deterministically", "Return route evidence; provider execution remains separate"],
     growth: ["Diagnose a versioned graph gap", "Plan a candidate and check reuse", "Apply budget, utility, and evidence gates", "Admit only with a verifier receipt"],
     resilient: ["Detect an unavailable route", "Find edge-disjoint alternatives", "Reduce reuse of the same fault domain", "Re-route through an explicit operation"],
     sparse: ["Keep the active graph low-density", "Enforce declared branch and hop caps", "Leave unadmitted links inactive", "Prune only within the maintenance budget"],
@@ -126,7 +126,7 @@ const fallback: Record<string, string[]> = {
   biocenose: ["Form the community", "Collect commitments and reveal them", "Evaluate under policy", "Preserve evidence and dissent"],
   holobionte: ["Assess required capabilities", "Prepare host and symbionts", "Apply the variant contract", "Verify before transition"],
   syncytium: ["Produce a state delta", "Replicate under policy", "Repair or reconcile", "Verify invariant or stop"],
-  rhizome: ["Identify capability need", "Search a versioned graph with bounded BFS", "Rank route candidates and update local traces", "Apply provider and evidence gates"],
+  rhizome: ["Identify capability need", "Search the persisted session graph within hop bounds", "Rank route candidates and update local traces", "Apply provider and evidence gates"],
   metapopulation: ["Observe regional demes and directed corridors", "Apply the variant's migration policy", "Validate transfers or recovery locally", "Record the verified regional cycle"],
   biome: ["Observe the supplied environment snapshot", "Apply one bounded variant operation", "Verify its evidence and constraints", "Wait for the caller to invoke the next cycle"],
 };
