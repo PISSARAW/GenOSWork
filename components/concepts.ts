@@ -63,7 +63,7 @@ const authoredConcepts: Concept[] = [
       { title: "Verify", body: "Measure the new state and decide whether to reintegrate, take another action, or stop." },
     ],
     scopeTitle: "A software analogy, not a medical tool",
-    scope: "These “diseases” describe simulated agent states and their governance mechanisms. They are not human diseases, and GenOS does not diagnose or treat people. The PrionAggregation marker compares dissonance_level / max_dissonance_threshold with 0.85 only when the configured threshold is finite and positive; the stored score remains raw dissonance and is not evidence of hallucination.",
+    scope: "These “diseases” describe simulated agent states and their governance mechanisms. They are not human diseases, and GenOS does not diagnose or treat people. The PrionAggregation marker compares dissonance_level / max_dissonance_threshold with 0.85 only when the configured threshold is finite and positive; the stored score remains raw dissonance and is not evidence of hallucination. Clinical pathology confidence is derived deterministically as clamp01(clamp01(severity) × 0.7 + 0.3); it is not calibrated and does not incorporate the rest of the biopsy evidence.",
     source: "01-concepts/nosologie/pathologie-et-medecine.md", sourceLabel: "Computational pathology and medicine",
   },
   {
