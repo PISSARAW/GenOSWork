@@ -13,7 +13,7 @@ const stages = [
   { n: "02", title: "Set the mission contract", body: "Define the strategy, available work, budgets and constraints before planning workers. Permissions and capacity can narrow or stop a proposed plan.", tag: "STRATEGY · BUDGET" },
   { n: "03", title: "Plan and reconcile", body: "Build bounded phases and assignments, then compare the selected assignments with the workers actually created. A mismatch blocks the mission from proceeding as if dispatch had succeeded.", tag: "PLAN · DISPATCH" },
   { n: "04", title: "Execute in bounded workspaces", body: "Workers operate under declared leases and isolated workspaces. Parallel branches can preserve separate trajectories for comparison when the mission contract allows it.", tag: "WORKERS · ISOLATION" },
-  { n: "05", title: "Check evidence and close", body: "Wait for expected work to reach a stable state, collect evidence and check mission invariants. Missing evidence or failed checks can leave a mission incomplete, blocked or ready for bounded recovery.", tag: "EVIDENCE · GATE" },
+  { n: "05", title: "Check evidence and close", body: "Wait for expected work to reach a stable state, collect evidence and check mission invariants. Missing evidence or failed checks can leave a mission incomplete, blocked or ready for bounded recovery. For Trinity, only worlds created by the current invocation count; its agents and all current worlds must be terminal before the mission closes.", tag: "EVIDENCE · GATE" },
 ];
 
 const guardrails = [
@@ -52,7 +52,7 @@ export default function OrchestratorPage() {
 
       <section className="section-wrap orchestrator-runtime-note">
         <div><Eyebrow>IMPLEMENTATION BOUNDARY</Eyebrow><h2>Two runtimes,<br /><em>different jobs.</em></h2></div>
-        <div className="orchestrator-runtime-copy"><p>The backend Node.js control plane plans and supervises missions and their workers. The Rust <code>genos-orchestrator</code> crate runs a local ecosystem simulation; it does not launch those backend workers or certify a Node mission’s deliverable.</p><p>The main mission path still uses the historical morphology preparer. Morphogenesis V2 can run as an opt-in shadow preflight, which evaluates a proposal without applying or committing a transition.</p><a href="https://github.com/PISSARAW/GenOS/blob/v3/docs/02-orchestration/orchestration.md" target="_blank" rel="noreferrer">Read the operational orchestration contract ↗</a></div>
+        <div className="orchestrator-runtime-copy"><p>The backend Node.js control plane plans and supervises missions and their workers. The Rust <code>genos-orchestrator</code> crate runs a local ecosystem simulation; it does not launch those backend workers or certify a Node mission’s deliverable.</p><p>The main mission path still uses the historical morphology preparer. Morphogenesis V2 can run as an opt-in shadow preflight, which evaluates a proposal without applying or committing a transition.</p><a href="https://github.com/PISSARAW/GenOS/blob/6133af69933c86f39f0396f801f2ce2b3385826b/docs/02-orchestration/orchestration.md" target="_blank" rel="noreferrer">Read the operational orchestration contract ↗</a></div>
       </section>
 
       <section className="section-wrap orchestrator-next-links" aria-label="Related pages">
