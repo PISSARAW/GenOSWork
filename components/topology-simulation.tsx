@@ -4,22 +4,7 @@ import { useState } from "react";
 import type { TopologyGuide } from "@/components/topology-guides";
 import { getVariantSimulationSteps } from "@/components/variant-simulation-flows";
 import { TopologyDiagram } from "@/components/topology-visuals";
-
-const partialVariants: Record<string, Set<string>> = {
-  trinity: new Set(["heterogeneous", "adversarial", "counterfactual", "pareto", "jury", "adaptive", "temporal", "exploratory"]),
-  "a-team": new Set(["cross_functional_pod", "boundary_spanner", "matrix_team", "incident_command", "multiteam", "adaptive"]),
-  biocenose: new Set(["argumentation_community", "polycentric_council", "byzantine_resilient_community", "representative_community", "persistent_community"]),
-  holobionte: new Set(["organelle", "adaptive-microbiome", "immune-critical", "local-first", "regenerative", "cloud-core/edge-symbionts", "edge-core/cloud-symbionts", "memory-rich", "competitive-partner", "procedural", "tool", "cloud-core/edge-sync"]),
-  rhizome: new Set(["self_healing"]),
-  metapopulation: new Set(["evolutionary"]),
-  biome: new Set(["resource", "exploration", "quality_diversity", "successional", "resilience", "persistent", "open_ended", "adversarial", "knowledge", "compute", "multi_scale"]),
-};
-const unavailableVariants: Record<string, Set<string>> = {
-  trinity: new Set(["factorial", "recursive", "oracular"]),
-};
-const conceptualVariants: Record<string, Set<string>> = {
-  syncytium: new Set(["hard", "soft", "code", "document", "graph", "transactional", "epistemic", "blackboard", "localFirst", "speculative", "hierarchical", "realtimeControl", "humanAi"]),
-};
+import { genosVariantSourceCommit, getTopologyVariantMaturity } from "@/components/topology-variant-maturity";
 
 export function TopologySimulation({ family, guide }: { family: string; guide: TopologyGuide }) {
   const [activeId, setActiveId] = useState(guide.variants[0]?.id ?? "default");
@@ -27,6 +12,7 @@ export function TopologySimulation({ family, guide }: { family: string; guide: T
   const active = guide.variants.find((item) => item.id === activeId) ?? guide.variants[0];
   if (!active) return null;
   const steps = getVariantSimulationSteps(family, active.id);
+  const maturity = getTopologyVariantMaturity(family, active.id);
 
   return <div className="topology-learning section-wrap">
     <section className="learning-block">
@@ -41,7 +27,7 @@ export function TopologySimulation({ family, guide }: { family: string; guide: T
         </nav>
         <article className="variant-card">
           <div className="variant-card-top"><span className="learning-kicker">LOCAL SIMULATION · ILLUSTRATIVE</span><span className="variant-counter">{String(guide.variants.findIndex((item) => item.id === activeId) + 1).padStart(2, "0")} / {String(guide.variants.length).padStart(2, "0")}</span></div>
-          <h3>{active.id.replaceAll("_", " ").replaceAll("-", " ")} <span className={conceptualVariants[family]?.has(active.id) ? "maturity-tag maturity-conceptual" : unavailableVariants[family]?.has(active.id) ? "maturity-tag maturity-unavailable" : partialVariants[family]?.has(active.id) ? "maturity-tag maturity-partial" : "maturity-tag"}>{conceptualVariants[family]?.has(active.id) ? "CONCEPTUAL · NOT IMPLEMENTED" : unavailableVariants[family]?.has(active.id) ? "RECOGNIZED · REFUSED IN V1" : partialVariants[family]?.has(active.id) ? "PARTIAL" : "CATALOGED"}</span></h3>
+          <h3>{active.id.replaceAll("_", " ").replaceAll("-", " ")} <span className={`maturity-tag${maturity === "partial" ? " maturity-partial" : maturity === "unassessed" ? " maturity-unassessed" : ""}`}>{maturity === "implemented" ? "POLICY IMPLEMENTED" : maturity === "partial" ? "PARTIAL POLICY" : "STATUS UNASSESSED"}</span></h3>
           <p className="variant-usecase">{active.useCase}</p>
           <div className="simulation-canvas"><TopologyDiagram family={family} variant={active.id} activeStep={activeStep} stepCount={steps.length}/><span className="simulation-caption">TOPOLOGY MAP · ILLUSTRATION ONLY · NO AGENT EXECUTED</span></div>
           <div className="simulation-controls"><button type="button" onClick={() => setActiveStep((current) => (current + 1) % steps.length)}>Next step <span aria-hidden="true">→</span></button><button type="button" onClick={() => setActiveStep(0)}>Restart <span aria-hidden="true">↺</span></button><span role="status" aria-live="polite">{activeStep + 1}/{steps.length} · {steps[activeStep]}</span></div>
@@ -49,6 +35,6 @@ export function TopologySimulation({ family, guide }: { family: string; guide: T
         </article>
       </div>
     </section>
-    <p className="catalog-note">Maturity labels follow the central catalog. A conceptual variant describes a target model, not an implemented runtime capability; a listed variant is not selected automatically.</p>
+    <p className="catalog-note">This status follows the maturity of the variant policy in GenOS’ <a href={`https://github.com/PISSARAW/GenOS/blob/${genosVariantSourceCommit}/backend/src/services/morphogenesis/registry/variantCatalog.js`} target="_blank" rel="noreferrer">canonical catalog</a>. “Policy implemented” does not certify end-to-end execution: topology maturity, required adapters, permissions, and evidence remain separate runtime conditions. This illustration does not run agents, and a listed variant is not selected automatically.</p>
   </div>;
 }

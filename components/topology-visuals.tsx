@@ -881,6 +881,6 @@ export function TopologyDiagram({ family, variant, activeStep, stepCount }: Prop
   return <svg className={`topology-sim-svg topology-diagram topology-diagram-${family}`} data-variant={variant} viewBox="0 0 760 320" role="img" aria-label={`${family} topology structure, ${variant} variant, stage ${activeStep + 1} of ${stepCount}`}>
     <defs><marker id="diagram-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" className="diagram-arrowhead"/></marker></defs>
     {draw({ family, variant, activeStep, stepCount })}
-    <g className="diagram-stage"><rect x="18" y="299" width="724" height="1"/><text x="22" y="316">{family === "syncytium" ? "CONCEPTUAL TARGET · NOT IMPLEMENTED" : `POLICY STAGE ${String(activeStep + 1).padStart(2, "0")} / ${String(stepCount).padStart(2, "0")}`}</text><text x="738" y="316" textAnchor="end">{variant.replaceAll("_", " ").replaceAll("-", " ").toUpperCase()}</text></g>
+    <g className="diagram-stage"><rect x="18" y="299" width="724" height="1"/><text x="22" y="316">{family === "syncytium" ? "DISTRIBUTED TARGET · PARTIAL RUNTIME" : `POLICY STAGE ${String(activeStep + 1).padStart(2, "0")} / ${String(stepCount).padStart(2, "0")}`}</text><text x="738" y="316" textAnchor="end">{variant.replaceAll("_", " ").replaceAll("-", " ").toUpperCase()}</text></g>
   </svg>;
 }
