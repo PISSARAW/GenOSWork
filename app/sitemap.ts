@@ -36,23 +36,34 @@ const supervisionRoutes = [
   "/runtime/supervision/evidence",
 ];
 
-function withLanguages(route: string): MetadataRoute.Sitemap[number] {
+function withLanguages(route: string): MetadataRoute.Sitemap[number][] {
   const localizedRoute = `/en${route}`;
-  const url = `${siteUrl}${localizedRoute || "/en"}`;
+  const englishUrl = `${siteUrl}${localizedRoute || "/en"}`;
   const hasLocalizedPage =
     hasFrenchPage(route || "/") ||
     route.startsWith("/concepts/") ||
     route.startsWith("/topologies/") ||
     route.startsWith("/morphogenesis/cases/");
   const languages = hasLocalizedPage
-    ? { en: url, fr: `${siteUrl}/fr${route}` }
-    : { en: url };
-  return {
-    url,
+    ? { en: englishUrl, fr: `${siteUrl}/fr${route}` }
+    : undefined;
+  const englishEntry: MetadataRoute.Sitemap[number] = {
+    url: englishUrl,
     changeFrequency: "weekly" as const,
     priority: route === "" ? 1 : route.startsWith("/topologies/") ? 0.7 : 0.8,
-    alternates: { languages },
+    ...(languages ? { alternates: { languages } } : {}),
   };
+  if (!languages) return [englishEntry];
+
+  return [
+    englishEntry,
+    {
+      url: languages.fr,
+      changeFrequency: "weekly" as const,
+      priority: route === "" ? 0.9 : 0.7,
+      alternates: { languages },
+    },
+  ];
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -71,11 +82,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...topologyRoutes,
     ...morphogenesisRoutes,
   ];
-  const frenchShell: MetadataRoute.Sitemap[number] = {
-    url: `${siteUrl}/fr`,
-    changeFrequency: "weekly" as const,
-    priority: 0.9,
-    alternates: { languages: { en: `${siteUrl}/en`, fr: `${siteUrl}/fr` } },
-  };
-  return [withLanguages(""), frenchShell, ...all.filter((r) => r !== "").map(withLanguages)];
+  return all.flatMap(withLanguages);
 }
