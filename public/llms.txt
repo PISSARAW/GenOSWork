@@ -4,31 +4,31 @@
 
 ## Public website
 
-- [Overview](https://genoswork.vercel.app/)
-- [Runtime](https://genoswork.vercel.app/runtime)
-- [Orchestration topologies](https://genoswork.vercel.app/topologies)
-- [GenOS Concept Atlas](https://genoswork.vercel.app/concepts)
-- [Concept system families](https://genoswork.vercel.app/systems)
-- [Biological organism map](https://genoswork.vercel.app/systems/organism)
-- [Interactive model studio](https://genoswork.vercel.app/lab/models)
-- [Research map](https://genoswork.vercel.app/research)
-- [Benchmark results and protocols](https://genoswork.vercel.app/benchmarks)
-- [Interactive benchmark result explorer](https://genoswork.vercel.app/benchmarks#benchmark-explorer-title)
-- [Recorded GenOS runs](https://genoswork.vercel.app/runs)
-- [Live GenOS sandbox](https://genoswork.vercel.app/sandbox)
-- [Morphogenesis Lab](https://genoswork.vercel.app/lab)
-- [Evidence ledger](https://genoswork.vercel.app/evidence)
-- [Developer entry point](https://genoswork.vercel.app/developers)
-- [REST and MCP API reference](https://genoswork.vercel.app/api-mcp)
+- [Overview](https://genos.work/)
+- [Runtime](https://genos.work/runtime)
+- [Orchestration topologies](https://genos.work/topologies)
+- [GenOS Concept Atlas](https://genos.work/concepts)
+- [Concept system families](https://genos.work/systems)
+- [Biological organism map](https://genos.work/systems/organism)
+- [Interactive model studio](https://genos.work/lab/models)
+- [Research map](https://genos.work/research)
+- [Benchmark results and protocols](https://genos.work/benchmarks)
+- [Interactive benchmark result explorer](https://genos.work/benchmarks#benchmark-explorer-title)
+- [Recorded GenOS runs](https://genos.work/runs)
+- [Live GenOS sandbox](https://genos.work/sandbox)
+- [Morphogenesis Lab](https://genos.work/lab)
+- [Evidence ledger](https://genos.work/evidence)
+- [Developer entry point](https://genos.work/developers)
+- [REST and MCP API reference](https://genos.work/api-mcp)
 
 ## Français
 
-- [Présentation française](https://genoswork.vercel.app/fr)
-- [Développeurs](https://genoswork.vercel.app/fr/developers)
-- [Référence API REST et MCP](https://genoswork.vercel.app/fr/api-mcp)
-- [Benchmarks interactifs](https://genoswork.vercel.app/fr/benchmarks)
-- [Exécutions GenOS enregistrées](https://genoswork.vercel.app/fr/runs)
-- [Sandbox GenOS en direct](https://genoswork.vercel.app/fr/sandbox)
+- [Présentation française](https://genos.work/fr)
+- [Développeurs](https://genos.work/fr/developers)
+- [Référence API REST et MCP](https://genos.work/fr/api-mcp)
+- [Benchmarks interactifs](https://genos.work/fr/benchmarks)
+- [Exécutions GenOS enregistrées](https://genos.work/fr/runs)
+- [Sandbox GenOS en direct](https://genos.work/fr/sandbox)
 
 ## Canonical sources
 

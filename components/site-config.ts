@@ -1,6 +1,6 @@
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "https://genoswork.vercel.app";
+  "https://genos.work";
 
 export const genosRepo = "https://github.com/PISSARAW/GenOS";
 export const genosDocs = (path = "") =>
