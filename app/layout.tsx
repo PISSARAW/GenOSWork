@@ -17,22 +17,22 @@ import { siteUrl } from "@/components/site-config";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "GenOS — Open-source agent runtime and work continuity",
+    default: "GenOS — Open-source AI agent runtime for reproducible work",
     template: "%s — GenOS Agent Runtime",
   },
   description:
-    "GenOS is an open-source agent runtime that preserves decisions, changes, execution context, and evidence so technical work can be reviewed and resumed.",
+    "GenOS is an open-source AI agent runtime for reproducible multi-agent orchestration. It versions workspace state, supports counterfactual branches and replay, and gates promotion on evidence.",
   openGraph: {
     type: "website",
     siteName: "GenOS Agent Runtime",
-    title: "GenOS — Open-source agent runtime and work continuity",
-    description: "Review agent work with its decisions, changes, context, and evidence.",
+    title: "GenOS — Open-source AI agent runtime for reproducible work",
+    description: "Reproducible multi-agent orchestration with versioned workspace state, counterfactual branches, replay, and evidence gates.",
     url: `${siteUrl}/en`,
   },
   twitter: {
     card: "summary_large_image",
-    title: "GenOS — Open-source agent runtime and work continuity",
-    description: "Review agent work with its decisions, changes, context, and evidence.",
+    title: "GenOS — Open-source AI agent runtime for reproducible work",
+    description: "Reproducible multi-agent orchestration with versioned workspace state, counterfactual branches, replay, and evidence gates.",
     images: [`${siteUrl}/opengraph-image`],
   },
   alternates: { canonical: "/en", languages: { en: "/en", fr: "/fr" } },

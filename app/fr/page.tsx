@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Eyebrow } from "@/components/eyebrow";
 
-export const metadata: Metadata = { title: "GenOS en français", description: "Présentation française de GenOS : un registre durable pour relire, reprendre et transmettre le travail technique.", alternates: { canonical: "/fr", languages: { en: "/en", fr: "/fr" } }, openGraph: { locale: "fr_FR" } };
+export const metadata: Metadata = { title: "GenOS — runtime open source pour agents IA", description: "Runtime open source d’orchestration multi-agents : état versionné, branches contrefactuelles, replay déterministe et promotion fondée sur les preuves.", alternates: { canonical: "/fr", languages: { en: "/en", fr: "/fr" } }, openGraph: { locale: "fr_FR" } };
 
 const links = [
   { n: "01", title: "Comprendre la méthode", body: "Voir comment GenOS conserve les décisions, les changements et leurs éléments de contexte.", href: "/fr/runtime", label: "Lire l’aperçu" },
