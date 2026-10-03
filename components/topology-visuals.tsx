@@ -36,7 +36,7 @@ function Trinity({ variant, activeStep }: Props) {
   };
   const labels = cues[variant] ?? cues.controlled;
   const isAdaptive = variant === "adaptive";
-  const terminal = variant === "jury" ? "BLIND ADVISORY · GATE UNCHANGED" : variant === "pareto" ? "EVIDENCE BARRIER · NON-DOMINATED SET" : variant === "factorial" || variant === "recursive" || variant === "oracular" ? "RECOGNIZED · NOT LAUNCHABLE IN V1" : "COMPARATIVE EVIDENCE BARRIER";
+  const terminal = variant === "jury" ? "BLIND ADVISORY · GATE UNCHANGED" : variant === "pareto" ? "EVIDENCE BARRIER · NON-DOMINATED SET" : variant === "factorial" ? "16-CELL GRID · RECEIPT REQUIRED" : variant === "recursive" ? "CHILD LINEAGE · VERIFY RESULT" : variant === "oracular" ? "DISTRIBUTION · SCORE VERIFIED OUTCOME" : variant === "exploratory" ? "NOVELTY · DIVERSITY · EVIDENCE" : "COMPARATIVE EVIDENCE BARRIER";
   return <>
     <Node x={285} y={15} w={150} h={42} title="MISSION SNAPSHOT" note="same read-only start" className="diagram-node diagram-source"/>
     {worlds.map((world, index) => {

@@ -1,6 +1,6 @@
 import type { EvidenceState, ImplementationState, IntegrationState } from "@/components/concept-catalog";
 
-export const genosSourceCommit = "6133af69933c86f39f0396f801f2ce2b3385826b";
+export const genosSourceCommit = "ce063a97a7fdf9820dc3c6816f7f7226ce1866a3";
 
 const labels: Record<ImplementationState | IntegrationState | EvidenceState, string> = {
   conceptual: "Conceptual",

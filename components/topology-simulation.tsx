@@ -35,6 +35,6 @@ export function TopologySimulation({ family, guide }: { family: string; guide: T
         </article>
       </div>
     </section>
-    <p className="catalog-note">This status follows the maturity of the variant policy in GenOS’ <a href={`https://github.com/PISSARAW/GenOS/blob/${genosVariantSourceCommit}/backend/src/services/morphogenesis/registry/variantCatalog.js`} target="_blank" rel="noreferrer">canonical catalog</a>. “Policy implemented” does not certify end-to-end execution: topology maturity, required adapters, permissions, and evidence remain separate runtime conditions. This illustration does not run agents, and a listed variant is not selected automatically.</p>
+    <p className="catalog-note">This status follows the maturity of the variant policy in GenOS’ <a href={`https://github.com/PISSARAW/GenOS/blob/${genosVariantSourceCommit}/backend/src/services/morphogenesis/registry/variantCatalog.js`} target="_blank" rel="noreferrer">canonical catalog</a>. “Policy implemented” does not certify end-to-end execution: topology maturity, required adapters, permissions, and evidence remain separate runtime conditions. This illustration does not run agents; its selector is manual. In the runtime, mission signals may select a preset automatically when its preconditions are met.</p>
   </div>;
 }
