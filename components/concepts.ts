@@ -63,7 +63,7 @@ const authoredConcepts: Concept[] = [
       { title: "Verify", body: "Measure the new state and decide whether to reintegrate, take another action, or stop." },
     ],
     scopeTitle: "A software analogy, not a medical tool",
-    scope: "These “diseases” describe simulated agent states and their governance mechanisms. They are not human diseases, and GenOS does not diagnose or treat people. The documentation notes that only some primitives and effects are connected; the other scenarios remain proposals.",
+    scope: "These “diseases” describe simulated agent states and their governance mechanisms. They are not human diseases, and GenOS does not diagnose or treat people. The PrionAggregation marker compares dissonance_level / max_dissonance_threshold with 0.85 only when the configured threshold is finite and positive; the stored score remains raw dissonance and is not evidence of hallucination.",
     source: "01-concepts/nosologie/pathologie-et-medecine.md", sourceLabel: "Computational pathology and medicine",
   },
   {
@@ -73,13 +73,13 @@ const authoredConcepts: Concept[] = [
     diagramTitle: "From experience to retrieval",
     diagramDescription: "Experiences and knowledge are indexed, ranked by relevance, and recalled to inform a mission. Consolidation and pruning cycles maintain the corpus.",
     steps: [
-      { title: "Encode", body: "Episodic memory preserves the context, action, observation, and outcome of an experience." },
+      { title: "Encode", body: "Episodic records preserve context, action, observation, and outcome; a process completing successfully alone is not consolidated as a verified learning outcome." },
       { title: "Index", body: "Facts and decisions can be found through lexical and vector search." },
       { title: "Rank", body: "Retrieval combines similarity, lexical match, recency, credibility, and success or failure signals." },
       { title: "Consolidate", body: "Plasticity adjusts some links; consolidation and pruning limit low-value memories." },
     ],
     scopeTitle: "Retrieval is a selection, not proof",
-    scope: "Memory can inform a decision, but recalling an item does not make it true. GenOS preserves provenance and distinguishes experience, retrieval score, and independent verification.",
+    scope: "Memory can inform a decision, but recalling an item does not make it true. GenOS preserves provenance and distinguishes execution receipts from evidence; only separately evaluated, verified outcomes can support successful learning.",
     source: "01-concepts/memoire-et-apprentissage.md", sourceLabel: "Memory and learning",
   },
   {
@@ -111,7 +111,7 @@ const authoredConcepts: Concept[] = [
       { title: "Integrate and reassess", body: "Integrate an accepted result, record failures, and choose what to do next or wait for an event." },
     ],
     scopeTitle: "The controller is not a living organism",
-    scope: "The development analogy describes a project moving through software states and resource constraints. The documentation marks Ontogenesis as partial: the loop, selection policies, and persistence mechanisms exist, but transparent recovery for every scenario is not guaranteed.",
+    scope: "This page describes project-level continuity through software states and resource constraints. It is distinct from cell-level HOX lineage differentiation in the Rust biology path. Project Ontogenesis remains partial: the loop, selection policies, and persistence mechanisms exist, but transparent recovery for every scenario is not guaranteed.",
     source: "01-concepts/ontogenese.md", sourceLabel: "Ontogenesis: resident project controller",
   },
   {

@@ -3,7 +3,7 @@ import { Eyebrow } from "@/components/eyebrow";
 
 export const metadata: Metadata = { title: "Evidence and implementation status", description: "Review GenOS capability claims alongside implementation status, source documentation and known limitations.", alternates: { canonical: "/en/evidence" } };
 
-const evidenceCommit = "0c2de1f5b644f58cef0f8bc4a08afd76ce5b2f30";
+const evidenceCommit = "b935962a26e2967de39db4cb253424fac44cc7e3";
 const evidenceSource = `https://github.com/PISSARAW/GenOS/blob/${evidenceCommit}/`;
 
 const rows = [
@@ -11,7 +11,10 @@ const rows = [
   { name: "Eight topology modes", status: "WIRED", tone: "implemented", body: "Each mode has different services and capability limits; registration is not full feature parity.", href: `${evidenceSource}docs/02-orchestration/topologies-et-capacites.md`, source: "Topology capability contract" },
   { name: "Rhizome session routing", status: "CALLABLE · BOUNDED", tone: "partial", body: "The topology-session API plans bounded multi-hop routes over the persisted graph. Autonomous mission integration, provider execution and end-to-end growth remain experimental.", href: `${evidenceSource}backend/src/services/topologySessionTools.js`, source: "Rhizome topology-session route operation" },
   { name: "Continuous web perception loop", status: "PARTIAL", tone: "partial", body: "Web observation and foveation primitives exist; a complete observe–act–verify loop does not.", href: `${evidenceSource}README.md`, source: "Runtime limitations" },
-  { name: "Morphogenesis topology plugins", status: "IMPLEMENTED · BOUNDED", tone: "partial", body: "All eight plugins are registered, with simplified in-process controllers and topology-specific constraints.", href: `${evidenceSource}docs/03-reference/plugins-topologies-morphogenese.md`, source: "Plugin contract and limits" },
+  { name: "Morphogenesis topology plugins", status: "IMPLEMENTED · BOUNDED", tone: "partial", body: "Variant changes require a registered transition and satisfied conditions and evidence. Execution receipts are unverified traces; graph completion alone does not prove the mission or create a learning experience.", href: `${evidenceSource}docs/03-reference/plugins-topologies-morphogenese.md`, source: "Plugin contract and limits" },
+  { name: "HOX lineage differentiation", status: "CONNECTED · LIMITED PATH", tone: "partial", body: "The Rust biology orchestrator resolves cell lineage from expressed HOX state under energy and epigenetic constraints. It does not model morphogen diffusion and is not an automatic step in every backend mission.", href: `${evidenceSource}docs/01-concepts/biologie-computationnelle.md`, source: "Computational biology scope" },
+  { name: "Regulation and Eureka events", status: "TRANSITION-GATED", tone: "partial", body: "A Eureka event is emitted only after an accepted regulation transition; ordinary process completion or shutdown does not count as evidence or reward.", href: `${evidenceSource}docs/adr/0111-regulation-cognitive-bornee-et-eureka.md`, source: "Bounded cognitive regulation" },
+  { name: "Dissonance pathology marker", status: "CONFIGURABLE · SOFTWARE MODEL", tone: "partial", body: "The marker requires a finite positive threshold and a dissonance ratio above 0.85. It stores the raw score and is not a medical diagnosis or proof of hallucination.", href: `${evidenceSource}crates/genos-biology/src/pathology.rs`, source: "Degenerative-state threshold" },
 ];
 
 export default function EvidencePage() {

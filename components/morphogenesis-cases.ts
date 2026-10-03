@@ -49,8 +49,8 @@ export const morphogenesisCases: MorphogenesisCase[] = [
       { from: "parallel", to: "trinity" }, { from: "parallel", to: "rhizome" },
       { from: "gate", to: "condition" }, { from: "gate", to: "accept", label: "then" }, { from: "gate", to: "revise", label: "else" },
     ],
-    why: ["Parallel branches finish before the next step and each keeps its own receipt.", "The gate has three explicit children: a conditional topology, followed by the then and else branches.", "The condition inspects the previous output; only the selected branch runs."],
-    boundary: "This composition follows the pattern covered by the SEQUENCE(PARALLEL, GATE, A-Team) test, with Rhizome as the condition and A-Team/Trinity as branches. Configure the condition and its expression for the mission; topology controllers remain simplified.",
+    why: ["Parallel branches finish before the next step and each keeps its own execution receipt; receipts are traces, not proof.", "The gate has three explicit children: a conditional topology, followed by the then and else branches.", "The condition inspects the previous output; only the selected branch runs."],
+    boundary: "This composition follows the pattern covered by the SEQUENCE(PARALLEL, GATE, A-Team) test, with Rhizome as the condition and A-Team/Trinity as branches. A receipt records graph activity; supply evidence separately for the gate. Configure the condition and its expression for the mission; topology controllers remain simplified.",
   },
   {
     slug: "migration-de-donnees",
@@ -121,7 +121,7 @@ export const morphogenesisCases: MorphogenesisCase[] = [
     edges: [
       { from: "gate", to: "condition" }, { from: "gate", to: "promote", label: "condition true" }, { from: "gate", to: "rework", label: "condition false" },
     ],
-    why: ["GATE takes three explicit children: a condition topology, a then branch, and an else branch.", "Only the selected branch runs; its identifier and the decision appear in the receipt.", "Define the condition from mission data; the gate does not infer a business threshold on its own."],
+    why: ["GATE takes three explicit children: a condition topology, a then branch, and an else branch.", "Only the selected branch runs; its identifier and decision appear in an execution receipt, which is not itself evidence.", "Define the condition from mission data; the gate does not infer a business threshold on its own."],
     boundary: "The gate is a graph decision based on its inputs. By itself, it is not human approval, deployment, or a guarantee of correctness.",
   },
 ];

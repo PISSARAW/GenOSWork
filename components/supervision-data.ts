@@ -24,10 +24,10 @@ export const supervisionPages: SupervisionPageData[] = [
       { label: "01 · ADMIT", title: "Validate the run", body: "Resolve the mission, worker configuration, permissions and available budget before execution." },
       { label: "02 · START", title: "Launch workers", body: "Start configured processes and preserve their identities, roles and parent run." },
       { label: "03 · OBSERVE", title: "Collect outcomes", body: "Track state changes, handoffs, failures and completion through runtime events." },
-      { label: "04 · CLOSE", title: "Keep the receipt", body: "Attach outputs and evidence to the run so the result can be reviewed or resumed." },
+      { label: "04 · CLOSE", title: "Keep the execution trace", body: "Attach outputs and execution receipts as traces; link separate evidence only when it is available for review." },
     ],
-    signals: [{ label: "Process states", value: "queued · running · stopped", note: "Lifecycle is visible per worker" }, { label: "Run boundary", value: "workspace + policy", note: "Workers inherit explicit scope" }, { label: "On completion", value: "receipt + evidence", note: "Results remain attributable" }],
-    principle: "A worker completing successfully records an outcome; it does not certify that the outcome is correct.",
+    signals: [{ label: "Process states", value: "queued · running · stopped", note: "Lifecycle is visible per worker" }, { label: "Run boundary", value: "workspace + policy", note: "Workers inherit explicit scope" }, { label: "On completion", value: "receipt ≠ evidence", note: "Execution traces and proof stay separate" }],
+    principle: "A process exit records execution status; a mission outcome needs separate evaluation, and a receipt alone is not evidence.",
   },
   {
     slug: "workspaces",
@@ -78,7 +78,7 @@ export const supervisionPages: SupervisionPageData[] = [
       { label: "09:44:31 · HANDOFF", title: "Evidence review requested", body: "A result moves to a review step with its source outputs attached." },
     ],
     signals: [{ label: "Ordering", value: "timestamped", note: "Sequence explains transitions" }, { label: "Attribution", value: "run + worker", note: "Events retain their source" }, { label: "Review", value: "filterable history", note: "Investigate a path after it ends" }],
-    principle: "The event record describes observed runtime activity; interpretation still belongs to the reviewer.",
+    principle: "The event record describes observed runtime activity. A Eureka event requires an accepted regulation transition; normal process shutdown alone does not qualify.",
   },
   {
     slug: "memory",
@@ -92,7 +92,7 @@ export const supervisionPages: SupervisionPageData[] = [
       { label: "01 · SCOPE", title: "Choose the memory boundary", body: "Resolve the project, tenant, workspace or session context allowed to contribute." },
       { label: "02 · RETRIEVE", title: "Find relevant records", body: "Return candidate memories together with source and retrieval metadata." },
       { label: "03 · USE", title: "Pass context to the run", body: "Make retrieved context available to the authorized worker without losing its origin." },
-      { label: "04 · RECORD", title: "Preserve new observations", body: "Store selected outcomes with attribution so future reads can be evaluated." },
+      { label: "04 · RECORD", title: "Preserve new observations", body: "Store observations with attribution; only evaluated and verified outcomes can inform successful learning." },
     ],
     signals: [{ label: "Scope", value: "project / session", note: "Retrieval follows configured boundaries" }, { label: "Provenance", value: "source + timestamp", note: "Context can be traced" }, { label: "Control", value: "read / write policy", note: "Memory access follows permissions" }],
     principle: "Retrieved context is a candidate input, not verified ground truth.",
@@ -107,12 +107,12 @@ export const supervisionPages: SupervisionPageData[] = [
     status: "REPORT CONTENTS",
     steps: [
       { label: "01 · CLAIM", title: "State what the run asserts", body: "Make the result reviewable as a claim with an explicit scope." },
-      { label: "02 · ATTACH", title: "Link source artifacts", body: "Include outputs, worker receipts, events and relevant workspace changes." },
+      { label: "02 · ATTACH", title: "Link source artifacts", body: "Keep outputs, execution receipts, events and workspace changes traceable; receipts do not become evidence by themselves." },
       { label: "03 · CHECK", title: "Record verification", body: "Show which checks ran, their outcomes and any limitations in coverage." },
       { label: "04 · DECIDE", title: "Apply the promotion gate", body: "Keep a decision tied to the evidence available at review time." },
     ],
     signals: [{ label: "Claim", value: "scoped and versioned", note: "The report says what is being asserted" }, { label: "Sources", value: "artifacts + receipts", note: "Evidence links to its origin" }, { label: "Decision", value: "promote · hold · reject", note: "Gate outcome is recorded" }],
-    principle: "An evidence report makes a decision auditable; it does not replace domain-specific validation.",
+    principle: "An evidence report makes a decision auditable; process completion and execution receipts do not replace domain-specific validation.",
   },
 ];
 

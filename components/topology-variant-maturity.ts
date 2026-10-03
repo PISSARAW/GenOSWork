@@ -1,5 +1,5 @@
 export type TopologyVariantMaturity = "implemented" | "partial" | "unassessed";
-export const genosVariantSourceCommit = "0c2de1f5b644f58cef0f8bc4a08afd76ce5b2f30";
+export const genosVariantSourceCommit = "b935962a26e2967de39db4cb253424fac44cc7e3";
 
 // Snapshot of GenOS' canonical morphogenesis variant registry at the pinned
 // source commit. This records variant-policy
