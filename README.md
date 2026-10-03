@@ -1,3 +1,14 @@
+---
+title: GenOS — Agent Runtime
+emoji: 🧬
+colorFrom: indigo
+colorTo: purple
+sdk: docker
+app_port: 7860
+pinned: false
+short_description: Official GenOSWork website, served by Next.js.
+---
+
 # GenOSWork
 
 Official multi-page website for the **GenOS Agent Runtime**. Built with Next.js App Router, React and TypeScript. The pages are server-rendered; the Morphogenesis Lab adds a small, client-side illustration that does not connect to a live GenOS runtime or execute visitor prompts.

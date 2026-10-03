@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Eyebrow } from "@/components/eyebrow";
+import { WorkersExplorer } from "@/components/workers-explorer";
 import "../workers.css";
 
 export const metadata: Metadata = {
@@ -106,26 +107,7 @@ export default function WorkersPage() {
 
       <section className="section-wrap worker-taxonomy" aria-label="Worker type catalog">
         <div className="worker-taxonomy-heading"><Eyebrow>THE CATALOG · 19 TYPES</Eyebrow><p>Each type provides a contract and output artifact suited to a function. Contract details depend on the execution path.</p></div>
-        {families.map((family) => (
-          <section className={`worker-family worker-family-${family.tone}`} id={family.id} key={family.id} aria-labelledby={`${family.id}-title`}>
-            <header className="worker-family-heading">
-              <span className="worker-family-number">{family.number}</span>
-              <div><span>{family.name}</span><h2 id={`${family.id}-title`}>{family.title}</h2></div>
-              <p>{family.intro}</p>
-              <span className="worker-family-count">{String(family.workers.length).padStart(2, "0")} TYPES</span>
-            </header>
-            <div className="worker-card-grid">
-              {family.workers.map((worker) => (
-                <article className="worker-card" key={worker.id}>
-                  <div className="worker-card-meta"><span>{worker.id}</span><span className="worker-card-mark" aria-hidden="true">↗</span></div>
-                  <h3>{worker.title}</h3>
-                  <p>{worker.description}</p>
-                  <div className="worker-card-foot"><span>EXPECTED ARTIFACT</span><code>{worker.artifact}</code><small>{worker.detail}</small></div>
-                </article>
-              ))}
-            </div>
-          </section>
-        ))}
+        <WorkersExplorer families={families} />
       </section>
 
       <section className="worker-distinctions-wrap">
