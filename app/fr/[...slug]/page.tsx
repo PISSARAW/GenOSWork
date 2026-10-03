@@ -33,13 +33,20 @@ const summaries: Record<string, Summary> = {
   evidence: { title: "Examiner les affirmations", emphasis: "à la source.", intro: "Le registre de preuves sépare les capacités implémentées, partielles, intégrées et proposées. Chaque statut renvoie aux contrats GenOS, notamment pour la communication, les budgets worker, les daemons et la clôture Trinity.", bullets: ["Lire l’état d’implémentation", "Suivre les limites connues", "Ouvrir le document source canonique"], family: "REGISTRE DE PREUVES" },
 };
 
+const frenchConceptSummaries: Record<string, Summary> = {
+  genome: { title: "Le génome GenOS", emphasis: "est un modèle logiciel.", intro: "Il décrit des traits et contraintes versionnés. Les opérations Rust transforment ces données; cela ne démarre pas à lui seul un agent runtime.", bullets: ["Distinguer le modèle du processus agent", "Lire les opérations de transformation", "Ne pas confondre avec l’ADN biologique"], family: "CONCEPT GENOS" },
+  epigenetics: { title: "L’épigénétique GenOS", emphasis: "est une analogie logicielle.", intro: "Les politiques règlent l’expression de traits modélisés selon le contexte. Le réajustement épigénétique du modèle n’est pas un mécanisme cellulaire.", bullets: ["Voir les traits comme des données", "Distinguer politique et biologie", "Consulter les limites de la reproduction"], family: "CONCEPT GENOS" },
+  "agent-dna": { title: "AgentDNA", emphasis: "est un format de données.", intro: "Cet artefact versionné décrit l’identité et les traits d’un agent. Le modifier ne lance, ne clone et ne reconfigure pas à lui seul un worker.", bullets: ["Examiner le format binaire", "Séparer données et processus runtime", "Consulter le contrat canonique"], family: "CONCEPT GENOS" },
+  reproduction: { title: "La reproduction GenOS", emphasis: "transforme des modèles.", intro: "Les routines Rust transforment des modèles de génome et de cellule; le démarrage d’un worker est séparé. Les handlers biomimétiques Node inscrivent des métadonnées de simulation, sans créer de descendants runtime.", bullets: ["Distinguer transformation et démarrage", "Lire les règles d’héritage modélisées", "Traiter jumeaux, triplets et chimères Node comme des simulations"], family: "CONCEPT GENOS" },
+  mutation: { title: "La mutation GenOS", emphasis: "a plusieurs portées.", intro: "Les opérations Rust modifient des modèles génomiques. Les handlers biomimétiques MCP modifient des registres de scénario, sans changer l’AgentDNA d’un agent actif ni son comportement runtime.", bullets: ["Distinguer modèle Rust et registre Node", "Vérifier les bornes de chaque opération", "Ne pas interpréter un score simulé comme une mesure biologique"], family: "CONCEPT GENOS" },
+};
 function chooseSummary(path: string): Summary | undefined {
   const exact = summaries[path];
   if (exact) return exact;
   if (path.startsWith("concepts/")) {
     const slug = path.slice("concepts/".length);
     if (!concepts.some((c) => c.slug === slug)) return undefined;
-    return { title: "Une fiche de concept", emphasis: "ancrée dans le runtime.", intro: "La fiche anglaise détaille son mécanisme, son état d'implémentation et les preuves disponibles. Le résumé français de l'atlas présente les familles et les principes transverses.", bullets: ["Lire le concept dans l'Atlas français", "Ouvrir la fiche complète en anglais", "Vérifier les liens de preuve dans le dépôt"], family: "CONCEPT GENOS" };
+    return frenchConceptSummaries[slug] ?? { title: "Une fiche de concept", emphasis: "ancrée dans le runtime.", intro: "La fiche anglaise détaille son mécanisme, son état d'implémentation et les preuves disponibles. Le résumé français de l'atlas présente les familles et les principes transverses.", bullets: ["Lire le concept dans l'Atlas français", "Ouvrir la fiche complète en anglais", "Vérifier les liens de preuve dans le dépôt"], family: "CONCEPT GENOS" };
   }
   if (path.startsWith("topologies/")) {
     const slug = path.slice("topologies/".length);

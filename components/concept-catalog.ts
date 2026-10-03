@@ -41,12 +41,12 @@ const familyRows: Record<string, { source: string; rows: Row[] }> = {
   "identity-development": {
     source: "genome-et-epigenetique.md",
     rows: [
-      ["genome", "Genome", "The inherited specification and constraints used to shape an agent phenotype.", undefined, ["epigenetics", "agent-dna", "phenotype"], true, true],
-      ["epigenetics", "Epigenetics", "Contextual regulation that changes how inherited specifications are expressed.", undefined, ["genome", "phenotype"], true, true],
-      ["agent-dna", "AgentDNA", "A versioned binary representation for agent identity and runtime traits.", "agent-dna-runtime.md", ["genome", "phenotype"]],
+      ["genome", "Genome", "A versioned software model of inherited traits and constraints; it is not biological DNA and does not by itself instantiate a running agent.", undefined, ["epigenetics", "agent-dna", "phenotype"], true, true],
+      ["epigenetics", "Epigenetics", "A software policy for expressing modeled traits in context; it is an analogy, not biochemical marking or biological inheritance.", undefined, ["genome", "phenotype"], true, true],
+      ["agent-dna", "AgentDNA", "A versioned binary data format for agent identity and runtime traits; editing it does not by itself start or clone a process.", "agent-dna-runtime.md", ["genome", "phenotype"]],
       ["phenotype", "Phenotype", "The observable runtime profile produced by identity, constraints, and environment.", "biologie-computationnelle.md", ["genome", "epigenetics", "instinct"], true],
       ["instinct", "Instinct", "Bounded innate response patterns that can be selected or modulated by runtime context.", "instinct.md", ["phenotype", "homeostasis"], true],
-      ["reproduction", "Reproduction", "Controlled creation of descendants or replicas with explicit lineage and inheritance rules.", "../02-orchestration/reproduction-et-replication.md", ["genome", "plasmids", "phenotype"], true],
+      ["reproduction", "Reproduction", "Rust reproduction operations transform genome and cell models under inheritance rules; worker startup is separate, while MCP biomimicry handlers record simulations.", "../02-orchestration/reproduction-et-replication.md", ["genome", "plasmids", "phenotype"], true],
       ["speciation-graft", "Speciation & grafting", "A documented path for proposing a new capability or agent lineage and evaluating it before promotion.", "speciation-graft-autonome.md", ["genome", "evolution-selection", "evidence"], true],
     ],
   },
@@ -121,7 +121,7 @@ const familyRows: Record<string, { source: string; rows: Row[] }> = {
   "evolution-ecology": {
     source: "genome-et-epigenetique.md",
     rows: [
-      ["mutation", "Mutation", "A constrained change to inherited or runtime traits, subject to validation and lineage tracking.", undefined, ["genome", "evolution-selection", "agent-dna"], true, true],
+      ["mutation", "Mutation", "Rust operations change genome data models; MCP biomimicry mutation handlers update scenario registries and do not change an active agent’s AgentDNA.", undefined, ["genome", "evolution-selection", "agent-dna"], true, true],
       ["evolution-selection", "Selection", "A policy for comparing candidates and retaining outcomes under explicit criteria.", "../02-orchestration/reproduction-et-replication.md", ["mutation", "reproduction", "trinity"], true, true],
       ["plasmids", "Plasmids", "Transferable capability packages that can be acquired, checked, and applied under runtime rules.", "../adr/0108-cycle-de-vie-plasmidique.md", ["horizontal-transfer", "genome", "symbionts"], true],
       ["horizontal-transfer", "Horizontal transfer", "A governed transfer of capabilities or artifacts between agent lineages.", "../adr/0108-cycle-de-vie-plasmidique.md", ["plasmids", "reproduction", "evidence"], true],
