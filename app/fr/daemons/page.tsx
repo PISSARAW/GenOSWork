@@ -25,7 +25,8 @@ export default function FrenchDaemonsPage() {
         <Eyebrow light>PORTÉE ET LIMITES</Eyebrow>
         <h2>Une animation explicative, pas un runtime en direct.</h2>
         <p>Le cycle résident, les territoires, les findings et les handoffs sont implémentés. La maturité globale reste <strong>EXPÉRIMENTALE</strong> ; l’animation ne lance aucun daemon et ne représente pas un résultat live.</p>
-        <a href="https://github.com/PISSARAW/GenOS/blob/v3/docs/03-reference/types-de-daemons.md" target="_blank" rel="noreferrer">Ouvrir le catalogue de référence <span>↗</span></a>
+        <p>Le host résident interroge le curseur d’événements indexé toutes les 500 ms. Au redémarrage, l’activité revient à BOOTSTRAPPING tandis que la santé, les révisions et le dernier curseur sont conservés. Le pont de production ne confirme un événement qu’après mise à jour et journalisation réussies.</p>
+        <a href="https://github.com/PISSARAW/GenOS/blob/6133af69933c86f39f0396f801f2ce2b3385826b/docs/03-reference/types-de-daemons.md" target="_blank" rel="noreferrer">Ouvrir le catalogue de référence <span>↗</span></a>
       </div>
     </section>
   </div>;
