@@ -1,14 +1,12 @@
 import Link from "next/link";
 import { Eyebrow } from "@/components/eyebrow";
 import { SectionHeading } from "@/components/section-heading";
-import { TopologyCard } from "@/components/topology-card";
 import { TrajectoryGraphic } from "@/components/trajectory-graphic";
-import { topologies } from "@/components/topologies";
 
 const pillars = [
-  { n: "01 / VERSION", title: "Keep every path.", body: "Capture state, fork independent trajectories, compare diffs and replay validated snapshots.", tone: "dark", icon: "◫", href: "/runtime" },
-  { n: "02 / ORCHESTRATE", title: "Coordinate with intent.", body: "Compose specialized workers, apply budgets and permissions, and preserve the handoffs.", tone: "sand", icon: "⌘", href: "/topologies" },
-  { n: "03 / VERIFY", title: "Let evidence decide.", body: "Keep claims, provenance, checks and promotion gates connected to the work.", tone: "lilac", icon: "◎", href: "/evidence" },
+  { n: "01 / RECORD", title: "Keep the context.", body: "Capture the decision, the source material, and the state of the work in one durable record.", tone: "dark", icon: "◫", href: "/runtime" },
+  { n: "02 / REVIEW", title: "See what changed.", body: "Compare a proposed change with what came before it, including the reasons and supporting artifacts.", tone: "sand", icon: "⌘", href: "/runs" },
+  { n: "03 / CONTINUE", title: "Pick up responsibly.", body: "Make the next step clear: what is ready, what remains open, and what needs review.", tone: "lilac", icon: "◎", href: "/evidence" },
 ];
 
 export default function HomePage() {
@@ -16,49 +14,31 @@ export default function HomePage() {
     <>
       <section className="hero section-wrap">
         <div className="hero-copy">
-          <Eyebrow><span className="eyebrow-pulse" /> OPEN-SOURCE AGENT RUNTIME</Eyebrow>
-          <h1>GenOS Agent<br />Runtime <em>for long-running work.</em></h1>
-          <p className="hero-lede">A reproducible runtime for long-running and multi-agent work. Version state. Compose organizations. Test alternatives. Preserve evidence. Replay what happened.</p>
-          <p className="hero-lede" style={{ fontSize: 13 }}>Understand the system. Change the model. Observe a run. Inspect the evidence. Reproduce the result.</p>
-          <div className="hero-actions"><Link className="button button-dark" href="/systems">Understand GenOS <span>→</span></Link><Link className="button button-quiet" href="/lab">Try the Lab <span>→</span></Link><Link className="button button-quiet" href="/evidence">View the evidence <span>→</span></Link></div>
-          <div className="hero-proof"><span className="proof-dot" /> Snapshots · forks · replay · evidence gates</div>
+          <Eyebrow><span className="eyebrow-pulse" /> OPEN-SOURCE WORK CONTINUITY</Eyebrow>
+          <h1>Keep the work<br /><em>legible over time.</em></h1>
+          <p className="hero-lede">GenOS keeps decisions, changes, and supporting material together so a technical project can be reviewed, resumed, and handed over without losing its context.</p>
+          <div className="hero-actions"><Link className="button button-dark" href="/runtime">Explore the method <span>→</span></Link><Link className="button button-quiet" href="/evidence">Review the record <span>→</span></Link></div>
+          <div className="hero-proof"><span className="proof-dot" /> Built for review, continuity, and accountable change</div>
         </div>
         <TrajectoryGraphic />
-        <div className="hero-index"><span>01 / 04</span><span>THE RUNTIME LAYER</span><span>SCROLL TO EXPLORE ↓</span></div>
+        <div className="hero-index"><span>01 / 03</span><span>THE WORK RECORD</span><span>SCROLL TO EXPLORE ↓</span></div>
       </section>
-      <section className="signal-strip" aria-label="GenOS runtime characteristics"><div><strong>State</strong><span>versioned by default</span></div><b>×</b><div><strong>Execution</strong><span>supervised and bounded</span></div><b>×</b><div><strong>Promotion</strong><span>gated by evidence</span></div><b>×</b><div><strong>Recovery</strong><span>built into the workflow</span></div></section>
-
-      <section className="section-wrap section-space home-journey" aria-label="Understand GenOS in five minutes">
-        <SectionHeading index="00" label="FIVE MINUTES" title="From idea to" emphasis="evidence." body="Follow one chain without getting lost: what GenOS is, how organization changes work, what you can touch, what really ran, and what the evidence supports." />
+      <section className="section-wrap section-space home-journey" aria-label="A practical way to assess GenOS">
+        <SectionHeading index="00" label="START HERE" title="A clear record" emphasis="of the work." body="Read the method, inspect a recorded execution, then check which claims are supported by the source and evidence." />
         <div className="journey-grid">
-          <div className="journey-card"><span>01 · SYSTEM</span><strong>See how parts fit</strong><p>Runtime, orchestration, memory, evidence, and verification on one map.</p><Link href="/systems">Open the system map →</Link></div>
-          <div className="journey-card"><span>02 · SIMULATION</span><strong>Change a model</strong><p>Browser-only teaching models. No runtime claim, full parameter control.</p><Link href="/lab/models">Open simulations →</Link></div>
-          <div className="journey-card"><span>03 · RECORDED RUN</span><strong>Watch what ran</strong><p>Historical artifacts with failures preserved — dispatch is not proof.</p><Link href="/runs">Replay a run →</Link></div>
-          <div className="journey-card"><span>04 · EVIDENCE</span><strong>Check what holds</strong><p>Benchmarks with protocol, scope, limits, and reproduction commands.</p><Link href="/benchmarks">Inspect evidence →</Link></div>
+          <div className="journey-card"><span>01 · RUNTIME</span><strong>Understand the record</strong><p>See which parts preserve state, handoffs, decisions, and recovery points.</p><Link href="/runtime">Read the runtime overview →</Link></div>
+          <div className="journey-card"><span>02 · RECORDED RUN</span><strong>Inspect an execution</strong><p>Review one historical run with its decisions, artifacts, and incomplete work.</p><Link href="/runs">Open a recorded run →</Link></div>
+          <div className="journey-card"><span>03 · EVIDENCE</span><strong>Check the limits</strong><p>See what is implemented, measured, partial, or still proposed.</p><Link href="/evidence">Read the evidence ledger →</Link></div>
         </div>
       </section>
 
       <section className="section-wrap section-space" id="runtime">
-        <SectionHeading index="01" label="THE RUNTIME" title="Make the work" emphasis="inspectable." body="Most orchestration starts with a prompt and ends with an answer. GenOS keeps the execution history in view—so a successful run can still be questioned, and a failed one can still teach you something." />
+        <SectionHeading index="01" label="THE METHOD" title="Make the work" emphasis="reviewable." body="A project should retain more than its latest output. GenOS keeps enough of the working record to explain a decision, compare a change, and hand the work to someone else." />
         <div className="runtime-grid">{pillars.map((card) => <article className={`runtime-card runtime-card-${card.tone}`} key={card.n}><div className="card-meta"><span>{card.n}</span><span className="card-symbol" aria-hidden="true">{card.icon}</span></div><div className={`mini-illustration mini-${card.tone}`} aria-hidden="true"><i /><i /><i /><i /></div><h3>{card.title}</h3><p>{card.body}</p><Link className="text-link" href={card.href}>Explore {card.n.split(" / ")[1].toLowerCase()} <span>↗</span></Link></article>)}</div>
-        <div className="workflow-line"><span>MISSION</span><i /><span>PLAN</span><i /><span>FORK</span><i /><span>EXECUTE</span><i /><span>VERIFY</span><i /><span>PROMOTE / HOLD</span></div>
+        <div className="workflow-line"><span>CONTEXT</span><i /><span>DECISION</span><i /><span>CHANGE</span><i /><span>REVIEW</span><i /><span>CONTINUE</span></div>
       </section>
 
-      <section className="section-wrap section-space topology-preview" id="topologies">
-        <SectionHeading index="02" label="ORGANIZATION IS A CHOICE" title="Eight ways to" emphasis="work together." body="A topology describes how workers coordinate. GenOS wires all eight into its runtime; the services, evidence requirements and operational maturity vary by mode." />
-        <div className="topology-grid">{topologies.map((topology) => <TopologyCard key={topology.slug} topology={topology} />)}</div>
-        <div className="section-end-link"><Link className="text-link" href="/topologies">Explore all eight topologies <span>→</span></Link><span>CAPABILITIES VARY BY MODE · CONTRACTS ARE NOT AUTOMATIC EFFECTS</span></div>
-      </section>
-
-      <section className="section-wrap organization-teaser">
-        <div><Eyebrow>19 DYNAMIC ORGANIZATIONS</Eyebrow><h2>Structure the team.<br /><em>Guide the next step.</em></h2><p>Consensus with abstention, blind adversarial review, swarm search, mycelial routing, isolated recovery and more. Dynamic organizations are algorithmic decision rules, separate from the eight topologies.</p></div>
-        <div className="organization-teaser-visual" aria-hidden="true"><div className="teaser-ring"><i /><i /><i /><i /><i /><i /></div><div className="teaser-core">STEP</div><span>19 ALGORITHMS</span></div>
-        <Link className="button button-dark" href="/organizations">Explore all 19 organizations <span>→</span></Link>
-      </section>
-
-      <section className="home-lab"><div className="section-wrap home-lab-inner"><div><Eyebrow light>03 — EXPLORE THE IDEA</Eyebrow><h2>What kind of team<br />does a mission <em>need?</em></h2><p>Trace a sample mission through parallel strategies in the browser. It is an illustration of the model, not a live runtime connection.</p><Link className="button button-white" href="/lab">Open Morphogenesis Lab <span>↗</span></Link><Link className="morph-home-link" href="/morphogenesis">Explore executable graph compositions <span>→</span></Link></div><div className="home-lab-visual" aria-hidden="true"><span>MISSION</span><i /><div><b>Trinity</b><b>A-Team</b><b>Biome</b></div><i /><span>EVIDENCE</span></div></div></section>
-
-      <section className="section-wrap section-space"><div className="home-evidence"><div><Eyebrow>04 — CLAIMS NEED RECEIPTS</Eyebrow><h2>See where the claim<br /><em>meets the code.</em></h2></div><p>Implemented, partial and proposed are different states. Explore the implementation ledger, read the source contracts and follow their stated limits.</p><Link className="button button-dark" href="/evidence">Open the evidence ledger <span>→</span></Link></div></section>
+      <section className="section-wrap section-space"><div className="home-evidence"><div><Eyebrow>02 — EVIDENCE</Eyebrow><h2>Read the claim<br /><em>with its limits.</em></h2></div><p>Implementation, partial work, and proposals are kept distinct. Follow each claim to its source, scope, and known limits.</p><Link className="button button-dark" href="/evidence">Open the evidence ledger <span>→</span></Link></div></section>
     </>
   );
 }
