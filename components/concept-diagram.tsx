@@ -1,11 +1,11 @@
 import type { ConceptDiagram } from "@/components/concepts";
 
 const diagrams: Record<ConceptDiagram, { labels: string[]; colors: string[]; detail: string[] }> = {
-  clinical: { labels: ["SIGNALS", "CLASSIFY", "CONTAIN", "REASSESS"], colors: ["#4b91aa", "#8378d5", "#dd8756", "#5b9a83"], detail: ["monitoring", "diagnosis", "bounded measure", "verified state"] },
-  memory: { labels: ["EPISODES", "INDEX", "RETRIEVE", "MISSION"], colors: ["#dd8756", "#8378d5", "#4b91aa", "#5b9a83"], detail: ["actions · outcomes", "lexical + vector", "score + provenance", "enriched context"] },
-  cortex: { labels: ["REQUEST", "MEMORIES", "RANKING", "AGENT"], colors: ["#dd8756", "#4b91aa", "#8378d5", "#5b9a83"], detail: ["context", "episodic · semantic", "selected recall", "verifiable response"] },
-  ontogenesis: { labels: ["PLAN", "EXECUTE", "VERIFY", "INTEGRATE"], colors: ["#8378d5", "#4b91aa", "#dd8756", "#5b9a83"], detail: ["eligible task", "bounded mission", "required evidence", "return to backlog"] },
-  ontology: { labels: ["ENTITIES", "RELATIONS", "HYPOTHESES", "ANALYSIS"], colors: ["#4b91aa", "#5b9a83", "#dd8756", "#8378d5"], detail: ["identity · properties", "observations", "possible worlds", "provenance · uncertainty"] },
+  clinical: { labels: ["SIGNALS", "CLASSIFY", "CONTAIN", "REASSESS"], colors: ["var(--rust)", "var(--rust)", "#dd8756", "#5b9a83"], detail: ["monitoring", "diagnosis", "bounded measure", "verified state"] },
+  memory: { labels: ["EPISODES", "INDEX", "RETRIEVE", "MISSION"], colors: ["#dd8756", "var(--rust)", "var(--rust)", "#5b9a83"], detail: ["actions · outcomes", "lexical + vector", "score + provenance", "enriched context"] },
+  cortex: { labels: ["REQUEST", "MEMORIES", "RANKING", "AGENT"], colors: ["#dd8756", "var(--rust)", "var(--rust)", "#5b9a83"], detail: ["context", "episodic · semantic", "selected recall", "verifiable response"] },
+  ontogenesis: { labels: ["PLAN", "EXECUTE", "VERIFY", "INTEGRATE"], colors: ["var(--rust)", "var(--rust)", "#dd8756", "#5b9a83"], detail: ["eligible task", "bounded mission", "required evidence", "return to backlog"] },
+  ontology: { labels: ["ENTITIES", "RELATIONS", "HYPOTHESES", "ANALYSIS"], colors: ["var(--rust)", "#5b9a83", "#dd8756", "var(--rust)"], detail: ["identity · properties", "observations", "possible worlds", "provenance · uncertainty"] },
 };
 
 export function ConceptDiagramView({ kind, title, description }: { kind: ConceptDiagram; title: string; description: string }) {
@@ -16,7 +16,7 @@ export function ConceptDiagramView({ kind, title, description }: { kind: Concept
       <svg viewBox="0 0 760 220" role="img" aria-labelledby={`diagram-${kind}-svg-title diagram-${kind}-svg-desc`}>
         <title id={`diagram-${kind}-svg-title`}>{title}</title>
         <desc id={`diagram-${kind}-svg-desc`}>{description}</desc>
-        <defs><marker id={`arrow-${kind}`} markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0 L6 3.5 L0 7" fill="none" stroke="#b6b2c3" strokeWidth="1.2" /></marker></defs>
+        <defs><marker id={`arrow-${kind}`} markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0 L6 3.5 L0 7" fill="none" stroke="var(--rust)" strokeWidth="1.2" /></marker></defs>
         <path className="concept-flow-line" d="M106 78 H654" />
         {diagram.labels.map((label, index) => {
           const x = 96 + index * 188;

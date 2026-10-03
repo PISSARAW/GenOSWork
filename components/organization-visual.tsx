@@ -9,12 +9,12 @@ const edges: Record<string, [number, number][]> = {
   hub: [[0, 1], [0, 2], [0, 3]], blind: [[0, 1], [2, 3]], redblue: [[0, 1], [0, 2], [1, 2]], brier: [[0, 1], [0, 2], [1, 3], [2, 3]], quorum: [[0, 1], [0, 2], [0, 3], [1, 4], [2, 4], [3, 4]], trails: [[0, 1], [1, 2], [0, 3], [3, 4], [4, 5], [1, 4]], boids: [[0, 1], [1, 2], [0, 3], [3, 4], [2, 4]], fish: [[0, 4], [1, 4], [2, 4], [3, 4]], slime: [[0, 1], [1, 2], [0, 3], [3, 4], [4, 2], [1, 4]], wolves: [[0, 3], [1, 3], [2, 4], [3, 5], [4, 5]], mycelium: [[0, 1], [0, 2], [1, 3], [2, 4], [3, 5], [4, 5]], roles: [[0, 1], [1, 2], [2, 3]], energy: [[0, 1], [1, 2], [1, 3], [1, 4]], silence: [[0, 1], [1, 2]], arena: [[0, 2], [1, 3], [2, 4], [3, 5]], hierarchy: [[0, 1], [0, 2], [1, 3], [1, 4], [2, 5], [2, 6]], recovery: [[0, 2], [1, 3]], memory: [[0, 3], [1, 3], [2, 3], [3, 4]],
 };
 
-const colors: Partial<Record<Organization["visual"], string>> = { redblue: "#dc8151", brier: "#6558d3", quorum: "#178b73", trails: "#178b73", boids: "#dc8151", fish: "#458db1", slime: "#178b73", wolves: "#6558d3", mycelium: "#178b73", roles: "#dc8151", energy: "#458db1", silence: "#797780", arena: "#dc8151", recovery: "#458db1", memory: "#6558d3" };
+const colors: Partial<Record<Organization["visual"], string>> = { redblue: "#dc8151", brier: "var(--rust)", quorum: "#178b73", trails: "#178b73", boids: "#dc8151", fish: "var(--rust)", slime: "#178b73", wolves: "var(--rust)", mycelium: "#178b73", roles: "#dc8151", energy: "var(--rust)", silence: "#797780", arena: "#dc8151", recovery: "var(--rust)", memory: "var(--rust)" };
 
 export function OrganizationVisual({ organization }: { organization: Organization }) {
   const nodes = points[organization.visual];
   const lines = edges[organization.visual];
-  const accent = colors[organization.visual] ?? "#6558d3";
+  const accent = colors[organization.visual] ?? "var(--rust)";
   return (
     <svg className="organization-visual" viewBox="0 0 100 70" role="img" aria-label={`${organization.name}: ${organization.algorithm}`}>
       {lines.map(([from, to], index) => <line key={`e${index}`} x1={nodes[from][0]} y1={nodes[from][1]} x2={nodes[to][0]} y2={nodes[to][1]} />)}

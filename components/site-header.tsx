@@ -73,7 +73,7 @@ export function SiteHeader() {
             (isFrench ? entry.childrenFr ?? entry.children : entry.children).map(
               (child) => (
                 <Link
-                  key={child.href}
+                  key={`${entry.id}-${child.href}`}
                   href={isFrench ? child.href : englishHref(child.href)}
                   className="mobile-nav-child"
                 >
