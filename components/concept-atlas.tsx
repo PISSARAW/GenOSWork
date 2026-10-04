@@ -6,7 +6,7 @@ import { concepts } from "@/components/concepts";
 import { conceptFamilies } from "@/components/concept-catalog";
 import { stateLabel } from "@/components/reality-bar";
 
-type FeatureFilter = "all" | "biologyInspired" | "hasMathematics" | "hasSimulation" | "hasBenchmark";
+type FeatureFilter = "all" | "biologyInspired" | "hasMathematics" | "hasInteractiveModel" | "hasSimulation" | "hasBenchmark";
 
 export function ConceptAtlas() {
   const [query, setQuery] = useState("");
@@ -49,7 +49,7 @@ export function ConceptAtlas() {
           <label className="atlas-search"><span>SEARCH</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search a concept or system" /></label>
           <label><span>SYSTEM</span><select value={familyFilter} onChange={(event) => setFamilyFilter(event.target.value)}><option value="all">All systems</option>{conceptFamilies.map((family) => <option value={family.id} key={family.id}>{family.name}</option>)}</select></label>
           <label><span>IMPLEMENTATION</span><select value={implementationFilter} onChange={(event) => setImplementationFilter(event.target.value)}><option value="all">Any status</option><option value="implemented">Implemented</option><option value="partial">Partial</option><option value="experimental">Experimental</option><option value="proposed">Proposed</option><option value="conceptual">Conceptual</option><option value="unassessed">Unassessed</option></select></label>
-          <label><span>HAS</span><select value={featureFilter} onChange={(event) => setFeatureFilter(event.target.value as FeatureFilter)}><option value="all">Any attribute</option><option value="biologyInspired">Biological inspiration</option><option value="hasMathematics">Mathematical model</option><option value="hasSimulation">Interactive illustration</option><option value="hasBenchmark">Benchmark protocol</option></select></label>
+          <label><span>HAS</span><select value={featureFilter} onChange={(event) => setFeatureFilter(event.target.value as FeatureFilter)}><option value="all">Any attribute</option><option value="biologyInspired">Biological inspiration</option><option value="hasMathematics">Mathematical model</option><option value="hasInteractiveModel">Interactive model</option><option value="hasSimulation">Numeric simulation</option><option value="hasBenchmark">Benchmark protocol</option></select></label>
         </div>
         <p className="atlas-result-count" role="status">Showing {visibleConcepts.length} of {concepts.length} registered concepts</p>
       </section>
@@ -70,6 +70,7 @@ export function ConceptAtlas() {
                   <span className="atlas-feature-tags">
                     {concept.biologyInspired && <i>biology</i>}
                     {concept.hasMathematics && <i>math</i>}
+                    {concept.hasInteractiveModel && <i>interactive</i>}
                     {concept.hasSimulation && <i>simulation</i>}
                     {concept.hasBenchmark && <i>benchmark</i>}
                   </span>

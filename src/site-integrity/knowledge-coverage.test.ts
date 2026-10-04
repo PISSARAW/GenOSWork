@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { concepts } from "@/components/concepts";
+import { teachingFlows } from "@/components/concept-learning-data";
+import { frenchConceptTitles } from "@/components/concept-french-titles";
+import { mechanismLabelsFr, referencesForConcept } from "@/components/mechanism-literature";
 import { catalogConcepts, conceptFamilies } from "@/components/concept-catalog";
 import { topologies } from "@/components/topologies";
 import { primaryNav, frenchStatus, truthModes } from "@/components/site-config";
@@ -61,6 +64,34 @@ describe("GenOS knowledge coverage (public contract)", () => {
     );
   });
 
+  it("gives every concept a bilingual mechanism, formal model, primary source and interactive route", () => {
+    expect(concepts.length).toBeGreaterThanOrEqual(115);
+    expect(Object.keys(teachingFlows).sort()).toEqual(concepts.map((concept) => concept.slug).sort());
+    expect(Object.keys(frenchConceptTitles).sort()).toEqual(concepts.map((concept) => concept.slug).sort());
+    for (const concept of concepts) {
+      expect(concept.scienceBasis?.length, `science ${concept.slug}`).toBeGreaterThan(45);
+      expect(concept.mathModel?.length, `math ${concept.slug}`).toBeGreaterThan(30);
+      expect(concept.scienceBasisFr?.length, `science FR ${concept.slug}`).toBeGreaterThan(35);
+      expect(concept.mathModelFr?.length, `math FR ${concept.slug}`).toBeGreaterThan(25);
+      expect(frenchConceptTitles[concept.slug].length, `title FR ${concept.slug}`).toBeGreaterThan(2);
+      expect(concept.hasInteractiveModel, `interactive ${concept.slug}`).toBe(true);
+      expect(teachingFlows[concept.slug].en).toHaveLength(3);
+      expect(teachingFlows[concept.slug].fr).toHaveLength(3);
+      expect(new Set(teachingFlows[concept.slug].en).size, `distinct EN steps ${concept.slug}`).toBe(3);
+      expect(new Set(teachingFlows[concept.slug].fr).size, `distinct FR steps ${concept.slug}`).toBe(3);
+      const references = referencesForConcept(concept.slug, concept.familyId);
+      expect(references.length, `primary reference ${concept.slug}`).toBeGreaterThan(0);
+      for (const reference of references) {
+        expect(reference.url).toMatch(/^https:\/\//);
+        expect(mechanismLabelsFr[reference.mechanismId], `mechanism FR ${reference.mechanismId}`).toBeTruthy();
+      }
+      if (concept.biologyInspired) {
+        expect(concept.biologyBasisEn?.length, `biology ${concept.slug}`).toBeGreaterThan(45);
+        expect(concept.biologyBasisFr?.length, `biology FR ${concept.slug}`).toBeGreaterThan(35);
+      }
+    }
+  });
+
   it("exposes every topology and keeps the eight canonical modes", () => {
     expect(topologies.length).toBe(8);
     const slugs = topologies.map((t) => t.slug).sort();
@@ -107,10 +138,10 @@ describe("GenOS knowledge coverage (public contract)", () => {
     expect(primaryNav.map((entry) => entry.id)).toEqual(["learn", "system", "evidence", "developers"]);
   });
 
-  it("marks FR translation status explicitly (FULL only for translated shells)", () => {
+  it("marks bilingual concept pages as fully translated", () => {
     expect(frenchStatus("/")).toBe("FULL");
     expect(frenchStatus("/benchmarks")).toBe("FULL");
-    expect(frenchStatus("/concepts/agow")).toBe("SUMMARY");
+    expect(frenchStatus("/concepts/agow")).toBe("FULL");
     expect(frenchStatus("/topologies/trinity")).toBe("SUMMARY");
   });
 

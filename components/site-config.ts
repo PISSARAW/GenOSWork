@@ -1,4 +1,5 @@
 import { genosSourceCommit } from "@/components/product-evidence";
+import { catalogConcepts } from "@/components/concept-catalog";
 
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
@@ -181,13 +182,15 @@ export const frenchSummaryRoutes = new Set([
   "/evidence",
 ]);
 
+const bilingualConceptRoutes = new Set(catalogConcepts.map((concept) => `/concepts/${concept.slug}`));
+
 export function hasFrenchPage(path: string): boolean {
-  return frenchFullRoutes.has(path) || frenchSummaryRoutes.has(path);
+  return frenchFullRoutes.has(path) || bilingualConceptRoutes.has(path) || frenchSummaryRoutes.has(path);
 }
 
 export function frenchStatus(path: string): TranslationStatus {
   const canonicalPath = path.replace(/^\/en(?=\/|$)/, "") || "/";
-  return frenchFullRoutes.has(canonicalPath) ? "FULL" : "SUMMARY";
+  return frenchFullRoutes.has(canonicalPath) || bilingualConceptRoutes.has(canonicalPath) ? "FULL" : "SUMMARY";
 }
 
 export function oppositeLocalePath(pathname: string): string {

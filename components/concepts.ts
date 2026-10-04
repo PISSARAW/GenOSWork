@@ -1,5 +1,10 @@
 import { catalogConcepts, type EvidenceState, type ImplementationState, type IntegrationState } from "@/components/concept-catalog";
-import { literatureMechanismsByConcept } from "@/components/mechanism-literature";
+import { mechanismIdsForConcept } from "@/components/mechanism-literature";
+import { v3ConceptDossiers } from "@/components/v3-concept-dossiers";
+import { scienceCompletions } from "@/components/concept-science-completions";
+import { frenchScientificProfiles } from "@/components/concept-french-science";
+import { teachingFlows } from "@/components/concept-learning-data";
+import { biologyRationale } from "@/components/concept-biology";
 
 export type ConceptSlug = string;
 export type ConceptDiagram = "clinical" | "memory" | "cortex" | "ontogenesis" | "ontology";
@@ -33,6 +38,11 @@ export type Concept = {
   related?: string[];
   scienceBasis?: string;
   mathModel?: string;
+  scienceBasisFr?: string;
+  mathModelFr?: string;
+  hasInteractiveModel?: boolean;
+  biologyBasisEn?: string;
+  biologyBasisFr?: string;
   codeSources?: string[];
   scientificReferences?: ScientificReference[];
   failureModes?: string[];
@@ -47,6 +57,8 @@ export const conceptModelBySlug: Record<string, string> = {
   maladies: "immunity", "immune-system": "immunity", "adaptive-epistemic-immunity": "immunity", pathologies: "immunity",
   "lean-verification": "lean", "proof-artifact": "lean", "deterministic-verification": "lean",
   "brier-calibration": "brier", stdp: "stdp",
+  trinity: "trinity", "a-team": "a-team", biocenose: "biocenose", holobionte: "holobionte",
+  syncytium: "syncytium", rhizome: "rhizome", metapopulation: "metapopulation", biome: "biome",
 };
 
 const authoredConcepts: Concept[] = [
@@ -291,10 +303,27 @@ const registeredConcepts: Concept[] = catalogConcepts.map((entry, index) => ({
   ...conceptDossiers[entry.slug],
 }));
 
-export const concepts: Concept[] = [
-  ...authoredConcepts.map((concept) => ({ ...concept, ...authoredMetadata[concept.slug], ...scientificProfiles[concept.slug], hasMathematics: Boolean(authoredMetadata[concept.slug]?.hasMathematics || scientificProfiles[concept.slug]?.mathModel), literatureMechanisms: literatureMechanismsByConcept[concept.slug] })),
-  ...registeredConcepts.map((concept) => ({ ...concept, ...scientificProfiles[concept.slug], hasMathematics: Boolean(concept.hasMathematics || scientificProfiles[concept.slug]?.mathModel), literatureMechanisms: literatureMechanismsByConcept[concept.slug] })),
+const baseConcepts: Concept[] = [
+  ...authoredConcepts.map((concept) => ({ ...concept, ...authoredMetadata[concept.slug], ...scientificProfiles[concept.slug], hasMathematics: Boolean(authoredMetadata[concept.slug]?.hasMathematics || scientificProfiles[concept.slug]?.mathModel), literatureMechanisms: mechanismIdsForConcept(concept.slug, authoredMetadata[concept.slug]?.familyId) })),
+  ...registeredConcepts.map((concept) => ({ ...concept, ...scientificProfiles[concept.slug], ...v3ConceptDossiers[concept.slug], hasMathematics: Boolean(concept.hasMathematics || scientificProfiles[concept.slug]?.mathModel), literatureMechanisms: mechanismIdsForConcept(concept.slug, concept.familyId) })),
 ];
+
+export const concepts: Concept[] = baseConcepts.map((concept) => {
+  const completion = scienceCompletions[concept.slug];
+  const french = frenchScientificProfiles[concept.slug];
+  return {
+    ...concept,
+    scienceBasis: concept.scienceBasis ?? completion?.scienceEn,
+    mathModel: concept.mathModel ?? completion?.mathEn,
+    scienceBasisFr: french?.[0] ?? completion?.scienceFr,
+    mathModelFr: french?.[1] ?? completion?.mathFr,
+    hasMathematics: Boolean(concept.mathModel ?? completion?.mathEn),
+    hasInteractiveModel: Boolean(teachingFlows[concept.slug]),
+    biologyInspired: Boolean(concept.biologyInspired || biologyRationale[concept.slug]),
+    biologyBasisEn: biologyRationale[concept.slug]?.[0],
+    biologyBasisFr: biologyRationale[concept.slug]?.[1],
+  };
+});
 
 export function getConcept(slug: string) {
   return concepts.find((concept) => concept.slug === slug);

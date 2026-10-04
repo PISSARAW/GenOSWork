@@ -8,6 +8,8 @@ import { morphogenesisCases } from "@/components/morphogenesis-cases";
 import { TranslationNotice } from "@/components/locale-controls";
 import { AgentCoordinationGuide, isCoordinationGuide } from "@/components/agent-coordination-guide";
 import { genosSource } from "@/components/product-evidence";
+import { FrenchConceptDetail } from "@/components/french-concept-detail";
+import { frenchConceptTitles } from "@/components/concept-french-titles";
 
 type Summary = { title: string; emphasis: string; intro: string; bullets: string[]; family: string };
 
@@ -85,6 +87,15 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/fr/[...slug]">): Promise<Metadata> {
   const { slug } = await params;
   const path = slug.join("/");
+  if (path.startsWith("concepts/")) {
+    const concept = concepts.find((item) => item.slug === path.slice("concepts/".length));
+    if (concept) return {
+      title: `${frenchConceptTitles[concept.slug]} · concept GenOS`,
+      description: concept.scienceBasisFr,
+      alternates: { canonical: `/fr/${path}`, languages: { en: `/en/${path}`, fr: `/fr/${path}` } },
+      openGraph: { locale: "fr_FR" },
+    };
+  }
   const summary = chooseSummary(path);
   return summary ? { title: (path.startsWith("concepts/") && isCoordinationGuide(path.slice("concepts/".length)) ? summary.title : summary.family) + " GenOS", description: summary.intro, alternates: { canonical: "/fr/" + path, languages: { en: "/en/" + path, fr: "/fr/" + path } }, openGraph: { locale: "fr_FR" } } : { title: "GenOS en français" };
 }
@@ -93,6 +104,11 @@ export default async function FrenchOverviewPage({ params }: PageProps<"/fr/[...
   const { slug } = await params;
   const path = slug.join("/");
   const summary = chooseSummary(path);
+  if (path.startsWith("concepts/")) {
+    const concept = concepts.find((item) => item.slug === path.slice("concepts/".length));
+    if (!concept) notFound();
+    return <FrenchConceptDetail concept={concept} />;
+  }
   if (!summary) notFound();
   const englishHref = "/en/" + path;
   const sourceHref = path.startsWith("concepts/") ? "https://github.com/PISSARAW/GenOS/tree/e9cdad244c2bce9e155007964c591b9be321dc02/docs/01-concepts" : path.startsWith("topologies/") ? "https://github.com/PISSARAW/GenOS/blob/e9cdad244c2bce9e155007964c591b9be321dc02/docs/02-orchestration/topologies-et-capacites.md" : "https://github.com/PISSARAW/GenOS/tree/e9cdad244c2bce9e155007964c591b9be321dc02/docs";

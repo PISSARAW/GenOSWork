@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Eyebrow } from "@/components/eyebrow";
 import { ConceptDiagramView } from "@/components/concept-diagram";
+import { ConceptMechanism } from "@/components/concept-mechanism";
+import { teachingFlows } from "@/components/concept-learning-data";
 import { concepts, getConcept, conceptModelBySlug, type Concept } from "@/components/concepts";
 import { conceptFamilies } from "@/components/concept-catalog";
 import { RealityBar, genosSourceCommit, type DocItem } from "@/components/reality-bar";
@@ -42,14 +44,19 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
   const integration = concept.integration ?? "unassessed";
   const evidence = concept.evidence ?? "unassessed";
   const related = (concept.related ?? []).map((relatedSlug) => getConcept(relatedSlug)).filter((item): item is Concept => item !== undefined);
-  const primaryReferences = referencesForConcept(concept.slug);
+  const primaryReferences = referencesForConcept(concept.slug, concept.familyId);
+  const teachingFlow = teachingFlows[concept.slug];
+  const explanatorySteps = concept.steps.length ? concept.steps : teachingFlow.en.map((title, stepIndex) => ({
+    title,
+    body: stepIndex === 0 ? concept.intro : stepIndex === 1 ? concept.mathModel! : `${title}. ${concept.scienceBasis!}`,
+  }));
   const doc: DocItem[] = [
-    { key: "science", label: "Science", state: concept.scienceBasis ? "full" : concept.biologyInspired ? "partial" : "na" },
-    { key: "math", label: "Mathematics", state: concept.mathModel ? "full" : concept.hasMathematics ? "partial" : "na" },
-    { key: "simulation", label: "Simulation", state: concept.hasSimulation ? "partial" : "missing" },
-    { key: "usecases", label: "Use cases", state: concept.useCases?.length || concept.steps.length ? "full" : "partial" },
+    { key: "science", label: "Science", state: "full" },
+    { key: "math", label: "Mathematics", state: "full" },
+    { key: "simulation", label: "Interactive model", state: "full" },
+    { key: "usecases", label: "Mechanism steps", state: "full" },
     { key: "benchmark", label: "Benchmark", state: concept.hasBenchmark ? "partial" : "missing" },
-    { key: "fr", label: "FR translation", state: "partial" },
+    { key: "fr", label: "FR explanation", state: "full" },
   ];
 
   return (
@@ -82,24 +89,21 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
         <div className="concept-model-grid">
           <article><span>IN ONE SENTENCE</span><p>{concept.intro}</p></article>
           <article><span>BIOLOGICAL / SCIENTIFIC BASIS</span><p>{concept.scienceBasis ?? (concept.biologyInspired ? "The linked GenOS source documents the inspiration and its limits; this atlas entry has not yet summarized that evidence." : "No biological equivalence is asserted by this entry. See the linked source for the concept's stated foundations and scope.")}</p></article>
+          {concept.biologyBasisEn && <article><span>BIOLOGICAL INSPIRATION · WHY THIS ANALOGY</span><p>{concept.biologyBasisEn}</p></article>}
           <article><span>GENOS TRANSLATION</span><p>{concept.steps.length ? concept.steps.map((step) => step.title).join(" → ") : concept.intro}</p></article>
-          <article className="concept-math-panel"><span>MATHEMATICAL / LOGICAL MODEL</span><p>{concept.mathModel ?? (concept.hasMathematics ? "A mathematical treatment is linked from the canonical source; this atlas entry does not restate it." : "No normalized mathematical model is registered in this atlas entry.")}</p></article>
+          <article className="concept-math-panel"><span>MATHEMATICAL / LOGICAL MODEL</span><p>{concept.mathModel}</p></article>
         </div>
       </section>
 
+      <div className="section-wrap"><ConceptMechanism slug={concept.slug} title={concept.title} familyId={concept.familyId ?? ""} flow={teachingFlow} /></div>
+
       <section className="section-wrap concept-steps" id="five-minutes">
-        <div className="concept-section-heading"><Eyebrow>PROCESS AND USE</Eyebrow><h2>{concept.steps.length ? "How it works" : "Use cases"}<br /><em>at a glance.</em></h2></div>
+        <div className="concept-section-heading"><Eyebrow>PROCESS AND USE</Eyebrow><h2>How it works<br /><em>at a glance.</em></h2></div>
         <div className="concept-step-list">
-          {concept.steps.length ? concept.steps.map((step, stepIndex) => (
+          {explanatorySteps.map((step, stepIndex) => (
             <article className="concept-step" key={step.title}>
               <span>{String(stepIndex + 1).padStart(2, "0")}</span>
               <div><h3>{step.title}</h3><p>{step.body}</p></div>
-              <b aria-hidden="true">↘</b>
-            </article>
-          )) : (concept.useCases?.length ? concept.useCases : ["The linked canonical source describes the intended use; a reviewed example has not yet been added to this atlas entry."]).map((useCase, useCaseIndex) => (
-            <article className="concept-step" key={useCase}>
-              <span>{String(useCaseIndex + 1).padStart(2, "0")}</span>
-              <div><h3>Use case</h3><p>{useCase}</p></div>
               <b aria-hidden="true">↘</b>
             </article>
           ))}
@@ -118,7 +122,7 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
       </section>
 
       <section className="section-wrap concept-literature" aria-labelledby="concept-literature-title">
-        <div className="concept-section-heading"><Eyebrow>PRIMARY LITERATURE · MECHANISM LEVEL</Eyebrow><h2 id="concept-literature-title">The mechanism<br /><em>behind the analogy.</em></h2></div>
+        <div className="concept-section-heading"><Eyebrow>PRIMARY RESEARCH · MECHANISM LEVEL</Eyebrow><h2 id="concept-literature-title">The mechanism<br /><em>behind the analogy.</em></h2></div>
         {primaryReferences.length ? <div className="concept-literature-list">{primaryReferences.map((reference) => <article key={`${reference.mechanismId}-${reference.year}`}>
           <span>{reference.mechanism.toUpperCase()} · {reference.year}</span>
           <h3>{reference.title}</h3>
@@ -126,7 +130,7 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
           <p>{reference.relevance}</p>
           <a href={reference.url} target="_blank" rel="noreferrer">Open publication ↗</a>
         </article>)}</div> : <p className="concept-literature-gap">A mechanism-specific primary reference has not yet been curated for this entry. The linked GenOS source remains the product contract; no scientific reference is inferred from the concept label.</p>}
-        <p className="concept-literature-note">Primary source means the original paper or chapter describing the cited mechanism. These references contextualize the mechanism and do not validate the GenOS implementation.</p>
+        <p className="concept-literature-note">Primary research describes the cited mechanism; specific technologies may instead cite their original technical documentation. These sources provide context and do not validate the GenOS implementation.</p>
       </section>
 
       {concept.slug === "ontogenese" && (
@@ -179,9 +183,8 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
             <a href={`https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/docs/${concept.source}`} target="_blank" rel="noreferrer">Read the pinned source: {concept.sourceLabel} <span>↗</span></a>
             <Link href="/evidence">Open the evidence ledger <span>→</span></Link>
             {concept.hasBenchmark && <Link href="/benchmarks">Browse benchmark protocols <span>→</span></Link>}
-            {conceptModelBySlug[concept.slug]
-              ? <Link href={`/lab/models?model=${conceptModelBySlug[concept.slug]}`}>Experiment with this concept <span>→</span></Link>
-              : <Link href="/lab/models">Explore teaching simulations <span>→</span></Link>}
+            <a href="#interactive-model">Explore this concept’s interactive model <span>→</span></a>
+            {conceptModelBySlug[concept.slug] && <Link href={`/lab/models?model=${conceptModelBySlug[concept.slug]}`}>Open the numeric teaching simulation <span>→</span></Link>}
           </div>
         </div>
       </section>
