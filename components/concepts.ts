@@ -111,7 +111,7 @@ const authoredConcepts: Concept[] = [
       { title: "Integrate and reassess", body: "Integrate an accepted result, record failures, and choose what to do next or wait for an event." },
     ],
     scopeTitle: "The controller is not a living organism",
-    scope: "This page describes project-level continuity through software states and resource constraints. It is distinct from cell-level HOX lineage differentiation in the Rust biology path. Project Ontogenesis remains partial: the loop, selection policies, and persistence mechanisms exist, but transparent recovery for every scenario is not guaranteed.",
+    scope: "This page describes project-level continuity through software states and resource constraints. It is distinct from cell-level HOX lineage differentiation in the Rust biology path. Project Ontogenesis remains partial: completion requires explicit mission invariants or required evidence; terminal agent status alone cannot certify success. The loop and persistence mechanisms exist, but transparent recovery for every scenario is not guaranteed.",
     source: "01-concepts/ontogenese.md", sourceLabel: "Ontogenesis: resident project controller",
   },
   {
@@ -136,7 +136,7 @@ const authoredMetadata: Record<string, Partial<Concept>> = {
   maladies: { familyId: "immunity-medicine", implementation: "partial", integration: "isolated", evidence: "unassessed", statusNote: "The source describes a clinical runtime model and marks its connected effects as partial.", related: ["nosology", "immune-system", "evidence"], biologyInspired: true },
   memoire: { familyId: "memory-learning", implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Several retrieval and memory mechanisms are present; this status does not mean every memory type is integrated end to end.", related: ["episodic-memory", "semantic-memory", "vector-memory", "synaptic-plasticity"], biologyInspired: true, hasMathematics: true },
   cortex: { familyId: "cognition-control", implementation: "conceptual", integration: "isolated", evidence: "none", statusNote: "Cortex is a documented architectural analogy, not a unified runtime organ.", related: ["agow", "semantic-memory", "theory-of-self"], biologyInspired: true },
-  ontogenese: { familyId: "identity-development", implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "The resident loop and persistence mechanisms exist; recovery is not guaranteed for every scenario.", related: ["workflows", "resident-daemons", "counterfactual-workspaces"], biologyInspired: true },
+  ontogenese: { familyId: "identity-development", implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Missions need explicit completion criteria; agent terminal status alone is not proof. Recovery is not guaranteed for every scenario.", related: ["workflows", "resident-daemons", "counterfactual-workspaces"], biologyInspired: true },
   ontologie: { familyId: "knowledge-evidence", implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Bounded ontology services are callable; they do not prove that a described entity or scenario exists.", related: ["knowledge", "beliefs", "evidence"], hasMathematics: true },
 };
 
