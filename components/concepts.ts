@@ -105,13 +105,13 @@ const authoredConcepts: Concept[] = [
     diagramTitle: "A loop of verified missions",
     diagramDescription: "The project plans, executes, verifies, and integrates a mission. Failure returns to planning; a constraint can put the loop on hold.",
     steps: [
-      { title: "Plan", body: "Choose an eligible backlog task based on dependencies, priorities, and budgets." },
+      { title: "Plan", body: "Choose an eligible backlog task based on dependencies, priorities, budgets, and its persisted kind (implement, verify, explore, decide, or repair)." },
       { title: "Execute", body: "Delegate a bounded mission to the GenOS runtime and preserve its state." },
       { title: "Verify", body: "Examine the evidence; without enough evidence, return the mission to planning." },
-      { title: "Integrate and reassess", body: "Integrate an accepted result, record failures, and choose what to do next or wait for an event." },
+      { title: "Integrate and reassess", body: "Integrate an accepted result, link failures to the topology used, and choose what to do next or wait for an event." },
     ],
     scopeTitle: "The controller is not a living organism",
-    scope: "This page describes project-level continuity through software states and resource constraints. It is distinct from cell-level HOX lineage differentiation in the Rust biology path. Project Ontogenesis remains partial: completion requires explicit mission invariants or required evidence; terminal agent status alone cannot certify success. The loop and persistence mechanisms exist, but transparent recovery for every scenario is not guaranteed.",
+    scope: "This page describes project-level continuity through software states and resource constraints. It is distinct from cell-level HOX lineage differentiation in the Rust biology path. Project Ontogenesis remains partial: when no explicit completion contract is supplied, the mission gate can fall back to a generic outcome check. Task acceptance text is not independently verified by that gate. The loop and persistence mechanisms exist, but transparent recovery for every scenario is not guaranteed.",
     source: "01-concepts/ontogenese.md", sourceLabel: "Ontogenesis: resident project controller",
   },
   {
@@ -136,7 +136,7 @@ const authoredMetadata: Record<string, Partial<Concept>> = {
   maladies: { familyId: "immunity-medicine", implementation: "partial", integration: "isolated", evidence: "unassessed", statusNote: "The source describes a clinical runtime model and marks its connected effects as partial.", related: ["nosology", "immune-system", "evidence"], biologyInspired: true },
   memoire: { familyId: "memory-learning", implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Several retrieval and memory mechanisms are present; this status does not mean every memory type is integrated end to end.", related: ["episodic-memory", "semantic-memory", "vector-memory", "synaptic-plasticity"], biologyInspired: true, hasMathematics: true },
   cortex: { familyId: "cognition-control", implementation: "conceptual", integration: "isolated", evidence: "none", statusNote: "Cortex is a documented architectural analogy, not a unified runtime organ.", related: ["agow", "semantic-memory", "theory-of-self"], biologyInspired: true },
-  ontogenese: { familyId: "identity-development", implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Missions need explicit completion criteria; agent terminal status alone is not proof. Recovery is not guaranteed for every scenario.", related: ["workflows", "resident-daemons", "counterfactual-workspaces"], biologyInspired: true },
+  ontogenese: { familyId: "identity-development", implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Task kinds and topology failure history now inform selection. Without an explicit completion contract, task acceptance text is not independently verified by the mission gate.", related: ["workflows", "resident-daemons", "counterfactual-workspaces"], biologyInspired: true },
   ontologie: { familyId: "knowledge-evidence", implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Bounded ontology services are callable; they do not prove that a described entity or scenario exists.", related: ["knowledge", "beliefs", "evidence"], hasMathematics: true },
 };
 
