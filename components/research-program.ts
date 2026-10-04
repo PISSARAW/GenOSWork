@@ -1,3 +1,5 @@
+import { genosSourceCommit } from "@/components/product-evidence";
+
 export type ResearchStatus =
   | "HYPOTHESIS"
   | "PROTOCOL"
@@ -20,7 +22,7 @@ export type ResearchSection = {
   evidenceHref: string;
 };
 
-const docs = "https://github.com/PISSARAW/GenOS/blob/v3/docs/";
+const docs = `https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/docs/`;
 
 export const researchDocsBase = docs;
 
@@ -67,9 +69,9 @@ export const researchSections: ResearchSection[] = [
       ["Autobiographical memory", "02-orchestration/memoire-autobiographique.md"],
     ],
     externalBasis: "Human episodic and semantic memory systems",
-    genosHypothesis: "Retrieval that combines similarity, recency, credibility, and success signals improves long-conversation factual recall over raw context.",
-    status: "SUPPORTED IN THIS EXPERIMENT",
-    evidenceHref: "/benchmarks",
+    genosHypothesis: "Retrieval that combines similarity, recency, credibility, and success signals may improve long-conversation factual recall over a same-model raw-context baseline. The published LoCoMo result reports absolute F1, without that controlled comparison.",
+    status: "INCONCLUSIVE",
+    evidenceHref: `${docs}06-qualite-preuves/benchmarks/locomo.md`,
   },
   {
     index: "04",

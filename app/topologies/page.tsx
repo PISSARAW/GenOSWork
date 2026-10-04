@@ -14,7 +14,7 @@ export default function TopologiesPage() {
         <p>Topologies define how workers coordinate, but do not activate every capability. At execution, declared workers need stable identities and successful typed evidence with provenance. Specialist assignments preserve their declared niche; symbiotic assignments require an explicit host contract and capabilities. Each profile below links to its runtime path and limits.</p>
         <div className="topology-legend"><span><i className="legend-runtime" /> Runtime path wired</span><span><i className="legend-contract" /> Capability profile varies</span></div>
       </section>
-      <section className="section-wrap section-space topology-index"><div className="topology-grid">{topologies.map((topology) => <TopologyCard key={topology.slug} topology={topology} />)}</div><p className="index-source">Canonical status and capability details: <a href="https://github.com/PISSARAW/GenOS/blob/v3/docs/02-orchestration/topologies-et-capacites.md" target="_blank" rel="noreferrer">GenOS topology capability contract ↗</a></p></section>
+      <section className="section-wrap section-space topology-index"><div className="topology-grid">{topologies.map((topology) => <TopologyCard key={topology.slug} topology={topology} />)}</div><p className="index-source">Canonical status and capability details: <a href="https://github.com/PISSARAW/GenOS/blob/e9cdad244c2bce9e155007964c591b9be321dc02/docs/02-orchestration/topologies-et-capacites.md" target="_blank" rel="noreferrer">GenOS topology capability contract ↗</a></p></section>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Eyebrow } from "@/components/eyebrow";
 import { DaemonExplorer } from "@/components/daemon-explorer";
+import { genosSource } from "@/components/product-evidence";
 import "./daemons.css";
 import "./daemon-explorer.css";
 
@@ -97,7 +98,7 @@ export default function DaemonsPage() {
           <h2>An experimental observation system.</h2>
           <p>The runtime, territories, findings, handoffs, reconciliation, and evaluation are implemented. Overall maturity remains <strong>EXPERIMENTAL</strong>: available live results are too limited to establish a general benefit. Knowledge can also become stale when the territory's HEAD changes.</p>
           <p>The resident host polls the indexed durable event cursor every 500 ms. On restart it returns to BOOTSTRAPPING while retaining health, revision count, and the last event cursor. Production events are reported as emitted only after the cheap update and journal write both succeed.</p>
-          <a href="https://github.com/PISSARAW/GenOS/blob/6133af69933c86f39f0396f801f2ce2b3385826b/docs/03-reference/types-de-daemons.md" target="_blank" rel="noreferrer">Read the daemon reference catalog <span>↗</span></a>
+          <a href={genosSource("docs/03-reference/types-de-daemons.md")} target="_blank" rel="noreferrer">Read the daemon reference catalog <span>↗</span></a>
         </div>
       </section>
     </div>

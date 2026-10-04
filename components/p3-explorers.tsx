@@ -9,6 +9,20 @@ type BenchmarkTask = (typeof benchmark.results)[number];
 type CampaignMission = (typeof campaign.missions)[number];
 type FailureCategory = "all" | "timeouts" | "dispatch" | "workers" | "verification" | "other";
 
+function runtimeField(value: unknown, names: string[]): string | null {
+  if (!value || typeof value !== "object") return null;
+  const record = value as Record<string, unknown>;
+  for (const name of names) {
+    const field = record[name];
+    if (typeof field === "string" || typeof field === "number" || typeof field === "boolean") return String(field);
+  }
+  for (const child of [record.result, record.data, record.output, record.mission, record.verification, record.promotion]) {
+    const found = runtimeField(child, names);
+    if (found !== null) return found;
+  }
+  return null;
+}
+
 function failureCategory(mission: CampaignMission, failure: string): Exclude<FailureCategory, "all"> {
   const value = failure.toLowerCase();
   if (mission.timedOut || value.includes("timed out")) return "timeouts";
@@ -49,7 +63,7 @@ export function BenchmarkExplorer({ locale = "en" }: { locale?: "en" | "fr" }) {
         </div>
         {selectedTask && result && <div className="p3-benchmark-result">
           <div className="p3-result-heading"><div><span className="p3-kicker">{selectedTask.domain.toUpperCase()} · {selectedTask.task}</span><h3>{algorithms.find((item) => item.id === algorithm)?.label}</h3></div><b className={result.success ? "p3-verdict p3-verdict-ok" : "p3-verdict p3-verdict-fail"}>{result.success ? (fr ? "OBJECTIF ATTEINT" : "GOAL REACHED") : (fr ? "ÉCHEC ENREGISTRÉ" : "RECORDED FAILURE")}</b></div>
-          <div className="p3-metrics"><Metric value={result.success ? (fr ? "Oui" : "Yes") : (fr ? "Non" : "No")} label={fr ? "Succès validé" : "Verified success"} /><Metric value={result.expansions} label={fr ? "Expansions" : "Expansions"} /><Metric value={result.plan.length} label={fr ? "Actions dans le plan" : "Plan actions"} /><Metric value={selectedTask.optimalLength ?? "—"} label={fr ? "Optimum BFS (si calculé)" : "BFS optimum (if computed)"} /></div>
+          <div className="p3-metrics"><Metric value={result.success ? (fr ? "Oui" : "Yes") : (fr ? "Non" : "No")} label={fr ? "Objectif du scénario atteint" : "Harness goal met"} /><Metric value={result.expansions} label={fr ? "Expansions" : "Expansions"} /><Metric value={result.plan.length} label={fr ? "Actions dans le plan" : "Plan actions"} /><Metric value={selectedTask.optimalLength ?? "—"} label={fr ? "Optimum BFS (si calculé)" : "BFS optimum (if computed)"} /></div>
           <div className="p3-action-plan"><span>{fr ? "PLAN ENREGISTRÉ" : "RECORDED PLAN"}</span>{result.plan.length ? <ol>{result.plan.map((action, index) => <li key={`${index}-${action}`}><i>{String(index + 1).padStart(2, "0")}</i>{action}</li>)}</ol> : <p>{fr ? "Aucun plan produit dans ce résultat." : "This result contains no plan."}</p>}</div>
           <p className="p3-caveat">{fr ? "Comparaison déterministe sur des tâches synthétiques, budget maximal de 240 expansions. Ces valeurs viennent du runner source; la sélection ci-dessus ne constitue pas une nouvelle exécution." : "Deterministic comparison on synthetic tasks with a 240-expansion cap. These values come from the source runner; this selector does not launch a new run."}</p>
         </div>}
@@ -76,15 +90,15 @@ export function RecordedRunExplorer({ locale = "en" }: { locale?: "en" | "fr" })
   ];
 
   return <section className="section-wrap p3-section" aria-labelledby="recorded-run-title">
-    <div className="p3-section-heading"><span className="p3-kicker">{fr ? "TRACE GENOS · CAMPAGNE ENREGISTRÉE" : "GENOS TRACE · RECORDED CAMPAIGN"}</span><h2 id="recorded-run-title">{fr ? <>Une campagne réelle,<br /><em>avec ses échecs.</em></> : <>A real campaign,<br /><em>failures included.</em></>}</h2><p>{fr ? "Relecture d’une campagne locale lancée avec Qwen 2.5 14B. Deux dispatches ont été acceptés; aucune des douze missions n’a passé la vérification finale. L’acceptation d’un dispatch ne prouve pas l’exécution." : "Replay of a local campaign run with Qwen 2.5 14B. Two dispatches were accepted; none of the twelve missions passed final verification. An accepted dispatch is not proof of execution."}</p></div>
+    <div className="p3-section-heading"><span className="p3-kicker">{fr ? "RÉSULTATS GENOS · CAMPAGNE ENREGISTRÉE" : "GENOS RESULTS · RECORDED CAMPAIGN"}</span><h2 id="recorded-run-title">{fr ? <>Une campagne réelle,<br /><em>avec ses échecs.</em></> : <>A real campaign,<br /><em>failures included.</em></>}</h2><p>{fr ? "Inspection des résumés d’une campagne locale lancée avec Qwen 2.5 14B. Deux dispatches ont été acceptés; aucune des douze missions n’a passé la vérification finale. Aucun journal événementiel complet n’est publié ici." : "Inspect recorded mission summaries from a local campaign with Qwen 2.5 14B. Two dispatches were accepted; none of the twelve missions passed final verification. No full event log is published here."}</p></div>
     <div className="p3-run-summary"><Metric value={`${summary.verifiedMissions} / ${summary.missions}`} label={fr ? "Missions vérifiées" : "Verified missions"} /><Metric value={`${summary.acceptedDispatches} / ${summary.missions}`} label={fr ? "Dispatches acceptés" : "Accepted dispatches"} /><Metric value={summary.totalWorkerErrors} label={fr ? "Workers en erreur" : "Workers in error"} /><Metric value={summary.timeouts} label={fr ? "Missions avec timeout" : "Missions timed out"} /></div>
     <div className="principle-callout" role="note"><span>{fr ? "SUCCÈS D'EXÉCUTION ≠ SUCCÈS VÉRIFIÉ" : "EXECUTION SUCCESS ≠ VERIFIED SUCCESS"}</span><strong>{fr ? `Dispatch accepté : ${summary.acceptedDispatches}/${summary.missions} · Vérifié : ${summary.verifiedMissions}/${summary.missions}` : `Dispatch accepted: ${summary.acceptedDispatches}/${summary.missions} · Verified: ${summary.verifiedMissions}/${summary.missions}`}</strong></div>
-    <div className="p3-replay-tabs" role="group" aria-label={fr ? "Vues synchronisées" : "Synchronized replay views"}>
+    <div className="p3-replay-tabs" role="group" aria-label={fr ? "Vues synchronisées" : "Synchronized campaign views"}>
       {([ ["sequence", fr ? "Campagne" : "Campaign"], ["workers", fr ? "Workers" : "Workers"], ["evidence", fr ? "Preuves & échecs" : "Evidence & failures"] ] as const).map(([id, label]) => <button type="button" aria-pressed={view === id} key={id} onClick={() => setView(id)}>{label}</button>)}
       <span>{fr ? "Mission sélectionnée synchronisée dans chaque vue" : "Selected mission is shared across every view"}</span>
     </div>
     <section className="p3-failure-explorer" aria-labelledby="failure-explorer-title">
-      <div><span className="p3-kicker">{fr ? "EXPLORATEUR DES ÉCHECS · TRACE PUBLIÉE" : "FAILURE EXPLORER · PUBLISHED TRACE"}</span><h3 id="failure-explorer-title">{fr ? `${failureEntries.length} échecs documentés` : `${failureEntries.length} recorded failure observations`}</h3><p>{fr ? "Filtrez les motifs publiés et sélectionnez une mission pour synchroniser le Replay Viewer. Les catégories sont des regroupements d’affichage, pas des causes racines certifiées." : "Filter published failure observations and select a mission to synchronize the Replay Viewer. Categories group the displayed text; they are not certified root causes."}</p></div>
+      <div><span className="p3-kicker">{fr ? "EXPLORATEUR DES ÉCHECS · RÉSULTATS PUBLIÉS" : "FAILURE EXPLORER · PUBLISHED RESULTS"}</span><h3 id="failure-explorer-title">{fr ? `${failureEntries.length} échecs documentés` : `${failureEntries.length} recorded failure observations`}</h3><p>{fr ? "Filtrez les motifs publiés et sélectionnez une mission pour synchroniser les vues. Les catégories sont des regroupements d’affichage, pas des causes racines certifiées." : "Filter published failure observations and select a mission to synchronize the views. Categories group the displayed text; they are not certified root causes."}</p></div>
       <div className="p3-failure-filters" role="group" aria-label={fr ? "Filtrer par catégorie d’échec" : "Filter by failure category"}>{failureFilters.map((filter) => <button type="button" key={filter.id} aria-pressed={failureFilter === filter.id} onClick={() => setFailureFilter(filter.id)}>{fr ? filter.fr : filter.en} <b>{filter.id === "all" ? failureEntries.length : failureEntries.filter((entry) => entry.category === filter.id).length}</b></button>)}</div>
       <ul>{visibleFailures.map((entry, index) => <li key={`${entry.mission.name}-${entry.failure}-${index}`}><button type="button" onClick={() => { setSelected(entry.mission.name); setView("evidence"); }}><span>{entry.mission.name}</span><b>{entry.failure}</b><i>{fr ? "Ouvrir" : "Open"} ↗</i></button></li>)}</ul>
     </section>
@@ -109,11 +123,12 @@ export function LiveSandbox({ locale = "en" }: { locale?: "en" | "fr" }) {
   const [mission, setMission] = useState("Compare deux approches simples pour résoudre une tâche de planification, puis explique les preuves et limites de ton résultat.");
   const [busy, setBusy] = useState(false);
   const [response, setResponse] = useState<unknown>(null);
+  const [transportStatus, setTransportStatus] = useState<number | null>(null);
   const [error, setError] = useState("");
 
   async function runMission(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setError(""); setResponse(null);
+    setError(""); setResponse(null); setTransportStatus(null);
     let base: URL;
     try { base = new URL(endpoint); } catch { setError("Saisissez une URL GenOS valide."); return; }
     if (base.protocol !== "https:" && !(base.protocol === "http:" && ["localhost", "127.0.0.1"].includes(base.hostname))) { setError("L’endpoint doit utiliser HTTPS (HTTP est permis sur localhost)."); return; }
@@ -126,6 +141,7 @@ export function LiveSandbox({ locale = "en" }: { locale?: "en" | "fr" }) {
       const result = await fetch(api, { method: "POST", headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json", "X-Organization-Id": organization.trim(), "X-Project-Id": project.trim() }, body: JSON.stringify({ toolName: "genos_orchestrate", args: { mission: mission.trim(), executor: "local", background: false }, timeoutMs: 120000 }), signal: AbortSignal.timeout(125000) });
       const body = await result.json().catch(() => ({ message: "La réponse du serveur n’est pas du JSON." }));
       if (!result.ok) throw new Error(typeof body?.error?.message === "string" ? `${result.status} · ${body.error.message}` : `${result.status} · Exécution refusée par l’API GenOS.`);
+      setTransportStatus(result.status);
       setResponse(body);
     } catch (cause) { setError(cause instanceof Error ? cause.message : "Échec de connexion à GenOS."); }
     finally { setBusy(false); }
@@ -138,7 +154,7 @@ export function LiveSandbox({ locale = "en" }: { locale?: "en" | "fr" }) {
       <label className="p3-mission-input">{fr ? "Mission" : "Mission"} <small>{fr ? "12 à 500 caractères · exécuteur local" : "12 to 500 characters · local executor"}</small><textarea rows={4} maxLength={500} minLength={12} required value={mission} onChange={(event) => setMission(event.target.value)} /></label>
       <div className="p3-sandbox-footer"><p>{fr ? "Le jeton reste en mémoire dans cette page. Il n’est ni envoyé à GenOSWork ni enregistré dans le navigateur. Le serveur doit autoriser l’origine du site avec CORS. Les résultats dépendent des permissions, modèles locaux et de l’état GenOS." : "The token stays in this page's memory. It is not sent to GenOSWork or saved in the browser. The GenOS server must allow this site origin through CORS. Results depend on its permissions, local models and state."}</p><button type="submit" disabled={busy}>{busy ? (fr ? "Mission en cours…" : "Mission running…") : (fr ? "Exécuter sur GenOS" : "Run on GenOS")}<b>→</b></button></div>
       {error && <p className="p3-sandbox-error" role="alert">{error}</p>}
-      {response !== null && <div className="p3-live-result" aria-live="polite"><div><span className="p3-kicker">{fr ? "RÉPONSE DU RUNTIME" : "RUNTIME RESPONSE"}</span><button type="button" onClick={() => { setResponse(null); setToken(""); }}>{fr ? "Effacer le résultat et le jeton" : "Clear result and token"}</button></div><pre>{JSON.stringify(response, null, 2)}</pre></div>}
+      {response !== null && <div className="p3-live-result" aria-live="polite"><div><span className="p3-kicker">{fr ? "RÉPONSE DU RUNTIME" : "RUNTIME RESPONSE"}</span><button type="button" onClick={() => { setResponse(null); setToken(""); setTransportStatus(null); }}>{fr ? "Effacer le résultat et le jeton" : "Clear result and token"}</button></div><p>{fr ? "Transport HTTP" : "HTTP transport"}: {transportStatus ?? "—"} · {fr ? "réponse reçue, issue de mission à qualifier" : "response received; mission outcome requires inspection"}</p><dl className="live-state-grid"><div><dt>{fr ? "État de mission" : "Mission state"}</dt><dd>{runtimeField(response, ["missionStatus", "mission_state", "missionState"]) ?? (fr ? "Non déclaré" : "Not reported")}</dd></div><div><dt>{fr ? "État des workers" : "Worker state"}</dt><dd>{runtimeField(response, ["workerStatus", "worker_state", "workerState"]) ?? (fr ? "Non déclaré" : "Not reported")}</dd></div><div><dt>{fr ? "Vérification" : "Verification"}</dt><dd>{runtimeField(response, ["verificationStatus", "verification_status", "verificationState"]) ?? (fr ? "Non déclarée" : "Not reported")}</dd></div><div><dt>{fr ? "Promotion" : "Promotion"}</dt><dd>{runtimeField(response, ["promotionStatus", "promotion_status", "promotionState"]) ?? (fr ? "Non déclarée" : "Not reported")}</dd></div></dl><p>{fr ? "Un succès de transport ou d’outil ne prouve pas une décision vérifiée. La réponse brute ci-dessous fait autorité pour ce serveur." : "Transport or tool success does not establish a verified decision. The raw response below is authoritative for this server."}</p><pre>{JSON.stringify(response, null, 2)}</pre></div>}
     </form>
   </section>;
 }

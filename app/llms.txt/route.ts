@@ -1,6 +1,7 @@
 import { siteUrl, primaryNav, truthModes } from "@/components/site-config";
 import { concepts } from "@/components/concepts";
 import { topologies } from "@/components/topologies";
+import { genosReviewedAt, genosSourceCommit, productClaims } from "@/components/product-evidence";
 
 export const dynamic = "force-static";
 
@@ -10,11 +11,13 @@ export async function GET() {
   const lines = [
     `# GenOS Agent Runtime`,
     ``,
-    `> Open-source agent runtime and durable work record. Review decisions, changes, execution context, and evidence to understand and resume technical work.`,
+    `> Open-source AI agent runtime with versioned state, supervised execution and path-specific evidence gates. Capability maturity varies by mode and adapter.`,
     ``,
     `- Website: ${siteUrl}/en`,
     `- French overview: ${siteUrl}/fr`,
     `- Source repository: https://github.com/PISSARAW/GenOS`,
+    `- Reviewed product contract: https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/docs/03-reference/contrat-produit-et-completude.md`,
+    `- Source revision: ${genosSourceCommit} (reviewed ${genosReviewedAt})`,
     `- Sitemap: ${siteUrl}/sitemap.xml`,
     ``,
     `## Start here`,
@@ -56,7 +59,10 @@ export async function GET() {
     ...concepts.map((c) => `- ${c.title}: ${siteUrl}/en/concepts/${c.slug} — ${c.intro}`),
     ``,
     `## Topologies (${topologies.length})`,
-    ...topologies.map((t) => `- ${t.name}: ${siteUrl}/en/topologies/${t.slug} — ${t.summary}`),
+    ...topologies.map((t) => `- ${t.name} [${t.implementation}]: ${siteUrl}/en/topologies/${t.slug} — ${t.summary}`),
+    ``,
+    `## Product claims (${productClaims.length})`,
+    ...productClaims.map((claim) => `- ${claim.name} [${claim.status}; ${claim.evidenceLevel}]: ${claim.implementedSlice} Open: ${claim.missingWork}`),
     ``,
     `## Rules`,
     `- A simulation is not a run. A run is not a benchmark. A benchmark is not a general proof.`,

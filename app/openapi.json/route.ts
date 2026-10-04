@@ -1,4 +1,5 @@
 import { siteUrl } from "@/components/site-config";
+import { genosSourceCommit } from "@/components/product-evidence";
 
 export const dynamic = "force-static";
 
@@ -12,7 +13,8 @@ const spec = {
   info: {
     title: "GenOSWork knowledge API",
     version: "1.1.0",
-    description: "Machine-readable concepts, topologies, evidence, research, evaluation protocols, raw artifacts, capabilities and source pins. A simulation is not a run; a run is not a benchmark.",
+    description: "GenOSWork's read-only knowledge API, distinct from the GenOS runtime API. Concepts, topologies, evidence, research, evaluations, artifacts and source pins are scoped to the reviewed revision. A simulation is not a run; a run is not a benchmark.",
+    "x-genos-source-commit": genosSourceCommit,
   },
   servers: [{ url: siteUrl }],
   paths: {
@@ -32,7 +34,7 @@ const spec = {
       ConceptList: { type: "object", required: ["version", "count", "concepts"], properties: { version: { type: "string" }, count: { type: "integer" }, sourceCommit: { type: "string" }, concepts: { type: "array", items: { $ref: "#/components/schemas/Concept" } } } },
       Concept: { type: "object", required: ["id", "title", "definition", "routes"], properties: { id: { type: "string" }, title: { type: "string" }, definition: { type: "string" }, family: { type: "string" }, implementation: { type: "string" }, integration: { type: "string" }, evidence: { type: "string" }, science: { type: "string", nullable: true }, mathematicalModel: { type: "string", nullable: true }, useCases: { type: "array", items: { type: "string" } }, failureModes: { type: "array", items: { type: "string" } }, codeSources: { type: "array", items: { type: "object", properties: { path: { type: "string" }, url: { type: "string", format: "uri" } } } }, primaryReferences: { type: "array", items: { type: "object", additionalProperties: true } }, related: { type: "array", items: { type: "string" } }, routes: { type: "object", properties: { en: { type: "string" }, fr: { type: "string" } } }, sourceCommit: { type: "string" } } },
       TopologyList: { type: "object", required: ["version", "count", "topologies"], properties: { version: { type: "string" }, count: { type: "integer" }, topologies: { type: "array", items: { type: "object", additionalProperties: true } } } },
-      BenchmarkRegistry: { type: "object", required: ["version", "evaluations"], properties: { version: { type: "string" }, evaluations: { type: "array", items: { type: "object", additionalProperties: true } }, protocolsWithoutCampaign: { type: "array", items: { type: "string" } } } },
+      BenchmarkRegistry: { type: "object", required: ["version", "evaluations"], properties: { version: { type: "string" }, sourceCommit: { type: "string" }, evaluations: { type: "array", items: { type: "object", additionalProperties: true } }, recordedQualificationCampaigns: { type: "array", items: { type: "object", additionalProperties: true } }, protocolsWithoutCampaign: { type: "array", items: { type: "object", additionalProperties: true } } } },
       ExperimentRegistry: { type: "object", required: ["version", "evaluations"], properties: { version: { type: "string" }, principle: { type: "string" }, evaluations: { type: "array", items: { type: "object", additionalProperties: true } } } },
       ResearchMap: { type: "object", required: ["version", "sections", "primaryReferences"], properties: { version: { type: "string" }, sourceCommit: { type: "string" }, qualification: { type: "string" }, sections: { type: "array", items: { type: "object", additionalProperties: true } }, primaryReferences: { type: "array", items: { type: "object", additionalProperties: true } } } },
       EvidenceLedger: { type: "object", additionalProperties: true },

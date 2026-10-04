@@ -62,12 +62,12 @@ export async function POST(request: Request) {
   let events: { sequence: number; phase: string; detail: string; state: "complete" | "held" | "rejected" }[];
 
   if (scenario === "evidence-gate") {
-    verdict = evidence >= 60 ? "verified" : evidence >= 35 ? "held" : "rejected";
+    verdict = evidence >= 60 ? "threshold-met" : evidence >= 35 ? "held" : "rejected";
     events = [
       { sequence: 1, phase: "admit", detail: "Registered scenario accepted; no user code or external tools are available.", state: "complete" },
       { sequence: 2, phase: "observe", detail: `Evidence strength set to ${evidence}/100 for this teaching run.`, state: "complete" },
       { sequence: 3, phase: "evaluate", detail: "Compare evidence with the fixed teaching threshold of 60/100.", state: "complete" },
-      { sequence: 4, phase: "verify", detail: verdict === "verified" ? "Threshold met in the model; this is not independent real-world verification." : verdict === "held" ? "Evidence is inconclusive; the modeled action is held." : "Evidence is below the model threshold; the modeled claim is rejected." , state: verdict === "verified" ? "complete" : verdict === "held" ? "held" : "rejected" },
+      { sequence: 4, phase: "compare threshold", detail: verdict === "threshold-met" ? "Threshold met in the teaching model; no real-world verification took place." : verdict === "held" ? "The modeled action is held." : "The modeled claim is rejected." , state: verdict === "threshold-met" ? "complete" : verdict === "held" ? "held" : "rejected" },
     ];
   } else if (scenario === "budgeted-plan") {
     verdict = budget >= 4 ? "completed" : "budget-exhausted";

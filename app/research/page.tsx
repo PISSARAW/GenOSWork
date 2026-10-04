@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Eyebrow } from "@/components/eyebrow";
 import { researchDocsBase, researchSections } from "@/components/research-program";
 import { primaryMechanismReferences } from "@/components/mechanism-literature";
+import { genosSource } from "@/components/product-evidence";
 
 export const metadata: Metadata = {
   title: "GenOS Research",
@@ -16,11 +17,11 @@ export default function ResearchPage() {
     <div className="page-shell" lang="en">
       <section className="page-hero section-wrap research-hero">
         <Eyebrow>RESEARCH · PROGRAM AND SOURCES</Eyebrow>
-        <h1>Research made<br /><em>verifiable.</em></h1>
-        <p>GenOS studies how agents can preserve state, work together, and learn from results under supervision. This page maps the main documented research areas and links to canonical repository documents.</p>
+        <h1>Research questions<br /><em>and evidence.</em></h1>
+        <p>GenOS studies how agents can preserve state, work together, and learn from results under supervision. Each hypothesis needs a matching protocol and measured outcome before it can be treated as supported.</p>
         <div className="hero-actions">
           <a className="button button-dark" href={`${docs}README.md`} target="_blank" rel="noreferrer">Browse all documentation <span>↗</span></a>
-          <a className="button button-quiet" href="https://github.com/PISSARAW/GenOS/blob/v3/docs/adr/README.md" target="_blank" rel="noreferrer">Read ADR decisions <span>↗</span></a>
+          <a className="button button-quiet" href={genosSource("docs/adr/README.md")} target="_blank" rel="noreferrer">Read ADR decisions <span>↗</span></a>
         </div>
         <div className="research-scope"><span>SCOPE</span><p>A summary of the material currently documented in GenOS, not an exhaustive review of external scientific literature. Prototypes, hypotheses, and measured results retain distinct statuses.</p></div>
       </section>
@@ -37,7 +38,7 @@ export default function ResearchPage() {
               <dl className="research-chain">
                 <dt>EXTERNAL SCIENCE</dt><dd>{section.externalBasis}{section.externalAnchor ? ` — ${section.externalAnchor}` : ""}</dd>
                 <dt>GENOS HYPOTHESIS</dt><dd>{section.genosHypothesis}</dd>
-                <dt>GENOS EVIDENCE</dt><dd><a href={section.evidenceHref}>Follow the chain →</a></dd>
+                <dt>GENOS EVIDENCE</dt><dd><a href={section.evidenceHref} target={section.evidenceHref.startsWith("http") ? "_blank" : undefined} rel={section.evidenceHref.startsWith("http") ? "noreferrer" : undefined}>Follow the chain →</a></dd>
               </dl>
               <div className="research-links">{section.links.map(([label, path]) => <a key={path} href={`${docs}${path}`} target="_blank" rel="noreferrer">{label}<span aria-hidden="true">↗</span></a>)}</div>
             </article>

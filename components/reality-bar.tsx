@@ -1,6 +1,7 @@
 import type { EvidenceState, ImplementationState, IntegrationState } from "@/components/concept-catalog";
+import { genosSourceCommit } from "@/components/product-evidence";
 
-export const genosSourceCommit = "ce063a97a7fdf9820dc3c6816f7f7226ce1866a3";
+export { genosSourceCommit };
 
 const labels: Record<ImplementationState | IntegrationState | EvidenceState, string> = {
   conceptual: "Conceptual",
@@ -74,11 +75,12 @@ export function RealityBar({
           </div>
         ))}
         <div className="reality-source">
-          <span>LAST VERIFIED SOURCE</span>
+          <span>LAST REVIEWED SOURCE</span>
           <a href={`https://github.com/PISSARAW/GenOS/tree/${genosSourceCommit}`} target="_blank" rel="noreferrer">GenOS {genosSourceCommit.slice(0, 7)} ↗</a>
         </div>
       </div>
       {note && <p>{note}</p>}
+      {doc && <p>Documentation markers describe linked material, not verified GenOS behavior. Simulation and benchmark flags remain partial until a concept-specific artifact is linked.</p>}
       {doc && <DocCompleteness items={doc} />}
     </section>
   );

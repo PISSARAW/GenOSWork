@@ -1,10 +1,12 @@
+import { genosSourceCommit } from "@/components/product-evidence";
+
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
   "https://genos.work";
 
 export const genosRepo = "https://github.com/PISSARAW/GenOS";
 export const genosDocs = (path = "") =>
-  `https://github.com/PISSARAW/GenOS/blob/v3/${path}`;
+  `https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/${path}`;
 
 export type TruthMode = "SIMULATION" | "RECORDED" | "LIVE";
 
@@ -20,12 +22,12 @@ export const truthModes: Record<
   RECORDED: {
     label: "RECORDED GENOS RUN",
     description:
-      "An artifact from a real historical GenOS execution. Inspectable, replayable, failures included.",
+      "An artifact from a real historical GenOS execution. Inspectable, with failures included; reproduction depends on the available inputs and harness.",
   },
   LIVE: {
     label: "LIVE GENOS",
     description:
-      "A real runtime executes the mission. Bounded, tenant-scoped, evidence preserved.",
+      "A connected GenOS endpoint accepts a mission request. Check worker, decision, verification and promotion states in its response.",
   },
 };
 
@@ -79,6 +81,7 @@ export const primaryNav: NavEntry[] = [
       { label: "Daemons", href: "/daemons" },
       { label: "Topologies", href: "/topologies" },
       { label: "Morphogenesis", href: "/morphogenesis" },
+      { label: "Teaching lab", href: "/lab" },
       { label: "Organizations", href: "/organizations" },
     ],
     childrenFr: [
@@ -88,6 +91,7 @@ export const primaryNav: NavEntry[] = [
       { label: "Daemons", href: "/fr/daemons" },
       { label: "Topologies", href: "/fr/topologies" },
       { label: "Morphogenèse", href: "/fr/morphogenesis" },
+      { label: "Laboratoire pédagogique", href: "/fr/lab" },
       { label: "Organisations", href: "/fr/organizations" },
     ],
   },

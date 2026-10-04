@@ -1,20 +1,14 @@
-import { genosSourceCommit } from "@/components/reality-bar";
+import { genosReviewedAt, genosSource, genosSourceCommit, productClaims } from "@/components/product-evidence";
 
 export const dynamic = "force-static";
 
-const ledger = [
-  { capability: "Counterfactual snapshots", status: "IMPLEMENTED" },
-  { capability: "Eight topology modes", status: "WIRED" },
-  { capability: "Rhizome session routing", status: "CALLABLE · BOUNDED" },
-  { capability: "Continuous web perception loop", status: "PARTIAL" },
-  { capability: "Morphogenesis topology plugins", status: "IMPLEMENTED · BOUNDED" },
-];
-
 export async function GET() {
   return Response.json({
-    version: "1.0.0",
+    version: "1.1.0",
     sourceCommit: genosSourceCommit,
-    ledger,
+    reviewedAt: genosReviewedAt,
+    contract: genosSource("docs/03-reference/contrat-produit-et-completude.md"),
+    ledger: productClaims.map((claim) => ({ ...claim, sourceUrl: genosSource(claim.sourcePath) })),
     routes: { en: "/en/evidence", fr: "/fr/evidence" },
   });
 }

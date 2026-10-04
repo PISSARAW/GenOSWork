@@ -4,6 +4,17 @@ import { catalogConcepts, conceptFamilies } from "@/components/concept-catalog";
 import { topologies } from "@/components/topologies";
 import { primaryNav, frenchStatus, truthModes } from "@/components/site-config";
 import { researchSections } from "@/components/research-program";
+import { genosSourceCommit, productClaims, topologyClaim } from "@/components/product-evidence";
+import { biocenosisSqliteCampaign } from "@/components/recorded-campaigns";
+import { readFileSync, readdirSync } from "node:fs";
+import { join } from "node:path";
+
+function sourceFiles(directory: string): string[] {
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(directory, entry.name);
+    return entry.isDirectory() ? sourceFiles(path) : /\.(ts|tsx)$/.test(entry.name) ? [path] : [];
+  });
+}
 
 describe("GenOS knowledge coverage (public contract)", () => {
   it("registers every catalog concept with route, definition, family, relations, statuses, source", () => {
@@ -58,6 +69,28 @@ describe("GenOS knowledge coverage (public contract)", () => {
     );
   });
 
+  it("publishes product status, scope and proof for every topology", () => {
+    expect(new Set(productClaims.map((claim) => claim.id)).size).toBe(productClaims.length);
+    for (const topology of topologies) {
+      const claim = topologyClaim(topology.slug);
+      expect(claim, topology.slug).toBeDefined();
+      expect(claim?.status, topology.slug).toBe(topology.implementation);
+      expect(claim?.implementedSlice, topology.slug).toBeTruthy();
+      expect(claim?.missingWork, topology.slug).toBeTruthy();
+      expect(claim?.sourcePath, topology.slug).toMatch(/^docs\//);
+    }
+    expect(biocenosisSqliteCampaign.cycleStates.blocked + biocenosisSqliteCampaign.cycleStates.completed).toBe(biocenosisSqliteCampaign.missionCount);
+    expect(biocenosisSqliteCampaign.verifiedPromotions).toBe(0);
+  });
+
+  it("keeps current GenOS source links on one immutable reviewed revision", () => {
+    for (const file of [...sourceFiles("app"), ...sourceFiles("components")]) {
+      const source = readFileSync(file, "utf8");
+      const refs = source.matchAll(/github\.com\/PISSARAW\/GenOS\/(?:blob|tree)\/(v3|[0-9a-f]{40})\//g);
+      for (const ref of refs) expect(ref[1], `${file}: moving or inconsistent GenOS source link`).toBe(genosSourceCommit);
+    }
+  });
+
   it("keeps one navigation model: header/footer/sitemap share the same destinations", () => {
     const navHrefs = new Set(
       primaryNav.flatMap((e) => [
@@ -71,7 +104,7 @@ describe("GenOS knowledge coverage (public contract)", () => {
     for (const must of ["/systems", "/runtime", "/lab", "/benchmarks", "/research", "/developers", "/concepts"]) {
       expect(navHrefs.has(must), `nav contains ${must}`).toBe(true);
     }
-    expect(primaryNav.length).toBe(6);
+    expect(primaryNav.map((entry) => entry.id)).toEqual(["learn", "system", "evidence", "developers"]);
   });
 
   it("marks FR translation status explicitly (FULL only for translated shells)", () => {
