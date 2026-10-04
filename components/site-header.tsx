@@ -23,7 +23,7 @@ export function SiteHeader() {
           <i />
         </span>
         <span>
-          GenOS<span className="brand-sub">WORK CONTINUITY</span>
+          GenOS<span className="brand-sub">AGENT RUNTIME</span>
         </span>
       </Link>
       <nav

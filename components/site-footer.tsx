@@ -19,7 +19,7 @@ export function SiteFooter() {
             <i />
           </span>
           <span>
-            GenOS<span className="brand-sub">WORK CONTINUITY</span>
+            GenOS<span className="brand-sub">AGENT RUNTIME</span>
           </span>
         </Link>
         <p>
@@ -68,7 +68,7 @@ export function SiteFooter() {
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} GENOS · WORK CONTINUITY</span>
+        <span>© {new Date().getFullYear()} GENOS · AGENT RUNTIME</span>
         <span>
           {isFrench
             ? "COMPRENDRE · EXPÉRIMENTER · VÉRIFIER"
