@@ -21,24 +21,24 @@ type Family = {
 };
 
 const demonstrations: Record<string, { input: string; steps: [string, string, string]; result: string }> = {
-  scout_cell: { input: "Unknown patch", steps: ["Scan the assigned scope", "Collect sourced signals", "Return an observation"], result: "scout_observation" },
-  resident_daemon: { input: "Watched territory", steps: ["Probe on a schedule", "Compare with snapshot", "Signal a relevant change"], result: "dossier · change signal" },
+  scout_cell: { input: "Supplied text + literal term", steps: ["Validate the bounded corpus", "Find the exact term offset", "Return a sourced observation"], result: "scout_observation · exact offset" },
+  resident_daemon: { input: "Timestamped sample window", steps: ["Validate samples and sources", "Compare values with a threshold", "Report bounded anomalies"], result: "dossier · finite window" },
   bounded_worker: { input: "Focused mission", steps: ["Use assigned tools", "Work within fixed scope", "Return a bounded result"], result: "dossier" },
   adaptive_worker: { input: "Mission + constraints", steps: ["Choose an allowed strategy", "Probe and inspect evidence", "Adjust within the change cap"], result: "dossier · strategy trace" },
   specialist: { input: "Declared skill niche", steps: ["Load niche context", "Apply focused analysis", "Report with sources"], result: "dossier · niche analysis" },
-  procedural_executor: { input: "Structured problem", steps: ["Translate to procedure", "Run deterministic solver", "Return solver output"], result: "dossier · solver receipt" },
+  procedural_executor: { input: "LPT or subset-sum problem", steps: ["Validate structured parameters", "Run the bounded algorithm", "Return a computed receipt"], result: "dossier · procedure receipt" },
   symbiotic_worker: { input: "Host capability", steps: ["Receive a declared procedure", "Intersect with host authority", "Return an authorized result"], result: "dossier · capability result" },
   verifier_worker: { input: "Claim to check", steps: ["Inspect independently", "Run a safe test", "Issue a three-way verdict"], result: "verification_report" },
   red_worker: { input: "Proposal under review", steps: ["Assume the claim may fail", "Search for a counterexample", "Report reproducible evidence"], result: "verification_report · challenge" },
   experimental_worker: { input: "Testable hypothesis", steps: ["Define a protocol", "Record measurements", "Compare with prediction"], result: "experiment_record" },
-  formal_worker: { input: "Formal statement", steps: ["Encode constraints", "Run deterministic solver", "Attach certificate or failure"], result: "formal_certificate" },
+  formal_worker: { input: "Closed arithmetic claim", steps: ["Bind the exact Lean version", "Run Lean on the generated theorem", "Return a certificate only on proof"], result: "formal_certificate · Lean receipt" },
   synthesis_worker: { input: "Several source records", steps: ["Keep source provenance", "Compare claims and conflicts", "Compose a sourced synthesis"], result: "synthesis_dossier" },
   creative_worker: { input: "Open-ended question", steps: ["Explore possible directions", "Draft a candidate", "Pair it with a falsifying test"], result: "creative_candidate · unpromoted" },
   medical_worker: { input: "Synthetic case", steps: ["Review supplied context", "State uncertainty", "Write an educational report"], result: "clinical_report" },
   recovery_worker: { input: "Saved checkpoint", steps: ["Restore known state", "Narrow the mission", "Resume with a short limit"], result: "dossier · recovery trace" },
-  forensic_worker: { input: "Incident evidence", steps: ["Order sourced events", "Test causal links", "Reconstruct a plausible chain"], result: "causal_dossier" },
+  forensic_worker: { input: "Referenced incident events", steps: ["Check timestamps and declared links", "Retain causation references", "Mark causal truth unverified"], result: "causal_dossier · declared links" },
   liaison_worker: { input: "Separate participants", steps: ["Receive mission-relevant notes", "Compress shared context", "Bridge the two groups"], result: "dossier · message bridge" },
-  teaching_worker: { input: "Validated procedure", steps: ["Identify prerequisites", "Sequence the instructions", "Attach expected evidence"], result: "training_packet" },
+  teaching_worker: { input: "Subset-sum example + learner indices", steps: ["Execute the procedure", "Provide prerequisites and steps", "Check the learner witness"], result: "training_packet · transfer verdict" },
   sub_orchestrator: { input: "Assigned subgraph", steps: ["Break down local work", "Dispatch bounded child tasks", "Reconcile child outcomes"], result: "dossier · bounded subgraph" },
 };
 
@@ -74,7 +74,7 @@ export function WorkersExplorer({ families }: { families: Family[] }) {
             ))}
           </div>
           <div className="worker-demo-output"><span>RESULT</span><i aria-hidden="true">→</i><code>{demo.result}</code><span className="worker-demo-check" aria-hidden="true">✓</span></div>
-          <p className="worker-demo-footnote">The type sets the worker’s limits and expected evidence. The actual mission result must still pass its checks.</p>
+          <p className="worker-demo-footnote">Canonical limits bound execution, and each successful result needs a typed artifact with provenance. Missing executors or invalid, unsourced artifacts block success.</p>
         </div>
       </section>
 

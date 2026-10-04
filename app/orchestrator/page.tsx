@@ -12,12 +12,12 @@ const stages = [
   { n: "01", title: "Route the request", body: "Classify the request and choose the smallest suitable execution path. A known result or a direct procedure can avoid a worker mission entirely.", tag: "PROFILE · ROUTE" },
   { n: "02", title: "Set the mission contract", body: "Define the strategy, available work, budgets and constraints before planning workers. Permissions and capacity can narrow or stop a proposed plan.", tag: "STRATEGY · BUDGET" },
   { n: "03", title: "Plan and reconcile", body: "Build bounded phases and assignments, then compare the selected assignments with the workers actually created. A mismatch blocks the mission from proceeding as if dispatch had succeeded.", tag: "PLAN · DISPATCH" },
-  { n: "04", title: "Execute in bounded workspaces", body: "Workers operate under declared leases and isolated workspaces. Parallel branches can preserve separate trajectories for comparison when the mission contract allows it.", tag: "WORKERS · ISOLATION" },
+  { n: "04", title: "Execute in bounded workspaces", body: "Workers operate under declared leases, isolated workspaces, and token/time ceilings. Narrow native methods cover ten kinds, including LPT, subset-sum, Lean arithmetic and sourced observation; unsupported methods fail closed.", tag: "WORKERS · ISOLATION" },
   { n: "05", title: "Check evidence and close", body: "Wait for expected work to reach a stable state, collect evidence and check mission invariants. Missing evidence or failed checks can leave a mission incomplete, blocked or ready for bounded recovery. For Trinity, only worlds created by the current invocation count; its agents and all current worlds must be terminal before the mission closes.", tag: "EVIDENCE · GATE" },
 ];
 
 const guardrails = [
-  { title: "A completed worker is not proof", body: "Transport and worker status are observations. A result needs the expected evidence and checks before the mission can be considered complete." },
+  { title: "A completed worker is not proof", body: "Transport and worker status are observations. A result needs the worker-specific typed artifact, sourced claims and provenance references, plus the applicable checks before the mission can be considered complete." },
   { title: "Plans meet real limits", body: "Budgets, permissions, fan-out, workspace isolation and available capacity constrain the work that can actually run." },
   { title: "Topology names carry no blanket guarantee", body: "A registered topology or capability profile does not prove that every capability is active or that a proposed plan was dispatched." },
 ];
@@ -52,7 +52,7 @@ export default function OrchestratorPage() {
 
       <section className="section-wrap orchestrator-runtime-note">
         <div><Eyebrow>IMPLEMENTATION BOUNDARY</Eyebrow><h2>Two runtimes,<br /><em>different jobs.</em></h2></div>
-        <div className="orchestrator-runtime-copy"><p>The backend Node.js control plane plans and supervises missions and their workers. The Rust <code>genos-orchestrator</code> crate runs a local ecosystem simulation; it does not launch those backend workers or certify a Node mission’s deliverable.</p><p>The main mission path still uses the historical morphology preparer. Morphogenesis V2 can run as an opt-in shadow preflight, which evaluates a proposal without applying or committing a transition.</p><a href="https://github.com/PISSARAW/GenOS/blob/6133af69933c86f39f0396f801f2ce2b3385826b/docs/02-orchestration/orchestration.md" target="_blank" rel="noreferrer">Read the operational orchestration contract ↗</a></div>
+        <div className="orchestrator-runtime-copy"><p>The backend Node.js control plane plans and supervises missions and their workers. The Rust <code>genos-orchestrator</code> crate runs a local ecosystem simulation; it does not launch those backend workers or certify a Node mission’s deliverable.</p><p>The main mission path still uses the historical morphology preparer. A mission can opt in to executing its planned graph with executeMorphogenesisGraph: true after worker evidence validation; the output remains unverified and does not apply or commit a transition. A distinct explicit transition may persist a version commit when configured. Morphogenesis V2 remains an opt-in shadow preflight.</p><a href="https://github.com/PISSARAW/GenOS/blob/v3/docs/02-orchestration/orchestration.md" target="_blank" rel="noreferrer">Read the operational orchestration contract ↗</a></div>
       </section>
 
       <section className="section-wrap orchestrator-next-links" aria-label="Related pages">

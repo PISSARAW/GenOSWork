@@ -19,8 +19,8 @@ const families = [
     intro: "Observe a scope, collect signals, and report findings before a decision is made.",
     tone: "sage",
     workers: [
-      { id: "scout_cell", title: "Scout cell", description: "Performs a short, read-only observation and returns findings with their sources.", artifact: "scout_observation", detail: "ephemeral · 1 iteration" },
-      { id: "resident_daemon", title: "Resident daemon", description: "Monitors an area and reports relevant changes over time.", artifact: "dossier", detail: "resident · probes and snapshots" },
+      { id: "scout_cell", title: "Scout cell", description: "Can scan supplied text for literal terms and report exact offsets with source references; broader observation still depends on its mission tools.", artifact: "scout_observation", detail: "scan_literal · bounded corpus" },
+      { id: "resident_daemon", title: "Resident daemon", description: "Can check a bounded, timestamped sample window against a numeric threshold. Continuous territory monitoring uses a separate resident path.", artifact: "dossier", detail: "monitor_samples · finite window" },
     ],
   },
   {
@@ -31,11 +31,11 @@ const families = [
     intro: "Perform assigned work within a defined scope, budget, and toolset.",
     tone: "ochre",
     workers: [
-      { id: "bounded_worker", title: "Bounded worker", description: "Executes a focused mission with assigned tools and no delegation.", artifact: "dossier", detail: "fixed scope · 10 iterations" },
-      { id: "adaptive_worker", title: "Adaptive worker", description: "Can locally adjust its strategy under rules and a limited number of changes.", artifact: "dossier", detail: "local adaptation · capped" },
-      { id: "specialist", title: "Specialist", description: "Applies an adaptive approach within a declared skill niche.", artifact: "dossier", detail: "declared niche · focused analysis" },
-      { id: "procedural_executor", title: "Procedural executor", description: "Follows a deterministic procedure delegated to a solver, with no LLM token budget in the Rust preset.", artifact: "dossier", detail: "deterministic · 0 LLM tokens" },
-      { id: "symbiotic_worker", title: "Symbiotic worker", description: "Provides a procedural capability within its host's authority limits.", artifact: "dossier", detail: "authority inherited from host" },
+      { id: "bounded_worker", title: "Bounded worker", description: "Completes only its assigned scope and cites references for the outputs it finished.", artifact: "dossier", detail: "fixed scope · 10 iterations" },
+      { id: "adaptive_worker", title: "Adaptive worker", description: "Changes only among contract strategies and records each decision with its rationale and evidence.", artifact: "dossier", detail: "local adaptation · capped" },
+      { id: "specialist", title: "Specialist", description: "Applies an adaptive approach only within a required, explicitly declared skill niche.", artifact: "dossier", detail: "declared niche · focused analysis" },
+      { id: "procedural_executor", title: "Procedural executor", description: "Runs bounded LPT scheduling and subset-sum search without model tokens. Unsupported methods fail closed.", artifact: "dossier", detail: "LPT · subset_sum · 0 LLM tokens" },
+      { id: "symbiotic_worker", title: "Symbiotic worker", description: "Uses only capabilities named by an explicit host contract and stays within its authority limits.", artifact: "dossier", detail: "authority inherited from host" },
     ],
   },
   {
@@ -46,11 +46,11 @@ const families = [
     intro: "Test claims, hypotheses, and results before they are reused.",
     tone: "lilac",
     workers: [
-      { id: "verifier_worker", title: "Verifier", description: "Independently examines a claim and returns an Accepted, Rejected, or Unresolved verdict.", artifact: "verification_report", detail: "read-only · evidence expected" },
-      { id: "red_worker", title: "Adversarial worker", description: "Looks for counterexamples and tests a proposal through adversarial analysis.", artifact: "verification_report", detail: "adversarial approach" },
-      { id: "experimental_worker", title: "Experimenter", description: "Connects a hypothesis to a protocol and observed measurements.", artifact: "experiment_record", detail: "hypothesis → protocol → measurements" },
-      { id: "formal_worker", title: "Formal worker", description: "Produces a formal verification with a deterministic solver.", artifact: "formal_certificate", detail: "deterministic · solver receipt" },
-      { id: "synthesis_worker", title: "Synthesis worker", description: "Combines multiple sources while preserving their provenance and disagreements.", artifact: "synthesis_dossier", detail: "read-only · sources retained" },
+      { id: "verifier_worker", title: "Verifier", description: "Can recompute an LPT or subset-sum receipt and return a sourced accept or reject verdict.", artifact: "verification_report", detail: "verify_procedure · bounded" },
+      { id: "red_worker", title: "Adversarial worker", description: "Can falsify a claimed procedure receipt with a reproducible counterexample; a matching receipt remains unresolved.", artifact: "verification_report", detail: "falsify_procedure · bounded" },
+      { id: "experimental_worker", title: "Experimenter", description: "Can execute an LPT experiment, measure makespan, and compare it with a declared threshold.", artifact: "experiment_record", detail: "measure_lpt · one input" },
+      { id: "formal_worker", title: "Formal worker", description: "Uses a configured Lean runner to prove a closed arithmetic comparison; other proof classes are not yet connected.", artifact: "formal_certificate", detail: "Lean · closed arithmetic only" },
+      { id: "synthesis_worker", title: "Synthesis worker", description: "Can group exactly matching sourced claims while preserving contradictory positions and provenance.", artifact: "synthesis_dossier", detail: "synthesize_claims · exact match" },
     ],
   },
   {
@@ -61,10 +61,10 @@ const families = [
     intro: "Explore options, diagnose a situation, or return to a known state under control.",
     tone: "rose",
     workers: [
-      { id: "creative_worker", title: "Creative worker", description: "Suggests new directions and pairs them with hypotheses to falsify.", artifact: "creative_candidate", detail: "read-only · candidate not promoted" },
-      { id: "medical_worker", title: "Medical worker", description: "Produces an educational clinical report on a synthetic case, with explicit uncertainty.", artifact: "clinical_report", detail: "synthetic case · no real diagnosis" },
-      { id: "recovery_worker", title: "Recovery worker", description: "Helps resume from a checkpoint with a smaller mission and iteration limit.", artifact: "dossier", detail: "restore · 3 iterations" },
-      { id: "forensic_worker", title: "Forensic worker", description: "Reconstructs a causal chain after an incident from sourced evidence.", artifact: "causal_dossier", detail: "causal analysis · evidence expected" },
+      { id: "creative_worker", title: "Creative worker", description: "Returns a candidate with explicit assumptions and a test that could falsify it.", artifact: "creative_candidate", detail: "read-only · candidate not promoted" },
+      { id: "medical_worker", title: "Medical worker", description: "Produces non-diagnostic educational considerations for a synthetic case; no individual treatment advice.", artifact: "clinical_report", detail: "synthetic case · no real diagnosis" },
+      { id: "recovery_worker", title: "Recovery worker", description: "Reports the recovery action and restored state with a receipt and evidence references.", artifact: "dossier", detail: "restore · 3 iterations" },
+      { id: "forensic_worker", title: "Forensic worker", description: "Reconstructs only declared incident links from timestamped events and causation references; their real-world truth remains unverified.", artifact: "causal_dossier", detail: "declared links · no inferred cause" },
     ],
   },
   {
@@ -75,9 +75,9 @@ const families = [
     intro: "Support knowledge sharing and, in a bounded case, coordinate a mission subgraph.",
     tone: "blue",
     workers: [
-      { id: "liaison_worker", title: "Liaison worker", description: "Bridges participants and passes mission-relevant information between them.", artifact: "dossier", detail: "read-only · communication bridge" },
-      { id: "teaching_worker", title: "Teaching worker", description: "Structures instruction into prerequisites, steps, and evidence.", artifact: "training_packet", detail: "read-only · documented steps" },
-      { id: "sub_orchestrator", title: "Sub-orchestrator", description: "Coordinates a depth-1 subgraph with a maximum budget of five child workers in the Rust preset.", artifact: "dossier", detail: "only type with bounded delegation" },
+      { id: "liaison_worker", title: "Liaison worker", description: "Transfers cited information between distinct source and target groups.", artifact: "dossier", detail: "read-only · communication bridge" },
+      { id: "teaching_worker", title: "Teaching worker", description: "Can teach a bounded subset-sum instance and check a learner's proposed indices against the target sum.", artifact: "training_packet", detail: "teach_subset_sum · transfer check" },
+      { id: "sub_orchestrator", title: "Sub-orchestrator", description: "Coordinates at most five children and reports each child outcome with evidence.", artifact: "dossier", detail: "only type with bounded delegation" },
     ],
   },
 ];
@@ -123,7 +123,7 @@ export default function WorkersPage() {
 
       <section className="section-wrap worker-evidence-note">
         <div><Eyebrow>CONTRACTS AND INTEGRATION STATUS</Eyebrow><h2>A type defines a frame.<br /><em>Evidence shows what runs.</em></h2></div>
-          <div><p>The canonical catalog of 19 <code>WorkerKind</code> values is defined in the Rust runtime. The Node registry knows all 19 identifiers, but some profiles map to shared phenotypes, so the effective contracts differ between the two layers.</p><p>A successful artifact or transport does not prove a result is valid. GenOS checks the expected format and provenance according to the execution path and evidence gate used.</p><p>Worker paths share bounded cognitive-budget normalization; an explicit empty tool lease grants no tools, and a supplied lease can only restrict the role policy.</p><div className="worker-source-links"><a href="https://github.com/PISSARAW/GenOS/blob/6133af69933c86f39f0396f801f2ce2b3385826b/docs/03-reference/types-de-workers.md" target="_blank" rel="noreferrer">Read the catalog and its limits <span>↗</span></a><Link href="/evidence">View the evidence registry <span>→</span></Link></div></div>
+          <div><p>The canonical catalog has 19 <code>WorkerKind</code> values. Narrow deterministic methods now run for procedural, formal, verifier, red, experimental, synthesis, resident, forensic, scout, and teaching workers. The remaining kinds still rely on their contracted runtime paths.</p><p>The local benchmark has 20 cases: 10 pass without Lean, one more passes with Lean, and nine remain unmeasured. AutoGen has only two comparable procedural cases, so no general parity claim follows. A successful artifact or transport does not prove a valid decision.</p><p>Worker token and time budgets are capped by the canonical contract; zero-token routes do not fall back to a model call. An explicit empty tool lease grants no tools, and a supplied lease can only restrict the role policy.</p><div className="worker-source-links"><a href="https://github.com/PISSARAW/GenOS/blob/v3/docs/03-reference/types-de-workers.md" target="_blank" rel="noreferrer">Read the catalog and its limits <span>↗</span></a><Link href="/evidence">View the evidence registry <span>→</span></Link></div></div>
       </section>
     </div>
   );
