@@ -7,6 +7,7 @@ import { concepts, getConcept, conceptModelBySlug, type Concept } from "@/compon
 import { conceptFamilies } from "@/components/concept-catalog";
 import { RealityBar, genosSourceCommit, type DocItem } from "@/components/reality-bar";
 import { referencesForConcept } from "@/components/mechanism-literature";
+import { AgentCoordinationGuide, isCoordinationGuide } from "@/components/agent-coordination-guide";
 
 export function generateStaticParams() {
   return concepts.map(({ slug }) => ({ slug }));
@@ -69,6 +70,8 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
           <a href="#deep-dive">Deep dive ↓</a>
         </nav>
       </div>
+
+      {isCoordinationGuide(concept.slug) && <AgentCoordinationGuide slug={concept.slug} language="en" />}
 
       {concept.diagram && <section className="section-wrap concept-explainer">
         <ConceptDiagramView kind={concept.diagram} title={concept.diagramTitle} description={concept.diagramDescription} />

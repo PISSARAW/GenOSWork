@@ -6,6 +6,8 @@ import { concepts } from "@/components/concepts";
 import { topologies } from "@/components/topologies";
 import { morphogenesisCases } from "@/components/morphogenesis-cases";
 import { TranslationNotice } from "@/components/locale-controls";
+import { AgentCoordinationGuide, isCoordinationGuide } from "@/components/agent-coordination-guide";
+import { genosSource } from "@/components/product-evidence";
 
 type Summary = { title: string; emphasis: string; intro: string; bullets: string[]; family: string };
 
@@ -34,6 +36,9 @@ const summaries: Record<string, Summary> = {
 };
 
 const frenchConceptSummaries: Record<string, Summary> = {
+  "signal-plane": { title: "Zéro prompt inutile", emphasis: "pour les signaux courants.", intro: "Le Signal Plane traite les événements typés par règles et récepteurs déterministes. Une escalade cognitive reste possible lorsqu'aucune action directe ne suffit.", bullets: ["Suivre le trajet d'un signal", "Voir quand un LLM intervient", "Séparer livraison et preuve d'action"], family: "COMMUNICATION" },
+  "communication-ecology": { title: "Communiquer", emphasis: "au bon niveau.", intro: "GenOS peut choisir le silence, une trace, un signal, un message structuré ou un échange verbal borné selon la situation.", bullets: ["Comparer les huit niveaux", "Comprendre le coût et la portée", "Distinguer réception et vérification"], family: "COMMUNICATION" },
+  "agent-relationships": { title: "Relier les agents", emphasis: "sans confondre leurs rôles.", intro: "Le registre décrit 29 types de liens persistants répartis entre filiation, organisation, collaboration, social, épistémique et adversarial.", bullets: ["Parcourir les six classes", "Voir les types et recouvrements", "Séparer relation, message et autorité"], family: "RELATIONS" },
   genome: { title: "Le génome GenOS", emphasis: "est un modèle logiciel.", intro: "Il décrit des traits et contraintes versionnés. Les opérations Rust transforment ces données; cela ne démarre pas à lui seul un agent runtime.", bullets: ["Distinguer le modèle du processus agent", "Lire les opérations de transformation", "Ne pas confondre avec l’ADN biologique"], family: "CONCEPT GENOS" },
   epigenetics: { title: "L’épigénétique GenOS", emphasis: "est une analogie logicielle.", intro: "Les politiques règlent l’expression de traits modélisés selon le contexte. Le réajustement épigénétique du modèle n’est pas un mécanisme cellulaire.", bullets: ["Voir les traits comme des données", "Distinguer politique et biologie", "Consulter les limites de la reproduction"], family: "CONCEPT GENOS" },
   "agent-dna": { title: "AgentDNA", emphasis: "est un format de données.", intro: "Cet artefact versionné décrit l’identité et les traits d’un agent. Le modifier ne lance, ne clone et ne reconfigure pas à lui seul un worker.", bullets: ["Examiner le format binaire", "Séparer données et processus runtime", "Consulter le contrat canonique"], family: "CONCEPT GENOS" },
@@ -81,7 +86,7 @@ export async function generateMetadata({ params }: PageProps<"/fr/[...slug]">): 
   const { slug } = await params;
   const path = slug.join("/");
   const summary = chooseSummary(path);
-  return summary ? { title: summary.family + " GenOS", description: summary.intro, alternates: { canonical: "/fr/" + path, languages: { en: "/en/" + path, fr: "/fr/" + path } }, openGraph: { locale: "fr_FR" } } : { title: "GenOS en français" };
+  return summary ? { title: (path.startsWith("concepts/") && isCoordinationGuide(path.slice("concepts/".length)) ? summary.title : summary.family) + " GenOS", description: summary.intro, alternates: { canonical: "/fr/" + path, languages: { en: "/en/" + path, fr: "/fr/" + path } }, openGraph: { locale: "fr_FR" } } : { title: "GenOS en français" };
 }
 
 export default async function FrenchOverviewPage({ params }: PageProps<"/fr/[...slug]">) {
@@ -91,5 +96,9 @@ export default async function FrenchOverviewPage({ params }: PageProps<"/fr/[...
   if (!summary) notFound();
   const englishHref = "/en/" + path;
   const sourceHref = path.startsWith("concepts/") ? "https://github.com/PISSARAW/GenOS/tree/e9cdad244c2bce9e155007964c591b9be321dc02/docs/01-concepts" : path.startsWith("topologies/") ? "https://github.com/PISSARAW/GenOS/blob/e9cdad244c2bce9e155007964c591b9be321dc02/docs/02-orchestration/topologies-et-capacites.md" : "https://github.com/PISSARAW/GenOS/tree/e9cdad244c2bce9e155007964c591b9be321dc02/docs";
-  return <div className="page-shell french-overview" lang="fr"><section className="page-hero section-wrap api-reference-hero"><Eyebrow>{summary.family} · APERÇU EN FRANÇAIS</Eyebrow><h1>{summary.title}<br /><em>{summary.emphasis}</em></h1><p>{summary.intro}</p><ul>{summary.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul><div className="hero-actions"><Link className="button button-dark" href={englishHref}>Ouvrir la page détaillée en anglais <span>↗</span></Link><a className="button button-quiet" href={sourceHref} target="_blank" rel="noreferrer">Documentation GenOS ↗</a></div></section><section className="section-wrap french-overview-note"><TranslationNotice enPath={englishHref} /><Link href="/fr">Retour à la présentation française →</Link></section></div>;
+  const guideSlug = path.startsWith("concepts/") ? path.slice("concepts/".length) : "";
+  const hasGuide = isCoordinationGuide(guideSlug);
+  const guideSources: Record<string, string> = { "signal-plane": "docs/01-concepts/signal-plane-zero-text.md", "communication-ecology": "docs/02-orchestration/communication.md", "agent-relationships": "docs/02-orchestration/relations-inter-agents.md" };
+  const preciseSource = hasGuide ? genosSource(guideSources[guideSlug]) : sourceHref;
+  return <div className="page-shell french-overview" lang="fr"><section className="page-hero section-wrap api-reference-hero"><Eyebrow>{summary.family} · {hasGuide ? "GUIDE EN FRANÇAIS" : "APERÇU EN FRANÇAIS"}</Eyebrow><h1>{summary.title}<br /><em>{summary.emphasis}</em></h1><p>{summary.intro}</p><ul>{summary.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul><div className="hero-actions"><Link className="button button-dark" href={englishHref}>{hasGuide ? "Lire la version anglaise" : "Ouvrir la page détaillée en anglais"} <span>↗</span></Link><a className="button button-quiet" href={preciseSource} target="_blank" rel="noreferrer">Documentation GenOS ↗</a></div></section>{hasGuide && <AgentCoordinationGuide slug={guideSlug} language="fr" />}<section className="section-wrap french-overview-note">{!hasGuide && <TranslationNotice enPath={englishHref} />}<Link href="/fr">Retour à la présentation française →</Link></section></div>;
 }

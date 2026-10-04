@@ -1,0 +1,22 @@
+.coordination-guide{padding-top:68px;padding-bottom:78px}
+.coordination-guide-heading{max-width:880px;margin-bottom:25px}
+.coordination-guide-heading>span{font:500 11px var(--mono);letter-spacing:.14em;color:var(--rust)}
+.coordination-guide-heading h2{font:800 clamp(32px,4.5vw,58px)/1.09 var(--display);letter-spacing:-.055em;margin:14px 0 0}
+.coordination-lead{max-width:910px;font-size:clamp(17px,2vw,22px);line-height:1.55;margin:0 0 32px}
+.coordination-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:28px 0}
+.coordination-flow span{background:#22212a;color:#fff;padding:20px 16px;min-height:100px;font:500 14px/1.5 var(--mono)}
+.coordination-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:25px 0}
+.coordination-cards article,.coordination-example{background:#fff;border:1px solid var(--line);padding:26px}
+.coordination-cards h3{font:750 23px/1.18 var(--display);letter-spacing:-.035em;margin:0 0 12px}
+.coordination-cards p,.coordination-example p{font-size:15px;line-height:1.7;margin:0;color:#45434a}
+.coordination-example{margin:25px 0}.coordination-example code{display:block;font:500 clamp(14px,2vw,20px)/1.4 var(--mono);margin-bottom:12px;overflow-wrap:anywhere}
+.coordination-note{border-left:4px solid var(--rust);padding:14px 20px;background:#eae8e2;font-size:15px;line-height:1.65;margin:28px 0}
+.coordination-table-wrap{overflow-x:auto;border:1px solid var(--line);background:#fff;margin:25px 0}
+.coordination-table-wrap table{border-collapse:collapse;width:100%;min-width:650px;font-size:14px;line-height:1.5}
+.coordination-table-wrap th,.coordination-table-wrap td{padding:15px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+.coordination-table-wrap thead{background:#22212a;color:#fff;font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase}
+.coordination-table-wrap tbody th{font-weight:700;white-space:nowrap}.coordination-table-wrap tbody tr:last-child th,.coordination-table-wrap tbody tr:last-child td{border-bottom:0}
+.coordination-table-wrap td code{font:12px/1.7 var(--mono);overflow-wrap:anywhere}
+.coordination-footer{display:flex;flex-wrap:wrap;gap:15px 32px;padding-top:12px;font:500 13px var(--mono)}
+.coordination-footer a{text-decoration:underline;text-underline-offset:4px}
+@media(max-width:700px){.coordination-guide{padding-top:45px;padding-bottom:50px}.coordination-flow,.coordination-cards{grid-template-columns:1fr}.coordination-flow span{min-height:0}}
