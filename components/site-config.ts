@@ -108,12 +108,14 @@ export const primaryNav: NavEntry[] = [
       { label: "Benchmarks", href: "/benchmarks" },
       { label: "Recorded runs", href: "/runs" },
       { label: "Research program", href: "/research" },
+      { label: "External repositories", href: "/ecosystem" },
     ],
     childrenFr: [
       { label: "Preuves", href: "/fr/evidence" },
       { label: "Benchmarks", href: "/fr/benchmarks" },
       { label: "Exécutions archivées", href: "/fr/runs" },
       { label: "Programme de recherche", href: "/fr/research" },
+      { label: "Dépôts externes", href: "/fr/ecosystem" },
     ],
   },
   {
@@ -147,6 +149,7 @@ export const frenchFullRoutes = new Set([
   "/benchmarks",
   "/runs",
   "/sandbox",
+  "/ecosystem",
 ]);
 
 /** Explicit French summaries published by app/fr/[...slug]. Keep this list in

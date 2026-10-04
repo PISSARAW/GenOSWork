@@ -13,6 +13,7 @@ const baseRoutes = [
   "/morphogenesis",
   "/organizations",
   "/research",
+  "/ecosystem",
   "/concepts",
   "/systems",
   "/systems/organism",
