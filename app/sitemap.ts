@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { topologies } from "@/components/topologies";
 import { concepts } from "@/components/concepts";
+import { capabilityPages } from "@/components/capability-pages";
 import { hasFrenchPage, siteUrl } from "@/components/site-config";
 
 const baseRoutes = [
@@ -24,6 +25,7 @@ const baseRoutes = [
   "/lab",
   "/lab/models",
   "/evidence",
+  "/capabilities",
   "/developers",
 ];
 
@@ -44,7 +46,8 @@ function withLanguages(route: string): MetadataRoute.Sitemap[number][] {
     hasFrenchPage(route || "/") ||
     route.startsWith("/concepts/") ||
     route.startsWith("/topologies/") ||
-    route.startsWith("/morphogenesis/cases/");
+    route.startsWith("/morphogenesis/cases/") ||
+    route.startsWith("/capabilities/");
   const languages = hasLocalizedPage
     ? { en: englishUrl, fr: `${siteUrl}/fr${route}` }
     : undefined;
@@ -69,6 +72,7 @@ function withLanguages(route: string): MetadataRoute.Sitemap[number][] {
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const conceptRoutes = concepts.map(({ slug }) => `/concepts/${slug}`);
+  const capabilityRoutes = capabilityPages.map(({ slug }) => `/capabilities/${slug}`);
   const topologyRoutes = topologies.map(({ slug }) => `/topologies/${slug}`);
   const morphogenesisRoutes = [
     "/revue-de-changement",
@@ -80,6 +84,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...baseRoutes,
     ...supervisionRoutes,
     ...conceptRoutes,
+    ...capabilityRoutes,
     ...topologyRoutes,
     ...morphogenesisRoutes,
   ];

@@ -5,6 +5,7 @@ import { scienceCompletions } from "@/components/concept-science-completions";
 import { frenchScientificProfiles } from "@/components/concept-french-science";
 import { teachingFlows } from "@/components/concept-learning-data";
 import { biologyRationale } from "@/components/concept-biology";
+import { productClaims } from "@/components/product-evidence";
 
 export type ConceptSlug = string;
 export type ConceptDiagram = "clinical" | "memory" | "cortex" | "ontogenesis" | "ontology";
@@ -145,14 +146,168 @@ const authoredConcepts: Concept[] = [
 ];
 
 const authoredMetadata: Record<string, Partial<Concept>> = {
-  maladies: { familyId: "immunity-medicine", implementation: "partial", integration: "isolated", evidence: "unassessed", statusNote: "The source describes a clinical runtime model and marks its connected effects as partial.", related: ["nosology", "immune-system", "evidence"], biologyInspired: true },
+  maladies: { familyId: "immunity-medicine", implementation: "partial", integration: "isolated", evidence: "none", statusNote: "The source describes a clinical runtime model; no concept-specific runtime integration or evidence is linked.", related: ["nosology", "immune-system", "evidence"], biologyInspired: true },
   memoire: { familyId: "memory-learning", implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Several retrieval and memory mechanisms are present; this status does not mean every memory type is integrated end to end.", related: ["episodic-memory", "semantic-memory", "vector-memory", "synaptic-plasticity"], biologyInspired: true, hasMathematics: true },
   cortex: { familyId: "cognition-control", implementation: "conceptual", integration: "isolated", evidence: "none", statusNote: "Cortex is a documented architectural analogy, not a unified runtime organ.", related: ["agow", "semantic-memory", "theory-of-self"], biologyInspired: true },
   ontogenese: { familyId: "identity-development", implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Task kinds and topology failure history now inform selection. Without an explicit completion contract, task acceptance text is not independently verified by the mission gate.", related: ["workflows", "resident-daemons", "counterfactual-workspaces"], biologyInspired: true },
   ontologie: { familyId: "knowledge-evidence", implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Bounded ontology services are callable; they do not prove that a described entity or scenario exists.", related: ["knowledge", "beliefs", "evidence"], hasMathematics: true },
 };
 
+const claimIdByConcept: Record<string, string> = {
+  "dynamic-organizations": "organizations", "worker-kinds": "workers", "web-foraging": "web-perception",
+  "foveal-perception": "web-perception", "foveation": "web-perception", "animal-senses": "web-perception",
+  "episodic-memory": "episodic-memory", "graph-memory": "graph-memory", "vector-memory": "vector-memory",
+  "semantic-memory": "graph-memory", "synaptic-plasticity": "synaptic-plasticity", stdp: "synaptic-plasticity",
+  "genome": "genome-epigenetics", epigenetics: "genome-epigenetics", "agent-dna": "genome-epigenetics",
+  reproduction: "evolution-reproduction", mutation: "evolution-reproduction", "evolution-selection": "evolution-reproduction",
+  "immune-system": "immune-system", "adaptive-epistemic-immunity": "immune-system", "vfs-sandbox": "vfs-sandbox",
+  "proof-artifact": "proof-artifact", "lean-verification": "proof-artifact", "deterministic-verification": "proof-artifact",
+  provenance: "provenance", evidence: "evidence-barrier", "shared-state": "syncytium", "memory-fossilization": "capsules-snapshots",
+  "identity-authority": "governance-approval", governance: "governance-approval", observability: "observability",
+  "inference-gateway": "inference-gateway", "model-routing": "model-routing", "resident-daemons": "mission-continuity",
+  ontogenese: "mission-continuity", workflows: "a-team", "counterfactual-workspaces": "agent-git",
+};
+
+const capabilityMaturity: Record<string, { implementation: ImplementationState; integration: IntegrationState }> = {
+  epistemics: { implementation: "experimental", integration: "callable" }, beliefs: { implementation: "partial", integration: "callable" },
+  claims: { implementation: "partial", integration: "callable" }, evidence: { implementation: "partial", integration: "callable" },
+  contradictions: { implementation: "partial", integration: "callable" }, provenance: { implementation: "partial", integration: "wired" },
+  "semantic-memory": { implementation: "partial", integration: "callable" }, "episodic-memory": { implementation: "partial", integration: "callable" },
+  "vector-memory": { implementation: "experimental", integration: "callable" }, "synaptic-plasticity": { implementation: "experimental", integration: "callable" }, stdp: { implementation: "experimental", integration: "callable" },
+  genome: { implementation: "partial", integration: "wired" }, epigenetics: { implementation: "partial", integration: "wired" }, "agent-dna": { implementation: "partial", integration: "wired" },
+  reproduction: { implementation: "experimental", integration: "callable" }, mutation: { implementation: "experimental", integration: "callable" },
+  "immune-system": { implementation: "partial", integration: "wired" }, "adaptive-epistemic-immunity": { implementation: "partial", integration: "wired" },
+  "shared-state": { implementation: "experimental", integration: "callable" }, "vfs-sandbox": { implementation: "partial", integration: "wired" },
+  observability: { implementation: "partial", integration: "wired" }, "inference-gateway": { implementation: "partial", integration: "wired" },
+  "model-routing": { implementation: "partial", integration: "wired" }, governance: { implementation: "partial", integration: "wired" },
+  "identity-authority": { implementation: "partial", integration: "wired" }, "web-foraging": { implementation: "experimental", integration: "callable" },
+  "foveal-perception": { implementation: "experimental", integration: "callable" },
+  "genos-philosophy": { implementation: "implemented", integration: "end-to-end" },
+};
+
+const codeMaturity: Record<string, Partial<Concept>> = {
+  maladies: { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Clinical state, selected pathology checks and bounded therapy paths are executable and tested. The diagnoses are runtime analogies, not clinical assessments.", codeSources: ["backend/src/services/clinicalStateService.js", "backend/tests/test_clinical_state_persistence.js", "crates/genos-cell/src/clinical.rs"] },
+  epistemics: { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Bounded epistemic services evaluate declared inputs and evidence; they do not establish external truth or confer authority.", codeSources: ["backend/src/services/epistemics.js", "backend/tests/test_epistemics.js"] },
+  beliefs: { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Belief records and revision paths are executable with provenance; a stored belief is not a verified fact.", codeSources: ["backend/src/services/biocenose/deliberation/beliefRevisionService.js", "backend/tests/test_biocenose_belief_revision.js"] },
+  claims: { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Claim graphs and scoped verification paths exist; accepting a claim remains dependent on its stated evidence and verifier.", codeSources: ["backend/src/services/biocenose/claims/communityClaimGraph.js", "backend/tests/test_biocenose_claim_graph.js"] },
+  evidence: { implementation: "partial", integration: "wired", evidence: "integration-tested", statusNote: "Evidence records feed selected verification and promotion barriers; a receipt does not prove a mission outcome by itself.", codeSources: ["backend/src/services/agentEvidenceService.js", "backend/tests/test_epistemic_promotion_integration.js"] },
+  contradictions: { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Contradictory claims can be represented and routed for review; the system does not automatically resolve every conflict.", codeSources: ["backend/src/services/epistemic/contradictionBus.js", "backend/tests/epistemic_challenge_test.js"] },
+  provenance: { implementation: "partial", integration: "wired", evidence: "integration-tested", statusNote: "Selected findings and receipts retain source and lineage links; coverage varies by service and path.", codeSources: ["backend/src/services/provenanceResolver.js", "backend/tests/test_provenance_service.js"] },
+  "semantic-memory": { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Facts and relationships can be stored and retrieved in bounded memory services; retrieval similarity is not truth confidence.", codeSources: ["backend/src/services/agentMemoryStore.js", "backend/tests/test_memory_invariants.js"] },
+  "episodic-memory": { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Contextual event records and recall services exist with scope and provenance checks; this is not autobiographical human memory.", codeSources: ["backend/src/services/episodicMemoryService.js", "backend/tests/test_episodic_memory.js"] },
+  "vector-memory": { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Vector search adapters and contracts are tested; retrieval quality and tenant-wide behavior require broader evaluation.", codeSources: ["backend/tests/test_vector_memory_contracts.js", "backend/tests/test_qdrant_vector_store.js"] },
+  "synaptic-plasticity": { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Bounded association updates exist in the AGOW plasticity path; this is a software adaptation, not a neural simulation.", codeSources: ["backend/src/services/agow/plasticity/agowPlasticityCoordinator.js", "backend/tests/test_agow_plasticity.js"] },
+  stdp: { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "A bounded timing-based update primitive is available; the STDP equation on this page is illustrative and not a biological claim about GenOS.", codeSources: ["backend/src/services/primitiveHandlers/memoryStdp.js", "backend/tests/test_agow_plasticity.js"] },
+  genome: { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Rust genome types, operations and tests exist, with selected CLI/backend paths. This software genome is not biological DNA.", codeSources: ["crates/genos-genome/src/genome.rs", "crates/genos-genome/src/genome_tests.rs"] },
+  epigenetics: { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Epigenome state and expression paths are executable in the genome runtime; they do not implement biochemical epigenetics.", codeSources: ["crates/genos-genome/src/epigenome.rs", "backend/src/services/agentDna/epigenome.js"] },
+  "agent-dna": { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "AgentDNA has versioned formats, validators and runtime-facing code; it is a software identity format, not DNA.", codeSources: ["crates/genos-dna/src/lib.rs", "crates/genos-dna/src/tests.rs"] },
+  reproduction: { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Genome reproduction operations are executable and covered by tests; worker creation and safe end-to-end lineage promotion are separate paths.", codeSources: ["crates/genos-genome/src/reproduction.rs", "crates/genos-genome/src/genome_tests.rs"] },
+  mutation: { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Bounded mutation operations exist in the genome crate; mutation does not imply useful or safe evolutionary change.", codeSources: ["crates/genos-genome/src/mutation_scales.rs", "crates/genos-genome/src/mutation_scales_tests.rs"] },
+  "immune-system": { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Immune gates, quarantine and bounded response paths are executable and tested; detection is not complete or biologically equivalent.", codeSources: ["backend/src/services/immuneSystem.js", "backend/src/services/immuneGateService.js", "backend/tests/test_immune_n6_regression.js"] },
+  "adaptive-epistemic-immunity": { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Adaptive immune response and evidence-memory primitives exist; their false-positive and false-negative rates are not generally benchmarked.", codeSources: ["backend/src/services/epistemic/adaptiveImmuneResponse.js", "backend/tests/adaptive_immune_response_test.js"] },
+  "graph-memory": { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Graph and relationship memory paths exist with scoped tests; isolation and coverage are specific to each store.", codeSources: ["backend/src/services/agentMemoryStore.js", "backend/tests/test_agent_memory_runtime_wiring.js"] },
+  "vfs-sandbox": { implementation: "partial", integration: "wired", evidence: "integration-tested", statusNote: "File operations use workspace and plugin sandbox boundaries with targeted security tests; guarantees vary by adapter and platform.", codeSources: ["backend/src/services/sandboxExecutor.js", "backend/tests/test_plugin_sandbox.js", "backend/tests/test_aeis_sandbox.js"] },
+  observability: { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Telemetry and evaluation-observability APIs exist with contract tests; correlation and retention vary by service.", codeSources: ["backend/src/controllers/telemetryController.js", "backend/tests/test_telemetry_contract.js", "backend/tests/test_evaluation_observability.js"] },
+  "inference-gateway": { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Provider routing, timeouts and bounded gateway operations have tests; provider coverage and distributed behavior are limited.", codeSources: ["backend/src/services/inferenceGatewayService.js", "backend/tests/test_inference_gateway.js"] },
+  "model-routing": { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Model capability filtering and provider selection are implemented for supported routes; fallback and provider behavior remain configuration-dependent.", codeSources: ["backend/src/services/modelRouter.js", "backend/tests/test_model_capability_routing.js"] },
+  governance: { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Approval, policy and execution-boundary checks are present with bypass and receipt tests; authorization remains scope-specific.", codeSources: ["backend/src/services/cedarAgentAuthority.js", "backend/tests/test_approval_separation.js"] },
+  "identity-authority": { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Identity and scoped authority checks are enforced on selected runtime paths; coverage is not uniform across all tools.", codeSources: ["backend/src/services/cedarAgentAuthority.js", "backend/tests/test_approval_separation.js"] },
+  agow: { implementation: "partial", integration: "wired", evidence: "integration-tested", statusNote: "AGOW has persisted workspace, arbitration, query and broadcast paths. The current AGOW suite, including production-wiring checks, passed; this does not establish cognitive or consciousness equivalence.", codeSources: ["backend/src/services/agow/agowRuntimeIngressService.js", "backend/src/services/agow/workspaceCycleService.js", "backend/tests/test_global_workspace_runtime.js"] },
+  attention: { implementation: "partial", integration: "wired", evidence: "integration-tested", statusNote: "Attention credit and workspace arbitration are connected to AGOW. Runtime priority is a software scheduling signal, not human attention.", codeSources: ["backend/src/services/agow/attentionCreditService.js", "backend/src/services/agow/workspaceArbitrationService.js", "backend/tests/test_agow_active_query.js"] },
+  "agent-relationships": { implementation: "partial", integration: "wired", evidence: "integration-tested", statusNote: "Typed relation constraints and targeted routing are implemented; relation metadata cannot grant authority or prove statistical independence.", codeSources: ["backend/src/services/relationalPhysiology/index.js", "backend/tests/relationalPhysiology/sqlite-hook.test.cjs"] },
+  "animal-control-primitives": { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Bounded browser and foveal observation handlers exist; a complete perception–action–verification mission loop is not established." },
+  autoimmune: { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Some immune and autoimmune detection/response paths are executable and tested. Coverage does not establish complete threat detection or biological fidelity.", codeSources: ["backend/src/services/holobionte/immune/autoimmuneDetector.js", "backend/tests/test_holobiont_autoimmunity.js"] },
+  "brier-calibration": { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Brier scoring and calibration services exist, but representative forecast calibration and broad product outcomes remain unqualified.", codeSources: ["backend/src/services/biocenose/calibration/calibrationService.js", "backend/tests/epistemic_biocenose_test.js"] },
+  cancerous: { implementation: "proposed", integration: "isolated", evidence: "none", statusNote: "A cancer pathology category is declared, but the current code does not provide a dedicated executable diagnosis or treatment path for this entry." },
+  cardiovascular: { implementation: "proposed", integration: "isolated", evidence: "none", statusNote: "A cardiovascular category is declared, but a dedicated executable diagnosis or treatment path is not established." },
+  "communication-ecology": { implementation: "partial", integration: "wired", evidence: "integration-tested", statusNote: "Typed signals, persisted deliveries and bounded receiver paths are connected; delivery is at least once and not every receiver is registered at startup.", codeSources: ["backend/src/services/signalDeliveryService.js", "backend/src/services/signalReceptorPersistenceService.js"] },
+  cryptobiosis: { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Bounded dormancy/spore and recovery services exist with tests; they do not model biological cryptobiosis.", codeSources: ["backend/src/services/cryptobiosisSporeService.js", "backend/tests/test_cryptobiosis_spore_vitrification.js"] },
+  degenerative: { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "The runtime models several bounded degradation and senescence states; the diagnostic taxonomy is not a validated health model.", codeSources: ["crates/genos-cell/src/clinical.rs", "crates/genos-biology/src/pathology.rs"] },
+  "deterministic-procedures": { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Deterministic worker procedures and verification helpers exist; procedure availability does not imply general proof of task correctness.", codeSources: ["backend/src/services/agents/deterministicWorkerProcedures.js", "backend/src/services/agents/deterministicWorkerVerifier.js", "backend/tests/test_deterministic_worker_verifier.js"] },
+  "deterministic-verification": { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Deterministic worker verification is wired to declared artifacts and provenance; verification covers the stated contract only.", codeSources: ["backend/src/services/agents/deterministicWorkerVerifier.js", "backend/tests/test_deterministic_worker_verifier.js"] },
+  development: { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Genome development and phenotype compilation have executable Rust/runtime paths; biological development is not simulated.", codeSources: ["crates/genos-genome/src/development.rs", "crates/genos-genome/src/developmental.rs", "crates/genos-genome/src/genome_tests.rs"] },
+  "environmental-pathology": { implementation: "proposed", integration: "isolated", evidence: "none", statusNote: "An environmental pathology category is declared, but no dedicated executable diagnosis path is established." },
+  "evolution-selection": { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Genome mutation, fitness and reproduction primitives are executable; population-level evolutionary outcomes are not established.", codeSources: ["crates/genos-genome/src/fitness.rs", "crates/genos-genome/src/reproduction.rs", "crates/genos-genome/src/genome_tests.rs"] },
+  "genetic-pathology": { implementation: "proposed", integration: "isolated", evidence: "none", statusNote: "A genetic pathology category is declared, but no dedicated executable diagnosis path is established." },
+  gvx: { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "GVX adapters, ledgers and verification gates exist with targeted tests; a successful isolated loop is not general proof of product outcomes.", codeSources: ["backend/src/services/developmentalBridge/gvxToAgowReceiptAdapter.js", "backend/tests/test_gvx_agentgit_adapter.js", "backend/tests/test_gvx_experiment_protocol.js"] },
+  homeostasis: { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Resource and continuation guards have callable runtime paths and tests; stability depends on each controller's declared bounds.", codeSources: ["backend/src/services/organismHomeostasisService.js", "backend/tests/test_homeostasis_continuation.js"] },
+  "horizontal-transfer": { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Plasmid and genome transfer primitives exist; autonomous, safe population-level transfer is not established.", codeSources: ["crates/genos-genome/src/plasmid_v2.rs", "crates/genos-genome/src/reproduction.rs"] },
+  infectious: { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "The runtime models selected infection and quarantine cases; this is a software threat/pathology model, not biological infection simulation.", codeSources: ["crates/genos-cell/src/clinical.rs", "crates/genos-immune/src/virology.rs"] },
+  instinct: { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Bounded innate-response and stimulus/release primitives exist in Rust and the backend; they are not a complete biological model of instinct.", codeSources: ["crates/genos-biology/src/instinct/mod.rs", "crates/genos-orchestrator/tests/instinct.rs", "backend/src/services/agents/instinctRuntimeService.js"] },
+  knowledge: { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "A bounded knowledge-analysis service exists; its interpretive results do not establish truth or complete knowledge.", codeSources: ["backend/src/philosophy/serviceMaturity.js", "backend/src/philosophy/conceptRegistry.js"] },
+  "lean-verification": { implementation: "partial", integration: "callable", evidence: "benchmark-protocol", statusNote: "Lean is available in a narrow worker evaluation path; the current benchmark suite is partial and does not establish general theorem-proving coverage." },
+  "memory-fossilization": { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Genome/store fossil records can be created and verified; archival does not itself replay an experience into general memory.", codeSources: ["crates/genos-genome/src/fossil.rs", "crates/genos-store/src/fossil.rs"] },
+  "memory-retrieval": { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Stored memory has scoped recall and ranking paths; retrieved items remain candidates and require separate verification.", codeSources: ["backend/src/services/agentMemoryStore.js", "backend/src/services/autobiographicalMemory/recallService.js"] },
+  "metabolic-pathology": { implementation: "proposed", integration: "isolated", evidence: "none", statusNote: "A metabolic pathology category is declared, but a dedicated executable diagnosis path is not established." },
+  psychiatric: { implementation: "proposed", integration: "isolated", evidence: "none", statusNote: "A psychiatric pathology category is declared, but a dedicated executable diagnosis path is not established." },
+  metabolism: { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Budget and resource-allocation controllers are executable; they are not a biological metabolism model.", codeSources: ["backend/src/services/metabolism/metabolicStateService.js", "backend/src/services/metabolism/metabolicPressureService.js"] },
+  "natural-search-control-plane": { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Bounded search control and persistence paths exist; comparative outcome improvement and generalization remain unqualified.", codeSources: ["backend/src/services/search/searchPersistenceService.js"] },
+  niches: { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Genome and Biome code represent niches and resource constraints; the full autonomous ecology loop remains partial.", codeSources: ["crates/genos-genome/src/niches.rs", "backend/src/services/biome/biomeRuntime.js"] },
+  nosology: { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "A bounded diagnostic taxonomy and therapy-routing path is executable and tested; it is not clinical software.", codeSources: ["crates/genos-cell/src/clinical.rs", "crates/genos-orchestrator/tests/nosology_therapy.rs"] },
+  pathologies: { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Selected pathology states and bounded checks are modeled in code; enum coverage does not mean every listed disease has an executable handler.", codeSources: ["crates/genos-biology/src/pathology.rs", "crates/genos-cell/src/clinical.rs"] },
+  "predictive-system": { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Predictive distribution and hierarchy services are wired into selected runtime feedback paths; this is not a general cognitive model or validated world model.", codeSources: ["backend/src/services/predictiveHierarchyService.js", "backend/src/services/predictiveTimescale/predictiveTimescaleService.js", "backend/tests/test_predictive_distribution.js"] },
+  "proof-artifact": { implementation: "proposed", integration: "isolated", evidence: "none", statusNote: "GenOS records product evidence and has a narrow Lean worker path, but no general machine-checked proof-artifact interface with a declared kernel and assumptions is established." },
+  persistence: { implementation: "partial", integration: "wired", evidence: "integration-tested", statusNote: "GenOS persists selected runtime state through SQLite and other scoped stores; transaction, recovery and tenancy guarantees vary by service.", codeSources: ["backend/src/storage/operational/sqliteStore.js", "crates/genos-store/src/lib.rs"] },
+  phenotype: { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Genome and worker phenotype structures are compiled and consumed by selected runtime paths; this is not a biological phenotype.", codeSources: ["crates/genos-genome/src/phenotype.rs", "crates/genos-worker/src/phenotype.rs"] },
+  plasmids: { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Plasmid data and transfer operations exist in the genome crate; they do not establish horizontal transfer in autonomous agent populations.", codeSources: ["crates/genos-genome/src/plasmid_v2.rs", "crates/genos-genome/src/reproduction.rs"] },
+  populations: { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Bounded population, migration and topology operations exist; autonomous ecological recovery remains unqualified.", codeSources: ["backend/src/services/metapopulationCoordinationService.js"] },
+  "procedural-memory": { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Some reusable procedures and procedural memory services are executable; the page's memory analogy does not establish human-like recall.", codeSources: ["backend/src/services/proceduralPersistenceService.js", "backend/src/services/agents/deterministicWorkerProcedures.js"] },
+  resilience: { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Failure classification, bounded recovery and degradation paths exist; global resilience and improved mission outcomes are not guaranteed.", codeSources: ["backend/src/services/resilience/resilienceStateService.js", "backend/src/services/resilience/recoveryPlannerService.js"] },
+  sandbox: { implementation: "partial", integration: "wired", evidence: "integration-tested", statusNote: "Workspace and plugin sandboxes enforce selected path and execution boundaries; guarantees depend on the specific adapter and platform.", codeSources: ["backend/src/services/pluginSandbox.js", "backend/src/services/sandboxExecutor.js", "backend/tests/test_aeis_sandbox.js"] },
+  "self-model": { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Persisted self-model and Self-Twin services track bounded history and calibration; they do not imply subjective self-awareness.", codeSources: ["backend/src/services/selfTwin/selfTwinService.js", "backend/tests/test_self_model_service.js", "backend/tests/test_self_twin.js"] },
+  "theory-of-self": { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "GenOS has bounded self-model and Self-Twin services. The philosophical theory-of-self remains a framework; runtime state does not imply subjective selfhood.", codeSources: ["backend/src/services/selfTwin/selfTwinService.js", "backend/tests/test_self_twin.js"] },
+  sensorium: { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Web and foveal observation primitives exist; a continuous perception–action loop and perceptual quality benchmark remain open." },
+  "smt-solver": { implementation: "proposed", integration: "isolated", evidence: "none", statusNote: "A compute resolver declares a solver substrate, but a supported SMT solver integration and verified proof path are not established." },
+  snapshots: { implementation: "partial", integration: "wired", evidence: "integration-tested", statusNote: "Snapshot and replay operations exist for supported state; external effects and running processes are not fully restored.", codeSources: ["crates/genos-store/src/snapshot.rs", "crates/genos-cli/tests/snapshot_contract.rs", "backend/tests/test_agent_git_sqlite_e2e.js"] },
+  sqlite: { implementation: "implemented", integration: "wired", evidence: "integration-tested", statusNote: "SQLite is the active persistence substrate for documented local deployments, with migration, WAL and restart-persistence paths; this does not imply multi-node database support.", codeSources: ["backend/src/storage/operational/sqliteStore.js", "backend/tests/test_agent_git_sqlite_e2e.js"] },
+  "speciation-graft": { implementation: "proposed", integration: "isolated", evidence: "none", statusNote: "Lineage and capability-graft policy is documented, but an end-to-end speciation and admission path is not established." },
+  stigmergy: { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Bounded stigmergic traces and routing services exist; population-scale benefit and persistence behavior are not broadly qualified.", codeSources: ["backend/src/services/biome/environmentalMemory/stigmergicRoutingService.js", "backend/tests/epistemic_stigmergy_test.js"] },
+  "swarm-intelligence": { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Selected swarm topology algorithms and metrics exist; their registry or tests do not establish improved mission outcomes.", codeSources: ["backend/src/services/swarmTopologyAlgorithms.js", "backend/src/grpc_services/swarmService.js"] },
+  symbionts: { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Host and symbiont lifecycle primitives exist; host veto and full mission behavior remain experimental.", codeSources: ["backend/src/services/holobionteCoordinationService.js", "backend/src/services/symbioteRuntimeService.js"] },
+  "verification-registry": { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Verified coverage and admission registries can gate selected paths; registry presence does not establish a general proof checker." },
+  "genos-philosophy": { implementation: "implemented", integration: "end-to-end", evidence: "integration-tested", statusNote: "Code verification: 375 contracts compile validly; 21 are pilots and 354 are mapped-pending-behavior. All 375 are ready-for-experiment with mechanisms, scenarios, falsification tests, four topology variants, and evidence plans. Readiness does not promote a contract: promotionEligible is 0, and a tested promotion still requires a scenario-receipt. Conflict references are supported but currently empty in the source registry.", codeSources: ["backend/src/philosophy/conceptRegistry.js", "backend/src/philosophy/implementationContracts.js", "backend/src/services/implementationContractRouter.js", "backend/src/services/ontogenesis/missionCapabilityPlanService.js", "backend/src/services/philosophyRouter.js", "backend/tests/test_ontogenesis_concept_registry.js", "backend/tests/test_philosophy_mcp_integration.js"] },
+  vfs: { implementation: "partial", integration: "wired", evidence: "integration-tested", statusNote: "Workspace file operations run under bounded sandbox policies; confinement guarantees remain path and adapter specific.", codeSources: ["backend/src/services/sandboxExecutor.js", "backend/tests/test_aeis_sandbox.js"] },
+};
+
+const claimStatus = (slug: string): Partial<Concept> | undefined => {
+  const claim = productClaims.find((item) => item.id === (claimIdByConcept[slug] ?? slug));
+  if (!claim) {
+    if (codeMaturity[slug]) return codeMaturity[slug];
+    const maturity = capabilityMaturity[slug];
+    if (!maturity) return undefined;
+    return { ...maturity, evidence: "none", statusNote: "Le contrat produit classe cette capacité comme partielle ou expérimentale, mais ne relie pas ici de preuve de test dédiée. Voir docs/03-reference/contrat-produit-et-completude.md dans GenOS." };
+  }
+  const implementation: ImplementationState = claim.status === "planned" ? "proposed" : claim.status;
+  const integration: IntegrationState = claim.evidenceLevel === "integration" || claim.evidenceLevel === "end-to-end" || claim.evidenceLevel === "reported-run" ? "wired" : "callable";
+  let evidence: EvidenceState = claim.evidenceLevel === "unit" ? "unit-tested" : claim.evidenceLevel === "integration" ? "integration-tested" : claim.evidenceLevel === "end-to-end" ? "end-to-end-tested" : claim.evidenceLevel === "benchmark" ? "benchmark-protocol" : "reported-run";
+  let testNote = "";
+  if (claim.id === "trinity") {
+    evidence = "test-failing";
+    testNote = " The current executable harness was run against the working tree and failed in the Adaptive variant: `totalAllocated` was null (test_trinity_executable_harness.js:514); later variants were not reached.";
+  } else if (claim.id === "a-team") {
+    testNote = " The current `test_ateam_variant_acceptance.js` run passed all 44 acceptance cases.";
+  }
+  return { implementation, integration, evidence, statusNote: `${claim.implementedSlice} ${claim.missingWork}${testNote} Source: ${claim.sourcePath}.` };
+};
+
 const conceptDossiers: Record<string, Partial<Concept>> = {
+  "genos-philosophy": {
+    sourceLabel: "GenOS philosophy and ontology",
+    scopeTitle: "An end-to-end concept-to-evidence pipeline",
+    scope: "GenOS Philosophy now implements the complete path from the 375-entry philosophical registry to operational experimentation. The current compiler produces 375 valid contracts: 21 pilot contracts and 354 contracts marked mapped-pending-behavior. All 375 carry a mechanism, falsifiable scenario, comparative experiment, four-topology matrix (isolated_critics, centralized, federated, peer_to_peer), and required evidence plan; all 375 are ready-for-experiment, while promotionEligible remains 0. Obligations, prohibitions, and violation criteria are populated for every contract. The conflict field is supported, but the current source registry supplies no populated conflict relations yet. The pipeline is end to end; individual concept behavior is not thereby validated.",
+    steps: [
+      { title: "Classify the registry", body: "The 375 entries are typed as notions, theories, methods, norms, or analytical frameworks, with traditions, distinctions, competing interpretations, conflicts, confidence, and sources preserved." },
+      { title: "Compile implementation contracts", body: "Each entry receives an operational interpretation, targets, invariant, mechanism, observables, falsification tests, limits, permissions, obligations, prohibitions, and responsibility." },
+      { title: "Reuse shared mechanisms", body: "Concept families map to reusable world, belief, provenance, self-model, agent-contract, authority, response, and cultural-context mechanisms instead of becoming 375 isolated modules." },
+      { title: "Run comparable experiments", body: "Concept-enabled and baseline runs are compared across controlled scenarios and across isolated_critics, centralized, federated, and peer-to-peer organizations." },
+      { title: "Govern maturity with evidence", body: "The registry, contract router, mission context, receipts, and promotion gates preserve the progression from registered to defined, mechanism-linked, observable, tested, integrated, and validated." },
+    ],
+    scienceBasis: "This is an implemented software and evidence architecture, not a claim that philosophical theories are true or that GenOS has subjective consciousness. Concepts are evaluated pragmatically by the state or behavior they change and by the observations that could falsify the implementation. Readiness for an experiment is deliberately distinct from promotion or validation.",
+    mathModel: "For a concept c, compare an activated run Y(c) with a baseline Y(∅) under the same scenario and budget. The useful effect is ΔY=Y(c)−Y(∅), interpreted only with declared metrics, provenance, and failure conditions.",
+    failureModes: ["A duplicate or ambiguous entry can receive inconsistent meanings.", "A philosophical theory can be mistaken for an executable mechanism.", "A successful tool call can be mistaken for evidence that a concept improves GenOS.", "A topology that works for one mission can be overgeneralized to others.", "A norm can guide or justify a decision without resolving the underlying moral disagreement."],
+    useCases: ["Classify and de-duplicate the philosophical registry.", "Turn a selected concept into an auditable implementation proposal.", "Compare concept-enabled and baseline runs across agent organizations.", "Preserve competing interpretations and explicit trade-offs."],
+    codeSources: ["backend/src/services/philosophyRouter.js", "backend/src/philosophy/conceptRegistry.js", "backend/src/services/implementationContractRouter.js", "backend/src/services/scientificEvidenceLedger.js", "backend/tests/test_philosophy_mcp_integration.js"],
+  }, 
   "brier-calibration": {
     scienceBasis: "Brier introduced the squared-probability error for verifying probabilistic forecasts. It scores forecast quality against resolved outcomes; it does not tell whether an unrevealed claim is true.",
     mathModel: "For N binary forecasts: BS = (1/N) Σᵢ (pᵢ − oᵢ)², where pᵢ ∈ [0,1] is the forecast and oᵢ ∈ {0,1} is the resolved outcome. Lower is better only for the same outcome definition and comparable forecast population.",
@@ -280,7 +435,7 @@ const registeredConcepts: Concept[] = catalogConcepts.map((entry, index) => ({
   title: entry.title,
   eyebrow: entry.familyId.replaceAll("-", " ").toUpperCase(),
   intro: entry.intro,
-  status: "Status not yet assessed",
+  status: "Documented concept",
   statusTone: "amber",
   diagram: undefined,
   diagramTitle: "No site diagram registered",
@@ -291,20 +446,21 @@ const registeredConcepts: Concept[] = catalogConcepts.map((entry, index) => ({
   source: entry.source.replace(/^\.\.\//, ""),
   sourceLabel: entry.title,
   familyId: entry.familyId,
-  implementation: "unassessed",
-  integration: "unassessed",
-  evidence: "unassessed",
-  statusNote: "No concept-specific implementation, integration, or evidence record is registered in this atlas yet.",
+  implementation: "conceptual",
+  integration: "isolated",
+  evidence: "none",
+  statusNote: "Documentary concept entry: no GenOS implementation slice or concept-specific product evidence is linked to this entry.",
   biologyInspired: entry.biologyInspired,
   hasMathematics: entry.hasMathematics,
   hasSimulation: entry.hasSimulation,
   hasBenchmark: entry.hasBenchmark,
   related: entry.related,
   ...conceptDossiers[entry.slug],
+  ...claimStatus(entry.slug),
 }));
 
 const baseConcepts: Concept[] = [
-  ...authoredConcepts.map((concept) => ({ ...concept, ...authoredMetadata[concept.slug], ...scientificProfiles[concept.slug], hasMathematics: Boolean(authoredMetadata[concept.slug]?.hasMathematics || scientificProfiles[concept.slug]?.mathModel), literatureMechanisms: mechanismIdsForConcept(concept.slug, authoredMetadata[concept.slug]?.familyId) })),
+  ...authoredConcepts.map((concept) => ({ ...concept, ...authoredMetadata[concept.slug], ...scientificProfiles[concept.slug], ...claimStatus(concept.slug), hasMathematics: Boolean(authoredMetadata[concept.slug]?.hasMathematics || scientificProfiles[concept.slug]?.mathModel), literatureMechanisms: mechanismIdsForConcept(concept.slug, authoredMetadata[concept.slug]?.familyId) })),
   ...registeredConcepts.map((concept) => ({ ...concept, ...scientificProfiles[concept.slug], ...v3ConceptDossiers[concept.slug], hasMathematics: Boolean(concept.hasMathematics || scientificProfiles[concept.slug]?.mathModel), literatureMechanisms: mechanismIdsForConcept(concept.slug, concept.familyId) })),
 ];
 
@@ -313,6 +469,9 @@ export const concepts: Concept[] = baseConcepts.map((concept) => {
   const french = frenchScientificProfiles[concept.slug];
   return {
     ...concept,
+    implementation: concept.implementation ?? "conceptual",
+    integration: concept.integration ?? "isolated",
+    evidence: concept.evidence ?? "none",
     scienceBasis: concept.scienceBasis ?? completion?.scienceEn,
     mathModel: concept.mathModel ?? completion?.mathEn,
     scienceBasisFr: french?.[0] ?? completion?.scienceFr,

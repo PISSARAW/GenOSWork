@@ -168,7 +168,7 @@ export default async function ConceptDetailPage({ params }: { params: Promise<{ 
             <div className="ontogenesis-compare-links">
               <Link href="/orchestrator">View the orchestration flow <span>→</span></Link>
               <Link href="/benchmarks">View available benchmarks <span>→</span></Link>
-              <a href="https://github.com/PISSARAW/GenOS/blob/e9cdad244c2bce9e155007964c591b9be321dc02/docs/02-orchestration/ontogenese-boucle.md" target="_blank" rel="noreferrer">Read the operational loop ↗</a>
+              <a href="https://github.com/PISSARAW/GenOS/blob/698993b1d0854802c9c95b4786df9d18863dbf1a/docs/02-orchestration/ontogenese-boucle.md" target="_blank" rel="noreferrer">Read the operational loop ↗</a>
             </div>
           </div>
         </section>

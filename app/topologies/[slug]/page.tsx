@@ -58,6 +58,20 @@ export default async function TopologyDetailPage({ params }: Props) {
         <article className="profile-panel"><Eyebrow>RUNTIME PATH</Eyebrow><h2>What is wired</h2><p>{topology.runtime}</p></article>
         <article className="profile-panel profile-limit"><Eyebrow>KNOWN BOUNDARY</Eyebrow><h2>What this does not imply</h2><p>{topology.limit}</p></article>
       </section>
+      {(slug === "syncytium" || slug === "holobionte") && <section className="section-wrap topology-evidence-section">
+        <article className="topology-failure-panel"><Eyebrow>V3 · MISSION PROTOCOL</Eyebrow><h2>{slug === "syncytium" ? "Shared-state qualification" : "Host and symbiont qualification"}</h2>
+          <p>{slug === "syncytium"
+            ? "The protocol must distinguish a persisted local session from independent writers. Record versions, admissible operations, merge assumptions, invariant results, conflicts and recovery receipts for each mission."
+            : "The protocol must record host authority, admitted resident capabilities, resource allocation, action receipts, health, contribution and succession. A supplied capability does not imply that an immune veto ran."}</p>
+          <a href={genosSource(`docs/02-orchestration/topologies/${slug}.md`)} target="_blank" rel="noreferrer">Read the canonical mission protocol ↗</a>
+        </article>
+        <article className="topology-evidence-panel"><Eyebrow>PROOF BOUNDARY</Eyebrow><h2>What remains to run</h2>
+          <p>{slug === "syncytium"
+            ? "The documented CRDT conditions are conditional design properties. Concurrent distributed convergence and full mission outcomes have not been established by the local session tests."
+            : "The longitudinal benchmark is a protocol, not a completed comparative campaign. The historical four-role composer does not automatically use the persistent host runtime."}</p>
+          <a href={genosSource(`docs/${guide.benchmarkPath}`)} target="_blank" rel="noreferrer">Read the dedicated benchmark protocol ↗</a>
+        </article>
+      </section>}
       <TopologySimulation family={slug} guide={guide} />
       <section className="section-wrap topology-evidence-section">
         <div className="topology-failure-panel"><Eyebrow>FAILURE MODES</Eyebrow><h2>What can go wrong</h2><ul>{guide.failureModes.map((failure) => <li key={failure}>{failure}</li>)}</ul></div>

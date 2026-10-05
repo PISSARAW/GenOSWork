@@ -13,6 +13,7 @@ import "./p4-overview.css";
 import "./p5-research.css";
 import "./home.css";
 import "./ecosystem.css";
+import "./capabilities.css";
 import "./concept-mechanism.css";
 
 import { siteUrl } from "@/components/site-config";

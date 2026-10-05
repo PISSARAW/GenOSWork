@@ -26,7 +26,7 @@ export default function FrenchDaemonsPage() {
         <h2>Une animation explicative, pas un runtime en direct.</h2>
         <p>Le cycle résident, les territoires, les findings et les handoffs sont implémentés. La maturité globale reste <strong>EXPÉRIMENTALE</strong> ; l’animation ne lance aucun daemon et ne représente pas un résultat live.</p>
         <p>Le host résident interroge le curseur d’événements indexé toutes les 500 ms. Au redémarrage, l’activité revient à BOOTSTRAPPING tandis que la santé, les révisions et le dernier curseur sont conservés. Le pont de production ne confirme un événement qu’après mise à jour et journalisation réussies.</p>
-        <a href="https://github.com/PISSARAW/GenOS/blob/e9cdad244c2bce9e155007964c591b9be321dc02/docs/03-reference/types-de-daemons.md" target="_blank" rel="noreferrer">Ouvrir le catalogue de référence <span>↗</span></a>
+        <a href="https://github.com/PISSARAW/GenOS/blob/698993b1d0854802c9c95b4786df9d18863dbf1a/docs/03-reference/types-de-daemons.md" target="_blank" rel="noreferrer">Ouvrir le catalogue de référence <span>↗</span></a>
       </div>
     </section>
   </div>;

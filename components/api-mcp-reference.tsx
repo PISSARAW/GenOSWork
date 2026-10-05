@@ -1,8 +1,19 @@
 import { Eyebrow } from "@/components/eyebrow";
 
-import { genosReviewedAt, genosSourceCommit as sourceCommit } from "@/components/product-evidence";
+import { genosReviewedAt, genosSource, genosSourceCommit as sourceCommit } from "@/components/product-evidence";
 const source = `https://github.com/PISSARAW/GenOS/blob/${sourceCommit}/docs/03-reference/api-et-contrats.md`;
 const apiSource = `https://github.com/PISSARAW/GenOS/blob/${sourceCommit}/backend/src/routes/mcpRoutes.js`;
+
+const operationalReferences = [
+  { name: "CLI", path: "docs/04-exploitation/cli-et-experience-operateur.md", boundary: "The native genos CLI and the g operator facade have distinct command contracts. Four effectful g commands require explicit --yes; the Studio command surface is allowlisted, not a shell." },
+  { name: "gRPC", path: "docs/03-reference/api-et-contrats.md", boundary: "Proto3 fields use snake_case. The default listener is loopback:50051; binding elsewhere requires a TLS key and certificate. Check both gRPC status and application status in the payload." },
+  { name: "MCP tools and leases", path: "docs/03-reference/outils-mcp.md", boundary: "Tool schemas come from the shared catalog, while runtime registration and the active lease decide dispatch. A listed tool can still be denied, disabled, quarantined or unavailable." },
+  { name: "Model routing", path: "docs/03-reference/modeles-providers-routage.md", boundary: "Provider selection depends on configured capabilities and policy. Read the effective route and fallback conditions before attributing an outcome to a particular model." },
+  { name: "Deployment", path: "docs/04-exploitation/deploiement.md", boundary: "Configure the backend, model provider, storage and MCP transport together. Health probes establish service readiness, not completion of a mission." },
+  { name: "Identity and security", path: "docs/05-securite-gouvernance/identite-et-autorite.md", boundary: "Carry actor identity and organization/project scope through every call. Leases, permissions and revocation are execution boundaries rather than advisory metadata." },
+  { name: "Persistence and migrations", path: "docs/03-reference/persistance-et-donnees.md", boundary: "SQLite WAL holds durable runtime state. Back up the database and WAL files before migration, then check the schema, row counts and indexes; one-process bootstrap locking is not cross-process coordination." },
+  { name: "Recovery runbook", path: "docs/04-exploitation/runbook-recovery.md", boundary: "Use the recovery procedure to inspect persisted state and ownership before resuming work. Replaying a command without checking prior effects can duplicate external actions." },
+] as const;
 
 const translations = {
   en: {
@@ -64,6 +75,9 @@ export function ApiMcpReference({ locale = "en" }: { locale?: "en" | "fr" }) {
       <article className="api-doc-block api-doc-wide"><div><span className="api-kicker">07 / ERROR HANDLING</span><h2>{t.errorsTitle}</h2><p>{t.errorsBody}</p></div><div className="api-error-table"><div className="api-error-row api-route-head"><b>{t.codes}</b><b>{t.meaning}</b></div>{errorRows.map(([code, meaning]) => <div className="api-error-row" key={code}><code>{code}</code><span>{meaning}</span></div>)}</div><pre><code>{`{\n  "error": {\n    "code": "ZERO_TRUST_DENIED",\n    "message": "Tool execution denied.",\n    "requestId": "req-example",\n    "traceId": "trace-example"\n  }\n}`}</code></pre></article>
       <article className="api-doc-block api-doc-wide"><div><span className="api-kicker">08 / OTHER SURFACES</span><h2>{t.healthTitle}</h2><p>{t.healthBody}</p></div><pre><code>{`GET /healthz\nGET /readyz\nGET /livez\ngRPC: 127.0.0.1:50051\nMCP protocol: genos.mcp/v1`}</code></pre></article>
       <article className="api-doc-block api-doc-wide"><div><span className="api-kicker">09 / GENOSWORK KNOWLEDGE API</span><h2>{locale === "fr" ? "Découverte machine-readable" : "Machine-readable discovery"}</h2><p>{locale === "fr" ? "Ces routes appartiennent au site GenOSWork, pas au runtime GenOS. Elles publient des connaissances en lecture seule, sans identifiant. OpenAPI décrit leurs réponses; llms.txt donne une carte des contenus." : "These routes belong to the GenOSWork site, not the GenOS runtime. They publish read-only knowledge without credentials. OpenAPI describes their responses; llms.txt maps the content."}</p></div><div className="api-knowledge-links"><a href="/openapi.json">OpenAPI 3.0.3 ↗</a><a href="/llms.txt">llms.txt ↗</a><a href="/api/v1/concepts">Concept registry ↗</a><a href="/api/v1/research">Research map ↗</a><a href="/api/v1/experiments">Experiments and raw artifacts ↗</a><a href="/api/v1/topologies">Topology registry ↗</a></div></article>
+      <article className="api-doc-block api-doc-wide"><div><span className="api-kicker">10 / OPERATOR CONTRACTS</span><h2>{locale === "fr" ? "Références d’intégration et d’exploitation" : "Integration and operations reference"}</h2><p>{locale === "fr" ? "Chaque contrat est épinglé à la même révision V3. Vérifiez le schéma du runtime déployé avant un appel effectif." : "Each contract is pinned to the same V3 revision. Check the deployed runtime schema before making live calls."}</p></div>
+        <div className="api-knowledge-links api-operational-links">{operationalReferences.map((reference) => <a href={genosSource(reference.path)} key={reference.name} target="_blank" rel="noreferrer"><strong>{reference.name}</strong><span>{reference.boundary} ↗</span></a>)}</div>
+      </article>
       <aside className="api-caveat"><b>{locale === "fr" ? "À savoir" : "Read before integrating"}</b><p>{t.caveat}</p></aside>
       <div className="api-source-links"><a href={source} target="_blank" rel="noreferrer">{t.sourceLink}</a><a href={apiSource} target="_blank" rel="noreferrer">{t.routesLink}</a><span>{locale === "fr" ? `Contrat revu le ${genosReviewedAt} · GenOS ${sourceCommit.slice(0, 7)}` : `Contract reviewed ${genosReviewedAt} · GenOS ${sourceCommit.slice(0, 7)}`}</span></div>
     </section>

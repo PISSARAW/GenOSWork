@@ -111,7 +111,7 @@ export default async function FrenchOverviewPage({ params }: PageProps<"/fr/[...
   }
   if (!summary) notFound();
   const englishHref = "/en/" + path;
-  const sourceHref = path.startsWith("concepts/") ? "https://github.com/PISSARAW/GenOS/tree/e9cdad244c2bce9e155007964c591b9be321dc02/docs/01-concepts" : path.startsWith("topologies/") ? "https://github.com/PISSARAW/GenOS/blob/e9cdad244c2bce9e155007964c591b9be321dc02/docs/02-orchestration/topologies-et-capacites.md" : "https://github.com/PISSARAW/GenOS/tree/e9cdad244c2bce9e155007964c591b9be321dc02/docs";
+  const sourceHref = path.startsWith("concepts/") ? "https://github.com/PISSARAW/GenOS/tree/698993b1d0854802c9c95b4786df9d18863dbf1a/docs/01-concepts" : path.startsWith("topologies/") ? "https://github.com/PISSARAW/GenOS/blob/698993b1d0854802c9c95b4786df9d18863dbf1a/docs/02-orchestration/topologies-et-capacites.md" : "https://github.com/PISSARAW/GenOS/tree/698993b1d0854802c9c95b4786df9d18863dbf1a/docs";
   const guideSlug = path.startsWith("concepts/") ? path.slice("concepts/".length) : "";
   const hasGuide = isCoordinationGuide(guideSlug);
   const guideSources: Record<string, string> = { "signal-plane": "docs/01-concepts/signal-plane-zero-text.md", "communication-ecology": "docs/02-orchestration/communication.md", "agent-relationships": "docs/02-orchestration/relations-inter-agents.md" };

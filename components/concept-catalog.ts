@@ -6,7 +6,7 @@ export type ConceptFamily = {
 
 export type ImplementationState = "conceptual" | "proposed" | "partial" | "experimental" | "implemented" | "unassessed";
 export type IntegrationState = "isolated" | "callable" | "wired" | "end-to-end" | "unassessed";
-export type EvidenceState = "none" | "unit-tested" | "integration-tested" | "benchmark-protocol" | "benchmarked" | "replicated" | "unassessed";
+export type EvidenceState = "none" | "unit-tested" | "integration-tested" | "end-to-end-tested" | "reported-run" | "test-failing" | "benchmark-protocol" | "benchmarked" | "replicated" | "unassessed";
 
 export type ConceptCatalogEntry = {
   slug: string;
@@ -76,6 +76,7 @@ const familyRows: Record<string, { source: string; rows: Row[] }> = {
       ["brier-calibration", "Brier calibration", "A scoring method for comparing probabilistic forecasts with resolved outcomes.", "savoir-et-epistemologie.md", ["beliefs", "biocenose", "evidence"], false, true],
       ["gettier", "Gettier problems", "A model for examining why a justified belief can still fail to count as knowledge.", "savoir-et-epistemologie.md", ["beliefs", "evidence", "provenance"], false, true],
       ["knowledge", "Knowledge", "A structured representation of sources, claims, inference, and uncertainty.", "savoir-et-epistemologie.md", ["epistemics", "beliefs", "evidence", "provenance"]],
+      ["genos-philosophy", "GenOS Philosophy", "The end-to-end GenOS philosophy capability: a canonical registry, implementation contracts, shared mechanisms, bounded evaluations, provenance, topology comparison, and evidence-gated promotion.", "adr/0318-contrats-implementation-concepts.md", ["epistemics", "beliefs", "evidence", "provenance", "governance", "ontogenese"]],
     ],
   },
   "memory-learning": {
@@ -209,7 +210,7 @@ export const catalogConcepts: ConceptCatalogEntry[] = Object.entries(familyRows)
   group.rows.map(([slug, title, intro, source, related = [], biology = false, hasMathematics = false, hasSimulation = false, hasBenchmark = false]) => {
     const rawSource = source ?? group.source;
     const normalizedSource = rawSource.replace(/^\.\.\//, "");
-    const sourcePath = /^(0[1-6]-|adr\/)/.test(normalizedSource) ? normalizedSource : `01-concepts/${normalizedSource}`;
+    const sourcePath = /^(0[1-8]-|adr\/)/.test(normalizedSource) ? normalizedSource : `01-concepts/${normalizedSource}`;
     return {
       slug,
       title,

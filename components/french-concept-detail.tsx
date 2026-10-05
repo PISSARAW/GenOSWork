@@ -11,7 +11,7 @@ import { AgentCoordinationGuide, isCoordinationGuide } from "@/components/agent-
 
 const implementationFr: Record<string, string> = { conceptual: "conceptuel", proposed: "proposé", partial: "partiel", experimental: "expérimental", implemented: "implémenté", unassessed: "non évalué" };
 const integrationFr: Record<string, string> = { isolated: "isolée", callable: "appelable", wired: "raccordée", "end-to-end": "de bout en bout", unassessed: "non évaluée" };
-const evidenceFr: Record<string, string> = { none: "aucune preuve publiée", "unit-tested": "tests unitaires", "integration-tested": "tests d'intégration", "benchmark-protocol": "protocole de benchmark", benchmarked: "benchmark réalisé", replicated: "répliquée", unassessed: "non évaluée" };
+const evidenceFr: Record<string, string> = { none: "aucune preuve produit liée", "unit-tested": "tests unitaires", "integration-tested": "tests d'intégration", "end-to-end-tested": "test de bout en bout", "reported-run": "exécution rapportée", "test-failing": "test en échec", "benchmark-protocol": "protocole de benchmark", benchmarked: "benchmark réalisé", replicated: "répliquée", unassessed: "non évaluée" };
 
 export function FrenchConceptDetail({ concept }: { concept: Concept }) {
   const flow = teachingFlows[concept.slug];

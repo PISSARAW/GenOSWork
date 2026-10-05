@@ -106,6 +106,7 @@ export const primaryNav: NavEntry[] = [
     questionFr: "Qu'est-ce qui étaye une affirmation, et que reste-t-il ouvert ?",
     children: [
       { label: "Evidence ledger", href: "/evidence" },
+      { label: "Five capabilities", href: "/capabilities" },
       { label: "Benchmarks", href: "/benchmarks" },
       { label: "Recorded runs", href: "/runs" },
       { label: "Research program", href: "/research" },
@@ -113,6 +114,7 @@ export const primaryNav: NavEntry[] = [
     ],
     childrenFr: [
       { label: "Preuves", href: "/fr/evidence" },
+      { label: "Cinq capacités", href: "/fr/capabilities" },
       { label: "Benchmarks", href: "/fr/benchmarks" },
       { label: "Exécutions archivées", href: "/fr/runs" },
       { label: "Programme de recherche", href: "/fr/research" },
@@ -151,6 +153,7 @@ export const frenchFullRoutes = new Set([
   "/runs",
   "/sandbox",
   "/ecosystem",
+  "/capabilities",
 ]);
 
 /** Explicit French summaries published by app/fr/[...slug]. Keep this list in

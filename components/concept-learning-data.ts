@@ -2,6 +2,7 @@
 export type TeachingFlow = { en: [string, string, string]; fr: [string, string, string] };
 
 export const teachingFlows: Record<string, TeachingFlow> = {
+  "genos-philosophy": { en: ["Load canonical concept and provenance", "Run a bounded interpretation", "Preview effects behind authority gates"], fr: ["Charger le concept canonique et sa provenance", "Exécuter une interprétation bornée", "Prévisualiser les effets derrière les contrôles d'autorité"] },
   maladies: { en: ["Observe failure signals", "Classify a software pathology", "Contain and reassess"], fr: ["Observer les signaux de défaillance", "Classer la pathologie logicielle", "Contenir puis réévaluer"] },
   "adaptive-epistemic-immunity": { en: ["Receive a questionable claim", "Check source and anomaly", "Quarantine or release"], fr: ["Recevoir une affirmation douteuse", "Contrôler source et anomalie", "Isoler ou libérer"] },
   "immune-system": { en: ["Sense a threat signal", "Test detection and authority", "Apply bounded response"], fr: ["Détecter un signal de menace", "Vérifier détection et autorité", "Appliquer une réponse bornée"] },

@@ -18,6 +18,14 @@ const operators = [
   { name: "GATE", symbol: "IF ✓ → THEN · ELSE", body: "Evaluates a stated condition and chooses one of two branches." },
 ];
 
+const crossCuttingCapabilities = [
+  { slug: "epistemic-meristem", title: "Epistemic meristem", summary: "Revalidate verified coverage gaps before proposing growth." },
+  { slug: "unblocking-spiral", title: "Unblocking spiral", summary: "Change method and scope when repeated blockage has evidence." },
+  { slug: "counterexample-cambium", title: "Counterexample cambium", summary: "Store counterexamples and gate their later recall." },
+  { slug: "chronotaxis", title: "Aperiodic chronotaxis", summary: "Persist observation windows, receipts and missed phases." },
+  { slug: "risk-ledger", title: "Statistical risk ledger", summary: "Pre-register and account for promotion risk before opt-in gates." },
+] as const;
+
 export default function MorphogenesisPage() {
   const featured = morphogenesisCases[0];
   return <div className="page-shell morph-page">
@@ -44,6 +52,13 @@ export default function MorphogenesisPage() {
       </Link>)}</div>
     </section>
 
-    <section className="section-wrap morph-contract-note"><div><Eyebrow>STATUS AND SCOPE</Eyebrow><h2>A contract describes a<br /><em>capability, not magic.</em></h2></div><p>All eight plugins are registered with topology-specific input contracts. When a graph declares workers, each must have a successful typed artifact with provenance before the topology can consume its result; the evidence barrier binds those validated reports into the mission graph. The default mission path still only prepares a morphology proposal. A mission can explicitly execute its planned graph with executeMorphogenesisGraph: true after the evidence barrier; that output remains unverified and does not apply a transition or create an AgentGit commit. A separate explicit variant transition can persist a version commit after its checks; failed persistence rolls back the transition. A variant change needs a registered transition and satisfied conditions and evidence. Structural changes keep target topology separate from target organization, and an explicit topology transfer requires a source topology. Execution receipts remain unverified traces; graph completion alone neither proves a mission outcome nor creates a learning experience. Controllers remain simplified in-process models, and some leaves require a ballot, supplied capability, or mission text.</p><div className="morph-source-links"><Link href="/evidence">View implementation status <span>→</span></Link><a href="https://github.com/PISSARAW/GenOS/blob/e9cdad244c2bce9e155007964c591b9be321dc02/docs/03-reference/plugins-topologies-morphogenese.md" target="_blank" rel="noreferrer">Read the plugin contract ↗</a><a href="https://github.com/PISSARAW/GenOS/blob/e9cdad244c2bce9e155007964c591b9be321dc02/docs/adr/0133-graphe-morphologique-executable-et-plugins-topologies.md" target="_blank" rel="noreferrer">Read the executable graph decision ↗</a></div></section>
+    <section className="section-wrap morph-contract-note"><div><Eyebrow>STATUS AND SCOPE</Eyebrow><h2>A contract describes a<br /><em>capability, not magic.</em></h2></div><p>All eight plugins are registered with topology-specific input contracts. When a graph declares workers, each must have a successful typed artifact with provenance before the topology can consume its result; the evidence barrier binds those validated reports into the mission graph. The default mission path still only prepares a morphology proposal. A mission can explicitly execute its planned graph with executeMorphogenesisGraph: true after the evidence barrier; that output remains unverified and does not apply a transition or create an AgentGit commit. A separate explicit variant transition can persist a version commit after its checks; failed persistence rolls back the transition. A variant change needs a registered transition and satisfied conditions and evidence. Structural changes keep target topology separate from target organization, and an explicit topology transfer requires a source topology. Execution receipts remain unverified traces; graph completion alone neither proves a mission outcome nor creates a learning experience. Controllers remain simplified in-process models, and some leaves require a ballot, supplied capability, or mission text.</p><div className="morph-source-links"><Link href="/evidence">View implementation status <span>→</span></Link><a href="https://github.com/PISSARAW/GenOS/blob/698993b1d0854802c9c95b4786df9d18863dbf1a/docs/03-reference/plugins-topologies-morphogenese.md" target="_blank" rel="noreferrer">Read the plugin contract ↗</a><a href="https://github.com/PISSARAW/GenOS/blob/698993b1d0854802c9c95b4786df9d18863dbf1a/docs/adr/0133-graphe-morphologique-executable-et-plugins-topologies.md" target="_blank" rel="noreferrer">Read the executable graph decision ↗</a></div></section>
+    <section className="section-wrap section-space morph-cases-section">
+      <div className="morph-case-heading"><div><Eyebrow>V3 · CROSS-CUTTING CAPABILITIES</Eyebrow><h2>Change the plan<br /><em>with evidence.</em></h2></div><p>These bounded capabilities complement graph execution. Their dossiers distinguish connected paths from automatic mission behavior.</p></div>
+      <div className="morph-case-grid">{crossCuttingCapabilities.map((capability, index) => <Link className="morph-case-card" href={`/concepts/${capability.slug}`} key={capability.slug}>
+        <div className="morph-case-meta"><span>{String(index + 1).padStart(2, "0")} / CAPABILITY</span><span>DOSSIER ↗</span></div>
+        <h3>{capability.title}</h3><p>{capability.summary}</p>
+      </Link>)}</div>
+    </section>
   </div>;
 }
