@@ -1,5 +1,5 @@
-/** Reviewed against GenOS HEAD; executable probes also included the local working-tree changes. */
-export const genosSourceCommit = "b0ac510852cfb3e1d466fe7d5cd255c148d1311f";
+/** Source tree inspected at HEAD; executable probes also included local working-tree changes. */
+export const genosSourceCommit = "e8545f6ecf2febc49416cc3c4bf46e9791aa3fba";
 export const genosReviewedAt = "2026-10-05";
 export const genosSource = (path: string) =>
   `https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/${path}`;
