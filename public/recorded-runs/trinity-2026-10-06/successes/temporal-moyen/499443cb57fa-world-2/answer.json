@@ -1,0 +1,188 @@
+{
+  "outcome": "success",
+  "analysis": "Dans le monde planned_world, stratégie fixée de near-term integration (H1..H2, V2), la décision consiste à préserver la valeur de livraison tout en maîtrisant la dette. À trente jours le refactor augmente l'effort total fictif de 12,8 jours; à un an son avantage est seulement 0,6 jour; à cinq ans il atteint 59 jours. Ces résultats sont des calculs conditionnels, pas des mesures ni une prévision économique. Le seuil est 14/(0,1-0,06)=350 jours: égalité à 350, gain ensuite si les taux restent constants. La livraison rapide peut valider la demande, apporter des recettes et éviter une fenêtre commerciale manquée. La dette peut accroître les incidents, ralentir les futures modifications et concentrer le savoir. Les recettes anticipées, risques et coûts de délai restent inconnus: le refactor ne gagne économiquement que si son gain d'effort valorisé et ses bénéfices de risque dépassent son coût d'opportunité. Sans formule V2 fournie, aucune valeur numérique V2 n'est inventée.",
+  "uncertainties": [
+    "Demande client, valeur de la feature, échéance commerciale et coût des quatorze jours de retard inconnus.",
+    "Les taux fictifs de maintenance ne sont pas observés; leur constance pendant cinq ans est particulièrement fragile.",
+    "Durée de vie de la feature, périmètre du refactor, régressions, capacité disponible et exposition aux incidents inconnus.",
+    "La fonction V2 n'est pas définie numériquement; le classement reste conditionnel et aucune promotion n'est réalisée."
+  ],
+  "horizons": [
+    {
+      "days": 30,
+      "quickDelivery": "Livrer vite favorise une validation client et une intégration proche. Le modèle compte 3 jours de maintenance, hors effort commun de développement. Cet avantage peut justifier une dette limitée, documentée et assortie d'un responsable.",
+      "refactorFirst": "Refactoriser d'abord consomme 14 jours initiaux puis 1,8 jour de maintenance, soit 15,8 jours. Le surcoût de 12,8 jours et le délai peuvent peser sur une petite équipe; une dépendance bloquante ou un incident grave peut toutefois justifier cet investissement.",
+      "conditionalDecision": "Préférer une livraison rapide et bornée si la demande est incertaine, la fenêtre commerciale proche et le risque technique tolérable. Préférer le refactor si la feature ne peut être intégrée de façon fiable ou si les risques rendent la livraison rapide inacceptable."
+    },
+    {
+      "days": 365,
+      "quickDelivery": "À un an, la baseline fictive cumule 36,5 jours de maintenance. Une livraison précoce peut déjà avoir produit des apprentissages ou recettes, mais la dette répétée peut réduire la capacité à intégrer les prochains changements.",
+      "refactorFirst": "Le refactor cumule 21,9 jours de maintenance et 14 jours initiaux, soit 35,9 jours. Le gain net de 0,6 jour est faible: une régression ou une estimation légèrement différente peut inverser le résultat.",
+      "conditionalDecision": "Au titre de V2 et de l'intégration proche, ne pas engager deux semaines sur le seul gain de 0,6 jour. Refactoriser si des blocages ou incidents observés ajoutent une valeur suffisante; sinon livrer avec un plan de réduction ciblée de dette et réévaluer sur données."
+    },
+    {
+      "days": 1825,
+      "quickDelivery": "À cinq ans, la baseline fictive atteint 182,5 jours de maintenance. Une dette durable peut compliquer recrutement et évolutions, mais une feature supprimée ou un produit remplacé rendrait cet horizon inapplicable.",
+      "refactorFirst": "Le refactor produit 109,5 jours de maintenance plus 14 initiaux, soit 123,5 jours et 59 jours économisés. Cet avantage de long terme dépend entièrement de la survie du périmètre et de taux constants sans nouveau refactor.",
+      "conditionalDecision": "Préférer le refactor pour un composant durable, central et réellement coûteux à maintenir si le délai commercial est supportable. Pour un produit exploratoire, privilégier la validation proche et réviser la décision après mesure; cinq ans ne prouve pas un retour économique certain."
+    }
+  ],
+  "assumptions": "Modèle fictif imposé: maintenance rapide = 0,1 jour d'effort par jour d'horizon, maintenance après refactor = 0,06, investissement initial = 14 jours d'effort. Les trois horizons sont 30, 365 et 1825 jours, sans actualisation, croissance, changement de périmètre ou coût d'incident. Les deux variantes rendent la même fonctionnalité; leur effort commun de développement est exclu. Les taux sont appliqués sur tout l'horizon même pendant le refactor conformément au contrat. Quatorze jours d'effort ne garantissent pas quatorze jours calendaires de retard, qui dépendraient de la capacité.",
+  "measurementLimits": "Aucune mesure de production, maintenance réelle, recettes, défauts, capacité d'équipe ou coût d'opportunité n'a été réalisée. Le test local vérifie seulement la structure minimale et les calculs fictifs avec tolérance 1e-6; il ne valide ni causalité ni bénéfice économique. Les dimensions non mesurées du vecteur restent null. Les références de preuve locales sont distinctes des reçus du runtime, qui ne sont ni créés ni renseignés ici.",
+  "debtModel": [
+    {
+      "days": 30,
+      "quickMaintenanceDays": 3,
+      "refactorMaintenanceDays": 1.8,
+      "refactorInitialDays": 14,
+      "refactorTotalDays": 15.8,
+      "savingsDays": -12.8
+    },
+    {
+      "days": 365,
+      "quickMaintenanceDays": 36.5,
+      "refactorMaintenanceDays": 21.9,
+      "refactorInitialDays": 14,
+      "refactorTotalDays": 35.9,
+      "savingsDays": 0.6
+    },
+    {
+      "days": 1825,
+      "quickMaintenanceDays": 182.5,
+      "refactorMaintenanceDays": 109.5,
+      "refactorInitialDays": 14,
+      "refactorTotalDays": 123.5,
+      "savingsDays": 59
+    }
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Sous les hypothèses fictives imposées, les économies baseline moins refactor sont -12,8, 0,6 et 59 jours aux trois horizons et le seuil d'équilibre est 350 jours; le choix économique reste conditionnel à la valeur de livraison et au risque de dette.",
+      "evidence": [
+        "E-contract",
+        "E-model",
+        "E-test"
+      ],
+      "falsificationCriteria": "Falsifier la partie calculatoire si npm test échoue, si un horizon manque ou si une valeur diffère de 0,1d, 0,06d, 14, 14+0,06d ou 0,04d-14 de plus de 1e-6. Falsifier le seuil si l'égalité des efforts n'est pas à 350 jours. Invalider l'application du modèle si des relevés comparables montrent des taux non constants, un investissement différent, une durée de vie insuffisante ou un périmètre non équivalent. Ne pas convertir un PASS structurel en preuve de rentabilité: mesurer valeur de livraison, incidents et coût d'opportunité avant une conclusion économique."
+    }
+  ],
+  "specialtyAssessment": {
+    "niche": "planned_world",
+    "inScope": true,
+    "evidence": [
+      "E-contract"
+    ]
+  },
+  "provenance": {
+    "source": "mission.txt et consignes de mission utilisateur",
+    "methodId": "prompt_defined",
+    "recipe": "planned",
+    "world": "World 2: near-term integration H1..H2, V2",
+    "strategy": "recursive_branch_evolution",
+    "scope": "Exécution locale de la branche assignée, sans délégation, lecture d'autres chambres, merge ni promotion.",
+    "unmetPreconditions": [
+      "Fonction numérique V2 absente.",
+      "Outils de routage GenOS non disponibles; ils ne sont pas un préalable au livrable local.",
+      "Aucune observation empirique de la startup disponible."
+    ]
+  },
+  "counterfactual": {
+    "condition": "World 2 assigné: comparer livraison rapide et refactor préalable sur H1..H2, avec H3 comme sensibilité de long terme, à fonctionnalité et capacité disponibles comparables.",
+    "intervention": {
+      "type": "resource_reallocation",
+      "dimension": "resource_capacity",
+      "description": "Affecter initialement 14 jours d'effort au refactor au lieu de la livraison; supposer ensuite une consommation de capacité de maintenance de 0,06 plutôt que 0,1 jour par jour. Intervention fictive, non exécutée sur une équipe."
+    }
+  },
+  "acceptanceChecks": [
+    {
+      "id": "AC-model",
+      "command": "npm test",
+      "status": "passed",
+      "description": "Trois horizons, champs argumentés, cinq quantités par horizon et calculs conformes au contrat.",
+      "evidence": [
+        "E-test"
+      ]
+    },
+    {
+      "id": "AC-files",
+      "status": "passed",
+      "description": "Présence de answer.json et solution.md; mission.txt, package.json et verify.cjs inchangés.",
+      "evidence": [
+        "E-integrity"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E-contract",
+      "type": "source",
+      "source": "mission.txt, package.json, verify.cjs et prompt utilisateur lus localement",
+      "description": "Contrat explicite, formule fictive et niche assignée; lecture exécutée avec code de sortie 0."
+    },
+    {
+      "id": "E-model",
+      "type": "derivation",
+      "source": "debtModel et solution.md",
+      "description": "Déduction arithmétique de 0,04d-14 et du seuil 350; résultats de modèle, pas mesures empiriques."
+    },
+    {
+      "id": "E-test",
+      "type": "executed_test",
+      "command": "npm test",
+      "exitCode": 0,
+      "output": "PASS conditional maintenance model at30,365,1825 days; breakeven350 days; no economic forecast",
+      "scope": "Structure minimale et arithmétique fictive uniquement; pas une mesure économique."
+    },
+    {
+      "id": "E-integrity",
+      "type": "executed_check",
+      "command": "PowerShell: présence solution.md, claim unique et comparaison SHA256 des fichiers protégés",
+      "exitCode": 0,
+      "output": "PASS artifacts present; unique mission-answer claim; three protected SHA256 hashes unchanged",
+      "hashes": {
+        "mission.txt": "DFFFA5DEBF7176C35325958F061495ADBEC61B16FA11911C1693C28382995736",
+        "package.json": "D28DE45CFFEFCD6EB7ED9306A54F4E1209A92C90144444239859C70BA6A5471A",
+        "verify.cjs": "EC8D633DA973F7EC511045F4FC252FF0B0DB82FFABA2FC75EFCD0D5A320ABC83"
+      }
+    }
+  ],
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E-test"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "within_declared_scope",
+    "limit": 100,
+    "consumed": null,
+    "remaining": null,
+    "description": "Budget runtime déclaré de 100 unités; consommation actuelle non mesurée."
+  },
+  "executionLimits": [
+    "Aucun résultat empirique ni valeur économique mesurés.",
+    "Vérification locale seulement, pas replay indépendant ni promotion.",
+    "Pas de reçus du runtime rédigés par le worker."
+  ],
+  "evidenceVectorInterpretation": "correctness=1 signifie PASS binaire du vérificateur local pour les seules assertions exécutées. Cela ne mesure pas une exactitude générale, la couverture complète du contrat, ni un résultat de production. Toutes les autres dimensions restent null.",
+  "hardConstraintsEvidence": [
+    "E-test",
+    "E-integrity",
+    "E-contract"
+  ],
+  "hardConstraintsScope": "Contraintes locales de livrable et intégrité; aucune certification runtime, promotion ou assurance indépendante."
+}

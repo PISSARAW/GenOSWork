@@ -1,0 +1,2 @@
+const fs=require('node:fs');const a=require('node:assert/strict');const answer=JSON.parse(fs.readFileSync('answer.json','utf8'));a.ok(typeof answer.explanation==='string'&&answer.explanation.length>100);a.ok(Array.isArray(answer.uncertainties));const s=require('./solution.cjs');
+for(let n=0;n<=200;n++){let f=1n;for(let k=2;k<=n;k++)f*=BigInt(k);let expected=0;while(f%10n===0n){expected++;f/=10n;}a.equal(s.zeros(n),expected);}a.equal(answer.zeros100,24);console.log(JSON.stringify({pass:true,cases:201,zeros100:24}));

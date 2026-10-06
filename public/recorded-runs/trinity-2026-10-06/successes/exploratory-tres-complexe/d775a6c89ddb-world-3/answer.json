@@ -1,0 +1,327 @@
+{
+  "explanation": "Prototype de coordination pour 100 agents sans hiérarchie centrale, blockchain, enchères, blackboard mutable ou règle de flocking. Trois familles sont conservées comme archive Quality-Diversity : propriété fonctionnelle des tâches, exclusion temporelle avec suspension, et redondance réparatrice par permutation. Leurs différences portent sur le partage du travail, l'exclusion d'accès et la tolérance aux échecs locaux, et non sur des renommages. Le banc mesure seulement deux descripteurs, identiques ici : absence de relais et absence de confirmation. Les différences de graphe sont vérifiables dans les listes d'états et transitions mais ne constituent pas une distance métrique calculée. La population de 100 est une hypothèse architecturale, pas une simulation réalisée par le banc. Les événements sont des interventions exogènes déterministes sur chaque automate. Les scénarios de panne interrompent le calendrier ou déclenchent une réparation, et leurs témoins sans panne permettent le rejeu causal. Sans qdTargetNiche fourni, la niche locale autonome est retenue explicitement. D'autres niches proposées, non implémentées et non mesurées, sont une propagation de certificats d'incapacité entre voisins pour réaffecter les partitions, et des réservations bilatérales confirmées pour ressources non idempotentes. Elles modifieraient réellement les dépendances inter-acteurs; les ajouter sous de simples noms nouveaux serait une pseudo-nouveauté. Aucun gagnant unique ni promotion : conserver les trois candidats car leurs exigences et modes de défaillance diffèrent; aucun classement Pareto démontré avec les deux seuls descripteurs.",
+  "uncertainties": [
+    "Nouveauté absolue non établie; partitionnement, ordonnancement temporel et idempotence ont des antécédents connus. Les combinaisons proposées restent des hypothèses.",
+    "Le banc ne valide ni interactions de 100 agents, ni synchronisation, ni pannes réseau, ni charge, ni convergence globale.",
+    "La partition locale ne redistribue pas la charge après panne d'un propriétaire.",
+    "Le calendrier dépend d'une horloge fiable; une suspension peut bloquer le progrès.",
+    "La réparation sans observation distante peut dupliquer tout le travail; elle convient uniquement aux effets idempotents.",
+    "qdTargetNiche absent des informations accessibles; [0,0] est une hypothèse de dossier.",
+    "Aucun reçu indépendant disponible; résultat local seulement."
+  ],
+  "physicalValidationPerformed": false,
+  "designs": [
+    {
+      "family": "partition fonctionnelle sans échanges",
+      "description": "Chaque agent parmi 100 possède un identifiant fixe et calcule owner(task)=hash(task) modulo 100 à partir du même catalogue immuable. Il ne traite que sa partition. Aucun coordinateur ni registre partagé mutable : la coordination provient de la fonction commune. Un changement de catalogue exige une configuration préalable identique, hors prototype.",
+      "states": [
+        "idle",
+        "owned",
+        "done"
+      ],
+      "transitions": [
+        {
+          "from": "idle",
+          "to": "owned",
+          "trigger": "owned_task",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "idle",
+          "to": "idle",
+          "trigger": "foreign_task",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "owned",
+          "to": "done",
+          "trigger": "finish",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "done",
+          "to": "idle",
+          "trigger": "reset",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "foreign_task",
+            "owned_task",
+            "finish"
+          ],
+          "expected": "done"
+        },
+        {
+          "events": [
+            "owned_task",
+            "finish",
+            "reset"
+          ],
+          "expected": "idle"
+        }
+      ],
+      "assumptions": [
+        "Identifiants uniques 0..99 et catalogue identique préinstallé.",
+        "Les événements owned_task et foreign_task proviennent du calcul local de propriété."
+      ]
+    },
+    {
+      "family": "calendrier d'exclusion auto-suspendu",
+      "description": "Pour une ressource exclusive, chaque agent i utilise le créneau i d'un cycle de 100 créneaux. Une horloge locale et une marge de garde bornent le chevauchement. Une incertitude temporelle suspend localement l'accès. Aucun leader, négociation de prix ou tableau de travail partagé. Le prototype représente les décisions d'accès, sans simuler une horloge physique.",
+      "states": [
+        "waiting",
+        "active",
+        "suspended"
+      ],
+      "transitions": [
+        {
+          "from": "waiting",
+          "to": "active",
+          "trigger": "own_slot",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "active",
+          "to": "waiting",
+          "trigger": "slot_end",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "waiting",
+          "to": "suspended",
+          "trigger": "clock_uncertain",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "active",
+          "to": "suspended",
+          "trigger": "clock_uncertain",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "suspended",
+          "to": "waiting",
+          "trigger": "clock_restored",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "own_slot",
+            "slot_end"
+          ],
+          "expected": "waiting"
+        },
+        {
+          "events": [
+            "own_slot",
+            "clock_uncertain",
+            "clock_restored",
+            "own_slot"
+          ],
+          "expected": "active"
+        },
+        {
+          "events": [
+            "clock_uncertain"
+          ],
+          "expected": "suspended"
+        }
+      ],
+      "assumptions": [
+        "Dérive temporelle bornée, durée d'action compatible avec le créneau et sa garde.",
+        "clock_restored signifie un diagnostic local valide, pas une confirmation d'un autre acteur."
+      ]
+    },
+    {
+      "family": "réparation par permutation idempotente",
+      "description": "Chaque tâche définit une permutation déterministe des 100 identifiants. Le premier agent travaille à l'échéance zéro; les autres activent une réparation à leur échéance personnelle. Les résultats sont adressés par contenu et les opérations doivent être idempotentes, permettant des doublons sans vote ni acquittement. La coordination distribue la redondance plutôt que l'autorité; elle ne garantit pas l'exclusion.",
+      "states": [
+        "dormant",
+        "working",
+        "retry",
+        "settled"
+      ],
+      "transitions": [
+        {
+          "from": "dormant",
+          "to": "working",
+          "trigger": "rank_deadline",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "working",
+          "to": "settled",
+          "trigger": "local_success",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "working",
+          "to": "retry",
+          "trigger": "local_failure",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "retry",
+          "to": "working",
+          "trigger": "retry_deadline",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "retry",
+          "to": "settled",
+          "trigger": "retry_budget_exhausted",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "settled",
+          "to": "dormant",
+          "trigger": "next_task",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "rank_deadline",
+            "local_success"
+          ],
+          "expected": "settled"
+        },
+        {
+          "events": [
+            "rank_deadline",
+            "local_failure",
+            "retry_deadline",
+            "local_success",
+            "next_task"
+          ],
+          "expected": "dormant"
+        },
+        {
+          "events": [
+            "rank_deadline",
+            "local_failure",
+            "retry_budget_exhausted"
+          ],
+          "expected": "settled"
+        }
+      ],
+      "assumptions": [
+        "Opérations idempotentes et tâches sans effets irréversibles incompatibles avec les doublons.",
+        "settled indique une fin locale; après épuisement il ne signifie pas réussite collective."
+      ]
+    }
+  ],
+  "behaviorVector": [
+    0,
+    0
+  ],
+  "behaviorVectorEvidence": [
+    "shell-269d22"
+  ],
+  "outcome": "success",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Trois prototypes déterministes conservés : partition des tâches, exclusion temporelle et réparation idempotente. Le banc vérifie les graphes et scénarios avec fractions locales [0,0]; aucune nouveauté absolue ou faisabilité physique certifiée.",
+      "evidence": [
+        "answer-file",
+        "solution-file",
+        "shell-269d22"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "answer-file",
+      "type": "file",
+      "path": "answer.json",
+      "description": "Artefact des trois graphes, scénarios et hypothèses."
+    },
+    {
+      "id": "solution-file",
+      "type": "file",
+      "path": "solution.cjs",
+      "description": "Moteur CommonJS de rejeu déterministe avec refus des événements ambigus ou absents."
+    },
+    {
+      "id": "shell-269d22",
+      "type": "command",
+      "command": "npm test",
+      "description": "Exécution réelle npm test, exitCode 0, sortie pass:true, designs:3, families:3, transitions:15, behaviorVector:[0,0], niche:niche_0:0.",
+      "toolOutputId": "269d22"
+    },
+    {
+      "id": "shell-496a83",
+      "type": "command",
+      "command": "node -e (rejeu de tous les scénarios via solution.cjs et rejet de unknown)",
+      "toolOutputId": "496a83",
+      "exitCode": 0,
+      "description": "Tous les scénarios du moteur CommonJS passent; événement absent rejeté."
+    }
+  ],
+  "evidenceVector": {
+    "correctness": null,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {},
+  "hardConstraintsPassed": true,
+  "budgetStatus": "Aucune limite chiffrée de tokens imposée; travail local limité au prototype et au banc.",
+  "acceptanceChecks": [
+    "npm test valide trois familles, IDs distincts, transitions valides et scénarios déterministes.",
+    "behaviorVector égale exactement la sortie measure.cjs.",
+    "verify.cjs, package.json et measure.cjs restent inchangés.",
+    "Pas de promotion ni de preuve indépendante inventée."
+  ],
+  "executionLimits": [
+    "Outils GenOS de routage non disponibles dans la liste des outils.",
+    "Écriture du workspace soumise à l'escalade sandbox.",
+    "Pas de validation physique ni de simulation collective."
+  ],
+  "strategyTrace": [
+    {
+      "strategy": "causal_replay_intervention",
+      "decision": "retained",
+      "reason": "Intervenir par événements de panne et comparer les trajectoires à leurs témoins sans panne, puis corriger selon le banc local.",
+      "evidence": [
+        "answer-file",
+        "shell-269d22"
+      ]
+    }
+  ],
+  "qdArchive": {
+    "selection": "conserver les trois familles sans classement unique",
+    "targetNiche": null,
+    "assumedNiche": "niche_0:0",
+    "limitation": "Les deux descripteurs ne distinguent pas ces familles; diversité fonctionnelle décrite, pas diversité mesurée supplémentaire."
+  },
+  "hardConstraintsScope": "Contraintes locales de format, trois familles, scénarios, fractions, absence de modification des fichiers du banc. Les propriétés collectives restent hypothétiques."
+}

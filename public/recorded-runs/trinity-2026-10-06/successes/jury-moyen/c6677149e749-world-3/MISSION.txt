@@ -1,0 +1,5 @@
+Trouve trois explications indépendantes de la raison pour laquelle une recherche binaire fonctionne, vérifie les dossiers puis utilise un jury aveugle pour évaluer leur clarté sans connaître leur provenance.
+
+Contrat explicite ajouté pour la qualification réelle:
+answer.json fournit explanations (3 explications réellement distinctes). solution.cjs exporte search(sortedArray,target), renvoie un index correct ou -1; éléments uniques au banc principal; doublons admis si index correct. Trois preuves: invariant intervalle, monotonie, induction sur longueur. Vérification exhaustive 5576 requêtes, tailles0..40.
+Tous les livrables: answer.json contient explanation(texte),uncertainties(liste). Ne modifie pas verify.cjs,package.json,measure.cjs. Exécute npm test. Unique claim de résultat id="mission-answer", dont statement résume résultat et différences des designs. Respecte les champs supplémentaires du worker. Ne fabrique aucun reçu indépendant ni score. Rapporte evidence[] ID pour fichiers et commande réellement exécutée.

@@ -1,0 +1,5 @@
+{
+  "zeros100": 24,
+  "explanation": "Chaque zéro final correspond à un facteur 10, donc à une paire de facteurs 2 et 5. Dans n!, les facteurs 2 sont au moins aussi nombreux que les facteurs 5. On compte donc les multiples de 5, puis les facteurs supplémentaires des multiples de 25, 125, etc. Pour 100!, cela donne floor(100/5) + floor(100/25) = 20 + 4 = 24. La solution utilise des divisions successives par 5, tandis que le vérificateur indépendant construit directement la factorielle avec BigInt et retire ses facteurs 10.",
+  "uncertainties": []
+}

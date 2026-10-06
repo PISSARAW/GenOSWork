@@ -1,0 +1,8 @@
+{
+  "numbers": [72, 84, 96],
+  "explanation": "Trois pistes de calcul convergent : enumeration exhaustive des entiers de 1 a 100 ; reduction aux multiples du PPCM(4,6)=12 ; intersection des ensembles des multiples de 4 et de 6. Au-dessus de 50, les multiples de 12 sont 60, 72, 84 et 96. On exclut 60, divisible par 5. Les trois solutions sont donc 72, 84 et 96. Le verificateur independant parcourt les 100 entiers et compare la liste complete. Aucune piste ne conserve une incertitude mathematique justifiee apres cette verification, donc aucune reallocation n'est necessaire.",
+  "uncertainties": [],
+  "residualUncertainty": 0,
+  "designs": ["exhaustive_domain_scan", "lcm_reduction", "set_intersection"],
+  "executionLimits": "Calcul local deterministe sur le domaine fini 1..100. Aucun evenement de recursion, reallocation ou promotion runtime n'est revendique."
+}

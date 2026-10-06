@@ -1,0 +1,454 @@
+{
+  "explanation": "Mission interprétée comme la conception de systèmes de navigation pour une interface numérique, son intitulé étant tronqué. La destination externe est une hypothèse de modélisation permettant de distinguer les transitions locales des transitions relayées. Le plan factoriel croise trois familles (onglets, arborescence, recherche) avec deux modes d’envoi (direct, confirmé), soit six variantes. Les états représentent des classes de vues, pas toutes les pages d’un produit. Les scénarios vérifient la cohérence des parcours proposés. Pour comparer les variantes, utiliser les mêmes contenus et tâches, équilibrer l’ordre de présentation et mesurer succès, durée, erreurs d’envoi et annulations. Aucun résultat utilisateur ni gagnant n’est établi. Le vecteur décrit seulement la proportion des arêtes relayées et des arêtes exigeant une confirmation; il ne représente pas une fréquence d’usage ni une mesure d’efficacité. La promotion reste du ressort de l’orchestrateur après replay et vérification indépendante.",
+  "uncertainties": [
+    "Intitulé complet, public, plateforme et structure du contenu absents.",
+    "Existence d’une destination externe non confirmée; hypothèse explicite à remplacer si nécessaire.",
+    "Les bénéfices ergonomiques et la faisabilité physique ne sont pas évalués.",
+    "Topologie, boîte de réception et publication GenOS indisponibles dans les outils exposés."
+  ],
+  "designs": [
+    {
+      "id": "onglets_direct",
+      "family": "onglets",
+      "description": "Une barre d’onglets persistante ouvre les sections principales et conserve un repère stable pendant la consultation. L’envoi à une destination externe s’effectue dès l’activation du bouton dédié.",
+      "factors": {
+        "navigation": "onglets",
+        "confirmation": false
+      },
+      "states": [
+        "accueil",
+        "section",
+        "destination"
+      ],
+      "transitions": [
+        {
+          "from": "accueil",
+          "to": "section",
+          "trigger": "ouvrir_onglet",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "section",
+          "to": "accueil",
+          "trigger": "retour",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "section",
+          "to": "destination",
+          "trigger": "envoyer",
+          "scope": "relayed",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "destination",
+          "to": "section",
+          "trigger": "retour_source",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "ouvrir_onglet",
+            "retour"
+          ],
+          "expected": "accueil"
+        },
+        {
+          "events": [
+            "ouvrir_onglet",
+            "envoyer",
+            "retour_source"
+          ],
+          "expected": "section"
+        }
+      ]
+    },
+    {
+      "id": "onglets_confirmation",
+      "family": "onglets",
+      "description": "Une barre d’onglets persistante ouvre les sections principales et conserve un repère stable pendant la consultation. L’envoi à une destination externe demande une confirmation indiquant la destination et la section.",
+      "factors": {
+        "navigation": "onglets",
+        "confirmation": true
+      },
+      "states": [
+        "accueil",
+        "section",
+        "confirmation",
+        "destination"
+      ],
+      "transitions": [
+        {
+          "from": "accueil",
+          "to": "section",
+          "trigger": "ouvrir_onglet",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "section",
+          "to": "accueil",
+          "trigger": "retour",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "section",
+          "to": "confirmation",
+          "trigger": "envoyer",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "confirmation",
+          "to": "section",
+          "trigger": "annuler",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "confirmation",
+          "to": "destination",
+          "trigger": "confirmer",
+          "scope": "relayed",
+          "requiresConfirmation": true
+        },
+        {
+          "from": "destination",
+          "to": "section",
+          "trigger": "retour_source",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "ouvrir_onglet",
+            "retour"
+          ],
+          "expected": "accueil"
+        },
+        {
+          "events": [
+            "ouvrir_onglet",
+            "envoyer",
+            "confirmer",
+            "retour_source"
+          ],
+          "expected": "section"
+        },
+        {
+          "events": [
+            "ouvrir_onglet",
+            "envoyer",
+            "annuler"
+          ],
+          "expected": "section"
+        }
+      ]
+    },
+    {
+      "id": "arborescence_direct",
+      "family": "arborescence",
+      "description": "Une arborescence à niveaux et un fil d’Ariane permettent de parcourir des sections imbriquées puis de revenir à l’accueil. L’envoi à une destination externe s’effectue dès l’activation du bouton dédié.",
+      "factors": {
+        "navigation": "arborescence",
+        "confirmation": false
+      },
+      "states": [
+        "accueil",
+        "section",
+        "destination"
+      ],
+      "transitions": [
+        {
+          "from": "accueil",
+          "to": "section",
+          "trigger": "ouvrir_branche",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "section",
+          "to": "accueil",
+          "trigger": "retour",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "section",
+          "to": "destination",
+          "trigger": "envoyer",
+          "scope": "relayed",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "destination",
+          "to": "section",
+          "trigger": "retour_source",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "ouvrir_branche",
+            "retour"
+          ],
+          "expected": "accueil"
+        },
+        {
+          "events": [
+            "ouvrir_branche",
+            "envoyer",
+            "retour_source"
+          ],
+          "expected": "section"
+        }
+      ]
+    },
+    {
+      "id": "arborescence_confirmation",
+      "family": "arborescence",
+      "description": "Une arborescence à niveaux et un fil d’Ariane permettent de parcourir des sections imbriquées puis de revenir à l’accueil. L’envoi à une destination externe demande une confirmation indiquant la destination et la section.",
+      "factors": {
+        "navigation": "arborescence",
+        "confirmation": true
+      },
+      "states": [
+        "accueil",
+        "section",
+        "confirmation",
+        "destination"
+      ],
+      "transitions": [
+        {
+          "from": "accueil",
+          "to": "section",
+          "trigger": "ouvrir_branche",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "section",
+          "to": "accueil",
+          "trigger": "retour",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "section",
+          "to": "confirmation",
+          "trigger": "envoyer",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "confirmation",
+          "to": "section",
+          "trigger": "annuler",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "confirmation",
+          "to": "destination",
+          "trigger": "confirmer",
+          "scope": "relayed",
+          "requiresConfirmation": true
+        },
+        {
+          "from": "destination",
+          "to": "section",
+          "trigger": "retour_source",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "ouvrir_branche",
+            "retour"
+          ],
+          "expected": "accueil"
+        },
+        {
+          "events": [
+            "ouvrir_branche",
+            "envoyer",
+            "confirmer",
+            "retour_source"
+          ],
+          "expected": "section"
+        },
+        {
+          "events": [
+            "ouvrir_branche",
+            "envoyer",
+            "annuler"
+          ],
+          "expected": "section"
+        }
+      ]
+    },
+    {
+      "id": "recherche_direct",
+      "family": "recherche",
+      "description": "Un champ de recherche donne accès à une section par sélection d’un résultat, avec un retour explicite à l’accueil. L’envoi à une destination externe s’effectue dès l’activation du bouton dédié.",
+      "factors": {
+        "navigation": "recherche",
+        "confirmation": false
+      },
+      "states": [
+        "accueil",
+        "section",
+        "destination"
+      ],
+      "transitions": [
+        {
+          "from": "accueil",
+          "to": "section",
+          "trigger": "choisir_resultat",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "section",
+          "to": "accueil",
+          "trigger": "retour",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "section",
+          "to": "destination",
+          "trigger": "envoyer",
+          "scope": "relayed",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "destination",
+          "to": "section",
+          "trigger": "retour_source",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "choisir_resultat",
+            "retour"
+          ],
+          "expected": "accueil"
+        },
+        {
+          "events": [
+            "choisir_resultat",
+            "envoyer",
+            "retour_source"
+          ],
+          "expected": "section"
+        }
+      ]
+    },
+    {
+      "id": "recherche_confirmation",
+      "family": "recherche",
+      "description": "Un champ de recherche donne accès à une section par sélection d’un résultat, avec un retour explicite à l’accueil. L’envoi à une destination externe demande une confirmation indiquant la destination et la section.",
+      "factors": {
+        "navigation": "recherche",
+        "confirmation": true
+      },
+      "states": [
+        "accueil",
+        "section",
+        "confirmation",
+        "destination"
+      ],
+      "transitions": [
+        {
+          "from": "accueil",
+          "to": "section",
+          "trigger": "choisir_resultat",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "section",
+          "to": "accueil",
+          "trigger": "retour",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "section",
+          "to": "confirmation",
+          "trigger": "envoyer",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "confirmation",
+          "to": "section",
+          "trigger": "annuler",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "confirmation",
+          "to": "destination",
+          "trigger": "confirmer",
+          "scope": "relayed",
+          "requiresConfirmation": true
+        },
+        {
+          "from": "destination",
+          "to": "section",
+          "trigger": "retour_source",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "choisir_resultat",
+            "retour"
+          ],
+          "expected": "accueil"
+        },
+        {
+          "events": [
+            "choisir_resultat",
+            "envoyer",
+            "confirmer",
+            "retour_source"
+          ],
+          "expected": "section"
+        },
+        {
+          "events": [
+            "choisir_resultat",
+            "envoyer",
+            "annuler"
+          ],
+          "expected": "section"
+        }
+      ]
+    }
+  ],
+  "physicalValidationPerformed": false,
+  "behaviorVector": [
+    0.2,
+    0.1
+  ]
+}

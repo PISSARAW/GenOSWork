@@ -1,0 +1,155 @@
+{
+  "explanation": "Plan explicite: fixer les invariants communs, construire trois dossiers independants, confronter le modele a des interventions causales, filtrer par gates puis soumettre les seuls survivants au jury aveugle. Le simulateur commun materialise un journal en memoire trie par seq, une unicite par id et une reprise strictement apres curseur. La persistance y est une transition atomique simulee: aucun ACK reseau ni stockage physique n'est implemente. Les dossiers proposent trois mecanismes reels distincts sans mesurer leurs performances. Aucun candidat n'est promu.",
+  "constraints": [
+    "durable-before-ack",
+    "durable-order-by-seq",
+    "deduplicate-by-id",
+    "reconnect-after-cursor"
+  ],
+  "architectures": [
+    {
+      "id": "A",
+      "design": "Journal SQL transactionnel",
+      "persistence": "Transaction avec contraintes uniques sur id et seq par flux; sequencement serialise; ACK apres commit durable configure.",
+      "replay": "SELECT du flux WHERE seq > curseur ORDER BY seq.",
+      "failureHandling": "Retry idempotent apres ACK perdu; rollback avant commit; cloture du leader obsolete.",
+      "tradeoff": "Transactions simples a auditer; contention du sequenceur et dependance a la configuration de durabilite.",
+      "gate": "Design compatible; implementation propre non verifiee."
+    },
+    {
+      "id": "B",
+      "design": "Journal replique par consensus",
+      "persistence": "Leader cloture attribuant seq; id et message inscrits ensemble dans le journal; ACK apres commit durable du quorum.",
+      "replay": "Lecture du journal engage dans l'ordre seq apres curseur.",
+      "failureHandling": "Index id reconstruit du journal; changement de leader; refus des ecritures sans quorum.",
+      "tradeoff": "Repartition des pannes via quorum; cout de coordination et complexite de reprise.",
+      "gate": "Design compatible; implementation propre non verifiee."
+    },
+    {
+      "id": "C",
+      "design": "Acteur par flux et journal append-only",
+      "persistence": "Acteur unique cloture serialisant seq et deduplication; append avec id; fsync avant ACK.",
+      "replay": "Reconstruction de l'index id depuis le journal; lecture seq apres curseur.",
+      "failureHandling": "Troncature de fin incomplete; retry apres ACK perdu; reprise exclusivement par acteur cloture.",
+      "tradeoff": "Chemin d'ecriture court; flux chaud limite par un acteur et stockage local insuffisant pour perte du noeud.",
+      "gate": "Design compatible; implementation propre non verifiee."
+    }
+  ],
+  "failureModes": [
+    {
+      "failure": "ACK perdu apres persistence",
+      "response": "Retry meme id, sans nouvelle insertion."
+    },
+    {
+      "failure": "Crash avant persistence",
+      "response": "Pas d'ACK; retry necessaire, non simule physiquement."
+    },
+    {
+      "failure": "Reconnexion apres messages manques",
+      "response": "Rejouer uniquement seq strictement superieur au curseur."
+    },
+    {
+      "failure": "Double leader ou collision seq",
+      "response": "Cloture requise en production; collision rejetee dans le modele."
+    },
+    {
+      "failure": "Meme id avec contenu different",
+      "response": "Rejet explicite du conflit."
+    }
+  ],
+  "acceptanceChecks": [
+    "npm test: ordre, deduplication, reprise et structure des dossiers",
+    "Interventions: doublon retire, curseur modifie, collisions rejetees",
+    "Gate production: preuve fsync/commit et injection crash avant/apres ACK requises"
+  ],
+  "factualGates": {
+    "model": "Passe: npm test et sept assertions causales locales",
+    "production": "Non passe faute de preuves physiques",
+    "juryEligible": [],
+    "rule": "Le modele commun ne valide pas les trois implementations; seuls les candidats ayant passe les gates production seraient eligibles."
+  },
+  "blindJury": {
+    "status": "pending_unavailable",
+    "request": "Comparer uniquement les dossiers anonymises ayant passe tous les gates, sur le vecteur partage; s'abstenir sur les dimensions non mesurees.",
+    "submitted": false,
+    "reason": "Aucun outil jury disponible et aucun survivant au gate production."
+  },
+  "assumptions": [
+    "Un seul flux; seq positif unique attribue en amont.",
+    "Les doublons ont meme seq et meme body scalaire.",
+    "Le curseur est le dernier seq contigu effectivement consomme; retention suffisante.",
+    "La reconnexion capture les messages durables au moment de cet evenement."
+  ],
+  "uncertainties": [
+    "Debit, latence, cout et comportement reseau non mesures.",
+    "Memoire volatile: le prototype ne prouve aucune durabilite physique ni tolerance aux crashs.",
+    "ACK represente uniquement par son eligibilite apres transition; absence de trace ACK verifiable.",
+    "Aucune implementation distincte des trois architectures ni verification independante.",
+    "Pas de score ni de comparaison effective du jury."
+  ],
+  "executionLimits": [
+    "Simulation synchrone en memoire",
+    "Pas de reseau, quorum, disque ni crash reel",
+    "Pas de mesure historique d'accord Pareto"
+  ],
+  "strategy": "causal_replay_intervention",
+  "promotion": "none",
+  "evidence": [
+    {
+      "id": "E-answer",
+      "kind": "file",
+      "path": "answer.json"
+    },
+    {
+      "sha256": "75dd571b117e058bf7de54fcfeb0276df2df45b39dbccea7749d3cb644d9dae4",
+      "id": "E-solution",
+      "kind": "file",
+      "path": "solution.cjs"
+    },
+    {
+      "id": "E-test",
+      "kind": "command",
+      "exitCode": 0,
+      "result": "pass:true; duplicate-out-of-order-reconnect",
+      "command": "npm test"
+    },
+    {
+      "id": "E-interventions",
+      "kind": "command",
+      "exitCode": 0,
+      "result": "PASS: 7 causal replay assertions",
+      "command": "node -e (sept assertions causales avec node:assert/strict)"
+    }
+  ],
+  "evidenceVector": {
+    "cost": null,
+    "latency": null,
+    "uncertainty": null,
+    "novelty": null,
+    "constraintCoverage": null,
+    "risk": null,
+    "coverage": null,
+    "reproducibility": null,
+    "robustness": null,
+    "correctness": true
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E-test",
+      "E-interventions"
+    ]
+  },
+  "hardConstraintsPassed": {
+    "observableAck": false,
+    "productionDurability": false,
+    "blindJuryComparison": false,
+    "localScenario": true,
+    "artifactStructure": true,
+    "all": false
+  },
+  "budgetStatus": {
+    "status": "local_work_completed",
+    "consumption": null,
+    "remaining": null
+  }
+}

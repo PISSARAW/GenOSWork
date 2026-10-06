@@ -1,0 +1,184 @@
+{
+  "analysis": "Décision proposée : stabiliser le système historique pendant 30 jours et engager une migration progressive par capacités métier avec coexistence contrôlée. La priorité du monde 1 est la continuité immédiate : ne pas lancer une bascule globale pour tenir un calendrier. Sur 540 jours, intégrer par interfaces explicites et démontrer la parité avant chaque bascule. Sur 3650 jours, préserver la capacité de modifier, exploiter et remplacer les composants. Ces durées sont des horizons de décision, pas des prévisions validées ; 18 mois = 540 jours et 10 ans = 3650 jours selon le modèle simplifié.",
+  "uncertainties": [
+    "Inventaire des dépendances, criticité des flux et qualité des données inconnus.",
+    "Capacité des équipes, coûts de coexistence, performances et obligations de conservation inconnus.",
+    "Les seuils proposés doivent être validés par les responsables métier ; aucune migration réelle ni restauration n'a été exécutée."
+  ],
+  "horizons": [
+    {
+      "days": 30,
+      "priorities": "Assurer la continuité des fonctions critiques, inventorier flux et propriétaires, instrumenter les incidents et vérifier les sauvegardes. Affecter la capacité disponible en priorité aux incidents urgents ; limiter le pilote à une fonction isolable et garder le système historique comme source autoritative.",
+      "acceptanceGates": "Avant le pilote : inventaire des flux critiques approuvé, propriétaires nommés, sauvegarde restaurée en environnement isolé et procédure de retour répétée. Mesurer disponibilité et erreurs pendant 14 jours ; fixer les SLO métier avant toute bascule. Aucune destruction autorisée pendant cet horizon."
+    },
+    {
+      "days": 540,
+      "priorities": "Intégrer les capacités par étapes en utilisant des contrats versionnés, une synchronisation traçable et un fonctionnement parallèle sans effets métier doublés. Former les exploitants et documenter les dépendances ; maintenir un budget explicite de coexistence et décider de chaque lot sur ses preuves, sans bascule forcée à 540 jours.",
+      "acceptanceGates": "Chaque lot passe une comparaison métier sur 30 jours et une période de pointe représentative : zéro écart critique inexpliqué, rapprochement des données, respect des SLO approuvés et exercice de retour réussi. La bascule exige accord métier et exploitation, surveillance et fenêtre de retour ; sinon prolonger la coexistence."
+    },
+    {
+      "days": 3650,
+      "priorities": "Maintenir une architecture remplaçable avec interfaces documentées, formats de données exportables et composants à responsabilité claire. Prévoir mises à jour de sécurité, succession des propriétaires, exercices de restauration et revue annuelle des dépendances et du coût complet. Réexaminer les choix techniques plutôt que figer une technologie pour dix ans.",
+      "acceptanceGates": "Revue annuelle attestant un propriétaire par composant, dépendances supportées, export réimportable et restauration testée. Mesurer le délai d'une modification représentative et le coût opérationnel contre une référence approuvée. Retrait historique uniquement après preuve de non-usage, fin de fenêtre de retour et satisfaction des obligations de conservation."
+    }
+  ],
+  "reversibleDecisions": "L'inventaire, l'instrumentation, le choix du pilote et les adaptateurs versionnés peuvent être révisés. Le fonctionnement parallèle peut être interrompu en conservant l'historique autoritatif. La bascule de routage est réversible seulement tant que le retour des écritures est testé, les schémas compatibles et les données historiques restent disponibles ; la réversibilité a un coût de coexistence.",
+  "irreversibleDecisions": "La destruction des données, la suppression des sauvegardes et la résiliation sans récupération possible des licences ou contrats historiques sont irréversibles. Une transformation avec perte d'information peut rendre une bascule irréversible même avant le retrait. Garde de destruction : bloquer par défaut ; exiger accord explicite métier et exploitation, conservation légale validée, export vérifié, absence d'usage observée et expiration de la fenêtre de rollback.",
+  "rollback": "Sur écart critique, violation de SLO ou rapprochement impossible, geler les écritures du nouveau lot, capturer le journal, rapprocher et rejouer les écritures validées vers l'historique selon une procédure testée, puis rerouter le trafic et vérifier la parité. Un seul système reçoit les écritures autoritatives. Définir RPO et RTO avec le métier et les démontrer avant cutover ; leurs valeurs restent inconnues. Sans retour des données démontré, interdire la bascule. Après retire, un rollback direct n'est plus garanti.",
+  "destructionGuard": "retire dépend de cutover mais cette dépendance ne vaut pas autorisation : maintenir un verrou manuel jusqu'à validation de toutes les conditions de conservation, restauration, non-usage et fin de fenêtre de retour. Archiver les preuves avant destruction et conserver les archives selon la politique approuvée.",
+  "measurementLimits": "Le test local vérifie la structure des horizons, la présence d'arguments et les dépendances et l'ordre du plan. Il ne mesure ni disponibilité, ni parité fonctionnelle, ni capacité humaine, ni coût, ni maintenabilité sur dix ans. Les critères opérationnels sont proposés et non exécutés. Un succès du vérificateur ne prouve pas la réussite d'une migration réelle.",
+  "migrationPlan": [
+    {
+      "id": "inventory",
+      "dependsOn": [],
+      "kind": "observe"
+    },
+    {
+      "id": "parallelRun",
+      "dependsOn": [
+        "inventory"
+      ],
+      "kind": "build"
+    },
+    {
+      "id": "verify",
+      "dependsOn": [
+        "parallelRun"
+      ],
+      "kind": "check"
+    },
+    {
+      "id": "cutover",
+      "dependsOn": [
+        "verify"
+      ],
+      "kind": "switch"
+    },
+    {
+      "id": "retire",
+      "dependsOn": [
+        "cutover"
+      ],
+      "kind": "destroy"
+    }
+  ],
+  "proposedOrder": [
+    "inventory",
+    "parallelRun",
+    "verify",
+    "cutover",
+    "retire"
+  ],
+  "acceptanceChecks": [
+    {
+      "id": "local-contract",
+      "command": "npm test",
+      "scope": "Structure, horizons et ordre des dépendances uniquement"
+    },
+    {
+      "id": "operational-gates",
+      "status": "not_executed",
+      "scope": "Parité, restauration, SLO, retour et garde de destruction proposés dans les horizons"
+    }
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Le livrable propose une migration progressive distinguant trois horizons et un ordre exécutable de dépendances ; il ne démontre aucune migration réelle.",
+      "evidence": [
+        "e-contract",
+        "e-artifacts",
+        "e-test"
+      ],
+      "uncertainty": "Assertions locales réussies ; efficacité opérationnelle et soutenabilité futures inconnues.",
+      "falsificationCriteria": "Falsifié si npm test échoue, si un horizon manque, si une dépendance est inversée ou si retire est présenté comme autorisé par cutover seul. La recommandation opérationnelle doit être révisée si un pilote révèle des écritures non récupérables, une dépendance critique oubliée, des écarts métier inexpliqués, des SLO violés ou une capacité insuffisante ; ces conditions empêchent la bascule et ne sont pas évaluées par le test local."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "e-contract",
+      "source": "mission.txt et verify.cjs",
+      "method": "Lecture locale des fichiers",
+      "result": "Contrat et assertions du vérificateur consultés ; fichiers protégés non modifiés."
+    },
+    {
+      "id": "e-artifacts",
+      "source": "answer.json et solution.md",
+      "method": "Production locale",
+      "result": "Décision argumentée, hypothèses et gates proposés ; aucune preuve de terrain."
+    },
+    {
+      "id": "e-test",
+      "source": "npm test -> node verify.cjs",
+      "method": "Exécution locale réelle",
+      "result": "Exit code 0 ; PASS executable migration dependency/order gates; no live legacy migration",
+      "limits": "Assertions locales seulement ; aucune simulation ni migration réelle."
+    }
+  ],
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": 1
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "e-test"
+    ],
+    "constraintCoverage": [
+      "e-test"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "within_assigned_scope",
+    "executionBudgetRemaining": null,
+    "cost": null,
+    "note": "Budget réel non mesuré ; aucune branche ni promotion."
+  },
+  "counterfactual": {
+    "condition": "World 1 : effets immédiats t=0..30 jours, fonction V1, chambre directe scellée.",
+    "intervention": {
+      "type": "hypothetical_reduction",
+      "dimension": "resource_capacity",
+      "description": "Si la capacité disponible est divisée par deux, conserver stabilisation et inventaire, réduire le pilote et reporter la bascule ; ne pas retirer les gates de retour et de destruction."
+    },
+    "result": "Non exécuté ; effet causal inconnu."
+  },
+  "provenance": {
+    "scopeRef": "qual-20261006-temporal-difficile-a1-parent/basic_implementation/world-1",
+    "capsuleId": "ab87b048-904a-42c2-9b9e-71b0278c7151_run_1791283318230",
+    "methodId": "prompt_defined",
+    "source": "mission_prompt",
+    "recipe": "direct",
+    "assignedStrategy": "recursive_branch_evolution",
+    "execution": "Implémentation locale bornée sans agents pairs, autres chambres ni promotion.",
+    "unmetPreconditions": [
+      "Outils GenOS de publication et organisation indisponibles dans la liste callable ; restitution locale au parent.",
+      "Données métier et environnement de migration absents : gates opérationnels non exécutables."
+    ]
+  },
+  "executionLimits": [
+    "Vérification locale du livrable seulement ; aucune action sur système historique.",
+    "Aucun reçu de vérificateur créé ou renseigné par le worker."
+  ],
+  "scopeCompletion": {
+    "scopeRef": "qual-20261006-temporal-difficile-a1-parent/basic_implementation/world-1",
+    "completedRefs": [
+      "answer.json",
+      "solution.md"
+    ]
+  },
+  "evidenceVectorDefinition": {
+    "correctness": "Valeur binaire 1 = succès des assertions du vérificateur local uniquement.",
+    "constraintCoverage": "Valeur binaire 1 = toutes les contraintes encodées dans verify.cjs passent ; aucune mesure de couverture du contrat worker complet.",
+    "otherDimensions": "null = non mesuré ; aucune extrapolation vers la production."
+  },
+  "hardConstraintsScope": "Contraintes exécutables de verify.cjs seulement ; gates opérationnels en attente."
+}

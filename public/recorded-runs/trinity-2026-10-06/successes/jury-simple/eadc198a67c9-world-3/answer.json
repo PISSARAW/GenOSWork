@@ -1,0 +1,121 @@
+{
+  "validCandidates": [
+    "enumeration",
+    "conditional"
+  ],
+  "rejectedCandidates": [
+    "fifty-fifty"
+  ],
+  "explanation": "Deux dossiers sont admissibles. Le premier enumere les neuf couples equiprobables (choix initial, prix), chacun de poids 1/9. Quand le choix initial contient le prix, chacune des deux ouvertures possibles de l'animateur a un poids 1/18; sinon, son unique ouverture admissible a un poids 1/9. Rester gagne donc avec probabilite 1/3 et changer avec probabilite 2/3. Le deuxieme dossier obtient les memes probabilites par conditionnement: sous le protocole uniforme annonce, l'ouverture d'une chevre conserve 1/3 sur la porte choisie et concentre 2/3 sur l'autre porte fermee. Ces designs sont distincts: enumeration ponderee des issues contre raisonnement conditionnel. Le troisieme dossier confond deux portes restantes avec deux issues equiprobables; l'animateur connait le prix et son ouverture contrainte ne redistribue pas uniformement les probabilites. Les dossiers admissibles sont presentes sans attribution de provenance.",
+  "uncertainties": [
+    "Les conclusions supposent un prix et un choix initial uniformes, et un animateur qui connait le prix, ouvre toujours une chevre non choisie, choisit uniformement entre deux chevres disponibles et propose toujours le changement.",
+    "Aucune soumission externe au jury ni verification independante n'est attestee: aucun outil de routage organisationnel n'est disponible."
+  ],
+  "outcome": "success",
+  "claims": [
+    {
+      "statement": "Enumeration et conditional sont admissibles: enumeration pondere les neuf couples choix/prix et les ouvertures possibles; conditional raisonne sur les probabilites conditionnelles. Fifty-fifty est rejete. Le test local confirme rester=1/3 et changer=2/3.",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "id": "mission-answer"
+    }
+  ],
+  "evidence": [
+    {
+      "type": "file",
+      "path": "answer.json",
+      "id": "E1",
+      "description": "Selection et justification anonymes des dossiers."
+    },
+    {
+      "type": "file",
+      "path": "solution.cjs",
+      "id": "E2",
+      "description": "Export decide et validation des entrees."
+    },
+    {
+      "result": {
+        "pass": true,
+        "cases": 12,
+        "swap": 0.6666666666666667,
+        "stay": 0.33333333333333337
+      },
+      "type": "command",
+      "command": "npm test",
+      "id": "E3",
+      "exitCode": 0
+    },
+    {
+      "sha256": "5740466D8BE278C8B6F2357F31E1C8C3EF27753F2A83809EC97DB92ABBC7E6E0",
+      "type": "file",
+      "path": "verify.cjs",
+      "id": "E4",
+      "description": "Verification fournie, laissee intacte."
+    }
+  ],
+  "strategyTrace": [
+    {
+      "reason": "Comparaison locale des trois hypotheses imposees; confrontation de leur consequence avec le test pondere, sans consulter une autre chambre ni promouvoir le resultat.",
+      "decision": "retained",
+      "strategy": "n_way_counterfactual_fork",
+      "evidence": [
+        "E1",
+        "E3",
+        "E4"
+      ]
+    }
+  ],
+  "acceptanceChecks": [
+    {
+      "check": "Contrat local: candidats, texte explicatif, incertitudes et decide sur toutes les observations legales",
+      "passed": true,
+      "evidence": [
+        "E3"
+      ]
+    },
+    {
+      "check": "Soumission externe anonyme au jury",
+      "reason": "Routage organisationnel indisponible.",
+      "passed": null
+    }
+  ],
+  "evidenceVector": {
+    "constraintCoverage": null,
+    "reproducibility": null,
+    "robustness": null,
+    "novelty": null,
+    "coverage": 12,
+    "latency": null,
+    "correctness": true,
+    "risk": null,
+    "cost": null,
+    "uncertainty": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E3"
+    ],
+    "coverage": [
+      "E3"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "hardConstraintsScope": "Contraintes locales verifiees par npm test; aucune attestation de soumission externe ou de promotion.",
+  "budgetStatus": {
+    "status": "Pas de limite atteinte observee",
+    "measured": false,
+    "remainingUnits": null
+  },
+  "executionLimits": [
+    "Un seul lancement du test fourni avant la finalisation des metadonnees, puis repetition sur les livrables finaux.",
+    "Aucun juge independant disponible; diversite des modeles et accord inter-juges non mesures.",
+    "Aucun recu externe, score de jury ou promotion produit."
+  ],
+  "unmetPreconditions": [
+    "Outils de routage organisationnel indisponibles pour la soumission au jury.",
+    "Verification independante requise pour une promotion, non effectuee; aucune promotion entreprise."
+  ]
+}

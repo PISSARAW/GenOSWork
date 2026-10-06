@@ -1,0 +1,319 @@
+{
+  "outcome": "success",
+  "analysis": "Les 30 réponses originales sont exécutées et comparées aux attendus avant scoring. Cible catégorielle uniforme entre les trois méthodes également correctes, sans interprétation comme probabilités de mondes Trinity. Menaces: fuite des attendus, confusion sémantique, erreurs corrélées, modification des prédictions et routage sans preuve. Les solveurs utilisent les données et le type, jamais les IDs ni les attendus. Exhaustive énumère diviseurs, chemins simples, sous-ensembles, modèles et issues; structured emploie Dijkstra, programmation dynamique, clôture logique et formules; falsification recherche des contre-exemples ou élimine des candidats (crible, relaxation Bellman-Ford, états admissibles, BFS). Ce dernier reste une méthode complète sur le domaine déclaré, pas une indépendance absolue. Parsing des inclusions et des arcs partagé; simulation de trace partagée entre exhaustive et structured. Le protocole Monty généralisé suppose que le présentateur laisse une seule porte alternative. Ces hypothèses communes peuvent faire échouer les trois méthodes ensemble.",
+  "uncertainties": [
+    "Indépendance des implémentations partielle; auteur commun et helpers partagés.",
+    "Garantie ex ante runtime non démontrée par preuve indépendante.",
+    "Coût, latence, capacité ressource, nouveauté et risque quantitatif non mesurés.",
+    "Entrées hors domaine (grandes tailles, poids négatifs, syntaxe logique générale) non couvertes."
+  ],
+  "scores": [
+    {
+      "problemId": "p1",
+      "brier": 0.0066666666666666706,
+      "logLoss": 1.1080787801753422,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p2",
+      "brier": 0.04666666666666667,
+      "logLoss": 1.1688526324399937,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p3",
+      "brier": 0.0066666666666666706,
+      "logLoss": 1.1080787801753422,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p4",
+      "brier": 0.10666666666666665,
+      "logLoss": 1.243233816211397,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p5",
+      "brier": 0.0066666666666666706,
+      "logLoss": 1.1080787801753422,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p6",
+      "brier": 0.10666666666666665,
+      "logLoss": 1.243233816211397,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p7",
+      "brier": 0.10666666666666665,
+      "logLoss": 1.243233816211397,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p8",
+      "brier": 0.10666666666666665,
+      "logLoss": 1.243233816211397,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p9",
+      "brier": 0.0066666666666666706,
+      "logLoss": 1.1080787801753422,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p10",
+      "brier": 0.10666666666666665,
+      "logLoss": 1.243233816211397,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    }
+  ],
+  "predictionSourceSha256": "b9c80f0e12285fd310e2c63dcb7d31c812649de18c0cf4870571e4d43aeb66aa",
+  "calibrationLimits": "Dix cas fixes hétérogènes, une observation par problème, aucune réplication indépendante ni échantillonnage représentatif. La cible est une convention catégorielle uniforme après égalité de correction, pas un événement exclusif naturellement observé. Ces scores ne prouvent aucune calibration empirique générale; fitting et évaluation sur les mêmes cas seraient optimistes. Le hash garantit intégrité des octets disponibles, pas chronologie runtime indépendante. La garantie ex ante du runtime Oracle reste non démontrée.",
+  "routingAnalysis": "Historique séquentiel: après p1, les trois méthodes ont le même succès observé; cette égalité reste vraie après chacun des dix cas. Un lissage vers la distribution uniforme aurait pu réduire les scores futurs sur cette série, sans démontrer un gain prospectif. La référence uniforme donne Brier zéro et log-loss ln(3) pour cette cible. Aucun gain de coût ou latence ne peut être affirmé sans mesure. Un routeur peut proposer une méthode mais toute sortie doit encore passer une vérification indépendante; une égalité des méthodes ne remplace pas la preuve. Aucun routage opérationnel non vérifié ni promotion effectué.",
+  "results": [
+    {
+      "problemId": "p1",
+      "outputs": {
+        "exhaustive": false,
+        "structured": false,
+        "falsification": false
+      }
+    },
+    {
+      "problemId": "p2",
+      "outputs": {
+        "exhaustive": 6,
+        "structured": 6,
+        "falsification": 6
+      }
+    },
+    {
+      "problemId": "p3",
+      "outputs": {
+        "exhaustive": 22,
+        "structured": 22,
+        "falsification": 22
+      }
+    },
+    {
+      "problemId": "p4",
+      "outputs": {
+        "exhaustive": 0.6666666666666666,
+        "structured": 0.6666666666666666,
+        "falsification": 0.6666666666666667
+      }
+    },
+    {
+      "problemId": "p5",
+      "outputs": {
+        "exhaustive": true,
+        "structured": true,
+        "falsification": true
+      }
+    },
+    {
+      "problemId": "p6",
+      "outputs": {
+        "exhaustive": 1,
+        "structured": 1,
+        "falsification": 1
+      }
+    },
+    {
+      "problemId": "p7",
+      "outputs": {
+        "exhaustive": 24,
+        "structured": 24,
+        "falsification": 24
+      }
+    },
+    {
+      "problemId": "p8",
+      "outputs": {
+        "exhaustive": 5,
+        "structured": 5,
+        "falsification": 5
+      }
+    },
+    {
+      "problemId": "p9",
+      "outputs": {
+        "exhaustive": [
+          72,
+          84,
+          96
+        ],
+        "structured": [
+          72,
+          84,
+          96
+        ],
+        "falsification": [
+          72,
+          84,
+          96
+        ]
+      }
+    },
+    {
+      "problemId": "p10",
+      "outputs": {
+        "exhaustive": 0.16666666666666666,
+        "structured": 0.16666666666666666,
+        "falsification": 0.16666666666666663
+      }
+    }
+  ],
+  "provenance": {
+    "predictionAuthor": "ollama-http-laboratory-oracle",
+    "model": "qwen2.5-coder:7b",
+    "startedAt": "2026-10-06T10:29:51.266Z",
+    "recordedAt": "2026-10-06T10:30:07.828Z",
+    "source": "oracle-before.json",
+    "requestSha256": "f56913b6d54a3b23cfc7d9013319cbc71401056a58ce030938e8f8fcb0a3473c",
+    "responseSha256": "f3cf75d91e59e9b56043f9f6e12dba4e1a89e72ef9beeddcf79f868e5d4af4ed",
+    "workerAuthoredPrediction": false,
+    "runtimeExAnteProven": false
+  },
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Les trois méthodes passent les 60 appels originaux et perturbés du vérificateur fourni; les dix scores des prédictions du laboratoire sont vérifiés selon le contrat. Aucune calibration générale ni garantie runtime ex ante démontrée.",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "falsificationCriteria": "Réfuté si une sortie originale ou perturbée diffère du résultat attendu (tolérance numérique 1e-9), si une distribution ne somme pas à 1, si le hash oracle change, si une cible n’est pas uniforme parmi les méthodes correctes, si Brier ou log-loss diffère du recalcul de plus de 1e-6, ou si une mesure inconnue est présentée comme exécutée."
+    }
+  ],
+  "specialtyAssessment": {
+    "niche": "planned_world",
+    "inScope": true,
+    "evidence": [
+      "E0"
+    ]
+  },
+  "evidence": [
+    {
+      "id": "E0",
+      "source": "mission.txt et verify.cjs",
+      "description": "Contrat local lu; problèmes, scoring et checks explicités."
+    },
+    {
+      "id": "E1",
+      "source": "node build-answer.cjs",
+      "description": "30 appels originaux comparés aux attendus; assertions distributions et hash; 10 scores calculés."
+    },
+    {
+      "id": "E2",
+      "source": "oracle-before.json",
+      "description": "Octets SHA256 vérifiés; provenance Ollama et dates conservées, sans preuve runtime indépendante."
+    },
+    {
+      "id": "E3",
+      "source": "npm test / node verify.cjs",
+      "exitCode": 0,
+      "description": "PASS60 actual process calls with10 perturbations and10 genuine-prior Brier/logLoss pairs; independence needs code review. 30 appels originaux et 30 variantes dans un processus Node, pas 60 processus indépendants."
+    }
+  ],
+  "acceptanceChecks": [
+    "npm test: 30 originaux et 30 perturbations, 10 scores et intégrité oracle",
+    "Aucune modification de verify.cjs, package.json, mission.txt ou oracle-before.json",
+    "Un unique claim mission-answer, aucun reçu runtime auto-attribué"
+  ],
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": 1,
+    "robustness": 1,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E3"
+    ],
+    "coverage": [
+      "E3"
+    ],
+    "robustness": [
+      "E3"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "within_execution_scope",
+    "measuredCost": null,
+    "remainingRuntimeBudget": null
+  },
+  "counterfactual": {
+    "condition": "Capacité ressource différente à tests et fixtures constants; effet non mesuré.",
+    "intervention": {
+      "type": "resource_capacity",
+      "dimension": "resource_capacity",
+      "description": "Variation hypothétique du budget CPU/mémoire; aucune intervention exécutée."
+    }
+  },
+  "executionLimits": "Tests locaux déterministes, petite taille; pas de réseau, mesure de performance, réplication runtime indépendante, autres chambres ou promotion. Outils organisation non disponibles.",
+  "evidenceVectorScope": {
+    "correctness": "60/60 comparaisons fournies",
+    "coverage": "10/10 types et 10/10 mutations prévues, sans couverture de branches mesurée",
+    "robustness": "30/30 appels sur les dix mutations fournies, aucune robustesse générale inférée"
+  },
+  "hardConstraintsScope": "Contraintes locales vérifiées par verify.cjs et hash; aucune certification runtime ou promotion",
+  "scoreSummary": {
+    "meanBrier": 0.06066666666666666,
+    "meanLogLoss": 1.1817336834198346,
+    "uniformReference": {
+      "brier": 0,
+      "logLoss": 1.0986122886681096
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "paretoFront": ["batch", "stream", "managed", "hybride"],
+  "tradeoffs": [
+    {"id":"batch","explanation":"Co?t 100 et complexit? 2, minima du cas; latence 3600, indisponibilit? 4 et limite-evolution 3 d?favorables. Architecture plausible: journal durable vers stockage objet, traitement p?riodique et publication atomique."},
+    {"id":"stream","explanation":"Latence 2 et limite-evolution 1 pour co?t 500, mais complexit? 8 et risque 4. Architecture plausible: journal partitionn?, traitement continu avec checkpoints et sorties idempotentes."},
+    {"id":"managed","explanation":"Latence 1, risque 2 et indisponibilit? 1, minima du cas; co?t 700, le plus ?lev?. Architecture plausible: ingestion et traitement manag?s, sauvegarde durable et reprise par offsets."},
+    {"id":"hybride","explanation":"Co?t 350 inf?rieur au stream et au managed, latence 10 inf?rieure au batch; complexit? 6 et limite-evolution 2. Architecture plausible: voie rapide et recalcul batch depuis un journal commun, r?conciliation par identifiant."}
+  ],
+  "constrainedFront": ["stream", "managed", "hybride"],
+  "admissibleCandidates": ["stream", "managed", "hybride"],
+  "explanation": "Tous les sept crit?res sont minimis?s s?par?ment, sans somme pond?r?e. Un candidat domine un autre si chacune de ses valeurs est inf?rieure ou ?gale et au moins une est strictement inf?rieure. Une comparaison exhaustive conserve batch, stream, managed et hybride. Stream et hybride dominent ancien; managed ne le domine pas car son co?t est sup?rieur. La contrainte latence <= 15 exclut batch et ancien; un nouveau calcul de dominance sur les seuls admissibles conserve stream, managed et hybride. Si le maximum devient 1, seul managed reste admissible; si le maximum devient 3600, le front initial revient. Ces fronti?res sont conditionnelles aux donn?es hypoth?tiques fixes, et ne d?signent aucune architecture universellement meilleure. L'inexactitude vaut 1 pour chaque candidat non domin?. Aucun co?t, d?bit, d?lai ou risque r?el n'a ?t? mesur? pour les 100 millions d'?v?nements quotidiens.",
+  "artifact": {
+    "type":"diagnostic_matrix",
+    "hypotheses": [
+      {"id":"batch","predictedSignals":"Selon le fixture: co?t et complexit? minimaux, latence ?lev?e.","contradictoryObservations":"Une mesure montrant une latence faible ou un co?t sup?rieur contredirait cette extrapolation r?elle; aucune observation fournie.","discriminatingMeasurement":"Rejouer un journal identique ? charge cible; mesurer d?lai de bout en bout, ressources factur?es et ?galit? des sorties."},
+      {"id":"stream","predictedSignals":"Selon le fixture: faible latence, ?volutivit? favorable, complexit? et risque plus ?lev?s.","contradictoryObservations":"Retard croissant, pertes apr?s reprise ou exploitation simple contrediraient les hypoth?ses correspondantes; aucune observation fournie.","discriminatingMeasurement":"Rejeu identique avec interruption puis reprise; mesurer retard, doublons, pertes et ressources."},
+      {"id":"managed","predictedSignals":"Selon le fixture: meilleure latence et indisponibilit?, co?t maximal.","contradictoryObservations":"Facture inf?rieure ou indisponibilit? sup?rieure aux autres contredirait cette projection; aucune observation fournie.","discriminatingMeasurement":"Rejeu identique avec d?faillance contr?l?e; relever facture, temps de reprise et exactitude."},
+      {"id":"hybride","predictedSignals":"Selon le fixture: compromis co?t-latence avec complexit? de r?conciliation.","contradictoryObservations":"Divergence persistante entre voies ou co?t sup?rieur au stream contredirait la projection; aucune observation fournie.","discriminatingMeasurement":"Rejouer ?v?nements tardifs et dupliqu?s; mesurer d?lai de convergence, ?galit? et ressources."},
+      {"id":"ancien","predictedSignals":"Domin? composante par composante par stream et hybride dans le fixture.","contradictoryObservations":"Un avantage mesur? sur un crit?re rendrait n?cessaire une nouvelle comparaison; aucune observation fournie.","discriminatingMeasurement":"Mesurer les sept crit?res sur le m?me journal et recalculer la dominance avec les valeurs obtenues."}
+    ],
+    "dataFlowIntegrityRollbackPlan":"Conserver un journal immuable et des identifiants stables; v?rifier comptes, doublons et r?sultats par rejeu. Publier les sorties par version atomique, conserver la version pr?c?dente et ses offsets pour retour arri?re. Ce plan est propos?, pas ex?cut? sur une infrastructure."
+  }
+}

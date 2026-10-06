@@ -1,0 +1,18 @@
+{
+  "paretoFront": ["disque", "cloud", "hybride-chiffre"],
+  "decisionVariables": ["choix du candidat", "cout", "recuperation", "confidentialite-risque", "complexite", "perte-risque"],
+  "missingInputs": ["Mesures reelles, unites, horizon de cout, volume de donnees et objectifs de restauration non fournis ; ils ne sont pas necessaires au calcul sur les valeurs hypothetique fixes."],
+  "candidates": [
+    {"id":"disque","plan":"Sauvegarder sur un disque local ; verifier la restauration avant toute suppression des originaux.","hypotheticalObjectiveVector":[80,15,1,1,8],"measuredObjectiveVector":null,"source":"fixture.json#/candidates/0"},
+    {"id":"cloud","plan":"Sauvegarder dans le cloud ; verifier la restauration et conserver les originaux jusqu'a validation.","hypotheticalObjectiveVector":[120,30,4,1,2],"measuredObjectiveVector":null,"source":"fixture.json#/candidates/1"},
+    {"id":"hybride-chiffre","plan":"Combiner sauvegarde locale et copie distante chiffree ; conserver la cle separement et tester les deux restaurations avant toute suppression.","hypotheticalObjectiveVector":[180,10,1,4,1],"measuredObjectiveVector":null,"source":"fixture.json#/candidates/2"},
+    {"id":"cloud-faible","plan":"Utiliser la variante cloud-faible du jeu de comparaison ; aucun detail technique supplementaire n'est fourni.","hypotheticalObjectiveVector":[140,40,5,2,4],"measuredObjectiveVector":null,"source":"fixture.json#/candidates/3"}
+  ],
+  "tradeoffs": [
+    {"id":"disque","explanation":"Cout minimal 80, complexite minimale 1 et risque de confidentialite minimal 1 ; risque de perte 8, plus eleve que les autres candidats. Recuperation 15, moins rapide que hybride-chiffre."},
+    {"id":"cloud","explanation":"Complexite minimale 1 et risque de perte 2, inferieur au disque ; cout 120, recuperation 30 et risque de confidentialite 4, superieurs au disque. Moins couteux et plus simple que hybride-chiffre."},
+    {"id":"hybride-chiffre","explanation":"Recuperation minimale 10, risque de perte minimal 1 et risque de confidentialite minimal 1 ; cout 180 et complexite 4, les plus eleves. Ces compromis empechent toute dominance par disque ou cloud."}
+  ],
+  "dominanceWitnesses": [{"dominated":"cloud-faible","dominator":"cloud","comparisons":["120 < 140","30 < 40","4 < 5","1 < 2","2 < 4"]}],
+  "explanation":"Tous les criteres sont minimises sans scalarisation. Un candidat domine un autre si chacune de ses valeurs est inferieure ou egale et au moins une strictement inferieure. La comparaison exhaustive des quatre vecteurs fournis laisse disque, cloud et hybride-chiffre non domines. Cloud domine cloud-faible sur les cinq dimensions. Aucune contrainte n'est presente : aucun front contraint n'est requis. Ce front est conditionnel aux valeurs hypothetique fixes de fixture.json, pas a des mesures du monde reel. Les plans sont des interpretations minimales des noms et ne constituent pas une validation de performances. Les originaux doivent etre conserves jusqu'au test de restauration pour permettre un retour arriere. Aucun gagnant absolu n'est designe."
+}

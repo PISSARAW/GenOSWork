@@ -1,0 +1,243 @@
+{
+  "explanation": "Trois utilisations inhabituelles proposées d'une feuille de papier : témoin passif de condensation, clapet souple contre un retour d'air, et indicateur mécanique de vibration. Aucun usage ne consiste à écrire, dessiner ou fabriquer un avion. Le prototype représente leurs comportements par trois automates locaux autonomes, sans relais entre acteurs ni confirmation explicite. Les événements sont des entrées simulées ; leur détection et les effets physiques restent des hypothèses. Aucun qdTargetNiche n'est fourni dans les fichiers du worker consultés ; les transitions visent la niche locale autonome niche_0:0.",
+  "uncertainties": [
+    "La nouveauté absolue des idées n'a pas été recherchée ni démontrée.",
+    "Aucun essai physique : l'humidité, la rigidité, les dimensions et le montage peuvent empêcher les effets proposés.",
+    "Le rejeu vérifie des événements symboliques ; il ne valide ni capteurs ni causalité physique.",
+    "qdTargetNiche absent du contexte et des fichiers disponibles : conformité à une cible particulière non vérifiable."
+  ],
+  "physicalValidationPerformed": false,
+  "designs": [
+    {
+      "family": "Temoin hygromecanique",
+      "description": "Suspendre une feuille avec sa pointe touchant une surface froide : une déformation sous humidification servirait de témoin temporaire de condensation, sans inscription. Le retour après séchage est une hypothèse à tester.",
+      "states": [
+        "sec",
+        "humide",
+        "retire"
+      ],
+      "transitions": [
+        {
+          "from": "sec",
+          "to": "humide",
+          "trigger": "condensation",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "humide",
+          "to": "sec",
+          "trigger": "sechage",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "humide",
+          "to": "retire",
+          "trigger": "dechirure",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "condensation",
+            "sechage"
+          ],
+          "expected": "sec"
+        },
+        {
+          "events": [
+            "condensation",
+            "dechirure"
+          ],
+          "expected": "retire"
+        }
+      ]
+    },
+    {
+      "family": "Clapet pneumatique",
+      "description": "Fixer un bord de la feuille au-dessus d'une petite ouverture de maquette : elle pourrait se soulever sous un souffle sortant puis plaquer l'ouverture lors d'un retour d'air, comme clapet souple expérimental.",
+      "states": [
+        "plaque",
+        "souleve"
+      ],
+      "transitions": [
+        {
+          "from": "plaque",
+          "to": "souleve",
+          "trigger": "souffle_sortant",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "souleve",
+          "to": "plaque",
+          "trigger": "retour_air",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "souffle_sortant"
+          ],
+          "expected": "souleve"
+        },
+        {
+          "events": [
+            "souffle_sortant",
+            "retour_air"
+          ],
+          "expected": "plaque"
+        }
+      ]
+    },
+    {
+      "family": "Indicateur inertiel",
+      "description": "Plier la feuille en accordéon et la poser debout sur un support de maquette : sa chute pourrait signaler une vibration passée même après son arrêt, sans électronique ni marque écrite. Le seuil dépendrait du pliage.",
+      "states": [
+        "debout",
+        "tombe",
+        "rearme"
+      ],
+      "transitions": [
+        {
+          "from": "debout",
+          "to": "tombe",
+          "trigger": "vibration_seuil",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "tombe",
+          "to": "rearme",
+          "trigger": "repositionnement",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "rearme",
+          "to": "tombe",
+          "trigger": "vibration_seuil",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "vibration_seuil"
+          ],
+          "expected": "tombe"
+        },
+        {
+          "events": [
+            "vibration_seuil",
+            "repositionnement",
+            "vibration_seuil"
+          ],
+          "expected": "tombe"
+        },
+        {
+          "events": [
+            "vibration_seuil",
+            "repositionnement"
+          ],
+          "expected": "rearme"
+        }
+      ]
+    }
+  ],
+  "behaviorVector": [
+    0,
+    0
+  ],
+  "behaviorVectorEvidence": [
+    "npm-test-091f93"
+  ],
+  "evidence": [
+    {
+      "id": "artifact-answer",
+      "type": "file",
+      "path": "answer.json",
+      "description": "Trois idées et automates avec sept scénarios déterministes.",
+      "creationEvidence": "53d1ae"
+    },
+    {
+      "id": "npm-test-091f93",
+      "type": "command",
+      "command": "npm test",
+      "toolOutputRef": "091f93",
+      "exitCode": 0,
+      "result": {
+        "pass": true,
+        "designs": 3,
+        "families": 3,
+        "transitions": 8,
+        "behaviorVector": [
+          0,
+          0
+        ],
+        "niche": "niche_0:0"
+      },
+      "limits": "Structure et rejeu seulement ; aucune certification physique ou nouveauté."
+    },
+    {
+      "id": "harness-337c7f",
+      "type": "file-read",
+      "paths": [
+        "MISSION.txt",
+        "package.json",
+        "verify.cjs",
+        "measure.cjs"
+      ],
+      "toolOutputRef": "337c7f"
+    }
+  ],
+  "evidenceVector": {
+    "correctness": null,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {},
+  "acceptanceChecks": [
+    "npm test : structure, trois familles et rejeu déterministe des scénarios.",
+    "behaviorVector identique aux fractions calculées par measure.cjs.",
+    "physicalValidationPerformed=false ; fichiers du banc inchangés.",
+    "Résultat observé : npm test, code de sortie 0, pass=true, huit transitions, behaviorVector=[0,0]."
+  ],
+  "hardConstraintsPassed": true,
+  "budgetStatus": "Aucune limite chiffrée de coût ou durée mesurée ; tâche bornée aux livrables locaux.",
+  "executionLimits": [
+    "Validation logicielle seulement.",
+    "Pas de promotion ni de vérification indépendante.",
+    "Outils GenOS de routage indisponibles dans les outils exposés."
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Trois idées textuelles et automates distincts : réaction à la condensation, clapet au flux d'air et mémorisation d'une vibration par chute ; comportements locaux autonomes.",
+      "evidence": [
+        "artifact-answer",
+        "npm-test-091f93"
+      ]
+    }
+  ],
+  "scopeCompletion": {
+    "scopeRef": "qual-20261006-exploratory-simple-a4/basic_implementation/mission-answer",
+    "completedRefs": [
+      "answer.json"
+    ]
+  },
+  "outcome": "success"
+}

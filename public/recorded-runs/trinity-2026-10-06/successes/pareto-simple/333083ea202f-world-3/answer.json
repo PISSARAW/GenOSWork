@@ -1,0 +1,12 @@
+{
+  "paretoFront": ["marche", "velo", "bus", "taxi"],
+  "tradeoffs": [
+    {"transport": "marche", "temps": 120, "cout": 0, "effort": 9, "compromis": "Coût minimal, mais temps et effort les plus élevés."},
+    {"transport": "velo", "temps": 35, "cout": 1, "effort": 5, "compromis": "Plus rapide et moins cher que le bus, mais plus exigeant en effort."},
+    {"transport": "bus", "temps": 45, "cout": 3, "effort": 1, "compromis": "Moins exigeant que le vélo et moins cher que le taxi, mais plus lent que chacun."},
+    {"transport": "taxi", "temps": 20, "cout": 20, "effort": 0, "compromis": "Temps et effort minimaux, au coût le plus élevé."}
+  ],
+  "dominated": [{"transport": "bus-lent", "dominatedBy": "bus", "proof": "45 < 60 pour le temps, 3 < 4 pour le coût, 1 < 2 pour l'effort."}],
+  "recommendation": "velo",
+  "explanation": "En minimisant chaque dimension, le front de Pareto contient marche, velo, bus et taxi. Le bus domine strictement bus-lent sur les trois dimensions. Aucun des quatre autres transports ne domine un autre : chacun implique au moins un sacrifice en temps, coût ou effort. Le vélo est un choix proposé pour un trajet de 10 km si un faible coût et un temps modéré sont privilégiés et si un effort de 5 est acceptable. Cette préférence est une hypothèse explicite, pas un optimum unique déduit des données. Sans pondérations ni contraintes supplémentaires, les quatre options du front restent valides."
+}

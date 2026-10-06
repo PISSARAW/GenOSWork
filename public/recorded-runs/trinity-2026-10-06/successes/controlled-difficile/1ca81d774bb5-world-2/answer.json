@@ -1,0 +1,232 @@
+{
+  "facts": {
+    "developers": 6,
+    "runwayMonths": 18,
+    "users": 10000
+  },
+  "options": [
+    {
+      "architecture": "Monolithe modulaire",
+      "rationale": "Un déploiement unique et des modules métier explicites permettent de concentrer une équipe de six personnes sur le produit. Les transactions locales facilitent les invariants métier complexes. Cette adéquation reste une inférence qualitative, sans mesure de délai ou de coût.",
+      "risks": [
+        "Couplage caché entre modules et tables.",
+        "Déploiements liés et isolation limitée des incidents."
+      ]
+    },
+    {
+      "architecture": "Microservices",
+      "rationale": "Des services autonomes peuvent offrir des déploiements et une capacité indépendants si les frontières métier sont stables. Ces avantages doivent justifier les communications réseau, les transactions distribuées et l'exploitation supplémentaire pour cette équipe limitée.",
+      "risks": [
+        "Charge d'exploitation et astreinte inconnue.",
+        "Cohérence distribuée, pannes partielles et frontières prématurées."
+      ]
+    },
+    {
+      "architecture": "Modular monolith avec extraction progressive",
+      "rationale": "Commencer avec un déploiement unique, des API internes et une propriété explicite des données préserve une possibilité d'extraction. N'extraire un module que si des observations établissent un besoin et si le coût de migration est soutenable dans le runway restant.",
+      "risks": [
+        "La modularité demande une discipline continue.",
+        "Une extraction peut être coûteuse malgré les interfaces.",
+        "Risque de surinvestissement dans une migration jamais nécessaire."
+      ]
+    }
+  ],
+  "recommendation": "Adopter provisoirement un modular monolith avec extraction progressive conditionnelle. Au départ il est identique au monolithe modulaire en exploitation : un déploiement, des frontières métier et des transactions locales. Avec six développeurs et dix-huit mois de runway, privilégier la livraison et apprendre les frontières. Ne pas promettre une extraction ni supposer que 10 000 utilisateurs imposent des microservices. Cette décision est une inférence révisable, sans supériorité empirique démontrée.",
+  "decisionTriggers": [
+    "Réexaminer une extraction si un profil de charge mesuré montre un module saturé malgré optimisation et mise à l'échelle du monolithe.",
+    "Réexaminer si des incidents documentés exigent une isolation indépendante et qu'un pilote démontre un bénéfice compatible avec les objectifs métier.",
+    "Réexaminer si les déploiements liés bloquent régulièrement la livraison et si le module possède des données et contrats stables.",
+    "Autoriser un pilote seulement après estimation documentée du coût total, de la capacité d'astreinte et du runway restant ; sinon conserver le monolithe."
+  ],
+  "analysis": "Plan : fixer les faits, comparer les trois options sur les mêmes critères, formuler une décision conditionnelle et définir les observations qui pourraient la réfuter. La complexité métier justifie des frontières explicites mais ne prouve pas un besoin de distribution. Le nombre d'utilisateurs ne renseigne ni concurrence, ni débit, ni taille des données. Les deux variantes monolithiques partagent leur architecture initiale ; la troisième ajoute une politique d'évolution, pas une performance supérieure. Aucune dominance ne peut être établie : toutes les mesures comparables de coût, latence et fiabilité sont inconnues. Les sources sont des analyses de praticien, non des essais sur cette entreprise.",
+  "uncertainties": [
+    "Concurrence réelle, débit de pointe, volumes et croissance inconnus.",
+    "Expertise de l'équipe en exploitation distribuée et capacité d'astreinte inconnues.",
+    "Frontières métier, transactions intermodules et maturité du code inconnues.",
+    "SLO, contraintes réglementaires, isolation requise et budget financier inconnus.",
+    "Application existante ou nouvelle non précisée ; une migration existante pourrait modifier la décision."
+  ],
+  "criteriaMatrix": {
+    "criteria": [
+      "capacité de livraison avec six développeurs",
+      "coût et runway",
+      "cohérence métier",
+      "déploiement et isolation",
+      "mise à l'échelle"
+    ],
+    "rows": [
+      {
+        "architecture": "Monolithe modulaire",
+        "qualitative": [
+          "Coordination locale",
+          "Exploitation unique",
+          "Transactions locales",
+          "Déploiement commun",
+          "Échelle du déploiement"
+        ],
+        "measuredValues": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "architecture": "Microservices",
+        "qualitative": [
+          "Coordination et exploitation distribuées",
+          "Coût additionnel possible",
+          "Coordination interservices",
+          "Autonomie sous conditions",
+          "Échelle par service"
+        ],
+        "measuredValues": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      {
+        "architecture": "Modular monolith avec extraction progressive",
+        "qualitative": [
+          "Coordination locale initiale",
+          "Coût différé d'extraction",
+          "Transactions locales initiales",
+          "Commun puis sélectif",
+          "Globale puis sélective"
+        ],
+        "measuredValues": [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      }
+    ],
+    "evidenceIds": [
+      "E-source-1",
+      "E-source-2"
+    ],
+    "dominance": "Aucune dominance empirique : aucune mesure comparable disponible."
+  },
+  "artifact": {
+    "type": "criteria_matrix",
+    "paths": [
+      "answer.json",
+      "solution.md"
+    ]
+  },
+  "acceptanceChecks": [
+    {
+      "id": "local-verifier",
+      "command": "npm test",
+      "status": "passed"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E-mission",
+      "type": "provided_requirements",
+      "source": "mission.txt",
+      "description": "Faits et contrat local lus ; aucune mesure de production."
+    },
+    {
+      "id": "E-source-1",
+      "type": "primary_practitioner_analysis",
+      "source": "https://martinfowler.com/bliki/MonolithFirst.html",
+      "description": "Consulté le 2026-10-06 ; conseil explicitement provisoire, pas mesure de cette entreprise."
+    },
+    {
+      "id": "E-source-2",
+      "type": "primary_practitioner_analysis",
+      "source": "https://martinfowler.com/articles/microservice-trade-offs.html",
+      "description": "Consulté le 2026-10-06 ; compromis distribution/exploitation et autonomie, sans benchmark local."
+    },
+    {
+      "id": "E-test-1",
+      "type": "local_test_execution",
+      "command": "npm test",
+      "exitCode": 0,
+      "result": "PASS preserved architecture constraints and dossier coverage; qualitative choice not empirically certified",
+      "scope": "Contraintes vérifiées par verify.cjs seulement ; aucune performance architecturale."
+    }
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Le dossier compare les trois options et recommande conditionnellement le monolithe modulaire avec extraction progressive ; la conformité documentaire ne prouve pas sa supériorité.",
+      "evidence": [
+        "E-mission",
+        "E-source-1",
+        "E-source-2",
+        "E-test-1"
+      ],
+      "falsificationCriteria": "Réfuter la conformité si les faits diffèrent, une option manque, les critères ne sont pas communs, une mesure inconnue devient un score, moins de trois incertitudes ou déclencheurs sont présents, ou npm test échoue. Réviser la recommandation si des mesures de charge, d'isolation ou de livraison et un pilote comparable montrent un bénéfice net des services après coût d'exploitation et migration, ou si la capacité disponible ne permet pas de maintenir les frontières. Aucun test documentaire ne peut confirmer ce bénéfice net."
+    }
+  ],
+  "provenance": {
+    "role": "interview_plan_implementation",
+    "niche": "planned_world",
+    "methodId": "prompt_defined",
+    "recipe": "planned",
+    "sources": [
+      "mission.txt",
+      "user mission",
+      "verify.cjs",
+      "E-source-1",
+      "E-source-2"
+    ],
+    "strategy": "factorial_experiment",
+    "strategyExecution": "Comparaison qualitative à critères fixes ; expérience factorielle de production non réalisée, aucune promotion ni allocation fondée sur un score."
+  },
+  "counterfactual": {
+    "condition": "Capacité de développement et d'exploitation supérieure aux six développeurs assignés, toutes autres contraintes inchangées.",
+    "intervention": {
+      "type": "hypothetical",
+      "dimension": "resource_capacity",
+      "description": "Augmenter la capacité disponible pour l'exploitation et la migration ; valeur non assignée par la mission, donc non chiffrée."
+    },
+    "result": null
+  },
+  "evidenceVector": {
+    "correctness": null,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": true
+  },
+  "evidenceVectorEvidence": {
+    "constraintCoverage": [
+      "E-test-1"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "runwayMonths": 18,
+    "executionBudgetRemaining": null,
+    "status": "Coût et consommation d'exécution non mesurés."
+  },
+  "executionLimits": [
+    "Aucune mesure de production, expérience factorielle, replay ou vérification indépendante exécutée.",
+    "Outils de routage GenOS indisponibles ; aucune autre chambre consultée.",
+    "Aucun reçu runtime fabriqué ; la sortie locale de npm test sera la seule preuve d'exécution.",
+    "Plan d'entretien distinct absent ; exigences de la mission utilisées, précondition non bloquante explicitée."
+  ],
+  "specialtyAssessment": {
+    "niche": "planned_world",
+    "inScope": true,
+    "evidence": [
+      "E-mission"
+    ]
+  },
+  "outcome": "success"
+}

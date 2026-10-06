@@ -1,0 +1,53 @@
+{
+  "id": "pareto-difficile",
+  "variant": "pareto",
+  "dimensions": [
+    "latence",
+    "cout",
+    "indisponibilite",
+    "complexite",
+    "evolution-difficulte"
+  ],
+  "candidates": [
+    [
+      "monolithe",
+      80,
+      100,
+      5,
+      1,
+      5
+    ],
+    [
+      "modulaire",
+      85,
+      110,
+      5,
+      2,
+      2
+    ],
+    [
+      "microservices",
+      50,
+      400,
+      2,
+      8,
+      1
+    ],
+    [
+      "serverless",
+      120,
+      60,
+      3,
+      5,
+      3
+    ],
+    [
+      "fragile",
+      100,
+      150,
+      7,
+      3,
+      6
+    ]
+  ]
+}

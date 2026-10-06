@@ -1,0 +1,217 @@
+{
+  "facts": {
+    "developers": 6,
+    "runwayMonths": 18,
+    "users": 10000
+  },
+  "options": [
+    {
+      "architecture": "Monolithe modulaire",
+      "rationale": "Un déploiement unique et des modules métier explicites limitent les frontières distribuées. Pour six développeurs et dix-huit mois de runway, cette simplicité paraît adaptée, sous réserve que la charge et les exigences d'isolation le permettent.",
+      "risks": [
+        "Couplage croissant si les frontières ne sont pas contrôlées.",
+        "Déploiement et panne potentiellement communs à tous les modules."
+      ]
+    },
+    {
+      "architecture": "Microservices",
+      "rationale": "Des services autonomes peuvent offrir des déploiements, une isolation et une mise à l'échelle indépendants. Leur intérêt dépend de besoins effectivement distincts et de frontières métier stables ; leur exploitation distribuée consomme une capacité actuellement inconnue.",
+      "risks": [
+        "Transactions distribuées, observabilité et exploitation plus complexes.",
+        "Six développeurs peuvent être dispersés entre trop de services.",
+        "Frontières prématurées susceptibles de nécessiter des migrations coûteuses."
+      ]
+    },
+    {
+      "architecture": "Modular monolith avec extraction progressive",
+      "rationale": "Commencer avec un monolithe modulaire conserve une exploitation centralisée, tout en documentant les interfaces et la propriété des données. Extraire seulement un module dont le besoin est mesuré préserve une option d'évolution sans financer immédiatement tous les services.",
+      "risks": [
+        "Discipline de modularité et coût ultérieur de séparation des données.",
+        "L'extraction peut rester difficile si les transactions traversent les modules.",
+        "Surconception si des abstractions distribuées sont ajoutées sans besoin."
+      ]
+    }
+  ],
+  "recommendation": "Adopter un modular monolith avec extraction progressive : un seul déploiement au départ, des modules métier aux interfaces explicites et une propriété logique des données. Avec six développeurs et dix-huit mois de runway, c'est un jugement prudent de gestion de capacité, pas une supériorité démontrée. N'extraire un module que lorsqu'un besoin mesuré d'isolation, de charge ou d'autonomie justifie le coût complet.",
+  "decisionTriggers": [
+    "Extraire un module si des mesures de charge représentative montrent un goulot persistant après optimisation locale et si un prototype isolé satisfait les SLO convenus à un coût accepté.",
+    "Réévaluer si des incidents documentés exigent une isolation de panne que le déploiement commun ne fournit pas, et si les dépendances peuvent être séparées.",
+    "Réévaluer lorsque des équipes autonomes et une capacité d'exploitation dédiée existent, avec des déploiements réellement bloqués par la coordination commune.",
+    "Conserver le monolithe modulaire si les mesures respectent les objectifs et qu'aucun besoin indépendant ne justifie l'extraction.",
+    "Reconsidérer immédiatement si une obligation réglementaire ou de résidence impose une frontière de déploiement ou de données distincte."
+  ],
+  "analysis": "Les trois options sont comparées selon les mêmes six critères. Le monolithe modulaire et sa variante à extraction progressive partagent l'architecture initiale : la différence est une politique explicite d'évolution, pas une catégorie de performance. Dix mille utilisateurs ne donnent ni concurrence, ni débit, ni volume de données. La complexité métier demande des frontières et des invariants cohérents mais n'impose pas de distribution. La recommandation infère une préférence pour une faible charge d'exploitation initiale à partir des ressources imposées ; elle suppose qu'aucune exigence d'isolation immédiate n'est encore établie. Aucun score, benchmark, gain financier ou dominance empirique n'est disponible. La matrice ne permet donc aucune élimination par dominance. Le plan factorial_experiment conserve les trois options et propose de les tester sur les mêmes scénarios en faisant varier la capacité de ressources ; aucun prototype architectural n'a été exécuté.",
+  "uncertainties": [
+    "Concurrence, débit, saisonnalité, volume de données et SLO inconnus.",
+    "Compétences DevOps, disponibilité d'astreinte et expérience des six développeurs inconnues.",
+    "Frontières métier, transactions intermodules et état du code existant inconnus.",
+    "Coûts d'infrastructure, productivité et coût d'extraction non mesurés.",
+    "Contraintes de sécurité, conformité et isolation non spécifiées.",
+    "Aucune comparaison empirique des trois architectures ; les sources décrivent des compromis généraux."
+  ],
+  "criteriaMatrix": [
+    {
+      "criterion": "Capacité de l'équipe et exploitation",
+      "options": [
+        {
+          "architecture": "Monolithe modulaire",
+          "qualitativeAssessment": "Une seule unité à exploiter ; effort inconnu.",
+          "measuredValue": null,
+          "evidenceIds": []
+        },
+        {
+          "architecture": "Microservices",
+          "qualitativeAssessment": "Plusieurs unités à exploiter ; maturité DevOps inconnue.",
+          "measuredValue": null,
+          "evidenceIds": []
+        },
+        {
+          "architecture": "Modular monolith avec extraction progressive",
+          "qualitativeAssessment": "Une unité initiale ; coût de discipline inconnu.",
+          "measuredValue": null,
+          "evidenceIds": []
+        }
+      ]
+    },
+    {
+      "criterion": "Runway et coût de livraison",
+      "options": [
+        {
+          "architecture": "Monolithe modulaire",
+          "qualitativeAssessment": "Livraison centralisée ; coût inconnu.",
+          "measuredValue": null,
+          "evidenceIds": []
+        },
+        {
+          "architecture": "Microservices",
+          "qualitativeAssessment": "Investissement distribué ; coût inconnu.",
+          "measuredValue": null,
+          "evidenceIds": []
+        },
+        {
+          "architecture": "Modular monolith avec extraction progressive",
+          "qualitativeAssessment": "Extraction différée ; économies non mesurées.",
+          "measuredValue": null,
+          "evidenceIds": []
+        }
+      ]
+    },
+    {
+      "criterion": "Complexité métier et cohérence des données",
+      "options": [
+        {
+          "architecture": "Monolithe modulaire",
+          "qualitativeAssessment": "Transactions locales possibles ; couplage à surveiller.",
+          "measuredValue": null,
+          "evidenceIds": []
+        },
+        {
+          "architecture": "Microservices",
+          "qualitativeAssessment": "Autonomie des données ; cohérence distribuée à concevoir.",
+          "measuredValue": null,
+          "evidenceIds": []
+        },
+        {
+          "architecture": "Modular monolith avec extraction progressive",
+          "qualitativeAssessment": "Interfaces métier et propriété des données explicites.",
+          "measuredValue": null,
+          "evidenceIds": []
+        }
+      ]
+    },
+    {
+      "criterion": "Charge et mise à l'échelle",
+      "options": [
+        {
+          "architecture": "Monolithe modulaire",
+          "qualitativeAssessment": "Mise à l'échelle globale possible ; capacité inconnue.",
+          "measuredValue": null,
+          "evidenceIds": []
+        },
+        {
+          "architecture": "Microservices",
+          "qualitativeAssessment": "Mise à l'échelle par service ; bénéfice inconnu.",
+          "measuredValue": null,
+          "evidenceIds": []
+        },
+        {
+          "architecture": "Modular monolith avec extraction progressive",
+          "qualitativeAssessment": "Extraire un point chaud confirmé ; capacité inconnue.",
+          "measuredValue": null,
+          "evidenceIds": []
+        }
+      ]
+    },
+    {
+      "criterion": "Isolation et déploiement",
+      "options": [
+        {
+          "architecture": "Monolithe modulaire",
+          "qualitativeAssessment": "Unité de panne et de déploiement partagée.",
+          "measuredValue": null,
+          "evidenceIds": []
+        },
+        {
+          "architecture": "Microservices",
+          "qualitativeAssessment": "Isolation conditionnée par les dépendances et l'exploitation.",
+          "measuredValue": null,
+          "evidenceIds": []
+        },
+        {
+          "architecture": "Modular monolith avec extraction progressive",
+          "qualitativeAssessment": "Isolation initiale commune ; ciblée après extraction.",
+          "measuredValue": null,
+          "evidenceIds": []
+        }
+      ]
+    },
+    {
+      "criterion": "Réversibilité et coût de migration",
+      "options": [
+        {
+          "architecture": "Monolithe modulaire",
+          "qualitativeAssessment": "Frontières utiles ; extraction non préparée explicitement.",
+          "measuredValue": null,
+          "evidenceIds": []
+        },
+        {
+          "architecture": "Microservices",
+          "qualitativeAssessment": "Frontières déjà distribuées ; retours et migrations complexes.",
+          "measuredValue": null,
+          "evidenceIds": []
+        },
+        {
+          "architecture": "Modular monolith avec extraction progressive",
+          "qualitativeAssessment": "Option conservée ; extraction toujours coûteuse et conditionnelle.",
+          "measuredValue": null,
+          "evidenceIds": []
+        }
+      ]
+    }
+  ],
+  "dominance": "Aucune dominance établie : toutes les valeurs comparatives mesurées sont null.",
+  "counterfactual": {
+    "condition": "Capacité de ressources disponible différente, à charge métier et exigences identiques ; aucune valeur alternative n'est fournie par la mission.",
+    "intervention": {
+      "type": "planned_controlled_variation",
+      "dimension": "resource_capacity",
+      "description": "Varier la capacité dédiée à l'exploitation et à l'implémentation pour chacune des trois architectures, sur les mêmes flux métier et profils de charge. Expérience proposée, non exécutée."
+    }
+  },
+  "provenance": {
+    "facts": "mission.txt et instruction utilisateur",
+    "reasoning": "Inférence locale conditionnelle, stratégie factorial_experiment, posture self_correcting.",
+    "sources": [
+      {
+        "id": "E-SOURCE-MS",
+        "url": "https://learn.microsoft.com/en-us/azure/architecture/guide/architecture-styles/microservices",
+        "scope": "Complexité distribuée et maturité DevOps ; aucune mesure de cette entreprise."
+      },
+      {
+        "id": "E-SOURCE-MF",
+        "url": "https://martinfowler.com/bliki/MonolithFirst.html",
+        "scope": "Argument qualitatif pour des frontières apprises progressivement ; retour d'expérience, pas benchmark."
+      }
+    ]
+  }
+}

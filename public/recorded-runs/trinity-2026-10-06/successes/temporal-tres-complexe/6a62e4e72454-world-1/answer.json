@@ -1,0 +1,167 @@
+{
+  "analysis": "Architecture de sécurité sur trois horizons, avec hypothèse fixe de ce monde : minimiser le délai de livraison et de réponse aux incidents sur 0–90 jours (V1). Les trois designs sont des variantes locales de défaillances possibles : perte du fournisseur, évolution du schéma et réduction de capacité. Choix initial : noyau minimal auditable et adaptateurs remplaçables, export JSON versionné. Un aller-retour local ne démontre ni une migration complète ni la faisabilité à vingt ans. 20 ans = 7300 jours dans ce modèle simplifié, sans années bissextiles.",
+  "designs": [
+    {
+      "id": "A",
+      "architecture": "Service de sécurité intégré à un fournisseur derrière un adaptateur étroit; configuration canonique JSON détenue localement.",
+      "hypotheses": [
+        "Une petite équipe doit livrer en 90 jours.",
+        "Le fournisseur accepte un export documenté."
+      ],
+      "incidentMutation": "Indisponibilité du fournisseur : procédures de révocation locales et export hors ligne; efficacité non mesurée.",
+      "openExitCompatibility": "Export de politiques, identifiants stables et références aux secrets; adaptateur cible à valider par tests sémantiques. Aucun secret brut dans les exports."
+    },
+    {
+      "id": "B",
+      "architecture": "Noyau modulaire local : décision d'autorisation séparée des identités, stockage et collecte des événements; journal et sauvegardes restaurables.",
+      "hypotheses": [
+        "Capacité opérationnelle suffisante pour exploiter le noyau.",
+        "Les règles d'autorisation ont une sémantique documentable."
+      ],
+      "incidentMutation": "Schéma inconnu : conserver les champs JSON, refuser les versions sémantiques non supportées avant activation.",
+      "openExitCompatibility": "Format ouvert JSON UTF-8 avec schemaVersion; import/export complet des données JSON mais compatibilité métier à démontrer séparément."
+    },
+    {
+      "id": "C",
+      "architecture": "Deux implémentations indépendantes derrière un protocole versionné, réplication et tests de conformité.",
+      "hypotheses": [
+        "Budget permettant deux chaînes de maintenance.",
+        "Les domaines de défaillance sont réellement indépendants."
+      ],
+      "incidentMutation": "Capacité divisée par deux : prioriser décisions critiques, borner files et dégrader la télémétrie avant le contrôle d'accès; non exécuté.",
+      "openExitCompatibility": "Conformité et restauration sur seconde implémentation avant bascule; coût et indépendance non établis."
+    }
+  ],
+  "uncertainties": [
+    "Besoins, menaces, normes, volumes et fournisseurs futurs inconnus.",
+    "Compatibilité sémantique et migration des identités, journaux et secrets non mesurées.",
+    "Disponibilité, coût, délai de réponse aux incidents et évolution sur vingt ans non mesurés."
+  ],
+  "horizons": [
+    {
+      "days": 90,
+      "delivery": "Livrer le design A avec contrat d'adaptateur, moindre privilège et configuration portable; sa vitesse supposée sert V1 sans mesure de calendrier.",
+      "operations": "Prévoir révocation, sauvegarde, restauration et journal d'audit; seule la sauvegarde/relecture locale de configuration est exercée ici.",
+      "reversibility": "Détenir les exports versionnés dès le départ et refuser une transformation silencieuse; le test vérifie deux documents JSON, pas une sortie fournisseur."
+    },
+    {
+      "days": 730,
+      "delivery": "Évoluer vers B si les intégrations et incidents justifient son coût; préserver les contrats et tester chaque migration avant activation.",
+      "operations": "Budgéter correctifs, rotation des clés, exercice de restauration et observabilité; ces pratiques sont proposées et aucun SLO n'est mesuré.",
+      "reversibility": "Construire un importateur indépendant, comparer les décisions et prévoir un retour arrière; conserver les schémas historiques et les exports."
+    },
+    {
+      "days": 7300,
+      "delivery": "À 20 ans = 7300 jours, modèle simplifié, permettre le remplacement incrémental de modules sans prédire les futurs besoins ni garantir la survie.",
+      "operations": "Renouveler dépendances, compétences et formats; une archive seule ne suffit pas sans clés, documentation et lecteurs maintenus sur la durée.",
+      "reversibility": "Migrer par lots avec contrôle sémantique et retrait des adaptateurs; compatibilité future, coûts de sortie et restauration restent à démontrer."
+    }
+  ],
+  "shortGoodLongBad": "Un service propriétaire tout intégré peut accélérer livraison et incidents, mais règles opaques, identifiants exclusifs, secrets captifs et absence d'export rendent la sortie coûteuse voire impossible. Ces effets sont hypothétiques : aucun fournisseur réel ni coût de migration n'a été testé.",
+  "longGoodShortBad": "Deux moteurs indépendants et une couche universelle de compatibilité peuvent préserver une sortie à long terme mais doublent maintenance, surface d'attaque et coordination immédiatement. Un noyau minimal et des contrats étroits limitent ce risque sans prétendre éliminer la dette future.",
+  "optionValue": "Le format ouvert, les adaptateurs isolés, les références stables et les exercices d'import préservent la possibilité de changer de solution. Cette valeur d'option est qualitative : aucun prix, probabilité ou rendement n'est mesuré; investir davantage dépend de tests de sortie et d'incidents observés.",
+  "measurementLimits": "Le vérificateur local contrôle des champs argumentatifs et deux allers-retours JSON avec égalité stricte. Il ne teste ni sécurité opérationnelle, ni compatibilité avec un fournisseur, ni 7300 jours de vieillissement. Les valeurs numériques null indiquent une dimension non mesurée; aucun reçu runtime n'est créé.",
+  "acceptanceChecks": [
+    "npm test : structure temporelle et arguments requis, export roundTrip et égalité stricte de deux configurations.",
+    "roundTrip sauvegarde en JSON UTF-8 puis relit; nettoyage du répertoire temporaire.",
+    "Ne modifier ni mission.txt ni package.json ni verify.cjs."
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Le livrable propose trois designs et un invariant local de portabilité JSON; la faisabilité à vingt ans reste inconnue.",
+      "evidence": [
+        "E1",
+        "E2"
+      ],
+      "falsificationCriteria": "Réfuter l'invariant si l'un des deux documents du vérificateur diffère après sauvegarde/relecture, si aucun fichier n'est écrit, ou si roundTrip dépend d'un fournisseur. Réfuter la conformité si un horizon manque, si les trois designs ou leurs hypothèses et sorties sont absents, si un fichier protégé change, ou si une mesure non exécutée est présentée comme connue. Une migration réelle échouant à préserver règles, identités, secrets référencés et journaux réfuterait la réversibilité métier, qui n'est pas revendiquée ici."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "type": "source_inspection",
+      "source": "mission.txt; package.json; verify.cjs",
+      "result": "Inspection exécutée : npm test appelle node verify.cjs; deux configurations et trois horizons requis."
+    },
+    {
+      "id": "E2",
+      "type": "test",
+      "source": "npm test",
+      "result": "Exécuté : npm test, code de sortie 0; PASS portable configuration roundtrips;20-year feasibility unmeasured. Deux documents comparés par assert.deepEqual."
+    }
+  ],
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": 1,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": {
+      "evidenceIds": [
+        "E2"
+      ],
+      "definition": "Fraction des deux assertions d'égalité stricte réussies : 2/2; limitée aux fixtures."
+    },
+    "coverage": {
+      "evidenceIds": [
+        "E1",
+        "E2"
+      ],
+      "definition": "Documents prévus par le vérificateur exercés : 2/2; ne mesure pas la couverture de code ou métier."
+    }
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "within_scope",
+    "executionBudgetObserved": 100,
+    "remainingBudget": null,
+    "actualCost": null
+  },
+  "counterfactual": {
+    "condition": "Hypothèse assignée World 1 : effets immédiats t=0..90 jours, V1; comparer conceptuellement une réduction de moitié de capacité à capacité inchangée.",
+    "intervention": {
+      "type": "capacity_reduction",
+      "dimension": "resource_capacity",
+      "description": "Capacité divisée par deux, intervention proposée non exécutée; aucune conclusion causale mesurée."
+    }
+  },
+  "provenance": {
+    "role": "baseline_security_engineer",
+    "scopeRef": "qual-20261006-temporal-tres-complexe-a1-parent/ baseline_security_engineer / World 1",
+    "methodId": "prompt_defined",
+    "methodSource": "mission_prompt",
+    "recipe": "direct",
+    "strategy": "mutated_incident_universes",
+    "hypothesis": "World 1 immediate effects V1",
+    "sources": [
+      "mission.txt",
+      "package.json",
+      "verify.cjs",
+      "assigned mission"
+    ],
+    "externalSources": [],
+    "unmetPreconditions": [
+      "Outils GenOS de routage non exposés; publication locale seulement.",
+      "Pas de fournisseur réel, migration indépendante, vieillissement ou intervention de capacité disponible."
+    ],
+    "promotion": "Non demandée et non effectuée."
+  },
+  "hardConstraintsScope": "Contraintes locales du vérificateur, trois designs documentés et fichiers protégés non modifiés par les commandes de création. Aucun verdict de promotion ou reçu runtime.",
+  "scopeCompletion": {
+    "scopeRef": "qual-20261006-temporal-tres-complexe-a1-parent/ baseline_security_engineer / World 1",
+    "completedRefs": [
+      "answer.json",
+      "methods.cjs",
+      "solution.md"
+    ]
+  },
+  "outcome": "success"
+}

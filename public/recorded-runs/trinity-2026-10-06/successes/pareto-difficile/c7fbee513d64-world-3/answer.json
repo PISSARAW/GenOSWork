@@ -1,0 +1,27 @@
+{
+  "paretoFront": [
+    "monolithe",
+    "modulaire",
+    "microservices",
+    "serverless"
+  ],
+  "tradeoffs": [
+    {
+      "id": "monolithe",
+      "explanation": "[80,100,5,1,5]. Complexité minimale (1). Face au modulaire: latence inférieure de 5, coût inférieur de 10, indisponibilité égale, complexité inférieure de 1, difficulté évolution supérieure de 3. Face aux microservices: coût et complexité meilleurs, latence, indisponibilité et évolution moins bons. Face au serverless: latence et complexité meilleures, coût, indisponibilité et évolution moins bons."
+    },
+    {
+      "id": "modulaire",
+      "explanation": "[85,110,5,2,2]. Face au monolithe: évolution meilleure de 3, mais latence supérieure de 5, coût supérieur de 10 et complexité supérieure de 1; indisponibilité égale. Face aux microservices: coût et complexité meilleurs, latence, indisponibilité et évolution moins bons. Face au serverless: latence, complexité et évolution meilleures, coût et indisponibilité moins bons."
+    },
+    {
+      "id": "microservices",
+      "explanation": "[50,400,2,8,1]. Minima de latence (50), indisponibilité (2) et difficulté évolution (1), mais maxima de coût (400) et complexité (8). Face au monolithe: gains de 30,3,4 sur latence, indisponibilité, évolution; surcoût 300 et complexité supplémentaire 7. Face au modulaire: gains 35,3,1; surcoût 290 et complexité supplémentaire 6. Face au serverless: gains 70,1,2; surcoût 340 et complexité supplémentaire 3."
+    },
+    {
+      "id": "serverless",
+      "explanation": "[120,60,3,5,3]. Coût minimal (60), latence maximale (120). Face au monolithe: coût meilleur de 40, indisponibilité meilleure de 2 et évolution meilleure de 2, mais latence supérieure de 40 et complexité supérieure de 4. Face au modulaire: coût meilleur de 50 et indisponibilité meilleure de 2, mais latence supérieure de 35, complexité supérieure de 3 et évolution plus difficile de 1. Face aux microservices: coût et complexité meilleurs, les trois autres critères moins bons."
+    }
+  ],
+  "explanation": "Tous les critères sont minimisés sans somme pondérée ni scalarisation. Un candidat domine un autre si toutes ses valeurs sont inférieures ou égales et au moins une strictement inférieure. Les quatre candidats retenus sont incomparables deux à deux. Fragile [100,150,7,3,6] est strictement dominé sur chaque dimension par monolithe [80,100,5,1,5] et modulaire [85,110,5,2,2]. Les valeurs sont des hypothèses fixes, sans mesure de performance réelle. Aucune contrainte supplémentaire n’est présente. Le front est vérifié pour ces données seulement. Hypervolume: pour un point de référence r au moins aussi mauvais que chaque candidat, le volume de l’union des boîtes [c1,r1]×...×[c5,r5] décrit la région dominée par ce front; fragile ne contribue aucun volume supplémentaire. Sans point de référence, unités normalisées ou convention de normalisation fournis, aucun hypervolume numérique ni classement par contribution n’est affirmé."
+}

@@ -1,0 +1,419 @@
+{
+  "facts": {
+    "developers": 6,
+    "runwayMonths": 18,
+    "users": 10000
+  },
+  "options": [
+    {
+      "architecture": "Monolithe modulaire",
+      "rationale": "Un déploiement unique et des frontières métier explicites permettent de traiter la complexité sans multiplier les échanges réseau. Avec six développeurs, cette simplicité paraît adaptée, sous réserve de compétences et de charge encore inconnues.",
+      "risks": [
+        "Érosion des frontières et accès directs aux données des autres modules.",
+        "Déploiement partagé et panne potentiellement globale.",
+        "Dimensionnement global même si un seul module consomme les ressources."
+      ]
+    },
+    {
+      "architecture": "Microservices",
+      "rationale": "Des services autonomes permettent des déploiements et un dimensionnement indépendants quand les frontières métier sont stables. Ils impliquent exploitation distribuée, contrats et gestion des défaillances réseau, dont la capacité de prise en charge par six développeurs reste inconnue.",
+      "risks": [
+        "Charge opérationnelle, astreinte et diagnostic distribué.",
+        "Transactions interservices et cohérence éventuelle.",
+        "Découpage prématuré ou monolithe distribué avec dépendances synchrones."
+      ]
+    },
+    {
+      "architecture": "Modular monolith avec extraction progressive",
+      "rationale": "Commencer avec un seul déploiement modulaire conserve une organisation simple tout en préparant des frontières extractibles. Une extraction intervient seulement après observation d'un besoin concret, et peut ne jamais avoir lieu. Cette trajectoire convient provisoirement aux contraintes annoncées.",
+      "risks": [
+        "Surconception de frontières supposées extractibles.",
+        "Migration des données et coexistence de deux modes d'exploitation.",
+        "Extraction coûteuse si les transactions traversent de nombreux modules."
+      ]
+    }
+  ],
+  "recommendation": "Adopter un modular monolith avec extraction progressive conditionnelle. Livrer d'abord un seul déploiement, découper par capacités métier, protéger les interfaces et la propriété des données. Ne créer un service que si un besoin observé justifie son coût et qu'un responsable peut l'exploiter. C'est une décision qualitative révisable, pas une supériorité mesurée.",
+  "decisionTriggers": [
+    "Extraire un module seulement si des tests représentatifs montrent un goulot d'étranglement local après optimisation et si un essai démontre l'intérêt du dimensionnement indépendant.",
+    "Reconsidérer les microservices si des équipes autonomes et une capacité d'astreinte, de déploiement automatisé et d'observabilité sont effectivement disponibles.",
+    "Isoler une capacité si une exigence vérifiée de sécurité, disponibilité ou résidence des données impose une frontière de déploiement.",
+    "Conserver le déploiement unique si les frontières métier changent souvent ou si les transactions intermodules rendent l'extraction risquée.",
+    "Reporter une extraction si son coût estimé menace le runway ou si un retour arrière et la migration des données ne sont pas démontrés."
+  ],
+  "analysis": "Les contraintes déclarées sont six développeurs, dix-huit mois de runway, une application métier complexe et environ dix mille utilisateurs. Le nombre d'utilisateurs ne fournit ni concurrence, ni débit, ni volume des données. La complexité métier appelle des frontières explicites sans démontrer un besoin de distribution. Le monolithe modulaire et la trajectoire d'extraction ont la même architecture initiale; leur différence est une politique d'évolution. La recommandation repose sur l'hypothèse d'une capacité opérationnelle limitée et de frontières encore évolutives. Les microservices restent justifiables si des contraintes d'isolation ou d'autonomie vérifiées l'exigent. Aucune dominance empirique n'est établie : la matrice présente des mécanismes et hypothèses, toutes ses mesures restent null. Les tests contrôlent le dossier, pas les effets réels des architectures.",
+  "uncertainties": [
+    "Charge simultanée, débit, latence cible et profil des données inconnus.",
+    "Compétences de l'équipe, infrastructure existante et capacité d'astreinte inconnues.",
+    "Stabilité des frontières métier et fréquence des transactions intermodules inconnues.",
+    "Exigences de disponibilité, conformité et isolation non spécifiées.",
+    "Coûts, durée de migration et trajectoire de croissance non mesurés."
+  ],
+  "criteriaMatrix": {
+    "measurementStatus": "Toutes les comparaisons sont qualitatives; aucune mesure architecturale.",
+    "rows": [
+      {
+        "criterion": "Capacité de livraison avec six développeurs",
+        "comparisons": [
+          {
+            "architecture": "Monolithe modulaire",
+            "assessment": "Un pipeline partagé; charge à vérifier",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          },
+          {
+            "architecture": "Microservices",
+            "assessment": "Plusieurs pipelines et responsabilités; capacité inconnue",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          },
+          {
+            "architecture": "Modular monolith avec extraction progressive",
+            "assessment": "Pipeline partagé initialement; extraction limitée",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          }
+        ]
+      },
+      {
+        "criterion": "Préservation des dix-huit mois de runway",
+        "comparisons": [
+          {
+            "architecture": "Monolithe modulaire",
+            "assessment": "Exploitation simple supposée; coût inconnu",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          },
+          {
+            "architecture": "Microservices",
+            "assessment": "Investissement opérationnel supposé; coût inconnu",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          },
+          {
+            "architecture": "Modular monolith avec extraction progressive",
+            "assessment": "Investissement différé; coût de migration inconnu",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          }
+        ]
+      },
+      {
+        "criterion": "Complexité et cohérence métier",
+        "comparisons": [
+          {
+            "architecture": "Monolithe modulaire",
+            "assessment": "Transactions locales; discipline de modules",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          },
+          {
+            "architecture": "Microservices",
+            "assessment": "Contrats distribués; transactions à repenser",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          },
+          {
+            "architecture": "Modular monolith avec extraction progressive",
+            "assessment": "Transactions locales puis séparation ciblée",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          }
+        ]
+      },
+      {
+        "criterion": "Charge de dix mille utilisateurs",
+        "comparisons": [
+          {
+            "architecture": "Monolithe modulaire",
+            "assessment": "Débit et concurrence inconnus; charge à tester",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          },
+          {
+            "architecture": "Microservices",
+            "assessment": "Mise à l'échelle par service; bénéfice inconnu",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          },
+          {
+            "architecture": "Modular monolith avec extraction progressive",
+            "assessment": "Optimiser puis extraire un point chaud mesuré",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          }
+        ]
+      },
+      {
+        "criterion": "Déploiement et isolation des pannes",
+        "comparisons": [
+          {
+            "architecture": "Monolithe modulaire",
+            "assessment": "Déploiement commun; isolation logique",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          },
+          {
+            "architecture": "Microservices",
+            "assessment": "Déploiement autonome si dépendances maîtrisées",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          },
+          {
+            "architecture": "Modular monolith avec extraction progressive",
+            "assessment": "Commun initialement; autonomie ciblée ensuite",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          }
+        ]
+      },
+      {
+        "criterion": "Réversibilité et évolution",
+        "comparisons": [
+          {
+            "architecture": "Monolithe modulaire",
+            "assessment": "Refactorisation interne; extraction non planifiée",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          },
+          {
+            "architecture": "Microservices",
+            "assessment": "Frontières distribuées plus difficiles à changer",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          },
+          {
+            "architecture": "Modular monolith avec extraction progressive",
+            "assessment": "Frontières explicites; migration progressive avec retour arrière",
+            "value": null,
+            "evidenceIds": [],
+            "reasoningEvidenceIds": [
+              "E-MISSION",
+              "E-FOWLER"
+            ]
+          }
+        ]
+      }
+    ],
+    "dominance": "Aucune dominance démontrée par des mesures comparables."
+  },
+  "evidence": [
+    {
+      "id": "E-MISSION",
+      "type": "input",
+      "source": "mission.txt et demande utilisateur",
+      "description": "Faits et contrat assignés; faits déclarés, non audités."
+    },
+    {
+      "id": "E-VERIFY-SOURCE",
+      "type": "inspection",
+      "source": "verify.cjs",
+      "description": "Lecture du vérificateur inchangé : assertions sur facts, analysis, options, recommendation, decisionTriggers et uncertainties."
+    },
+    {
+      "id": "E-FOWLER",
+      "type": "primary_source",
+      "source": "https://martinfowler.com/bliki/MicroservicePrerequisites.html",
+      "description": "Source consultée par recherche web : les microservices demandent une capacité d'exploitation distribuée. Conseil qualitatif, aucune mesure locale."
+    },
+    {
+      "id": "E-NPM-TEST",
+      "type": "executed_test",
+      "source": "npm test → node verify.cjs",
+      "exitCode": 0,
+      "output": "PASS preserved architecture constraints and dossier coverage; qualitative choice not empirically certified",
+      "limitations": "Conformité minimale du dossier uniquement."
+    },
+    {
+      "id": "E-MATRIX-TEST",
+      "type": "executed_test",
+      "source": "node -e assertions complémentaires exécutées dans le workspace",
+      "exitCode": 0,
+      "output": "PASS 6 common criteria x 3 options; all 18 measurements null; unique claim; counterfactual dimension; dossier present",
+      "checks": [
+        "6 critères avec les mêmes 3 options",
+        "18 mesures null sans preuves de mesure",
+        "1 claim mission-answer avec critères de falsification",
+        "dimension resource_capacity",
+        "solution.md présent et longueur > 1000"
+      ],
+      "limitations": "Contrôle structurel; ne démontre pas les propriétés de l'architecture."
+    }
+  ],
+  "evidenceVector": {
+    "correctness": true,
+    "coverage": true,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": true
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E-NPM-TEST"
+    ],
+    "coverage": [
+      "E-NPM-TEST",
+      "E-MATRIX-TEST"
+    ],
+    "constraintCoverage": [
+      "E-NPM-TEST",
+      "E-MATRIX-TEST"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "unknown",
+    "executionBudgetRemaining": null,
+    "financialCost": null,
+    "runwayMonthsDeclared": 18
+  },
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Le dossier préserve les faits assignés et compare les trois options; la recommandation reste qualitative et conditionnelle.",
+      "evidence": [
+        "E-MISSION",
+        "E-NPM-TEST",
+        "E-MATRIX-TEST"
+      ],
+      "falsificationCriteria": "Réfuter la conformité si facts diffère de 6/18/10000, si une option nommée manque, si les critères ne sont pas communs, si moins de trois déclencheurs ou incertitudes figurent, si une mesure sans preuve est publiée, ou si npm test échoue. Réviser la recommandation si des mesures comparables démontrent une contrainte d'isolation ou un gain de distribution justifiant son coût avec la capacité opérationnelle disponible. Le PASS documentaire ne valide pas la supériorité de l'architecture."
+    }
+  ],
+  "counterfactual": {
+    "condition": "À besoins métier identiques, une capacité de ressources et d'exploitation supérieure est disponible.",
+    "intervention": {
+      "type": "hypothetical",
+      "dimension": "resource_capacity",
+      "description": "Augmenter la capacité disponible pour l'exploitation, les déploiements et les astreintes; hypothèse non exécutée."
+    },
+    "result": null,
+    "evidenceVector": null,
+    "evidenceVectorEvidence": {},
+    "limits": "Aucun essai contrefactuel ni comparaison causale réalisé."
+  },
+  "provenance": {
+    "scopeRef": "architecture_decision/criteria_matrix",
+    "methodId": "prompt_defined",
+    "source": "mission_prompt",
+    "recipe": "direct",
+    "assignedStrategy": "factorial_experiment",
+    "strategyExecution": "Comparaison qualitative des trois options fixées. Aucun essai factoriel causal ni classement pondéré exécuté faute de mesures; aucune promotion.",
+    "inputs": [
+      "mission.txt",
+      "verify.cjs",
+      "package.json",
+      "demande utilisateur"
+    ],
+    "otherChambersAccessed": false,
+    "unmetPreconditions": [
+      "Mesures de charge et coût absentes pour une expérience factorielle.",
+      "Outils GenOS de routage non exposés dans le bail utilisable."
+    ]
+  },
+  "executionLimits": [
+    "Aucun prototype, benchmark, test de charge ou mesure de coût.",
+    "Aucune réplication indépendante ni attribution de reçus runtime.",
+    "Vérificateur limité à la conformité documentaire."
+  ],
+  "acceptanceChecks": [
+    {
+      "check": "Contrat minimal",
+      "passed": true,
+      "evidenceIds": [
+        "E-NPM-TEST"
+      ]
+    },
+    {
+      "check": "Matrice, mesures inconnues, claim et contrefactuel",
+      "passed": true,
+      "evidenceIds": [
+        "E-MATRIX-TEST"
+      ]
+    }
+  ],
+  "scopeCompletion": {
+    "scopeRef": "architecture_decision/criteria_matrix",
+    "completedRefs": [
+      "answer.json",
+      "solution.md"
+    ]
+  },
+  "evidenceVectorDefinitions": {
+    "correctness": "Booléen : assertions de conformité de verify.cjs réussies; pas une justesse empirique de la recommandation.",
+    "coverage": "Booléen : couverture minimale du dossier et matrice commune validées; pas une couverture de tests applicatifs.",
+    "constraintCoverage": "Booléen : contraintes vérifiées par les deux commandes satisfaites; hors exigences non testées."
+  }
+}

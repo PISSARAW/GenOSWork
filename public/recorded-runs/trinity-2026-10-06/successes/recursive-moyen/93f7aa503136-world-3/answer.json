@@ -1,0 +1,141 @@
+{
+  "minimum63": 5,
+  "explanation": "Les pièces sont des entiers strictement positifs et réutilisables sans limite. Sous-structure optimale : si une solution optimale de montant a contient une pièce c, retirer c laisse une solution optimale pour a-c ; sinon remplacer ce reste par une solution plus courte diminuerait le nombre total, contradiction. Ainsi D(0)=0 et D(a)=min_c(1+D(a-c)) pour c<=a, avec Infinity pour les montants inaccessibles. La positivité assure que chaque dépendance précède a ; une induction sur a prouve le minimum exact. Pour 63, 17+17+17+11+1 donne cinq pièces. Trois pièces valent au plus 51 ; quatre pièces ont une somme paire puisque toutes les valeurs sont impaires, donc ne peuvent former 63. Le minimum est donc cinq. Le design retenu est une programmation dynamique itérative, O(n fois le nombre de valeurs) en temps et O(n) en mémoire. Le design glouton constitue un contre-factuel rejeté : pour 15, il emploie 11+1+1+1+1 (cinq pièces), alors que 5+5+5 en emploie trois. Le BFS indépendant du vérificateur sert d'oracle, sans promotion de branche runtime.",
+  "uncertainties": [
+    "Les très grands montants sont limités par la mémoire disponible et les limites des tableaux JavaScript ; aucune performance à grande échelle n'est mesurée."
+  ],
+  "assumptions": [
+    "Montant entier non négatif représentable exactement",
+    "Valeurs entières strictement positives",
+    "Pièces réutilisables sans limite"
+  ],
+  "outcome": "success",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Le minimum pour 63 est 5 ; la programmation dynamique fournit un minimum exact, tandis que le design glouton échoue déjà pour 15.",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ]
+    }
+  ],
+  "strategyTrace": [
+    {
+      "strategy": "n_way_counterfactual_fork",
+      "decision": "retained",
+      "reason": "Comparer localement les designs DP et glouton puis contester le résultat par le BFS imposé ; aucune création de worker, réallocation ou promotion runtime.",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3",
+        "E4"
+      ]
+    }
+  ],
+  "workerArtifact": {
+    "type": "technical",
+    "files": [
+      "solution.cjs",
+      "answer.json"
+    ],
+    "export": "exports.minCoins(n, coins)"
+  },
+  "specialtyAssessment": {
+    "role": "self_correcting_implementation",
+    "optimalSubstructure": "preuve par remplacement et induction dans explanation",
+    "runtimePromotion": false
+  },
+  "acceptanceChecks": [
+    "Comparer minCoins au BFS indépendant pour n=0..150",
+    "Vérifier minimum63=5",
+    "Vérifier explanation et uncertainties",
+    "Ne pas modifier verify.cjs, package.json ou measure.cjs"
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "type": "file",
+      "path": "solution.cjs",
+      "description": "Implémentation CommonJS itérative et validation des entrées"
+    },
+    {
+      "id": "E2",
+      "type": "file",
+      "path": "answer.json",
+      "description": "Preuve de sous-structure optimale, témoin et borne inférieure"
+    },
+    {
+      "id": "E3",
+      "type": "command",
+      "command": "npm test",
+      "exitCode": 0,
+      "result": {
+        "cases": 151,
+        "pass": true,
+        "minimum63": 5,
+        "oracle": "BFS"
+      }
+    },
+    {
+      "id": "E4",
+      "type": "command",
+      "command": "node -e (assertions minCoins)",
+      "exitCode": 0,
+      "result": {
+        "pass": true,
+        "checks": 10
+      },
+      "description": "Zéro, montant inaccessible, doublons, ordre des pièces, contre-exemple glouton et entrées invalides"
+    }
+  ],
+  "evidenceVector": {
+    "correctness": true,
+    "coverage": {
+      "bfsAmounts": 151,
+      "boundaryAssertions": 10
+    },
+    "robustness": {
+      "boundaryAssertionsPassed": 10
+    },
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": {
+      "requiredBfsCasesPassed": 151
+    }
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E2",
+      "E3"
+    ],
+    "coverage": [
+      "E3",
+      "E4"
+    ],
+    "robustness": [
+      "E4"
+    ],
+    "constraintCoverage": [
+      "E1",
+      "E2",
+      "E3"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "within_budget",
+    "measuredConsumption": null
+  },
+  "executionLimits": [
+    "Validation algorithmique locale uniquement",
+    "Outils GenOS de routage non disponibles dans cette session",
+    "Aucun événement de récursion, réallocation ou promotion"
+  ]
+}

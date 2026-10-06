@@ -1,0 +1,385 @@
+{
+  "outcome": "success",
+  "explanation": "Prototype planifié dans planned_world : conserver les trois familles comme archive Quality-Diversity, sans promouvoir un gagnant. Les 100 agents sont préconfigurés de manière symétrique; aucun coordinateur central n'intervient à l'exécution. Les mécanismes sont des candidats architecturaux, pas des inventions certifiées. Le partitionnement temporel sépare les accès par créneaux; les droits conservés bornent la consommation par enveloppes; la compensation locale isole les mutations et inverse les échecs. La différence structurelle porte sur les cycles de récupération, la consommation avec restitution et la présence d'un état terminal de succès. Renommer un état ou changer un seuil ne crée pas une famille supplémentaire. Les trois familles occupent ici la même niche mesurée, mais conservent des mécanismes de coordination différents; l'archive doit préserver cette diversité intra-niche. La stratégie causal_replay_intervention compare des séquences nominales à des interventions explicites horloge_invalide, annuler et anomalie_locale, puis vérifie leurs états finaux. Le banc vérifie les graphes et rejoue les scénarios; il ne simule pas une population physique de 100 agents.",
+  "uncertainties": [
+    "qdTargetNiche absent du contexte et des fichiers locaux inspectés; niche [0,0] choisie comme hypothèse, conformité à une cible externe inconnue.",
+    "Aucune recherche de priorité: nouveauté absolue non établie. Ces mécanismes reposent sur des idées connues; la différence entre familles ne prouve pas leur nouveauté.",
+    "Synchronisation temporelle, unicité des rangs et isolation réelle des ressources supposées, non testées.",
+    "Enveloppes initiales, restitution correcte et séparation effective des domaines supposées; leur déploiement nécessite une validation.",
+    "Aucun test de charge à 100 agents, panne réseau, performance, équité ou faisabilité physique.",
+    "Vérification locale uniquement; aucune attestation indépendante ni promotion."
+  ],
+  "physicalValidationPerformed": false,
+  "designs": [
+    {
+      "family": "partition_temporelle",
+      "description": "100 agents de rangs préconfigurés distincts 0..99 calculent leur créneau depuis une horloge locale et un calendrier immuable. Aucun chef ni ordonnanceur à l'exécution. Les ressources exclusives sont utilisées seulement pendant le créneau du rang; une horloge suspecte entraîne l'abstention. La coordination provient de la séparation temporelle, pas de messages ou d'un espace partagé.",
+      "states": [
+        "attente",
+        "actif",
+        "suspendu"
+      ],
+      "transitions": [
+        {
+          "from": "attente",
+          "to": "actif",
+          "trigger": "creneau_propre",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "actif",
+          "to": "attente",
+          "trigger": "fin_creneau",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "attente",
+          "to": "suspendu",
+          "trigger": "horloge_invalide",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "actif",
+          "to": "suspendu",
+          "trigger": "horloge_invalide",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "suspendu",
+          "to": "attente",
+          "trigger": "horloge_retablie",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "creneau_propre",
+            "fin_creneau"
+          ],
+          "expected": "attente"
+        },
+        {
+          "events": [
+            "creneau_propre",
+            "horloge_invalide",
+            "horloge_retablie"
+          ],
+          "expected": "attente"
+        },
+        {
+          "events": [
+            "horloge_invalide"
+          ],
+          "expected": "suspendu"
+        }
+      ]
+    },
+    {
+      "family": "droits_conserves",
+      "description": "Une capacité totale est divisée avant exécution en 100 enveloppes privées fixes. Chaque agent consomme uniquement ses droits locaux, sans transfert, négociation ni enchère; le plafond global découle de la somme des enveloppes. Un agent dépourvu de droits s'abstient même si un autre en possède. Les événements de restitution correspondent à une libération locale effective, jamais à une allocation venant d'un tiers.",
+      "states": [
+        "disponible",
+        "reserve",
+        "epuise"
+      ],
+      "transitions": [
+        {
+          "from": "disponible",
+          "to": "reserve",
+          "trigger": "reserver",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "reserve",
+          "to": "epuise",
+          "trigger": "consommer",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "reserve",
+          "to": "disponible",
+          "trigger": "annuler",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "epuise",
+          "to": "disponible",
+          "trigger": "restituer",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "reserver",
+            "consommer",
+            "restituer"
+          ],
+          "expected": "disponible"
+        },
+        {
+          "events": [
+            "reserver",
+            "annuler"
+          ],
+          "expected": "disponible"
+        },
+        {
+          "events": [
+            "reserver",
+            "consommer"
+          ],
+          "expected": "epuise"
+        }
+      ]
+    },
+    {
+      "family": "compensation_locale",
+      "description": "100 agents possèdent des domaines de données disjoints calculés par une fonction déterministe d'identifiant. Chaque agent applique une modification réversible dans son domaine et conserve sa propre trace de compensation; une anomalie locale inverse la modification avant nouvel essai. Les opérations interdomaines sont exclues. La coordination vient de l'indépendance des domaines et de la réversibilité, sans journal commun, consensus, marché ou imitation collective.",
+      "states": [
+        "pret",
+        "applique",
+        "compensation",
+        "termine"
+      ],
+      "transitions": [
+        {
+          "from": "pret",
+          "to": "applique",
+          "trigger": "appliquer",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "applique",
+          "to": "termine",
+          "trigger": "controle_local_valide",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "applique",
+          "to": "compensation",
+          "trigger": "anomalie_locale",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "compensation",
+          "to": "pret",
+          "trigger": "inverse_termine",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "appliquer",
+            "controle_local_valide"
+          ],
+          "expected": "termine"
+        },
+        {
+          "events": [
+            "appliquer",
+            "anomalie_locale",
+            "inverse_termine"
+          ],
+          "expected": "pret"
+        },
+        {
+          "events": [
+            "appliquer",
+            "anomalie_locale",
+            "inverse_termine",
+            "appliquer",
+            "controle_local_valide"
+          ],
+          "expected": "termine"
+        }
+      ]
+    }
+  ],
+  "behaviorVector": [
+    0,
+    0
+  ],
+  "behaviorVectorEvidence": [
+    "ev-npm-test"
+  ],
+  "qdTargetNiche": null,
+  "qdNicheAssumption": "niche_0:0",
+  "population": 100,
+  "structuralComparison": [
+    {
+      "pair": [
+        "partition_temporelle",
+        "droits_conserves"
+      ],
+      "difference": "Exclusion périodique avec suspension de sûreté versus consommation de droits avec restitution; aucun transfert."
+    },
+    {
+      "pair": [
+        "partition_temporelle",
+        "compensation_locale"
+      ],
+      "difference": "Retour cyclique après créneau versus terminaison après validation et boucle d'inversion en cas d'anomalie."
+    },
+    {
+      "pair": [
+        "droits_conserves",
+        "compensation_locale"
+      ],
+      "difference": "Capacité conservée et état épuisé versus mutation réversible et état terminal."
+    }
+  ],
+  "qualityDiversity": {
+    "retainedFamilies": [
+      "partition_temporelle",
+      "droits_conserves",
+      "compensation_locale"
+    ],
+    "policy": "Conserver les trois candidats dans une archive intra-niche; aucune élimination sur une performance non mesurée.",
+    "superficialNoveltyRejected": [
+      "Renommage des états",
+      "Changement de seuil seul",
+      "Blockchain substituée à un journal",
+      "Chef tournant déguisé"
+    ]
+  },
+  "acceptanceChecks": [
+    {
+      "check": "Trois familles et scénarios déterministes rejouables",
+      "evidence": [
+        "ev-npm-test"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "Fractions calculées identiques au vecteur déclaré",
+      "evidence": [
+        "ev-npm-test"
+      ],
+      "status": "passed"
+    },
+    {
+      "check": "Fichiers du banc inchangés",
+      "evidence": [
+        "ev-harness-read"
+      ],
+      "status": "passed"
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-harness-read",
+      "type": "command",
+      "source": "Lecture réelle de MISSION.txt, package.json, measure.cjs et verify.cjs via exec_command",
+      "limitations": "Lecture locale; aucune preuve indépendante.",
+      "executionId": "eb93f7"
+    },
+    {
+      "id": "ev-answer-file",
+      "type": "file",
+      "path": "answer.json",
+      "executionId": "a67677"
+    },
+    {
+      "id": "ev-solution-file",
+      "type": "file",
+      "path": "solution.cjs",
+      "executionId": "a67677"
+    },
+    {
+      "id": "ev-npm-test",
+      "type": "command",
+      "command": "npm test",
+      "limitations": "Résultat local du banc fourni; mesure uniquement les descripteurs de transitions et le rejeu.",
+      "executionId": "f6f635",
+      "exitCode": 0,
+      "observedOutput": {
+        "pass": true,
+        "designs": 3,
+        "families": 3,
+        "transitions": 13,
+        "behaviorVector": [
+          0,
+          0
+        ],
+        "niche": "niche_0:0",
+        "measuredOnly": "transition graph descriptors and scenario replay; no novelty or physical feasibility certification"
+      }
+    },
+    {
+      "id": "ev-population-replay",
+      "type": "command",
+      "executionId": "d2275f",
+      "exitCode": 0,
+      "command": "node -e: replay each scenario for 100 independent sequences and assert rejection of unknown events",
+      "observedOutput": "population replay and invalid-event checks passed",
+      "limitations": "100 automates indépendants; aucune interaction ou ressource réelle simulée."
+    }
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Trois prototypes déterministes conservés: exclusion temporelle, conservation de droits et compensation locale; leurs graphes diffèrent par récupération, restitution et terminaison, avec niche mesurée [0,0].",
+      "evidence": [
+        "ev-answer-file",
+        "ev-solution-file",
+        "ev-npm-test"
+      ]
+    }
+  ],
+  "specialtyAssessment": {
+    "niche": "planned_world",
+    "inScope": true,
+    "evidence": [
+      "ev-harness-read"
+    ]
+  },
+  "evidenceVector": {
+    "correctness": null,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {},
+  "hardConstraintsPassed": {
+    "localHarness": true,
+    "protectedFilesUnmodified": true,
+    "physicalValidationNotClaimed": true,
+    "uniqueResultClaim": true,
+    "externalQdTargetCompliance": null
+  },
+  "budgetStatus": {
+    "status": "within_declared_budget",
+    "measuredConsumption": null
+  },
+  "executionLimits": [
+    "Le banc ne teste pas solution.cjs ni les hypothèses d'infrastructure.",
+    "Aucune cible QD externe disponible.",
+    "Outils de routage GenOS indisponibles; aucun résultat publié ou promu."
+  ],
+  "unmetPreconditions": [
+    "qdTargetNiche explicite absent",
+    "Vérification indépendante non disponible"
+  ]
+}

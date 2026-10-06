@@ -1,0 +1,416 @@
+{
+  "outcome": "success",
+  "primes": [
+    17,
+    29,
+    37
+  ],
+  "justification": "Un entier composé n possède un diviseur entre 2 et sa racine carrée : dans n = ab, les deux facteurs ne peuvent pas être strictement supérieurs à cette racine. Toutes les divisions entières sont consignées dans divisionChecks, même après découverte d’un diviseur. Pour 17, les restes pour 2, 3, 4 sont 1, 2, 1. Pour 21, ils sont 1, 0, 1 : 21 = 3 × 7. Pour 29, les restes pour 2, 3, 4, 5 sont 1, 2, 1, 4. Pour 33, ils sont 1, 0, 1, 3 : 33 = 3 × 11. Pour 37, les restes pour 2, 3, 4, 5, 6 sont 1, 1, 1, 2, 1. Les seuls nombres premiers sont donc 17, 29 et 37.",
+  "analysis": "Plan exécuté : lire le contrat et le vérificateur locaux, calculer toutes les divisions entières de 2 à floor(sqrt(n)) pour les cinq candidats, construire une liste croissante et fournir une preuve du critère utilisé. La commande Node de calcul a effectivement exécuté 19 divisions. Le test indépendant du dépôt est le contrôle d’acceptation suivant. Aucun résultat d’une autre chambre n’a été demandé ou consulté.",
+  "uncertainties": [
+    "Aucune incertitude arithmétique pour ces cinq petits entiers; la conclusion est limitée à cette liste.",
+    "Les dimensions sans mesure restent null; aucun reçu de runtime ni comparaison inter-chambres n’est disponible."
+  ],
+  "divisionChecks": [
+    {
+      "n": 17,
+      "limit": 4,
+      "divisions": [
+        {
+          "divisor": 2,
+          "quotient": 8,
+          "remainder": 1
+        },
+        {
+          "divisor": 3,
+          "quotient": 5,
+          "remainder": 2
+        },
+        {
+          "divisor": 4,
+          "quotient": 4,
+          "remainder": 1
+        }
+      ],
+      "prime": true
+    },
+    {
+      "n": 21,
+      "limit": 4,
+      "divisions": [
+        {
+          "divisor": 2,
+          "quotient": 10,
+          "remainder": 1
+        },
+        {
+          "divisor": 3,
+          "quotient": 7,
+          "remainder": 0
+        },
+        {
+          "divisor": 4,
+          "quotient": 5,
+          "remainder": 1
+        }
+      ],
+      "prime": false
+    },
+    {
+      "n": 29,
+      "limit": 5,
+      "divisions": [
+        {
+          "divisor": 2,
+          "quotient": 14,
+          "remainder": 1
+        },
+        {
+          "divisor": 3,
+          "quotient": 9,
+          "remainder": 2
+        },
+        {
+          "divisor": 4,
+          "quotient": 7,
+          "remainder": 1
+        },
+        {
+          "divisor": 5,
+          "quotient": 5,
+          "remainder": 4
+        }
+      ],
+      "prime": true
+    },
+    {
+      "n": 33,
+      "limit": 5,
+      "divisions": [
+        {
+          "divisor": 2,
+          "quotient": 16,
+          "remainder": 1
+        },
+        {
+          "divisor": 3,
+          "quotient": 11,
+          "remainder": 0
+        },
+        {
+          "divisor": 4,
+          "quotient": 8,
+          "remainder": 1
+        },
+        {
+          "divisor": 5,
+          "quotient": 6,
+          "remainder": 3
+        }
+      ],
+      "prime": false
+    },
+    {
+      "n": 37,
+      "limit": 6,
+      "divisions": [
+        {
+          "divisor": 2,
+          "quotient": 18,
+          "remainder": 1
+        },
+        {
+          "divisor": 3,
+          "quotient": 12,
+          "remainder": 1
+        },
+        {
+          "divisor": 4,
+          "quotient": 9,
+          "remainder": 1
+        },
+        {
+          "divisor": 5,
+          "quotient": 7,
+          "remainder": 2
+        },
+        {
+          "divisor": 6,
+          "quotient": 6,
+          "remainder": 1
+        }
+      ],
+      "prime": true
+    }
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Parmi 17, 21, 29, 33 et 37, les nombres premiers sont exactement 17, 29 et 37.",
+      "evidence": [
+        "E-divisions",
+        "E-test"
+      ],
+      "uncertainty": "Aucune pour les entiers examinés; portée limitée à la liste assignée.",
+      "falsificationCriteria": "Réfuter si un diviseur entier d avec 2 <= d et d*d <= n a un reste nul pour 17, 29 ou 37; si 21 ou 33 n’a aucun tel diviseur; si un quotient ou reste consigné ne satisfait pas n = d*q+r et 0 <= r < d; ou si la liste n’est pas exactement [17,29,37] dans cet ordre."
+    }
+  ],
+  "specialtyAssessment": {
+    "niche": "planned_world",
+    "inScope": true,
+    "evidence": [
+      "E-contract"
+    ]
+  },
+  "provenance": {
+    "role": "interview_plan_implementation",
+    "methodId": "prompt_defined",
+    "source": "mission_prompt",
+    "recipe": "planned",
+    "strategy": "n_way_counterfactual_fork",
+    "isolation": "sealed structured chamber",
+    "inputs": [
+      "mission.txt",
+      "package.json",
+      "verify.cjs"
+    ],
+    "otherChamberAccess": false
+  },
+  "evidence": [
+    {
+      "id": "E-contract",
+      "type": "local_read",
+      "source": "mission.txt; package.json; verify.cjs",
+      "result": "Contrat lu; npm test invoque node verify.cjs."
+    },
+    {
+      "id": "E-divisions",
+      "type": "executed_command",
+      "source": "Node trial division command, exit 0",
+      "result": [
+        {
+          "n": 17,
+          "limit": 4,
+          "divisions": [
+            {
+              "divisor": 2,
+              "quotient": 8,
+              "remainder": 1
+            },
+            {
+              "divisor": 3,
+              "quotient": 5,
+              "remainder": 2
+            },
+            {
+              "divisor": 4,
+              "quotient": 4,
+              "remainder": 1
+            }
+          ],
+          "prime": true
+        },
+        {
+          "n": 21,
+          "limit": 4,
+          "divisions": [
+            {
+              "divisor": 2,
+              "quotient": 10,
+              "remainder": 1
+            },
+            {
+              "divisor": 3,
+              "quotient": 7,
+              "remainder": 0
+            },
+            {
+              "divisor": 4,
+              "quotient": 5,
+              "remainder": 1
+            }
+          ],
+          "prime": false
+        },
+        {
+          "n": 29,
+          "limit": 5,
+          "divisions": [
+            {
+              "divisor": 2,
+              "quotient": 14,
+              "remainder": 1
+            },
+            {
+              "divisor": 3,
+              "quotient": 9,
+              "remainder": 2
+            },
+            {
+              "divisor": 4,
+              "quotient": 7,
+              "remainder": 1
+            },
+            {
+              "divisor": 5,
+              "quotient": 5,
+              "remainder": 4
+            }
+          ],
+          "prime": true
+        },
+        {
+          "n": 33,
+          "limit": 5,
+          "divisions": [
+            {
+              "divisor": 2,
+              "quotient": 16,
+              "remainder": 1
+            },
+            {
+              "divisor": 3,
+              "quotient": 11,
+              "remainder": 0
+            },
+            {
+              "divisor": 4,
+              "quotient": 8,
+              "remainder": 1
+            },
+            {
+              "divisor": 5,
+              "quotient": 6,
+              "remainder": 3
+            }
+          ],
+          "prime": false
+        },
+        {
+          "n": 37,
+          "limit": 6,
+          "divisions": [
+            {
+              "divisor": 2,
+              "quotient": 18,
+              "remainder": 1
+            },
+            {
+              "divisor": 3,
+              "quotient": 12,
+              "remainder": 1
+            },
+            {
+              "divisor": 4,
+              "quotient": 9,
+              "remainder": 1
+            },
+            {
+              "divisor": 5,
+              "quotient": 7,
+              "remainder": 2
+            },
+            {
+              "divisor": 6,
+              "quotient": 6,
+              "remainder": 1
+            }
+          ],
+          "prime": true
+        }
+      ]
+    },
+    {
+      "id": "E-test",
+      "type": "executed_test",
+      "source": "npm test -> node verify.cjs",
+      "exitCode": 0,
+      "result": "PASS independent trial division",
+      "scope": "Liste exacte et exigences textuelles du vérificateur fourni."
+    },
+    {
+      "id": "E-protected",
+      "type": "executed_hash_comparison",
+      "source": "SHA256 avant/après des trois fichiers protégés",
+      "exitCode": 0,
+      "result": "mission.txt, package.json et verify.cjs inchangés."
+    }
+  ],
+  "acceptanceChecks": [
+    {
+      "id": "A-answer",
+      "description": "npm test valide la liste exacte, analysis, justification et uncertainties.",
+      "status": "passed",
+      "evidence": [
+        "E-test"
+      ]
+    },
+    {
+      "id": "A-divisions",
+      "description": "19 divisions entières couvrent tous les candidats jusqu’à floor(sqrt(n)).",
+      "status": "passed",
+      "evidence": [
+        "E-divisions"
+      ]
+    },
+    {
+      "id": "A-protected",
+      "description": "Les trois fichiers protégés gardent leur SHA256 initial.",
+      "status": "passed",
+      "evidence": [
+        "E-protected"
+      ]
+    }
+  ],
+  "counterfactual": {
+    "condition": "Condition assignée : chambre structured, recette planned, ressources disponibles de cette branche.",
+    "intervention": {
+      "type": "none",
+      "dimension": "resource_capacity",
+      "description": "Aucune modification de capacité réalisée; aucune comparaison contrefactuelle mesurée."
+    }
+  },
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": 1,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E-test"
+    ],
+    "coverage": [
+      "E-test",
+      "E-divisions"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "within_declared_budget",
+    "limit": "100 unités déclarées par le runtime",
+    "consumption": null
+  },
+  "executionLimits": [
+    "Seulement les cinq entiers assignés.",
+    "Outils de routage GenOS indisponibles; aucun reçu inventé.",
+    "Aucune promotion, aucun pair, aucune mesure de coût ou de latence."
+  ],
+  "unmetPreconditions": [],
+  "evidenceVectorDefinitions": {
+    "correctness": "1 = succès du test fourni sur les cinq entiers; mesure binaire locale.",
+    "coverage": "1 = 5/5 candidats validés par le test et 19/19 divisions nécessaires consignées; aucune généralisation."
+  },
+  "hardConstraintsEvidence": [
+    "E-contract",
+    "E-divisions",
+    "E-test",
+    "E-protected"
+  ]
+}

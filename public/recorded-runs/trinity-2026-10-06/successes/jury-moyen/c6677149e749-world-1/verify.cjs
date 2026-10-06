@@ -1,0 +1,2 @@
+const fs=require('node:fs');const a=require('node:assert/strict');const answer=JSON.parse(fs.readFileSync('answer.json','utf8'));a.ok(typeof answer.explanation==='string'&&answer.explanation.length>100);a.ok(Array.isArray(answer.uncertainties));
+const m=require('./solution.cjs');let cases=0;for(let size=0;size<=40;size++){const xs=Array.from({length:size},(_,i)=>i*3-30);for(let x=-35;x<=100;x++){a.equal(m.search(xs,x),xs.indexOf(x));cases++;}}a.equal(m.search([1,1,2,4],1)>=0,true);a.ok(answer.explanations.length===3);console.log(JSON.stringify({pass:true,cases}));

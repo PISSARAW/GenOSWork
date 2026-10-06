@@ -1,0 +1,45 @@
+{
+  "id": "pareto-moyen",
+  "variant": "pareto",
+  "dimensions": [
+    "cout",
+    "recuperation",
+    "confidentialite-risque",
+    "complexite",
+    "perte-risque"
+  ],
+  "candidates": [
+    [
+      "disque",
+      80,
+      15,
+      1,
+      1,
+      8
+    ],
+    [
+      "cloud",
+      120,
+      30,
+      4,
+      1,
+      2
+    ],
+    [
+      "hybride-chiffre",
+      180,
+      10,
+      1,
+      4,
+      1
+    ],
+    [
+      "cloud-faible",
+      140,
+      40,
+      5,
+      2,
+      4
+    ]
+  ]
+}

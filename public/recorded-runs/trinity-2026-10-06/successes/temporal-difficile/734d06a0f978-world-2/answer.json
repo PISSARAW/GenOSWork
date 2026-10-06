@@ -1,0 +1,158 @@
+{
+  "analysis": "Décision proposée pour le monde 2 (intégration H1–H2): remplacer progressivement par domaines via une façade stable et une exécution parallèle, en gardant le système historique comme autorité jusqu'à validation. Stabiliser les incidents à 30 jours sans imposer une réécriture urgente; sur 540 jours financer des lots intégrables avec contrats versionnés et rapprochement des données; sur 3650 jours privilégier des interfaces ouvertes, une exploitation documentée et des mises à jour soutenables. Ces choix sont une proposition argumentée, pas une migration validée en production.",
+  "uncertainties": [
+    "Inventaire, dépendances cachées, qualité des données et charge réelle inconnus.",
+    "Budget, capacité des équipes, obligations de conservation et objectifs métier à établir avec les responsables.",
+    "Les seuils proposés doivent être approuvés avant tout basculement; aucune mesure de production disponible."
+  ],
+  "horizons": [
+    {
+      "days": 30,
+      "priorities": "Stabiliser les parcours critiques, inventorier propriétaires et dépendances, établir une référence de disponibilité et préparer une restauration. Limiter les changements aux incidents urgents et aux moyens d'observation nécessaires à l'intégration.",
+      "acceptanceGates": "Inventaire signé par les propriétaires; parcours critiques identifiés; sauvegarde restaurée en environnement isolé; objectifs RPO/RTO définis et instrumentation vérifiée. Ces portes sont à exécuter et ne sont pas réputées franchies."
+    },
+    {
+      "days": 540,
+      "priorities": "Intégrer domaine par domaine avec façade et contrats versionnés, réplication contrôlée et exécution parallèle. Réserver explicitement capacité et budget au rapprochement, aux essais de panne et au maintien simultané des deux systèmes.",
+      "acceptanceGates": "Avant chaque lot: zéro divergence inexpliquée sur données critiques pendant un cycle métier complet, tests de contrats réussis, objectifs de latence et disponibilité convenus respectés, rollback répété et accord métier documenté."
+    },
+    {
+      "days": 3650,
+      "priorities": "Entretenir la maintenabilité par interfaces ouvertes, formats exportables, documentation des décisions, ownership durable, mises à jour régulières et exercices de remplacement des composants; réexaminer annuellement coûts et dépendances fournisseurs.",
+      "acceptanceGates": "Chaque année: restauration et export relus et testés, dépendances supportées ou plan de remplacement financé, nouvel opérateur capable de suivre les procédures, coûts et incidents évalués. Une projection de dix ans ne constitue pas une mesure."
+    }
+  ],
+  "reversibleDecisions": "Réversibles tant que les données restent synchronisables: activer une façade par configuration, routage d'un lot pilote, taille et cadence des lots, fournisseur remplaçable derrière contrats ouverts, ressources du parallèle. Le cutover est conditionnellement réversible pendant une fenêtre convenue; retour au routage historique seulement après rapprochement des écritures nouvelles et contrôle d'intégrité.",
+  "irreversibleDecisions": "La suppression des bases, sauvegardes ou clés et la résiliation sans récupération sont irréversibles. Une transformation avec perte d'information l'est aussi. La garde destruction interdit retire avant cutover stabilisé, fin de fenêtre de rollback, validation métier et juridique, export complet restauré et preuve de conservation; approbation explicite des responsables avant destruction.",
+  "measurementLimits": "Le test local vérifie la structure, la présence d'arguments et l'ordre des dépendances. Il ne mesure ni performance, ni sécurité, ni fidélité des données, ni coûts ni disponibilité réelle; aucune migration historique en direct n'est réalisée. 18 mois=540 jours et 10 ans=3650 jours sont des simplifications. correctness=1 et constraintCoverage=1 signifient seulement réussite de toutes les assertions du vérificateur fourni; leur dénominateur est ce jeu local, pas l'ensemble des exigences opérationnelles ou du contrat worker.",
+  "migrationPlan": [
+    {
+      "id": "inventory",
+      "dependsOn": [],
+      "kind": "observe"
+    },
+    {
+      "id": "parallelRun",
+      "dependsOn": [
+        "inventory"
+      ],
+      "kind": "build"
+    },
+    {
+      "id": "verify",
+      "dependsOn": [
+        "parallelRun"
+      ],
+      "kind": "check"
+    },
+    {
+      "id": "cutover",
+      "dependsOn": [
+        "verify"
+      ],
+      "kind": "switch"
+    },
+    {
+      "id": "retire",
+      "dependsOn": [
+        "cutover"
+      ],
+      "kind": "destroy"
+    }
+  ],
+  "proposedOrder": [
+    "inventory",
+    "parallelRun",
+    "verify",
+    "cutover",
+    "retire"
+  ],
+  "rollback": "Sur divergence critique, échec des objectifs convenus ou intégrité incertaine: suspendre le lot et les écritures concernées, préserver journaux, rapprocher les écritures effectuées depuis le cutover, restaurer si nécessaire puis rerouter vers l'historique après validation métier. Refuser le cutover si ce retour n'a pas été répété avec RPO/RTO acceptés.",
+  "destructionGuard": "retire nécessite toutes les preuves de stabilisation, restauration des archives, conservation légale, fenêtre de rollback close et autorisation explicite; l'ordre topologique seul n'autorise aucune suppression.",
+  "outcome": "success",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Le livrable propose une migration à trois horizons avec un ordre conforme au modèle de dépendances; seule la conformité locale vérifiée peut être revendiquée.",
+      "evidence": [
+        "e-requirements",
+        "e-test-1"
+      ],
+      "falsificationCriteria": "Réfuter si npm test échoue, si un horizon manque, si une dépendance ou kind diffère du contrat, si proposedOrder place un successeur avant son prérequis, si rollback ou garde destruction manque, ou si une mesure non exécutée est présentée comme acquise. Les portes métier restent non vérifiées."
+    }
+  ],
+  "specialtyAssessment": {
+    "niche": "planned_world",
+    "inScope": true,
+    "evidence": [
+      "e-requirements"
+    ]
+  },
+  "provenance": {
+    "source": "mission.txt et consignes de mission utilisateur",
+    "strategy": "planned",
+    "world": 2,
+    "valueFunction": "V2",
+    "focus": "near-term integration H1..H2",
+    "methodId": "prompt_defined",
+    "assignedPrimaryStrategy": "recursive_branch_evolution",
+    "execution": "Raffinement local du plan fixé; aucune autre chambre consultée, aucun agent créé, aucune promotion."
+  },
+  "evidence": [
+    {
+      "id": "e-requirements",
+      "type": "source",
+      "source": "mission.txt; verify.cjs",
+      "description": "Lecture locale exécutée: contrat des trois horizons et graphe de cinq étapes; vérificateur limité aux assertions structurelles."
+    },
+    {
+      "id": "e-test-1",
+      "type": "executed_test",
+      "command": "npm test",
+      "exitCode": 0,
+      "result": "PASS executable migration dependency/order gates; no live legacy migration",
+      "scope": "Assertions de verify.cjs: arguments, horizons 30/540/3650, dépendances, kinds, ordre topologique. Pas de migration réelle."
+    }
+  ],
+  "counterfactual": {
+    "condition": "À périmètre et critères identiques, la capacité de l'équipe pour le parallèle est réduite de moitié.",
+    "intervention": {
+      "type": "capacity_reduction",
+      "dimension": "resource_capacity",
+      "description": "Réduire de 50% la capacité affectée à l'intégration; diminuer taille et nombre de lots simultanés, conserver les portes et reporter le cutover si nécessaire."
+    },
+    "result": null,
+    "limits": "Contrefactuel proposé, non exécuté; aucun effet causal mesuré."
+  },
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": 1
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "e-test-1"
+    ],
+    "constraintCoverage": [
+      "e-test-1"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "unknown",
+    "description": "Aucune mesure de coûts ni de consommation du budget runtime."
+  },
+  "executionLimits": [
+    "Tests locaux uniquement; aucune validation indépendante ni replay de production.",
+    "Outils de routage organisationnel indisponibles dans les outils exposés.",
+    "Préconditions de migration réelle non satisfaites: inventaire réel, objectifs, accès, approbations et mesures métier.",
+    "hardConstraintsPassed=true désigne uniquement les contraintes exécutables vérifiées par npm test; les portes opérationnelles restent ouvertes."
+  ]
+}

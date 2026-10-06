@@ -1,0 +1,9 @@
+{
+  "paretoFront": ["disque", "cloud", "hybride-chiffre"],
+  "tradeoffs": [
+    {"candidate":"disque","explanation":"Cout minimal de 80, recuperation de 15 et risques de confidentialite de 1 avec complexite de 1 ; risque de perte maximal de 8. Face au cloud, meilleur cout, recuperation et confidentialite, mais risque de perte superieur."},
+    {"candidate":"cloud","explanation":"Cout de 120, recuperation de 30, risque de confidentialite de 4, complexite de 1 et risque de perte de 2. Moins de risque de perte que le disque ; cout et complexite inferieurs a hybride-chiffre, mais recuperation et risques moins favorables."},
+    {"candidate":"hybride-chiffre","explanation":"Recuperation minimale de 10, risque de perte minimal de 1 et risque de confidentialite de 1 ; cout maximal de 180 et complexite maximale de 4. Ces deux derniers criteres empechent de dominer le disque et le cloud."}
+  ],
+  "explanation": "En supposant que les cinq dimensions sont a minimiser, la comparaison exhaustive composante par composante retient disque, cloud et hybride-chiffre. Cloud domine strictement cloud-faible : 120 < 140, 30 < 40, 4 < 5, 1 < 2 et 2 < 4. Aucun des trois survivants ne domine un autre. Aucun poids, plafond ni ordre de priorite ne permet de designer un vainqueur unique. Les valeurs sont celles du fixture, sans unite ni validation externe. Cette branche ne promeut aucun resultat."
+}

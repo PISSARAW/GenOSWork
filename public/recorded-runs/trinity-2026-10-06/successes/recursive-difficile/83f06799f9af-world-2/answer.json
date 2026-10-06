@@ -1,0 +1,38 @@
+{
+  "explanation": "Le solveur exact utilise une programmation dynamique itérative sur les ensembles admissibles de tâches terminées. Pour un ensemble S, le temps écoulé est la somme des durées dans S, indépendamment de leur ordre. Ajouter une tâche j dont toutes les dépendances sont dans S ajoute weight[j]*(temps(S)+duration[j]). Garder seulement le coût minimal pour chaque ensemble est donc correct par induction. Les pointeurs reconstruisent un ordre optimal. Contrairement au glouton par ratio durée/poids, cette méthode tient compte des effets futurs des dépendances. Contrairement à l'énumération exhaustive des permutations topologiques du vérificateur indépendant, elle fusionne les préfixes ayant le même ensemble terminé. Complexité exponentielle : au plus O(n*2^n) transitions, avec masques BigInt et stockage des états/pointeurs. Les nombres sont des Number JavaScript : les entiers de cette instance sont exacts, les grandes valeurs ou fractions peuvent subir un arrondi.",
+  "uncertainties": [
+    {
+      "id": "nested-trinity",
+      "subproblem": "Les dépendances peuvent rendre sous-optimal un choix glouton local par ratio durée/poids ; la validité du regroupement des préfixes par ensemble terminé est le sous-problème important.",
+      "status": "Preuve locale par temps(S) invariant ; vérification exhaustive prévue. Résolution Trinity indépendante non lancée : aucun outil runtime GenOS/Trinity exposé, budgets recursionBudget/maxDepth/marginalCostThreshold non fournis. À transmettre à l'orchestrateur si cette exigence reste obligatoire."
+    },
+    {
+      "id": "scale",
+      "status": "Coût exponentiel ; aucune mesure de capacité ou de performance à grande échelle."
+    }
+  ],
+  "workerArtifact": {
+    "type": "technical",
+    "files": [
+      "solution.cjs",
+      "answer.json"
+    ],
+    "entrypoint": "exports.solve(jobs)"
+  },
+  "specialtyAssessment": {
+    "niche": "planned_world",
+    "inScope": true,
+    "evidence": [
+      "ev-contract"
+    ]
+  },
+  "acceptanceChecks": [
+    "npm test : comparaison de l'ordre et de son coût à l'oracle exhaustif imposé",
+    "verify.cjs et package.json conservés"
+  ],
+  "executionLimits": [
+    "Aucune résolution Trinity imbriquée, réallocation ou promotion exécutée.",
+    "Une machine séquentielle, sans dates de disponibilité ; durées et poids finis non négatifs.",
+    "Calcul exact combinatoire, sous réserve de la précision Number."
+  ]
+}

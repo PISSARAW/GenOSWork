@@ -1,0 +1,41 @@
+{
+  "id": "pareto-simple",
+  "variant": "pareto",
+  "dimensions": [
+    "temps",
+    "cout",
+    "effort"
+  ],
+  "candidates": [
+    [
+      "marche",
+      120,
+      0,
+      9
+    ],
+    [
+      "velo",
+      35,
+      1,
+      5
+    ],
+    [
+      "bus",
+      45,
+      3,
+      1
+    ],
+    [
+      "taxi",
+      20,
+      20,
+      0
+    ],
+    [
+      "bus-lent",
+      60,
+      4,
+      2
+    ]
+  ]
+}

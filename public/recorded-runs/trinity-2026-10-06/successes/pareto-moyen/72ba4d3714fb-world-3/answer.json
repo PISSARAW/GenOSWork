@@ -1,0 +1,23 @@
+{
+  "paretoFront": ["disque", "cloud", "hybride-chiffre"],
+  "decisionVariables": ["strategie de sauvegarde"],
+  "missingInputs": ["volume des donnees", "budget reel", "delai de restauration requis", "modele de menace", "frequence des sauvegardes", "reference pour hypervolume"],
+  "objectiveVectorStatus": "Valeurs hypothetiques fixes de fixture.json, aucune mesure reelle.",
+  "candidates": [
+    {"id":"disque","plan":"Sauvegarde personnelle sur disque local.","objectiveVector":[80,15,1,1,8],"measuredObjectiveVector":null},
+    {"id":"cloud","plan":"Sauvegarde personnelle dans le cloud.","objectiveVector":[120,30,4,1,2],"measuredObjectiveVector":null},
+    {"id":"hybride-chiffre","plan":"Sauvegarde hybride locale et cloud chiffree.","objectiveVector":[180,10,1,4,1],"measuredObjectiveVector":null},
+    {"id":"cloud-faible","plan":"Option cloud-faible telle que definie dans la fixture; configuration non precisee.","objectiveVector":[140,40,5,2,4],"measuredObjectiveVector":null}
+  ],
+  "tradeoffs": [
+    {"id":"disque","explanation":"Cout minimal 80, complexite 1 et risque de confidentialite 1; risque de perte 8 plus eleve et recuperation 15 moins rapide que l'hybride."},
+    {"id":"cloud","explanation":"Risque de perte 2 meilleur que disque 8, complexite 1 meilleure que hybride 4; cout 120, recuperation 30 et confidentialite 4 moins favorables que disque."},
+    {"id":"hybride-chiffre","explanation":"Recuperation 10 et risque de perte 1 minimaux, confidentialite 1; cout 180 et complexite 4 plus eleves que les autres non-domines."}
+  ],
+  "explanation":"Tous les criteres sont a minimiser. Une option domine une autre si elle est au moins aussi bonne sur chaque critere et strictement meilleure sur au moins un. Cloud domine cloud-faible: 120<140, 30<40, 4<5, 1<2, 2<4. Les trois autres options restent incomparables; aucun gagnant absolu ni scalarisation n'est justifie. Le front concerne uniquement les valeurs hypothetiques fournies. L'hypervolume serait le volume de l'union des boites entre ces vecteurs et une reference plus mauvaise sur chaque axe; sans reference fournie, aucune valeur d'hypervolume n'est annoncee. Aucune constraint n'est presente; aucun factorialCell n'est assigne.",
+  "uncertainties": ["Pas de mesures reelles: la conclusion ne valide pas les performances de produits ou configurations reels.","Plans limites aux descriptions des IDs; parametres operationnels absents."],
+  "evidenceVector": {"correctness":null,"coverage":null,"robustness":null,"reproducibility":null,"novelty":null,"cost":null,"latency":null,"risk":null,"uncertainty":null,"constraintCoverage":null},
+  "evidenceVectorEvidence": {},
+  "hardConstraintsPassed": null,
+  "budgetStatus": "Aucune mesure de consommation disponible."
+}

@@ -1,0 +1,23 @@
+{
+  "explanation":"Trois dossiers sont construits séparément autour du même contrat. A utilise une transaction dans une base relationnelle; B un journal répliqué ordonné par conversation; C un acteur par conversation avec journal persistant. Le simulateur commun représente la persistance par une insertion mémoire avant le point où un ACK serait autorisé. Il trie par seq, déduplique par id et restitue les messages strictement après le curseur à la reconnexion. Cette abstraction teste le contrat fonctionnel, sans mesurer les performances ni démontrer la résistance aux crashs. Aucun candidat ne peut être promu sans vérification indépendante.",
+  "constraints":["durable-before-ack","durable-order-by-seq","deduplication-by-id","replay-after-reconnect-cursor"],
+  "architectures":[
+    {"id":"A","design":"Base relationnelle transactionnelle","persistence":"Transaction avec contraintes uniques sur id et sur (conversation,seq); ACK après commit durable.","ordering":"Séquence attribuée sous verrou par conversation; lecture ORDER BY seq.","recovery":"SELECT des messages seq > curseur après reconnexion.","tradeoff":"Simplicité transactionnelle; contention sur conversations très actives.","gate":"Contrat représentable; durabilité réelle du commit reste à vérifier."},
+    {"id":"B","design":"Journal répliqué partitionné par conversation","persistence":"Index id et append coordonnés dans le même état durable; ACK après confirmation de quorum configuré.","ordering":"Un séquenceur par partition; seq de conversation distinct de l'offset du journal.","recovery":"Relecture du journal par seq de conversation après curseur.","tradeoff":"Distribution par partitions; complexité de quorum, rétention et index de déduplication.","gate":"Contrat représentable; atomicité de l'index et de l'append reste à vérifier."},
+    {"id":"C","design":"Acteur par conversation avec journal persistant","persistence":"Acteur écrit id, seq et corps dans un journal; ACK après confirmation de persistance.","ordering":"Boîte aux lettres sérialisée et numéro monotone; fencing empêche deux propriétaires.","recovery":"Reconstruction du journal et relecture seq > curseur; snapshots gardent l'index id.","tradeoff":"Isolation par conversation; reprise, migration et conversations chaudes sont délicates.","gate":"Contrat représentable; fencing et récupération durable restent à vérifier."}
+  ],
+  "failureModes":[
+    {"mode":"Crash avant persistance","required":"Aucun ACK; retry autorisé; non simulé physiquement."},
+    {"mode":"Crash après persistance avant ACK","required":"Retry du même id dédupliqué; test fonctionnel prévu."},
+    {"mode":"Arrivée désordonnée","required":"Vue durable triée par seq; ne garantit pas une livraison en ligne sans trous."},
+    {"mode":"Reconnexion après perte réseau","required":"Replay strictement après curseur; curseur suppose réception client durable."},
+    {"mode":"Même id avec contenu différent ou seq concurrente","required":"Rejet explicite; pas de remplacement silencieux."},
+    {"mode":"Partition ou double propriétaire","required":"Quorum ou fencing requis; non démontré par la simulation."}
+  ],
+  "acceptanceChecks":["npm test: scénario de déduplication, désordre et reconnexion","ACK autorisé seulement après insertion représentant la persistance; contrôle structurel, aucun transport ACK implémenté","Test de falsification: retry conflictuel et collision seq doivent lever une erreur","Crash réel, fsync, quorum et charge restent des gates non satisfaits pour la production"],
+  "uncertainties":["Aucun débit, coût ou latence mesuré","Mémoire du simulateur non durable face à un crash processus","Aucun transport réseau ni ACK observable","Ordre garanti dans le résultat trié, pas livraison continue sans trous","Aucune vérification indépendante ni jury accessible","Distincts model URIs et accord inter-juges non disponibles"],
+  "juryRequest":{"status":"pending_external_jury","blindLabels":["A","B","C"],"eligibleForProduction":[],"instruction":"Comparer uniquement les candidats après validation indépendante des mêmes gates; masquer provenance; utiliser des model URIs distincts et mesurer accord inter-juges. Ne pas noter les performances non mesurées."},
+  "executionLimits":["Prototype synchrone en mémoire","Pas de preuve de durabilité physique ni tolérance réseau","Aucune promotion"],
+  "strategy":"causal_replay_intervention",
+  "selfCorrection":"Les garanties de production ont été reformulées en obligations de design; la simulation ne constitue pas leur preuve."
+}

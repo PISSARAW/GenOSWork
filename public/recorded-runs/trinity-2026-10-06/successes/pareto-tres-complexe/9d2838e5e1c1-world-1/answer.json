@@ -1,0 +1,173 @@
+{
+  "paretoFront": [
+    "batch",
+    "stream",
+    "managed",
+    "hybride"
+  ],
+  "tradeoffs": [
+    {
+      "id": "batch",
+      "explanation": "Journal durable et traitement par lots vers un entrepot; cout 100 et complexite 2, contre latence 3600 et indisponibilite 4."
+    },
+    {
+      "id": "stream",
+      "explanation": "Journal partitionne et moteur de flux avec checkpoints; latence 2 et limite-evolution 1, contre cout 500 et complexite 8."
+    },
+    {
+      "id": "managed",
+      "explanation": "Ingestion et traitement de flux geres; latence 1, risque 2 et indisponibilite 1, contre cout 700."
+    },
+    {
+      "id": "hybride",
+      "explanation": "Flux pour les vues rapides et lots pour reconciliation; cout 350 et latence 10, contre complexite 6 et limite-evolution 2."
+    }
+  ],
+  "constrainedFront": [
+    "stream",
+    "managed",
+    "hybride"
+  ],
+  "admissibleCandidates": [
+    "stream",
+    "managed",
+    "hybride"
+  ],
+  "explanation": "Tous les sept criteres sont minimises sans somme ponderee. Un candidat domine un autre si toutes ses valeurs sont inferieures ou egales et au moins une est strictement inferieure. Les quatre architectures batch, stream, managed et hybride sont incomparables. Ancien est domine par batch et hybride. On filtre les candidats admissibles avant de recalculer la dominance: avec latence <= 15, batch et ancien sont exclus et stream, managed, hybride restent non domines. Si le plafond passe a 2, stream et managed restent; a 1, managed seul reste admissible. Cela illustre un changement de front par les contraintes, sans superiorite universelle. Les chiffres sont fixes et hypothetiques; aucune performance de production pour 100 millions evenements par jour ne peut en etre deduite.",
+  "artifact": {
+    "type": "diagnostic_matrix",
+    "schema": {
+      "candidate": "[id, cout, latence, complexite, risque, indisponibilite, inexactitude, limite-evolution]",
+      "directions": "all minimize",
+      "values": "fixed hypothetical values",
+      "event": {
+        "required": [
+          "event_id",
+          "event_time",
+          "schema_version",
+          "payload"
+        ],
+        "deduplication": "event_id",
+        "migrationConstraints": [
+          "Schemas versions avec compatibilite des lecteurs avant deploiement des producteurs.",
+          "Conserver le journal brut pour replay et reconciliation.",
+          "Valider en parallele avant bascule; garder checkpoints et possibilite de retour."
+        ]
+      }
+    },
+    "hypotheses": [
+      {
+        "id": "batch",
+        "architecture": "Journal durable et traitement par lots vers un entrepot; cout 100 et complexite 2, contre latence 3600 et indisponibilite 4.",
+        "predictedSignals": {
+          "cout": 100,
+          "latence": 3600,
+          "complexite": 2,
+          "risque": 3,
+          "indisponibilite": 4,
+          "inexactitude": 1,
+          "limite-evolution": 3
+        },
+        "contradictoryObservations": "Une mesure comparable de charge, de pannes ou de reconciliation qui inverse les inegalites supposees contredit cette prediction hypothetique.",
+        "discriminatingMeasurement": "Rejouer le meme jeu de 100 millions evenements sur une journee avec pics, doublons, retards et pannes; mesurer les sept criteres avec definitions et environnement identiques.",
+        "status": "conditional; real measurements absent"
+      },
+      {
+        "id": "stream",
+        "architecture": "Journal partitionne et moteur de flux avec checkpoints; latence 2 et limite-evolution 1, contre cout 500 et complexite 8.",
+        "predictedSignals": {
+          "cout": 500,
+          "latence": 2,
+          "complexite": 8,
+          "risque": 4,
+          "indisponibilite": 2,
+          "inexactitude": 1,
+          "limite-evolution": 1
+        },
+        "contradictoryObservations": "Une mesure comparable de charge, de pannes ou de reconciliation qui inverse les inegalites supposees contredit cette prediction hypothetique.",
+        "discriminatingMeasurement": "Rejouer le meme jeu de 100 millions evenements sur une journee avec pics, doublons, retards et pannes; mesurer les sept criteres avec definitions et environnement identiques.",
+        "status": "conditional; real measurements absent"
+      },
+      {
+        "id": "managed",
+        "architecture": "Ingestion et traitement de flux geres; latence 1, risque 2 et indisponibilite 1, contre cout 700.",
+        "predictedSignals": {
+          "cout": 700,
+          "latence": 1,
+          "complexite": 4,
+          "risque": 2,
+          "indisponibilite": 1,
+          "inexactitude": 1,
+          "limite-evolution": 1
+        },
+        "contradictoryObservations": "Une mesure comparable de charge, de pannes ou de reconciliation qui inverse les inegalites supposees contredit cette prediction hypothetique.",
+        "discriminatingMeasurement": "Rejouer le meme jeu de 100 millions evenements sur une journee avec pics, doublons, retards et pannes; mesurer les sept criteres avec definitions et environnement identiques.",
+        "status": "conditional; real measurements absent"
+      },
+      {
+        "id": "hybride",
+        "architecture": "Flux pour les vues rapides et lots pour reconciliation; cout 350 et latence 10, contre complexite 6 et limite-evolution 2.",
+        "predictedSignals": {
+          "cout": 350,
+          "latence": 10,
+          "complexite": 6,
+          "risque": 3,
+          "indisponibilite": 2,
+          "inexactitude": 1,
+          "limite-evolution": 2
+        },
+        "contradictoryObservations": "Une mesure comparable de charge, de pannes ou de reconciliation qui inverse les inegalites supposees contredit cette prediction hypothetique.",
+        "discriminatingMeasurement": "Rejouer le meme jeu de 100 millions evenements sur une journee avec pics, doublons, retards et pannes; mesurer les sept criteres avec definitions et environnement identiques.",
+        "status": "conditional; real measurements absent"
+      },
+      {
+        "id": "ancien",
+        "architecture": "Pipeline historique; domine par batch et hybride sur les sept dimensions.",
+        "predictedSignals": {
+          "cout": 600,
+          "latence": 20,
+          "complexite": 9,
+          "risque": 6,
+          "indisponibilite": 5,
+          "inexactitude": 3,
+          "limite-evolution": 4
+        },
+        "contradictoryObservations": "Une mesure comparable de charge, de pannes ou de reconciliation qui inverse les inegalites supposees contredit cette prediction hypothetique.",
+        "discriminatingMeasurement": "Rejouer le meme jeu de 100 millions evenements sur une journee avec pics, doublons, retards et pannes; mesurer les sept criteres avec definitions et environnement identiques.",
+        "status": "conditional; real measurements absent"
+      }
+    ],
+    "constraintScenarios": [
+      {
+        "latencyMaximum": 15,
+        "front": [
+          "stream",
+          "managed",
+          "hybride"
+        ]
+      },
+      {
+        "latencyMaximum": 2,
+        "front": [
+          "stream",
+          "managed"
+        ]
+      },
+      {
+        "latencyMaximum": 1,
+        "front": [
+          "managed"
+        ]
+      }
+    ]
+  },
+  "uncertainties": [
+    "Valeurs hypothetiques, unites et profils de pics non fournis.",
+    "Disponibilite, exactitude et capacite reelles non mesurees."
+  ],
+  "executionLimits": [
+    "Comparaison locale exhaustive seulement.",
+    "Aucune lecture des autres chambres, aucun deploiement, aucune promotion.",
+    "Aucun factorialCell assigne dans la mission fournie."
+  ]
+}

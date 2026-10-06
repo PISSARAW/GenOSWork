@@ -1,0 +1,3 @@
+Parmi 17, 21, 29, 33 et 37, lesquels sont premiers ? Donne la réponse et justifie-la. Ce test est presque volontairement trop facile : les trois chambres devraient converger.
+
+answer.json: primes liste croissante, justification détaillée, analysis et uncertainties. Vérifie chaque entier par division entière jusqu’à sa racine carrée.

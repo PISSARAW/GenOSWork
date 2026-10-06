@@ -1,0 +1,186 @@
+{
+  "explanation": "La recherche binaire est correcte pour un tableau trié en ordre croissant et des valeurs comparables. Les trois dossiers anonymes démontrent sa correction par des structures distinctes : maintien d'un intervalle candidat, frontière monotone et induction sur la longueur. Chacun justifie aussi la terminaison. La vérification locale est séparée du jury aveugle, qui reste indisponible dans cette session.",
+  "explanations": [
+    {
+      "id": "dossier-A",
+      "title": "Invariant d’intervalle",
+      "text": "Au début de chaque tour, si la cible existe sans avoir été retournée, au moins une occurrence se trouve dans [lo,hi]. Initialement cet intervalle contient tout le tableau. Si la valeur au milieu égale la cible, son index convient. Si elle est inférieure, le tri implique que tous les indices jusqu’au milieu sont aussi inférieurs : remplacer lo par mid+1 préserve l’invariant. Si elle est supérieure, tous les indices depuis le milieu sont supérieurs : remplacer hi par mid-1 préserve l’invariant. Chaque étape réduit strictement le nombre de candidats. Quand lo>hi, l’intervalle est vide ; l’invariant exclut alors toute occurrence et justifie -1."
+    },
+    {
+      "id": "dossier-B",
+      "title": "Monotonie",
+      "text": "Considérons le prédicat P(i) : tableau[i] >= cible. Le tri rend P monotone : une zone fausse précède une zone vraie. Une comparaison inférieure au milieu situe toute égalité éventuelle strictement à droite ; une comparaison supérieure situe toute égalité éventuelle strictement à gauche. Les égalités, y compris les doublons, forment un bloc contigu situé entre les valeurs inférieures et supérieures. La recherche coupe donc uniquement une zone dont le signe exclut une égalité. Une égalité rencontrée fournit un index valide ; si les coupes épuisent les positions, aucun bloc d’égalité n’existe. La réduction stricte des positions garantit la terminaison. Cette preuve repose sur l’ordre des signes et la frontière monotone."
+    },
+    {
+      "id": "dossier-C",
+      "title": "Induction sur la longueur",
+      "text": "Prouvons par induction forte qu’une recherche dans un segment trié de longueur n renvoie un index de la cible ou -1 exactement lorsqu’elle est absente. Pour n=0, elle renvoie -1, ce qui est correct. Supposons la propriété vraie pour toutes les longueurs inférieures à n. Pour n>0, une égalité au milieu donne immédiatement un index correct. Sinon, le tri exclut le milieu et un côté entier : la seule partie pouvant contenir la cible est le segment droit si le milieu est inférieur, le segment gauche s’il est supérieur. Ce segment a une longueur strictement inférieure à n ; l’hypothèse d’induction garantit le résultat. Les bornes utilisées par la boucle désignent exactement ce sous-problème et conservent les indices originaux. La descente des longueurs vers zéro garantit la terminaison."
+    }
+  ],
+  "uncertainties": [
+    "Aucun jury indépendant disponible : aucun vote, score ou préférence mesuré.",
+    "Le banc fini ne couvre pas tous les tableaux triés possibles ; les preuves apportent la justification générale sous les préconditions.",
+    "Les entrées non triées, NaN, comparaisons incohérentes et mutations concurrentes sont hors contrat."
+  ],
+  "scopeRef": "qual-20261006-jury-moyen-a4/basic_implementation",
+  "strategy": "factorial_experiment",
+  "experimentalDesign": {
+    "fixedTriplet": [
+      "interval invariant",
+      "monotonicity",
+      "length induction"
+    ],
+    "controlledFactors": "Même algorithme, mêmes préconditions, même cible de correction ; seule la structure argumentative varie.",
+    "jury": {
+      "status": "unavailable",
+      "anonymizedDossiers": [
+        "dossier-A",
+        "dossier-B",
+        "dossier-C"
+      ],
+      "votes": null,
+      "preferredCandidate": null
+    },
+    "promotion": "none"
+  },
+  "acceptanceChecks": [
+    {
+      "check": "search retourne un index correct ou -1 sur le banc principal",
+      "passed": true,
+      "evidence": [
+        "ev-solution",
+        "ev-verifier",
+        "ev-npm-test"
+      ]
+    },
+    {
+      "check": "5576 requêtes, tailles 0 à 40",
+      "passed": true,
+      "evidence": [
+        "ev-verifier",
+        "ev-npm-test"
+      ]
+    },
+    {
+      "check": "Trois preuves distinctes : invariant, monotonie, induction",
+      "passed": true,
+      "evidence": [
+        "ev-answer"
+      ],
+      "method": "Revue locale ; le test automatique ne vérifie que leur nombre."
+    },
+    {
+      "check": "Index correct pour doublons",
+      "passed": true,
+      "evidence": [
+        "ev-solution"
+      ],
+      "method": "Revue locale : seul un index dont la valeur égale strictement la cible est retourné. Le banc vérifie seulement un index non négatif pour son exemple."
+    },
+    {
+      "check": "Jury aveugle indépendant et votes",
+      "passed": false,
+      "evidence": [],
+      "reason": "Outil et jurés indépendants indisponibles."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-answer",
+      "type": "file",
+      "path": "answer.json",
+      "description": "Trois dossiers anonymes, preuves, préconditions et limites ; revue locale de leurs arguments."
+    },
+    {
+      "id": "ev-solution",
+      "type": "file",
+      "path": "solution.cjs",
+      "description": "Export CommonJS search ; bornes inclusives et réduction stricte du segment."
+    },
+    {
+      "id": "ev-verifier",
+      "type": "file",
+      "path": "verify.cjs",
+      "description": "Vérificateur existant conservé ; 41 tailles et 136 cibles par taille, puis contrôle avec doublons."
+    },
+    {
+      "id": "ev-npm-test",
+      "type": "command",
+      "command": "npm test",
+      "exitCode": 0,
+      "stdout": "> test\n> node verify.cjs\n{\"pass\":true,\"cases\":5576}",
+      "description": "Commande réellement exécutée dans le workspace ; assertions réussies."
+    }
+  ],
+  "evidenceVector": {
+    "correctness": {
+      "testPassed": true,
+      "queriesPassed": 5576
+    },
+    "coverage": {
+      "sizes": [
+        0,
+        40
+      ],
+      "targets": [
+        -35,
+        100
+      ],
+      "uniqueArrayRule": "xs[i]=3*i-30",
+      "queries": 5576,
+      "duplicateChecks": 1
+    },
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "ev-npm-test",
+      "ev-verifier"
+    ],
+    "coverage": [
+      "ev-verifier",
+      "ev-npm-test"
+    ]
+  },
+  "hardConstraintsPassed": false,
+  "budgetStatus": "No explicit time or token ceiling; runtime budget not independently measured.",
+  "executionLimits": [
+    "Local artifacts and local test only; no other chamber outputs accessed.",
+    "GenOS routing and independent jury tools unavailable.",
+    "No independent verification receipt or promotion produced."
+  ],
+  "outcome": "partial",
+  "unmetPreconditions": [
+    "Accès à un jury aveugle indépendant pour évaluer la clarté et voter."
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Implémentation et banc local réussis sur 5576 requêtes ; trois dossiers anonymes justifient la correction respectivement par conservation de l’intervalle, frontière monotone et induction forte sur la longueur. La clarté comparative reste non évaluée faute de jury indépendant.",
+      "evidence": [
+        "ev-answer",
+        "ev-solution",
+        "ev-verifier",
+        "ev-npm-test"
+      ]
+    }
+  ],
+  "scopeCompletion": {
+    "scopeRef": "qual-20261006-jury-moyen-a4/basic_implementation",
+    "completedRefs": [
+      "answer.json",
+      "solution.cjs",
+      "ev-npm-test"
+    ],
+    "pendingRefs": [
+      "blind-jury-evaluation"
+    ]
+  }
+}

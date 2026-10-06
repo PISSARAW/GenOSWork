@@ -1,0 +1,120 @@
+{
+  "pairs": [
+    [
+      3,
+      19
+    ],
+    [
+      7,
+      15
+    ]
+  ],
+  "completenessProof": "Toute paire utilise deux occurrences distinctes de la liste. Pour son plus petit terme a, le seul partenaire possible est 22-a. Les six compléments sont : 3→19, 7→15, 8→14 absent, 11→11 sans seconde occurrence, 15→7 déjà compté, 19→3 déjà compté. Ainsi seules [3,19] et [7,15] conviennent. Cette vérification couvre chaque terme et donc toute paire possible, sans doublon.",
+  "analysis": "Plan appliqué : lire le contrat et le vérificateur, calculer les compléments à 22, éliminer les partenaires absents et les répétitions, ordonner les paires, puis exécuter npm test. Les nombres sont utilisés comme les six occurrences disponibles ; une occurrence ne peut pas être utilisée deux fois dans une paire. Les paires sont croissantes et leur liste est ordonnée lexicographiquement.",
+  "uncertainties": [
+    "La convention de deux occurrences distinctes est confirmée par la boucle i<j du vérificateur local.",
+    "Aucun résultat de comparaison entre chambres, coût, latence ou robustesse générale n'est mesuré."
+  ],
+  "outcome": "success",
+  "artifact": [
+    "answer.json",
+    "solution.md"
+  ],
+  "acceptanceChecks": [
+    "Paires exactement [[3,19],[7,15]], croissantes, uniques et ordonnées lexicographiquement.",
+    "Preuve exhaustive par les six compléments.",
+    "npm test doit terminer avec le code 0.",
+    "verify.cjs, package.json et mission.txt restent inchangés."
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Les seules paires de deux occurrences distinctes dont la somme vaut 22 sont [3,19] et [7,15].",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "uncertainty": "Aucune incertitude sur les paires sous la convention i<j ; le test local a réussi. Aucune validation indépendante du runtime revendiquée.",
+      "falsificationCriteria": "Réfuté si une paire fournie n'utilise pas deux occurrences distinctes de la liste, ne totalise pas 22, est répétée ou mal ordonnée ; si une autre paire parmi les 15 choix i<j totalise 22 ; ou si npm test échoue sur l'artefact final."
+    }
+  ],
+  "specialtyAssessment": {
+    "niche": "planned_world",
+    "inScope": true,
+    "evidence": [
+      "E1"
+    ]
+  },
+  "provenance": {
+    "source": "mission utilisateur et fichiers locaux mission.txt, package.json, verify.cjs lus directement",
+    "method": "planned : contrat, compléments, artefacts, vérification",
+    "otherChambersConsulted": false,
+    "runtimeReceipts": "Attribués uniquement par le runtime ; aucun reçu rédigé par le worker."
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "type": "source",
+      "source": "mission.txt et verify.cjs",
+      "observation": "Liste [3,7,8,11,15,19], cible 22 ; le vérificateur énumère i<j et exige les quatre champs du livrable."
+    },
+    {
+      "id": "E2",
+      "type": "deduction",
+      "source": "compléments à 22",
+      "observation": "3+19=22, 7+15=22 ; 14 absent ; une seule occurrence de 11 ; inverses déjà comptés."
+    },
+    {
+      "id": "E3",
+      "type": "executed_test",
+      "source": "npm test -> node verify.cjs",
+      "observation": "Exécution réelle : code de sortie 0 ; sortie PASS exhaustive unordered pairs. Comparaison exacte avec les paires obtenues en énumérant les 15 choix i<j ; contrôles de longueur de analysis et completenessProof et présence de uncertainties."
+    }
+  ],
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": 1,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E3"
+    ],
+    "coverage": [
+      "E3"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "Aucune limite atteinte observée",
+    "measuredConsumption": null
+  },
+  "executionLimits": [
+    "Validation limitée au vérificateur local et à la preuve arithmétique.",
+    "Pas de promotion ni de vérification indépendante du runtime.",
+    "Outils de routage GenOS non disponibles dans la session."
+  ],
+  "counterfactual": {
+    "condition": "Condition locale assignée : planned_world, exécution isolée à capacité disponible, sans comparaison entre chambres.",
+    "intervention": {
+      "type": "none",
+      "dimension": "resource_capacity",
+      "description": "Aucune modification de capacité ni expérimentation contrefactuelle exécutée ; effets inconnus."
+    }
+  },
+  "methodContract": {
+    "version": 1,
+    "methodId": "prompt_defined",
+    "source": "mission_prompt",
+    "unmetPreconditions": []
+  },
+  "evidenceVectorScale": "correctness=1 : égalité exacte avec le résultat du vérificateur ; coverage=1 : les 15 paires i<j sont couvertes par ce vérificateur. Aucun score global de qualité ou de couverture du contrat worker."
+}

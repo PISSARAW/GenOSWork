@@ -1,0 +1,198 @@
+{
+  "explanation": "La recherche binaire trouve une cible dans un tableau trié en comparant son élément central à la cible, puis en conservant uniquement la partie susceptible de la contenir. Les trois preuves ci-dessous justifient cette même implémentation selon des structures différentes : état conservé, ordre des comparaisons et réduction récursive de la taille.",
+  "explanations": [
+    {
+      "id": "invariant-intervalle",
+      "design": "Preuve par invariant de boucle",
+      "explanation": "Invariant : si la cible existe et aucun résultat n'a encore été renvoyé, au moins une occurrence appartient à l'intervalle fermé [lo, hi]. Initialement cet intervalle contient tout le tableau. Si a[mid] < cible, tous les éléments d'indice inférieur ou égal à mid sont trop petits ; déplacer lo à mid+1 conserve donc toute occurrence possible. Si a[mid] > cible, déplacer hi à mid-1 est justifié symétriquement. Une égalité fournit un index correct. À chaque étape sans égalité, la longueur de l'intervalle diminue strictement ; la boucle termine. Un intervalle vide, combiné à l'invariant, prouve l'absence de cible et justifie -1.",
+      "uncertainties": []
+    },
+    {
+      "id": "monotonie",
+      "design": "Preuve par ordre monotone",
+      "explanation": "Pour un tableau trié, les signes de a[i]-cible se présentent dans l'ordre : négatifs, éventuellement nuls, puis positifs. Le prédicat a[i] >= cible est ainsi monotone. Une comparaison au milieu situe la cible par rapport à cette frontière : un signe négatif exclut tout le préfixe jusqu'au milieu ; un signe positif exclut tout le suffixe depuis le milieu. Un signe nul donne directement une occurrence valide, y compris avec doublons. Chaque comparaison conserve la zone où un signe nul peut exister et en élimine au moins le milieu. La zone finit donc par fournir un zéro ou devenir vide, ce qui correspond respectivement à un index valide ou à -1.",
+      "uncertainties": []
+    },
+    {
+      "id": "induction-longueur",
+      "design": "Preuve par induction forte",
+      "explanation": "On prouve la correction pour toute longueur n par induction forte. Cas n=0 : la boucle est ignorée et -1 est correct. Supposons la recherche correcte pour toute longueur strictement inférieure à n. Pour n>0, une égalité au milieu fournit un index correct. Sinon, le tri prouve que la cible ne peut appartenir qu'au sous-tableau à droite si le milieu est trop petit, ou à gauche s'il est trop grand. Ce sous-tableau a une longueur strictement inférieure à n ; l'hypothèse d'induction établit la correction de la recherche restante. L'implémentation conserve les indices absolus du tableau initial, donc l'index trouvé reste correct. Si le sous-tableau ne contient pas la cible, l'autre partie ayant été exclue, -1 est correct pour le tableau entier.",
+      "uncertainties": []
+    }
+  ],
+  "uncertainties": [
+    "Aucune évaluation indépendante de clarté ni aucun jury aveugle accessible ; aucun score attribué.",
+    "Le banc fini ne prouve pas la correction pour tous les tableaux ; les preuves supposent un tableau trié croissant et des valeurs comparables, sans NaN.",
+    "Les trois preuves sont distinctes dans leur structure logique, mais partagent la même propriété d'ordre ; leur indépendance de provenance n'est pas établie."
+  ],
+  "specialtyAssessment": {
+    "niche": "planned_world",
+    "inScope": true,
+    "evidence": [
+      "mission-file"
+    ]
+  },
+  "executionLimits": [
+    "Travail limité aux fichiers de cette capsule ; aucun accès aux autres chambres.",
+    "Jury aveugle et vérification indépendante non disponibles ; aucune promotion effectuée.",
+    "Budget tokens annoncé illimité ; consommation runtime non mesurée."
+  ],
+  "method": {
+    "methodId": "prompt_defined",
+    "cognitiveRecipe": "planned",
+    "primaryStrategy": "factorial_experiment",
+    "implementation": "Triplet fixé de structures de preuve ; vérification déterministe commune. Aucun effet factoriel ni fitness pondérée mesuré.",
+    "unmetPreconditions": [
+      "Jury aveugle indépendant indisponible",
+      "Routage organisationnel indisponible"
+    ]
+  },
+  "budgetStatus": "Aucune limite locale atteinte ; coût et budget runtime restant non mesurés.",
+  "jury": {
+    "status": "unavailable",
+    "scores": null,
+    "independentReceipt": null
+  },
+  "outcome": "unresolved",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Implémentation de recherche binaire validée par npm test sur 5576 requêtes et un cas avec doublons. Trois designs de preuve fournis : invariant sur les candidats, monotonie des signes et induction forte sur la longueur. La clarté par jury aveugle reste non évaluée.",
+      "evidence": [
+        "solution-file",
+        "answer-file",
+        "test-command",
+        "verifier-file"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "mission-file",
+      "type": "file",
+      "path": "MISSION.txt"
+    },
+    {
+      "id": "solution-file",
+      "type": "file",
+      "path": "solution.cjs",
+      "sha256": "62C4B15A4EA37ED996F1DA558EC342B3A04D4AA7D772C8EE99D662FAFCFAF08C"
+    },
+    {
+      "id": "answer-file",
+      "type": "file",
+      "path": "answer.json"
+    },
+    {
+      "id": "verifier-file",
+      "type": "file",
+      "path": "verify.cjs",
+      "sha256": "B870C571BE2D7C7542A5F3A67BB5CD35C0C1B180F44E56C3B0E0463B8C5AD8BF"
+    },
+    {
+      "id": "package-file",
+      "type": "file",
+      "path": "package.json",
+      "sha256": "3F381ADF5C70CC0A792D7430BA393D31A6A0FDE68AC679491FD000538AEE5D0B"
+    },
+    {
+      "id": "test-command",
+      "type": "command",
+      "command": "npm test",
+      "exitCode": 0,
+      "stdout": "> test\n> node verify.cjs\n{\"pass\":true,\"cases\":5576}",
+      "independent": false
+    }
+  ],
+  "acceptanceChecks": [
+    {
+      "check": "5576 requêtes du banc principal, tailles 0..40",
+      "passed": true,
+      "evidence": [
+        "test-command",
+        "verifier-file"
+      ]
+    },
+    {
+      "check": "Cas avec doublons du vérificateur",
+      "passed": true,
+      "evidence": [
+        "test-command",
+        "verifier-file"
+      ]
+    },
+    {
+      "check": "Trois preuves : invariant, monotonie, induction",
+      "passed": true,
+      "validation": "inspection locale",
+      "evidence": [
+        "answer-file"
+      ]
+    },
+    {
+      "check": "verify.cjs et package.json non modifiés ; measure.cjs absent",
+      "passed": true,
+      "validation": "aucune écriture sur ces fichiers",
+      "evidence": [
+        "verifier-file",
+        "package-file"
+      ]
+    },
+    {
+      "check": "Jury aveugle indépendant",
+      "passed": null,
+      "evidence": []
+    }
+  ],
+  "evidenceVector": {
+    "correctness": {
+      "testPass": true
+    },
+    "coverage": {
+      "queries": 5576,
+      "minSize": 0,
+      "maxSize": 40
+    },
+    "robustness": {
+      "duplicateSmokeTest": true
+    },
+    "reproducibility": {
+      "command": "npm test",
+      "exitCode": 0
+    },
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "test-command",
+      "verifier-file"
+    ],
+    "coverage": [
+      "test-command",
+      "verifier-file"
+    ],
+    "robustness": [
+      "test-command",
+      "verifier-file"
+    ],
+    "reproducibility": [
+      "test-command",
+      "package-file",
+      "verifier-file",
+      "solution-file"
+    ],
+    "novelty": [],
+    "cost": [],
+    "latency": [],
+    "risk": [],
+    "uncertainty": [],
+    "constraintCoverage": []
+  },
+  "hardConstraintsPassed": false,
+  "hardConstraintsStatus": "Contraintes locales validées ; mission complète non résolue en absence de jury aveugle."
+}

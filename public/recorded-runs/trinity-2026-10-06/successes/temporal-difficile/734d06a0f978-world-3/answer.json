@@ -1,0 +1,167 @@
+{
+  "analysis": "Décision proposée : remplacement progressif par domaines derrière une interface stable, avec coexistence temporaire et ancien système conservé comme recours. L'urgence à 30 jours finance la continuité et l'inventaire ; à 540 jours l'intégration finance la preuve de parité et les bascules graduelles ; à 3650 jours la priorité est la capacité à maintenir, restaurer et remplacer chaque composant. Selon l'hypothèse fixe V3, les gains immédiats ne justifient pas une destruction qui supprimerait la réversibilité avant preuve. La destruction reste une décision distincte, conditionnelle et différée.",
+  "uncertainties": [
+    "Capacité de l'équipe, budget, volumes, dépendances cachées et qualité des données inconnus.",
+    "SLO, tolérance aux écarts, RTO/RPO et durées de conservation à convenir avec les responsables avant bascule.",
+    "Aucun système historique réel, accès production ni jeu de données représentatif fourni."
+  ],
+  "horizons": [
+    {
+      "days": 30,
+      "priorities": "Stabiliser les incidents critiques, inventorier données et dépendances, identifier propriétaires et flux critiques. Éviter la refonte totale sous urgence ; choisir un domaine pilote isolable et conserver la source historique.",
+      "acceptanceGates": "Inventaire signé par les propriétaires des flux critiques ; sauvegarde restaurée en environnement isolé ; SLO et RTO/RPO convenus ; pilote borné et aucune suppression de données. Ces preuves opérationnelles restent à produire."
+    },
+    {
+      "days": 540,
+      "priorities": "Intégrer par domaines via adaptateurs versionnés et exécution parallèle ; réconcilier les données et basculer progressivement. Limiter la double maintenance par un calendrier et une responsabilité explicites ; 18 mois sont modélisés par 540 jours.",
+      "acceptanceGates": "Avant chaque bascule : parité des parcours critiques, aucun écart de données inexpliqué, tests de charge au pic représentatif, reprise et rollback répétés avec RTO/RPO convenus ; validation métier et observation couvrant un cycle métier complet."
+    },
+    {
+      "days": 3650,
+      "priorities": "Préserver la maintenabilité : interfaces documentées et versionnées, formats exportables, mises à jour régulières, propriétaires durables, observabilité et exercices de restauration. Réduire le verrouillage fournisseur ; 10 ans sont modélisés par 3650 jours.",
+      "acceptanceGates": "Revues régulières de dépendances et sécurité, reconstruction depuis sources documentées et restauration prouvée ; transfert de maintenance testé ; export et remplacement d'un composant démontrés. Aucun test actuel ne prouve dix ans de durabilité."
+    }
+  ],
+  "reversibleDecisions": "Pilote, choix d'adaptateur et routage par drapeau sont réversibles tant que les contrats et données historiques restent compatibles. Rollback : suspendre les nouvelles écritures, sauvegarder le delta, réconcilier les écritures validées, rétablir le routage ancien puis contrôler intégrité et service. Un seul écrivain autoritaire par domaine ; le parallèle utilise copies ou événements idempotents sans effets externes doubles. Retour interdit sans restauration du delta et contrôle de compatibilité : une bascule n'est pas automatiquement réversible.",
+  "irreversibleDecisions": "Suppression des données, destruction de l'infrastructure ancienne, abandon de formats et contrats incompatibles et résiliation de droits indispensables peuvent être irréversibles. Garde destruction : après cutover accepté, cycle métier observé sans divergence inexpliquée, aucune dépendance active, obligations de conservation validées par leurs responsables, archives lisibles et restauration éprouvée, autorisation explicite du propriétaire. Si une condition manque, retire reste bloqué. Une archive ne garantit pas la reconstruction du système détruit.",
+  "measurementLimits": "Le test local vérifie uniquement la structure, les longueurs des arguments, les horizons et le graphe ordonné. Il ne mesure ni latence, coût, capacité, sécurité, risque opérationnel ni bénéfice métier. Les seuils proposés sont des critères à valider, pas des mesures. La couverture des contraintes mesurée concerne seulement les assertions du vérificateur.",
+  "migrationPlan": [
+    {
+      "id": "inventory",
+      "dependsOn": [],
+      "kind": "observe"
+    },
+    {
+      "id": "parallelRun",
+      "dependsOn": [
+        "inventory"
+      ],
+      "kind": "build"
+    },
+    {
+      "id": "verify",
+      "dependsOn": [
+        "parallelRun"
+      ],
+      "kind": "check"
+    },
+    {
+      "id": "cutover",
+      "dependsOn": [
+        "verify"
+      ],
+      "kind": "switch"
+    },
+    {
+      "id": "retire",
+      "dependsOn": [
+        "cutover"
+      ],
+      "kind": "destroy"
+    }
+  ],
+  "proposedOrder": [
+    "inventory",
+    "parallelRun",
+    "verify",
+    "cutover",
+    "retire"
+  ],
+  "outcome": "success",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Le livrable propose les trois horizons et un plan ordonné avec rollback conditionnel et garde destruction ; seule sa conformité locale sera vérifiée.",
+      "evidence": [
+        "E-contract",
+        "E-test-1"
+      ],
+      "falsificationCriteria": "Réfuté si npm test échoue, si un horizon requis manque, si une dépendance est inversée ou un kind incorrect ; réfuté à l'examen si rollback omet les écritures depuis bascule, si retire autorise destruction sans restauration et conservation validées, ou si une mesure opérationnelle est présentée comme réalisée. Le succès syntaxique ne valide pas la faisabilité en production."
+    }
+  ],
+  "strategyTrace": [
+    {
+      "strategy": "recursive_branch_evolution",
+      "decision": "retained",
+      "reason": "Hypothèse V3 maintenue : élaborer localement un plan réversible, le confronter au vérificateur et corriger les défauts observés, sans pairs ni promotion.",
+      "evidence": [
+        "E-contract"
+      ]
+    },
+    {
+      "strategy": "recursive_branch_evolution",
+      "decision": "retained",
+      "reason": "Le challenge exécutable passe ; correction de l'état pending_verification et attribution des seules mesures de conformité locale au test réellement exécuté.",
+      "evidence": [
+        "E-test-1"
+      ]
+    }
+  ],
+  "provenance": {
+    "source": "mission utilisateur et mission.txt, package.json, verify.cjs lus dans le workspace attribué",
+    "methodId": "prompt_defined",
+    "workerRole": "self_correcting_implementation",
+    "world": 3,
+    "hypothesis": "long-term maintenance/reversibility (t=H2..∞); V3",
+    "promotion": "Non effectuée ; reçus runtime non renseignés."
+  },
+  "evidence": [
+    {
+      "id": "E-contract",
+      "type": "local_read",
+      "source": "mission.txt; package.json; verify.cjs",
+      "result": "Contrat lu : trois horizons, cinq étapes et assertions de structure/ordre ; npm test exécute node verify.cjs."
+    },
+    {
+      "id": "E-test-1",
+      "type": "executed_test",
+      "command": "npm test",
+      "exitCode": 0,
+      "result": "PASS executable migration dependency/order gates; no live legacy migration",
+      "scope": "Assertions du verify.cjs fourni, première exécution sur les livrables créés."
+    }
+  ],
+  "evidenceVector": {
+    "correctness": null,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": 1
+  },
+  "evidenceVectorEvidence": {
+    "constraintCoverage": [
+      "E-test-1"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "within_budget",
+    "executionBudget": 100,
+    "consumed": null,
+    "tokenBudget": "illimité déclaré ; consommation non mesurée"
+  },
+  "counterfactual": {
+    "condition": "Capacité de maintenance disponible réduite à un seul responsable par domaine durant l'intégration.",
+    "intervention": {
+      "type": "capacity_reduction",
+      "dimension": "resource_capacity",
+      "description": "Réduire la capacité supposée pour challenger la double maintenance : limiter le nombre de domaines simultanés, différer cutover si les contrôles ne peuvent être exécutés ; expérience non réalisée."
+    }
+  },
+  "acceptanceChecks": [
+    "npm test : structure et ordre des dépendances",
+    "Revue locale : rollback incluant delta, écrivain unique et contrôle de compatibilité",
+    "Validation opérationnelle future : parité, charge, restauration, conservation et autorisation de destruction"
+  ],
+  "executionLimits": [
+    "Aucune migration réelle ni expérience counterfactual exécutée.",
+    "Outils GenOS de publication/routage non disponibles dans la liste exposée ; aucun reçu créé.",
+    "Promotion, replay indépendant et approbation humaine non réalisés ; résultat local uniquement."
+  ],
+  "hardConstraintsScope": "Contraintes exécutables de verify.cjs uniquement ; gardes opérationnelles non évaluées."
+}

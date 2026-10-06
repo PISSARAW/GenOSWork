@@ -1,0 +1,11 @@
+{
+  "paretoFront": ["marche", "velo", "bus", "taxi"],
+  "tradeoffs": [
+    {"mode":"marche","temps":120,"cout":0,"effort":9,"compromis":"Coût minimal, mais temps et effort les plus élevés."},
+    {"mode":"velo","temps":35,"cout":1,"effort":5,"compromis":"Plus rapide et moins cher que le bus, mais demande davantage d'effort."},
+    {"mode":"bus","temps":45,"cout":3,"effort":1,"compromis":"Moins d'effort que le vélo, mais plus lent et plus cher."},
+    {"mode":"taxi","temps":20,"cout":20,"effort":0,"compromis":"Temps et effort minimaux, mais coût maximal."}
+  ],
+  "choice": "velo",
+  "explanation": "En minimisant chaque dimension, la marche, le vélo, le bus et le taxi sont non dominés. Le bus domine strictement le bus-lent : 45 < 60 en temps, 3 < 4 en coût et 1 < 2 en effort. Je choisis le vélo sous l'hypothèse qu'un effort de 5 est acceptable : il combine un temps de 35 et un coût de 1. Ce choix dépend des préférences ; aucune option du front ne minimise simultanément les trois critères."
+}

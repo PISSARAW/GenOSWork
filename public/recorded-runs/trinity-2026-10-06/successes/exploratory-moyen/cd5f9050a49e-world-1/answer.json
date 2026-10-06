@@ -1,0 +1,330 @@
+{
+  "explanation": "Trois systèmes permettent de naviguer sans menus, barre de navigation ni moteur de recherche. Le premier utilise le déplacement dans un espace stable : les contenus sont des lieux, accessibles par gestes directionnels sur le contenu ou touches fléchées. Le deuxième suit les relations entre objets : toucher une référence intégrée ouvre son objet et un geste de retour remonte le parcours. Le troisième suit une tâche : une action sur le contenu accomplit une étape et fait apparaître la suivante ; revenir permet de corriger. Ces familles diffèrent par ce qui détermine la destination : position, relation sémantique ou progression de travail. Toutes les transitions sont locales et autonomes, sans transmission à un autre acteur ni dialogue de confirmation. Les gestes déclenchent directement des changements réversibles. Il s’agit de prototypes de comportements, sans validation physique ni preuve de nouveauté absolue.",
+  "uncertainties": [
+    "Aucun qdTargetNiche n’est fourni dans le prompt ni dans les fichiers de contrat consultés ; la niche obtenue sera rapportée sans prétendre satisfaire une cible inconnue.",
+    "La découverte des gestes et des relations, l’accessibilité et l’orientation restent à tester avec des utilisateurs.",
+    "Le graphe spatial réduit suppose des positions stables ; son passage à un grand volume de contenus reste indéterminé.",
+    "Le parcours par relations dépend de la qualité des liens éditoriaux.",
+    "Le parcours par tâche convient à un objectif connu ; les besoins d’exploration libre restent à étudier.",
+    "Les tests portent sur la structure et le rejeu, sans certification d’utilisabilité humaine, de nouveauté ou de faisabilité physique."
+  ],
+  "physicalValidationPerformed": false,
+  "designs": [
+    {
+      "family": "Exploration spatiale",
+      "description": "Un canevas de contenus constitue un espace stable. Glisser vers la gauche ou utiliser la flèche droite déplace le point de vue vers le lieu adjacent ; glisser verticalement change de niveau. Les voisins sont partiellement visibles. Le même geste inverse revient au lieu précédent, sans commandes de navigation affichées.",
+      "states": [
+        "atelier",
+        "bibliotheque",
+        "detail"
+      ],
+      "transitions": [
+        {
+          "from": "atelier",
+          "to": "bibliotheque",
+          "trigger": "aller_est",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "bibliotheque",
+          "to": "atelier",
+          "trigger": "aller_ouest",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "bibliotheque",
+          "to": "detail",
+          "trigger": "aller_nord",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "detail",
+          "to": "bibliotheque",
+          "trigger": "aller_sud",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "aller_est",
+            "aller_nord"
+          ],
+          "expected": "detail"
+        },
+        {
+          "events": [
+            "aller_est",
+            "aller_nord",
+            "aller_sud",
+            "aller_ouest"
+          ],
+          "expected": "atelier"
+        }
+      ]
+    },
+    {
+      "family": "Traversée des relations",
+      "description": "Une référence dans un document ouvre directement l’objet associé. Toucher une personne dans cet objet ouvre son portrait. Le contenu lui-même porte les destinations, sans liste de rubriques ni requête de recherche. Un geste de retour, également disponible au clavier, remonte le parcours exact.",
+      "states": [
+        "document",
+        "objet",
+        "personne"
+      ],
+      "transitions": [
+        {
+          "from": "document",
+          "to": "objet",
+          "trigger": "toucher_reference",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "objet",
+          "to": "personne",
+          "trigger": "toucher_auteur",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "personne",
+          "to": "objet",
+          "trigger": "retour",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "objet",
+          "to": "document",
+          "trigger": "retour",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "toucher_reference",
+            "toucher_auteur"
+          ],
+          "expected": "personne"
+        },
+        {
+          "events": [
+            "toucher_reference",
+            "toucher_auteur",
+            "retour",
+            "retour"
+          ],
+          "expected": "document"
+        }
+      ]
+    },
+    {
+      "family": "Progression par accomplissement",
+      "description": "L’interface présente une seule étape d’un travail. Manipuler le contenu termine cette étape et affiche la suivante automatiquement : choisir un matériau, composer puis visualiser. Un geste arrière revient à l’étape précédente pour modifier le travail. Aucun choix de section, aucune publication ou action irréversible ne figure dans ce prototype.",
+      "states": [
+        "matiere",
+        "composition",
+        "apercu"
+      ],
+      "transitions": [
+        {
+          "from": "matiere",
+          "to": "composition",
+          "trigger": "deposer_matiere",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "composition",
+          "to": "apercu",
+          "trigger": "terminer_composition",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "apercu",
+          "to": "composition",
+          "trigger": "reviser",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "composition",
+          "to": "matiere",
+          "trigger": "reprendre_matiere",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "deposer_matiere",
+            "terminer_composition"
+          ],
+          "expected": "apercu"
+        },
+        {
+          "events": [
+            "deposer_matiere",
+            "terminer_composition",
+            "reviser",
+            "reprendre_matiere"
+          ],
+          "expected": "matiere"
+        }
+      ]
+    }
+  ],
+  "behaviorVector": [
+    0,
+    0
+  ],
+  "behaviorVectorEvidence": [
+    "npm-test-efaf90"
+  ],
+  "evidence": [
+    {
+      "id": "files-968e8a",
+      "type": "file_creation",
+      "sourceRef": "exec_command/chunk/968e8a",
+      "files": [
+        "answer.json",
+        "solution.cjs"
+      ],
+      "description": "Création réelle des deux livrables ; commande terminée avec code 0."
+    },
+    {
+      "id": "contract-1366f7",
+      "type": "file_read",
+      "sourceRef": "exec_command/chunk/1366f7",
+      "files": [
+        "MISSION.txt",
+        "verify.cjs",
+        "measure.cjs",
+        "package.json"
+      ],
+      "description": "Contrat et banc lus ; ces fichiers ne sont pas modifiés."
+    },
+    {
+      "id": "npm-test-efaf90",
+      "type": "command",
+      "sourceRef": "exec_command/chunk/efaf90",
+      "command": "npm test",
+      "exitCode": 0,
+      "output": {
+        "pass": true,
+        "designs": 3,
+        "families": 3,
+        "transitions": 12,
+        "behaviorVector": [
+          0,
+          0
+        ],
+        "niche": "niche_0:0",
+        "measuredOnly": "transition graph descriptors and scenario replay; no novelty or physical feasibility certification"
+      }
+    },
+    {
+      "id": "prototype-test-9b3b99",
+      "type": "command",
+      "sourceRef": "exec_command/chunk/9b3b99",
+      "command": "node -e: rejouer tous les scénarios via solution.cjs et vérifier leur état final",
+      "exitCode": 0,
+      "output": "solution.cjs: 6 scenarios passed"
+    }
+  ],
+  "evidenceVector": {
+    "correctness": null,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {},
+  "acceptanceChecks": [
+    {
+      "check": "Au moins trois familles comportementales distinctes.",
+      "passed": true,
+      "evidence": [
+        "npm-test-efaf90"
+      ]
+    },
+    {
+      "check": "IDs d’états uniques ; premier état initial ; transitions valides et déterministes.",
+      "passed": true,
+      "evidence": [
+        "npm-test-efaf90"
+      ]
+    },
+    {
+      "check": "Tous les scénarios terminent dans leur état attendu.",
+      "passed": true,
+      "evidence": [
+        "npm-test-efaf90"
+      ]
+    },
+    {
+      "check": "behaviorVector égale exactement les fractions calculées par measure.cjs.",
+      "passed": true,
+      "evidence": [
+        "npm-test-efaf90"
+      ]
+    },
+    {
+      "check": "physicalValidationPerformed est false ; fichiers du banc inchangés.",
+      "passed": true,
+      "evidence": [
+        "contract-1366f7",
+        "files-968e8a",
+        "npm-test-efaf90"
+      ]
+    }
+  ],
+  "executionLimits": [
+    "Prototype abstrait de transitions ; aucune interface graphique réalisée.",
+    "Aucune validation physique ou étude utilisateurs.",
+    "Outils organisationnels GenOS non exposés ; livraison locale seulement.",
+    "Aucune promotion ou vérification indépendante revendiquée."
+  ],
+  "hardConstraintsPassed": true,
+  "budgetStatus": "Travail limité à la mission ; aucun coût ou budget consommé mesuré.",
+  "outcome": "success",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Trois prototypes sans menus, barre de navigation ni recherche distinguent déplacement spatial, traversée des relations et progression par accomplissement. Le banc valide leurs graphes et scénarios ; les fractions mesurées sont exactement [0,0], pour des comportements locaux sans confirmation explicite.",
+      "evidence": [
+        "files-968e8a",
+        "npm-test-efaf90",
+        "prototype-test-9b3b99"
+      ]
+    }
+  ],
+  "scopeCompletion": {
+    "scopeRef": "qual-20261006-exploratory-moyen-a6-codex/baseline_product_designer/mission",
+    "completedRefs": [
+      "answer.json",
+      "solution.cjs"
+    ]
+  },
+  "strategyProvenance": {
+    "primary": "factorial_experiment",
+    "implementation": "Comparaison de trois modalités de destination : espace, relation et progression. Relais et confirmation maintenus absents. Aucun effet causal ni gagnant inféré ; aucune promotion.",
+    "unmetPreconditions": [
+      "qdTargetNiche non fourni",
+      "Vérification indépendante non effectuée ; promotion hors périmètre"
+    ]
+  }
+}

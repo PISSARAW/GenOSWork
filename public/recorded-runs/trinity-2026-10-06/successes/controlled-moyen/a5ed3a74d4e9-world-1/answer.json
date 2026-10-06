@@ -1,0 +1,141 @@
+{
+  "pairs": [
+    [
+      3,
+      19
+    ],
+    [
+      7,
+      15
+    ]
+  ],
+  "completenessProof": "Toute paire utilise deux occurrences distinctes et possède un plus petit élément a strictement inférieur à 11 puisque a < b et a+b=22. Les seuls candidats sont donc 3, 7 et 8. Leurs compléments uniques sont respectivement 19, 15 et 14. Les deux premiers figurent dans la liste, le dernier en est absent. 11+11 demanderait deux occurrences de 11, alors que la liste en contient une seule. Les éléments 15 et 19 ne peuvent être les plus petits éléments. Ainsi seules [3,19] et [7,15] conviennent; elles sont croissantes, distinctes et ordonnées lexicographiquement.",
+  "analysis": "La mission porte sur les paires non ordonnées de deux positions distinctes de la liste [3,7,8,11,15,19]. On cherche le complément 22-a pour chaque candidat au plus petit élément. Cette analyse donne exactement [3,19] et [7,15]. Le vérificateur local calcule indépendamment les quinze paires i<j et compare strictement leur résultat au fichier JSON. La stratégie reste limitée à la branche assignée; aucune autre chambre n'est consultée.",
+  "uncertainties": [
+    "La réutilisation d'une occurrence est exclue conformément aux indices i<j du vérificateur; une convention autorisant la réutilisation ajouterait [11,11].",
+    "Les tests locaux ne mesurent ni robustesse hors de cette entrée ni coût, latence ou qualité comparative des autres branches.",
+    "Les reçus et décisions de promotion relèvent exclusivement du runtime."
+  ],
+  "outcome": "success",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Pour deux occurrences distinctes de la liste assignée, les seules paires de somme 22 sont [3,19] et [7,15].",
+      "evidence": [
+        "E-proof",
+        "E-test"
+      ],
+      "uncertainty": "Résultat limité à la liste et à la convention de deux indices distincts.",
+      "falsificationCriteria": "Réfuter si une paire produite contient un nombre absent, réutilise un indice, n'est pas croissante, n'a pas somme 22, apparaît en double, ou si les paires ne sont pas ordonnées lexicographiquement; réfuter également si l'énumération indépendante des 15 couples i<j révèle une paire valide absente ou si npm test échoue."
+    }
+  ],
+  "acceptanceChecks": [
+    {
+      "id": "pairs-exhaustive",
+      "check": "Comparer les paires aux 15 couples i<j, avec somme 22.",
+      "evidence": [
+        "E-test"
+      ]
+    },
+    {
+      "id": "argument-present",
+      "check": "Vérifier analysis >=100 caractères, completenessProof >=80 caractères et uncertainties non vide.",
+      "evidence": [
+        "E-test"
+      ]
+    },
+    {
+      "id": "protected-files",
+      "check": "Ne modifier ni verify.cjs ni package.json ni mission.txt.",
+      "evidence": [
+        "E-source"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E-source",
+      "type": "source",
+      "sourceRef": "mission.txt; package.json; verify.cjs",
+      "observation": "Fichiers locaux lus; npm test appelle node verify.cjs; le vérificateur énumère les couples i<j."
+    },
+    {
+      "id": "E-proof",
+      "type": "deduction",
+      "sourceRef": "answer.json#/completenessProof; solution.md",
+      "observation": "Examen complet des plus petits éléments possibles 3,7,8 et des compléments 19,15,14."
+    },
+    {
+      "id": "E-test",
+      "type": "execution",
+      "sourceRef": "npm test",
+      "observation": "npm test exécuté : code de sortie 0; sortie PASS exhaustive unordered pairs. Le vérificateur compare les résultats de ses 15 couples i<j et contrôle les champs argumentatifs.",
+      "exitCode": 0
+    }
+  ],
+  "provenance": {
+    "source": "mission_prompt",
+    "methodId": "prompt_defined",
+    "workerRole": "basic_implementation",
+    "strategy": "n_way_counterfactual_fork",
+    "recipe": "direct",
+    "capsuleId": "d022e7d2-02d5-43dd-853e-82d4e3c4932a_run_1791282272692",
+    "inputs": [
+      "mission.txt",
+      "package.json",
+      "verify.cjs"
+    ],
+    "otherChambersConsulted": false
+  },
+  "counterfactual": {
+    "condition": "Branche assignée : implémentation directe dans la capsule isolée avec la capacité de ressources disponible.",
+    "intervention": {
+      "type": "assigned_condition",
+      "dimension": "resource_capacity",
+      "description": "Utiliser uniquement les ressources locales de cette branche; aucune modification de capacité ni comparaison interbranche réalisée."
+    }
+  },
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": 1,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E-test"
+    ],
+    "coverage": [
+      "E-test"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "within_assigned_scope",
+    "measuredUsage": null,
+    "remaining": null
+  },
+  "executionLimits": [
+    "Une seule entrée fixe et un vérificateur local.",
+    "Outils de routage GenOS non disponibles dans la liste des outils; aucun reçu runtime créé.",
+    "Aucune promotion, délégation ou consultation des autres chambres."
+  ],
+  "unmetPreconditions": [],
+  "scopeCompletion": {
+    "scopeRef": "mission_prompt/ASSIGNED MISSION",
+    "completedRefs": [
+      "answer.json",
+      "solution.md"
+    ]
+  },
+  "evidenceVectorDefinitions": {
+    "correctness": "1 signifie comparaison exacte réussie sur cette entrée fixe.",
+    "coverage": "1 signifie 15 couples sur 15 énumérés par le vérificateur sur cette entrée."
+  }
+}

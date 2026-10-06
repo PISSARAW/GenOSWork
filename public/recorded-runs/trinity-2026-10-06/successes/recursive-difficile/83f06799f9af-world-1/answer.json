@@ -1,0 +1,129 @@
+{
+  "explanation": "Solveur exact par programmation dynamique sur les ensembles S de taches terminees. T(S) est la somme des durees. Pour chaque tache j admissible, dp[S union {j}] = min(dp[S union {j}], dp[S] + poids(j)*(T(S)+duree(j))). Le temps et les choix futurs dependent seulement de S : conserver le meilleur cout par ensemble est donc suffisant, par induction sur sa taille. Une priorite gloutonne poids/duree est seulement une heuristique en presence de dependances; l'enumeration exhaustive sert d'oracle independant, tandis que la DP fusionne les prefixes equival ents. Complexite O(n*2^n), memoire exponentielle; implementation iterative CommonJS, limite explicite de 22 taches et arithmetique Number.",
+  "uncertainties": [
+    {
+      "id": "nested-trinity",
+      "subproblem": "Determiner si une priorite locale poids/duree peut remplacer l'optimisation globale lorsque certaines taches debloquent des successeurs de poids eleve.",
+      "status": "Resolution Trinity independante non executee : aucun outil runtime GenOS/Trinity disponible. A transmettre au runtime pour declenchement imbrique; la preuve DP et l'oracle local ne constituent pas cet evenement."
+    },
+    {
+      "id": "scale-numerics",
+      "description": "Scalabilite au-dela de 22 taches non prise en charge; calculs Number sujets aux arrondis sur entrees fractionnaires ou grandes valeurs."
+    }
+  ],
+  "workerArtifact": {
+    "type": "technical",
+    "files": [
+      "solution.cjs",
+      "answer.json"
+    ]
+  },
+  "specialtyAssessment": {
+    "specialty": "software_engineering",
+    "scope": "Optimisation exacte sur une machine sequentielle, dependances et somme ponderee des temps de fin",
+    "runtimeRecursionExecuted": false,
+    "reallocationExecuted": false,
+    "promotionExecuted": false
+  },
+  "acceptanceChecks": [
+    "npm test : oracle independant de verify.cjs",
+    "Validation entrees, cycles et instance vide"
+  ],
+  "executionLimits": [
+    "22 taches maximum",
+    "Memoire et temps exponentiels",
+    "Aucune resolution Trinity imbriquee disponible"
+  ],
+  "evidence": [
+    {
+      "type": "file",
+      "description": "Implementation CommonJS solve(jobs)",
+      "ref": "solution.cjs",
+      "id": "E1"
+    },
+    {
+      "type": "file",
+      "description": "Explication, limites et provenance",
+      "ref": "answer.json",
+      "id": "E2"
+    },
+    {
+      "type": "command",
+      "exitCode": 0,
+      "ref": "npm test",
+      "result": {
+        "optimum": 94,
+        "pass": true,
+        "order": [
+          "A",
+          "C",
+          "E",
+          "B",
+          "D",
+          "F"
+        ],
+        "validOrders": 5
+      },
+      "id": "E3"
+    },
+    {
+      "type": "command",
+      "exitCode": 0,
+      "ref": "node -e supplementary assertions",
+      "result": "5 supplementary assertions passed",
+      "id": "E4"
+    }
+  ],
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": null,
+    "robustness": 1,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E3"
+    ],
+    "robustness": [
+      "E4"
+    ]
+  },
+  "hardConstraintsPassed": false,
+  "budgetStatus": "Aucun budget mesure; scope local uniquement",
+  "outcome": "success",
+  "claims": [
+    {
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "statement": "La DP exacte retourne A,C,E,B,D,F avec objectif 94, confirme par enumeration independante de 5 ordres; elle fusionne les prefixes par ensemble contrairement a enumeration et garantit optimum contrairement a priorite locale. Trinity imbriquee non executee.",
+      "id": "mission-answer"
+    }
+  ],
+  "scopeCompletion": {
+    "unmetPreconditions": [
+      "Outil runtime Trinity imbriquee indisponible"
+    ],
+    "scopeRef": "qual-20261006-recursive-difficile-a1/basic_implementation",
+    "completedRefs": [
+      "solution.cjs",
+      "answer.json"
+    ]
+  },
+  "constraintChecks": {
+    "nestedTrinity": false,
+    "algorithmAndArtifacts": true,
+    "protectedFilesModified": false,
+    "measuredDimensionsScope": "correctness: instance six taches; robustness: cinq assertions uniquement, aucune generalisation statistique",
+    "independentOracle": true,
+    "supplementaryChecks": true
+  }
+}

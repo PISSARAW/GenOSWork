@@ -1,0 +1,406 @@
+{
+  "primes": [
+    17,
+    29,
+    37
+  ],
+  "justification": "Un entier composé possède un diviseur entier entre 2 et sa racine carrée. Pour 17, les restes pour 2, 3, 4 sont 1, 2, 1. Pour 21, ils sont 1, 0, 1 : 21 = 3 × 7. Pour 29, les restes pour 2, 3, 4, 5 sont 1, 2, 1, 4. Pour 33, ils sont 1, 0, 1, 3 : 33 = 3 × 11. Pour 37, les restes pour 2, 3, 4, 5, 6 sont 1, 1, 1, 2, 1. Donc seuls 17, 29 et 37 sont premiers.",
+  "analysis": "La vérification couvre chaque diviseur entier de 2 à floor(sqrt(n)), même après un reste nul. Chaque ligne donne n = divisor × quotient + remainder. Si n = ab est composé et a et b dépassent tous deux sqrt(n), alors ab > n, contradiction : cette borne suffit. Les cinq entiers sont supérieurs à 1. Les résultats mesurés sont limités à cette liste et au vérificateur local.",
+  "uncertainties": [
+    "Aucune incertitude arithmétique identifiée pour ces cinq petits entiers.",
+    "Robustesse hors de cette liste, coût, latence, risque et reproductibilité indépendante non mesurés.",
+    "Aucun reçu runtime ni résultat des autres chambres disponible."
+  ],
+  "divisions": [
+    {
+      "n": 17,
+      "limit": 4,
+      "checks": [
+        {
+          "divisor": 2,
+          "quotient": 8,
+          "remainder": 1
+        },
+        {
+          "divisor": 3,
+          "quotient": 5,
+          "remainder": 2
+        },
+        {
+          "divisor": 4,
+          "quotient": 4,
+          "remainder": 1
+        }
+      ],
+      "prime": true
+    },
+    {
+      "n": 21,
+      "limit": 4,
+      "checks": [
+        {
+          "divisor": 2,
+          "quotient": 10,
+          "remainder": 1
+        },
+        {
+          "divisor": 3,
+          "quotient": 7,
+          "remainder": 0
+        },
+        {
+          "divisor": 4,
+          "quotient": 5,
+          "remainder": 1
+        }
+      ],
+      "prime": false
+    },
+    {
+      "n": 29,
+      "limit": 5,
+      "checks": [
+        {
+          "divisor": 2,
+          "quotient": 14,
+          "remainder": 1
+        },
+        {
+          "divisor": 3,
+          "quotient": 9,
+          "remainder": 2
+        },
+        {
+          "divisor": 4,
+          "quotient": 7,
+          "remainder": 1
+        },
+        {
+          "divisor": 5,
+          "quotient": 5,
+          "remainder": 4
+        }
+      ],
+      "prime": true
+    },
+    {
+      "n": 33,
+      "limit": 5,
+      "checks": [
+        {
+          "divisor": 2,
+          "quotient": 16,
+          "remainder": 1
+        },
+        {
+          "divisor": 3,
+          "quotient": 11,
+          "remainder": 0
+        },
+        {
+          "divisor": 4,
+          "quotient": 8,
+          "remainder": 1
+        },
+        {
+          "divisor": 5,
+          "quotient": 6,
+          "remainder": 3
+        }
+      ],
+      "prime": false
+    },
+    {
+      "n": 37,
+      "limit": 6,
+      "checks": [
+        {
+          "divisor": 2,
+          "quotient": 18,
+          "remainder": 1
+        },
+        {
+          "divisor": 3,
+          "quotient": 12,
+          "remainder": 1
+        },
+        {
+          "divisor": 4,
+          "quotient": 9,
+          "remainder": 1
+        },
+        {
+          "divisor": 5,
+          "quotient": 7,
+          "remainder": 2
+        },
+        {
+          "divisor": 6,
+          "quotient": 6,
+          "remainder": 1
+        }
+      ],
+      "prime": true
+    }
+  ],
+  "outcome": "success",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Parmi 17, 21, 29, 33 et 37, les nombres premiers sont exactement 17, 29 et 37.",
+      "evidence": [
+        "E1",
+        "E2"
+      ],
+      "uncertainty": "Aucune sur les divisions entières exécutées ; portée limitée aux cinq nombres.",
+      "falsificationCriteria": "Réfuter si un diviseur entier d entre 2 et floor(sqrt(n)) divise 17, 29 ou 37 ; si 21 != 3*7 ou 33 != 3*11 ; si une identité n=d*q+r est fausse ou r est hors de [0,d) ; si primes diffère de [17,29,37] ; ou si npm test échoue."
+    }
+  ],
+  "scopeCompletion": {
+    "scopeRef": "mission.txt",
+    "completedRefs": [
+      "answer.json",
+      "solution.md"
+    ]
+  },
+  "provenance": {
+    "role": "basic_implementation",
+    "chamber": "direct",
+    "recipe": "direct",
+    "source": "mission_prompt",
+    "methodId": "prompt_defined",
+    "workspace": "local assigned workspace",
+    "tools": [
+      "node",
+      "npm test"
+    ],
+    "otherChamberOutputsUsed": false
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "source": "Node.js exhaustive integer division executed locally",
+      "result": [
+        {
+          "n": 17,
+          "limit": 4,
+          "checks": [
+            {
+              "divisor": 2,
+              "quotient": 8,
+              "remainder": 1
+            },
+            {
+              "divisor": 3,
+              "quotient": 5,
+              "remainder": 2
+            },
+            {
+              "divisor": 4,
+              "quotient": 4,
+              "remainder": 1
+            }
+          ],
+          "prime": true
+        },
+        {
+          "n": 21,
+          "limit": 4,
+          "checks": [
+            {
+              "divisor": 2,
+              "quotient": 10,
+              "remainder": 1
+            },
+            {
+              "divisor": 3,
+              "quotient": 7,
+              "remainder": 0
+            },
+            {
+              "divisor": 4,
+              "quotient": 5,
+              "remainder": 1
+            }
+          ],
+          "prime": false
+        },
+        {
+          "n": 29,
+          "limit": 5,
+          "checks": [
+            {
+              "divisor": 2,
+              "quotient": 14,
+              "remainder": 1
+            },
+            {
+              "divisor": 3,
+              "quotient": 9,
+              "remainder": 2
+            },
+            {
+              "divisor": 4,
+              "quotient": 7,
+              "remainder": 1
+            },
+            {
+              "divisor": 5,
+              "quotient": 5,
+              "remainder": 4
+            }
+          ],
+          "prime": true
+        },
+        {
+          "n": 33,
+          "limit": 5,
+          "checks": [
+            {
+              "divisor": 2,
+              "quotient": 16,
+              "remainder": 1
+            },
+            {
+              "divisor": 3,
+              "quotient": 11,
+              "remainder": 0
+            },
+            {
+              "divisor": 4,
+              "quotient": 8,
+              "remainder": 1
+            },
+            {
+              "divisor": 5,
+              "quotient": 6,
+              "remainder": 3
+            }
+          ],
+          "prime": false
+        },
+        {
+          "n": 37,
+          "limit": 6,
+          "checks": [
+            {
+              "divisor": 2,
+              "quotient": 18,
+              "remainder": 1
+            },
+            {
+              "divisor": 3,
+              "quotient": 12,
+              "remainder": 1
+            },
+            {
+              "divisor": 4,
+              "quotient": 9,
+              "remainder": 1
+            },
+            {
+              "divisor": 5,
+              "quotient": 7,
+              "remainder": 2
+            },
+            {
+              "divisor": 6,
+              "quotient": 6,
+              "remainder": 1
+            }
+          ],
+          "prime": true
+        }
+      ]
+    },
+    {
+      "id": "E2",
+      "source": "npm test -> node verify.cjs",
+      "exitCode": 0,
+      "stdout": "\n> test\n> node verify.cjs\n\nPASS independent trial division\n",
+      "stderr": ""
+    },
+    {
+      "id": "E3",
+      "source": "SHA-256 comparison before and after artifact creation and npm test",
+      "before": {
+        "verify.cjs": "f537ffd58c5a7490018232b45459cf08cb638672f887eea3c2f7340535792475",
+        "package.json": "d28de45cffefcd6eb7ed9306a54f4e1209a92c90144444239859c70ba6a5471a",
+        "mission.txt": "76f2b20e2a9b183cada259386b4e08ff38b4eee679190665cd587b7661275463"
+      },
+      "after": {
+        "verify.cjs": "f537ffd58c5a7490018232b45459cf08cb638672f887eea3c2f7340535792475",
+        "package.json": "d28de45cffefcd6eb7ed9306a54f4e1209a92c90144444239859c70ba6a5471a",
+        "mission.txt": "76f2b20e2a9b183cada259386b4e08ff38b4eee679190665cd587b7661275463"
+      },
+      "unchanged": true
+    }
+  ],
+  "acceptanceChecks": [
+    {
+      "id": "A1",
+      "description": "Liste exacte et champs analysis, justification, uncertainties conformes au vérificateur local.",
+      "evidence": [
+        "E2"
+      ],
+      "passed": true
+    },
+    {
+      "id": "A2",
+      "description": "Tous les diviseurs jusqu’à la racine carrée vérifiés pour les cinq entiers.",
+      "evidence": [
+        "E1"
+      ],
+      "passed": true
+    },
+    {
+      "id": "A3",
+      "description": "verify.cjs, package.json et mission.txt conservés octet pour octet.",
+      "evidence": [
+        "E3"
+      ],
+      "passed": true
+    }
+  ],
+  "executionLimits": {
+    "scope": "Cinq entiers assignés ; aucune promotion ni comparaison inter-chambres.",
+    "unmetPreconditions": [
+      "Outils organisationnels GenOS non disponibles dans la liste active."
+    ],
+    "independentVerification": "Vérificateur local fourni ; pas de vérification indépendante externe."
+  },
+  "counterfactual": {
+    "condition": "Chambre scellée direct assignée ; capacité locale disponible pour une exécution séquentielle.",
+    "intervention": {
+      "type": "none",
+      "dimension": "resource_capacity",
+      "description": "Aucune variation de capacité appliquée ; aucun effet contrefactuel mesuré."
+    }
+  },
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": 1,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E2"
+    ],
+    "coverage": [
+      "E1"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "within assigned scope",
+    "tokenBudget": null,
+    "executionBudgetConsumed": null
+  }
+}

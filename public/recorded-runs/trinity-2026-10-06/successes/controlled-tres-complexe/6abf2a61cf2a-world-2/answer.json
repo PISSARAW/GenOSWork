@@ -1,0 +1,230 @@
+{
+  "stable": [
+    7,
+    19,
+    68
+  ],
+  "traces": {
+    "2": [
+      2,
+      4,
+      16,
+      37,
+      58,
+      89,
+      145,
+      42,
+      20,
+      4
+    ],
+    "7": [
+      7,
+      49,
+      97,
+      130,
+      10,
+      1
+    ],
+    "19": [
+      19,
+      82,
+      68,
+      100,
+      1
+    ],
+    "20": [
+      20,
+      4,
+      16,
+      37,
+      58,
+      89,
+      145,
+      42,
+      20
+    ],
+    "68": [
+      68,
+      100,
+      1
+    ],
+    "85": [
+      85,
+      89,
+      145,
+      42,
+      20,
+      4,
+      16,
+      37,
+      58,
+      89
+    ]
+  },
+  "terminationProof": "Pour un entier positif n de d chiffres, chaque chiffre a son carré inférieur ou égal à 81, donc f(n)<=81d. Si d>=4, 81d<10^(d-1)<=n : pour d=4, 324<1000 ; par induction, 81(d+1)<=10*81d<10^d. Ainsi, tant que n a au moins quatre chiffres, il diminue strictement. Une suite strictement décroissante d'entiers positifs ne peut être infinie : elle atteint un entier à au plus trois chiffres. Pour les petits cas, d=1 donne f(n)<=81, d=2 donne f(n)<=162, d=3 donne f(n)<=243. L'ensemble {1,...,243} est absorbant, car tout élément possède au plus trois chiffres et son image appartient encore à cet ensemble ; f(n)>=1 pour n positif. Une fois dans ces 243 états, on atteint 1 ou un état déjà rencontré en au plus 243 transitions. Une répétition avant 1 engendre un cycle déterministe qui ne peut ensuite atteindre 1. Le test avec un ensemble des états vus termine donc pour tout entier positif, sans borne sur la taille initiale en arithmétique exacte.",
+  "analysis": "Méthode planifiée : définir f par la somme des carrés des chiffres décimaux, mémoriser les états visités, puis avancer jusqu'à 1 ou jusqu'à la première répétition. La trace comprend l'état initial et l'état final, même si ce dernier apparaît déjà. On accepte exactement quand le dernier état est 1. Les calculs locaux donnent 7, 19 et 68 stables ; 2, 20 et 85 atteignent un cycle sans 1. La preuve utilise une décroissance au-dessus de 999 puis un ensemble fini absorbant. La méthode générale doit traiter les chiffres en texte ou en précision arbitraire afin d'éviter les arrondis sur de très grands entiers.",
+  "uncertainties": [
+    "La preuve générale est un argument mathématique à relire ; le test numérique d'une borne jusqu'à 100000 ne constitue pas sa preuve universelle.",
+    "Coût, latence, risque, nouveauté et comparaison contrefactuelle ne sont pas mesurés.",
+    "Aucun reçu du runtime ni aucune vérification indépendante n'est disponible localement."
+  ],
+  "outcome": "success",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Par la méthode des états visités, les entrées stables sont exactement 7, 19 et 68 ; la méthode termine pour tout entier positif en arithmétique exacte.",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "falsificationCriteria": "Réfuter si une transition de trace diffère de la somme des carrés des chiffres, si une trace continue après 1 ou après la première répétition, si la liste stable diffère des entrées atteignant 1, si un entier positif de d chiffres viole f(n)<=81d, si un d>=4 viole 81d<10^(d-1), si {1,...,243} n'est pas absorbant, ou si npm test échoue. La terminaison générale requiert également la validité de l'argument de décroissance et de cycle déterministe ; un succès du test fini ne suffit pas à établir cet argument."
+    }
+  ],
+  "specialtyAssessment": {
+    "niche": "planned_world",
+    "inScope": true,
+    "evidence": [
+      "E0"
+    ]
+  },
+  "provenance": {
+    "source": "mission.txt et mission utilisateur",
+    "methodId": "prompt_defined",
+    "methodVersion": 1,
+    "recipe": "planned",
+    "assignedStrategy": "n_way_counterfactual_fork",
+    "execution": "Une branche locale isolée, aucun accès aux autres chambres, aucune promotion de résultat.",
+    "requiredCapabilities": [],
+    "unmetPreconditions": []
+  },
+  "counterfactual": {
+    "condition": "planned_world : branche assignée interview_plan_implementation, capacité locale disponible inchangée",
+    "intervention": {
+      "type": "none",
+      "dimension": "resource_capacity",
+      "description": "Aucune modification de capacité ni expérience comparative réalisée dans cette branche isolée."
+    }
+  },
+  "acceptanceChecks": [
+    {
+      "id": "A1",
+      "description": "Les six traces sont exactes et s'arrêtent à 1 ou à la première répétition.",
+      "evidence": [
+        "E1",
+        "E2"
+      ]
+    },
+    {
+      "id": "A2",
+      "description": "La liste stable est croissante et égale à [7,19,68].",
+      "evidence": [
+        "E1",
+        "E2"
+      ]
+    },
+    {
+      "id": "A3",
+      "description": "La borne f(n)<=81d est vérifiée numériquement de 1 à 100000 ; la preuve générale est exposée dans solution.md.",
+      "evidence": [
+        "E2",
+        "E3"
+      ]
+    },
+    {
+      "id": "A4",
+      "description": "Les trois fichiers protégés conservent leur SHA256 initial.",
+      "evidence": [
+        "E4"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E0",
+      "type": "scope",
+      "source": "mission.txt",
+      "description": "Mission locale de calcul des entiers stables, preuve et livrables techniques."
+    },
+    {
+      "id": "E1",
+      "type": "executed_calculation",
+      "source": "node -e, calcul local des six trajectoires",
+      "result": "2: [2,4,16,37,58,89,145,42,20,4]; 7: [7,49,97,130,10,1]; 19: [19,82,68,100,1]; 20: [20,4,16,37,58,89,145,42,20]; 68: [68,100,1]; 85: [85,89,145,42,20,4,16,37,58,89]",
+      "exitCode": 0
+    },
+    {
+      "id": "E2",
+      "type": "test",
+      "source": "npm test",
+      "status": "passed",
+      "exitCode": 0,
+      "output": "PASS exact finite trajectories and digit-sum bound on100000 inputs; termination argument requires review",
+      "measurement": {
+        "digitBoundInputsTotal": 100000,
+        "generalProofAutomaticallyVerified": false,
+        "exactTrajectoriesTotal": 6,
+        "digitBoundInputsPassed": 100000,
+        "exactTrajectoriesPassed": 6
+      }
+    },
+    {
+      "id": "E3",
+      "type": "mathematical_argument",
+      "source": "solution.md",
+      "description": "Borne par chiffres, décroissance pour d>=4, petits cas et ensemble absorbant de 243 états ; argument non validé par un assistant de preuve."
+    },
+    {
+      "id": "E4",
+      "type": "integrity_check",
+      "source": "Get-FileHash -Algorithm SHA256",
+      "status": "passed",
+      "baseline": {
+        "verify.cjs": "62DE8A0D6B1B27B60BA66BEDF97A8771093F13B14FE69448518D23D773FBC792",
+        "package.json": "D28DE45CFFEFCD6EB7ED9306A54F4E1209A92C90144444239859C70BA6A5471A",
+        "mission.txt": "02D3AF757E30F1F25E01FC1F5F5FB39AD7D3471BD9FB16328EDED8AECC5E032F"
+      },
+      "result": "Les trois empreintes après création correspondent exactement aux empreintes initiales."
+    }
+  ],
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": 1,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "coverage": {
+      "evidenceIds": [
+        "E2"
+      ],
+      "definition": "6/6 entrées demandées couvertes ; borne testée sur 100000/100000 entiers du domaine de test fini, sans extrapolation."
+    },
+    "correctness": {
+      "evidenceIds": [
+        "E2"
+      ],
+      "definition": "Fraction des six trajectoires exactes et de la liste stable acceptées par le vérificateur ; ne mesure pas la preuve universelle."
+    }
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "within_declared_budget",
+    "executionUnitsUsed": null,
+    "executionUnitsRemaining": null,
+    "description": "Aucun compteur local fiable des unités du runtime ; pas de mesure inventée."
+  },
+  "executionLimits": [
+    "Vérificateur limité aux six trajectoires et à 100000 entrées pour la borne.",
+    "Pas de comparaison avec d'autres branches ni de promotion.",
+    "Pas de reçu runtime rempli par le worker.",
+    "Pas d'implémentation générale sur des entiers arbitrairement grands : algorithme documenté."
+  ],
+  "hardConstraintsScope": "Livrables présents, un unique claim mission-answer, champs locaux renseignés, tests passés, fichiers protégés inchangés ; preuve générale argumentée mais non vérifiée indépendamment, aucun reçu runtime inventé."
+}

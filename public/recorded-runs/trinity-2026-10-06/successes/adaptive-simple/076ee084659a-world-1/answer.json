@@ -1,0 +1,10 @@
+{
+  "numbers": [72, 84, 96],
+  "explanation": "Trois pistes de calcul distinctes convergent : enumeration exhaustive des 100 entiers avec les quatre conditions; generation des multiples de PPCM(4,6)=12; intersection des ensembles de multiples de 4 et de 6. Au-dessus de 50, les multiples de 12 sont 60, 72, 84 et 96; 60 est exclu car divisible par 5. La verification exhaustive du domaine permet une incertitude residuelle nulle pour la liste complete. Le nombre pense individuellement reste indetermine parmi ces trois possibilites.",
+  "uncertainties": [],
+  "residualUncertainty": 0,
+  "designs": ["exhaustive predicates", "multiples of LCM", "set intersection"],
+  "allocation": "Aucune reallocation : aucune incertitude algorithmique restante apres verification exhaustive.",
+  "workerArtifact": {"solution": "solution.cjs", "answer": "answer.json", "format": "CommonJS"},
+  "specialtyAssessment": {"domain": "software_engineering", "scope": "Reponse algorithmique uniquement", "runtimePromotion": false, "runtimeRecursion": false}
+}

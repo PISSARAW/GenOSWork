@@ -1,0 +1,126 @@
+{
+  "explanation": "Le solveur utilise une programmation dynamique exacte sur les ensembles admissibles de tâches terminées. Pour un ensemble S, le temps courant est la somme des durées de S, indépendante de son ordre. On conserve donc le coût minimal atteint pour S et on ajoute chaque tâche dont toutes les dépendances sont dans S, avec un coût supplémentaire poids × nouveau temps de fin. Par induction, éliminer les autres préfixes du même ensemble conserve un optimum global. Le design d'énumération exhaustive du vérificateur parcourt au contraire tous les ordres topologiques sans fusionner leurs préfixes. Une règle gloutonne de rapport poids/durée n'offre pas cette garantie en présence de dépendances. Les états sont parcourus par couches sans récursion. Le nombre d'états est au plus 2^n ; les copies d'ordres portent le temps maximal à O(n² 2^n) et la mémoire à O(n 2^n).",
+  "uncertainties": [
+    {
+      "subproblem": "Vérification indépendante de la dominance des préfixes ayant le même ensemble terminé, et limites pratiques de la programmation dynamique exponentielle sur de grandes instances.",
+      "status": "Trinity imbriquée non lancée : aucun outil runtime Trinity/GenOS disponible ; aucun événement de récursion, réallocation ou promotion revendiqué.",
+      "requestedResolution": "Résolution Trinity indépendante de la preuve de dominance et comparaison avec un oracle exhaustif sur petits DAG."
+    }
+  ],
+  "outcome": "success",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Sur l'instance imposée, la programmation dynamique par sous-ensembles retourne A,C,E,B,D,F avec objectif minimal 94, confirmé par l'oracle indépendant qui énumère 5 ordres. Elle fusionne les préfixes équivalents tandis que l'oracle énumère les ordres complets ; aucune résolution Trinity imbriquée ni promotion runtime n'a été exécutée.",
+      "evidence": [
+        "E2",
+        "E3"
+      ]
+    }
+  ],
+  "strategyTrace": [
+    {
+      "strategy": "n_way_counterfactual_fork",
+      "decision": "retained",
+      "reason": "Comparaison locale du design exact par sous-ensembles et du design oracle par énumération ; aucun fork runtime revendiqué.",
+      "evidence": [
+        "E1"
+      ]
+    }
+  ],
+  "workerArtifact": {
+    "files": [
+      "solution.cjs",
+      "answer.json"
+    ],
+    "type": "technical"
+  },
+  "specialtyAssessment": {
+    "role": "self_correcting_implementation",
+    "method": "Implémentation exacte puis confrontation au vérificateur indépendant fourni.",
+    "unmetPreconditions": [
+      "Runtime Trinity indépendant indisponible."
+    ]
+  },
+  "acceptanceChecks": [
+    "npm test : chaque ordre admissible est énuméré par verify.cjs et le résultat doit égaler l'optimum.",
+    "Ne pas modifier verify.cjs, package.json ou measure.cjs."
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "type": "command",
+      "command": "Get-Content verify.cjs; Get-Content package.json; Get-Content MISSION.txt",
+      "result": "Contrat et oracle local lus ; npm test exécute node verify.cjs."
+    },
+    {
+      "id": "E2",
+      "type": "file",
+      "path": "solution.cjs",
+      "sha256": "A29EE2FB217566C8AD2C6F3BEB0C58CBA5C8DCE62645CA5FE3AFDF4E509B7D3D",
+      "source": "Get-FileHash solution.cjs,verify.cjs,package.json -Algorithm SHA256"
+    },
+    {
+      "id": "E3",
+      "type": "command",
+      "command": "npm test",
+      "exitCode": 0,
+      "result": {
+        "pass": true,
+        "validOrders": 5,
+        "optimum": 94,
+        "result": {
+          "order": [
+            "A",
+            "C",
+            "E",
+            "B",
+            "D",
+            "F"
+          ],
+          "objective": 94
+        }
+      }
+    },
+    {
+      "id": "E4",
+      "type": "file",
+      "path": "answer.json",
+      "description": "Dossier local écrit avec explanation, uncertainties, claim unique et preuves ; sans reçu externe fabriqué."
+    }
+  ],
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E3"
+    ]
+  },
+  "hardConstraintsPassed": {
+    "localAcceptance": true,
+    "commonJS": true,
+    "requiredAnswerFields": true,
+    "protectedFilesNotModified": true,
+    "independentTrinity": false
+  },
+  "budgetStatus": {
+    "status": "within_budget",
+    "measuredUsage": null
+  },
+  "executionLimits": [
+    "Complexité exponentielle ; aucune limite pratique de taille mesurée.",
+    "Calculs Number : exactitude arithmétique non garantie au-delà des entiers sûrs ou avec durées fractionnaires.",
+    "Aucune promotion ou résolution Trinity imbriquée réalisée.",
+    "correctness=1 désigne seulement la réussite du test imposé sur cette instance ; couverture générale, coût, latence et autres dimensions non mesurés."
+  ]
+}

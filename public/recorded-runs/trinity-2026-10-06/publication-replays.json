@@ -1,0 +1,575 @@
+{
+  "observedAt": "2026-10-06T10:53:37.832Z",
+  "passed": 71,
+  "total": 71,
+  "checks": [
+    {
+      "caseId": "controlled-simple",
+      "attempt": "ch-controlled-simple-a1",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "PASS independent trial division\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "controlled-simple",
+      "attempt": "ch-controlled-simple-a1",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "PASS independent trial division\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "controlled-simple",
+      "attempt": "ch-controlled-simple-a1",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "PASS independent trial division\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "controlled-moyen",
+      "attempt": "ch-controlled-moyen-a1",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "PASS exhaustive unordered pairs\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "controlled-moyen",
+      "attempt": "ch-controlled-moyen-a1",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "PASS exhaustive unordered pairs\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "controlled-moyen",
+      "attempt": "ch-controlled-moyen-a1",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "PASS exhaustive unordered pairs\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "controlled-difficile",
+      "attempt": "ch-controlled-difficile-b1",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "PASS preserved architecture constraints and dossier coverage; qualitative choice not empirically certified\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "controlled-difficile",
+      "attempt": "ch-controlled-difficile-b1",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "PASS preserved architecture constraints and dossier coverage; qualitative choice not empirically certified\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "controlled-difficile",
+      "attempt": "ch-controlled-difficile-b1",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "PASS preserved architecture constraints and dossier coverage; qualitative choice not empirically certified\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "controlled-tres-complexe",
+      "attempt": "ch-controlled-tres-complexe-b1",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "PASS exact finite trajectories and digit-sum bound on100000 inputs; termination argument requires review\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "controlled-tres-complexe",
+      "attempt": "ch-controlled-tres-complexe-b1",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "PASS exact finite trajectories and digit-sum bound on100000 inputs; termination argument requires review\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "controlled-tres-complexe",
+      "attempt": "ch-controlled-tres-complexe-b1",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "PASS exact finite trajectories and digit-sum bound on100000 inputs; termination argument requires review\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "adversarial-simple",
+      "attempt": "qual-20261006-adversarial-simple-a5",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "PASS residue partition, converse witness and trial division through 100000; prose proof still requires review\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "adversarial-simple",
+      "attempt": "qual-20261006-adversarial-simple-a5",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "PASS residue partition, converse witness and trial division through 100000; prose proof still requires review\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "adversarial-simple",
+      "attempt": "qual-20261006-adversarial-simple-a5",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "PASS residue partition, converse witness and trial division through 100000; prose proof still requires review\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "pareto-simple",
+      "attempt": "pareto-simple-attempt3",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"passed\":true,\"method\":\"componentwise exhaustive dominance\",\"front\":[\"marche\",\"velo\",\"bus\",\"taxi\"],\"candidates\":5}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "pareto-simple",
+      "attempt": "pareto-simple-attempt3",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "{\"passed\":true,\"method\":\"componentwise exhaustive dominance\",\"front\":[\"marche\",\"velo\",\"bus\",\"taxi\"],\"candidates\":5}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "pareto-simple",
+      "attempt": "pareto-simple-attempt3",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "{\"passed\":true,\"method\":\"componentwise exhaustive dominance\",\"front\":[\"marche\",\"velo\",\"bus\",\"taxi\"],\"candidates\":5}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "pareto-moyen",
+      "attempt": "pareto-moyen-attempt3",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"passed\":true,\"method\":\"componentwise exhaustive dominance\",\"front\":[\"disque\",\"cloud\",\"hybride-chiffre\"],\"candidates\":4}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "pareto-moyen",
+      "attempt": "pareto-moyen-attempt4",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"passed\":true,\"method\":\"componentwise exhaustive dominance\",\"front\":[\"disque\",\"cloud\",\"hybride-chiffre\"],\"candidates\":4}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "pareto-moyen",
+      "attempt": "pareto-moyen-attempt4",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "{\"passed\":true,\"method\":\"componentwise exhaustive dominance\",\"front\":[\"disque\",\"cloud\",\"hybride-chiffre\"],\"candidates\":4}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "pareto-moyen",
+      "attempt": "pareto-moyen-attempt4",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "{\"passed\":true,\"method\":\"componentwise exhaustive dominance\",\"front\":[\"disque\",\"cloud\",\"hybride-chiffre\"],\"candidates\":4}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "pareto-difficile",
+      "attempt": "pareto-difficile-attempt6",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"passed\":true,\"method\":\"componentwise exhaustive dominance\",\"front\":[\"monolithe\",\"modulaire\",\"microservices\",\"serverless\"],\"candidates\":5}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "pareto-difficile",
+      "attempt": "pareto-difficile-attempt6",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "{\"passed\":true,\"method\":\"componentwise exhaustive dominance\",\"front\":[\"monolithe\",\"modulaire\",\"microservices\",\"serverless\"],\"candidates\":5}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "pareto-difficile",
+      "attempt": "pareto-difficile-attempt6",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "{\"passed\":true,\"method\":\"componentwise exhaustive dominance\",\"front\":[\"monolithe\",\"modulaire\",\"microservices\",\"serverless\"],\"candidates\":5}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "pareto-tres-complexe",
+      "attempt": "pareto-tres-complexe-attempt6",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"passed\":true,\"method\":\"componentwise exhaustive dominance\",\"front\":[\"batch\",\"stream\",\"managed\",\"hybride\"],\"candidates\":5}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "pareto-tres-complexe",
+      "attempt": "pareto-tres-complexe-attempt6",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "{\"passed\":true,\"method\":\"componentwise exhaustive dominance\",\"front\":[\"batch\",\"stream\",\"managed\",\"hybride\"],\"candidates\":5}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "pareto-tres-complexe",
+      "attempt": "pareto-tres-complexe-attempt6",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "{\"passed\":true,\"method\":\"componentwise exhaustive dominance\",\"front\":[\"batch\",\"stream\",\"managed\",\"hybride\"],\"candidates\":5}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "jury-simple",
+      "attempt": "qual-20261006-jury-simple-a4",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"cases\":12,\"stay\":0.33333333333333337,\"swap\":0.6666666666666667}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "jury-simple",
+      "attempt": "qual-20261006-jury-simple-a4",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"cases\":12,\"stay\":0.33333333333333337,\"swap\":0.6666666666666667}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "jury-simple",
+      "attempt": "qual-20261006-jury-simple-a4",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"cases\":12,\"stay\":0.33333333333333337,\"swap\":0.6666666666666667}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "jury-moyen",
+      "attempt": "qual-20261006-jury-moyen-a4",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"cases\":5576}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "jury-moyen",
+      "attempt": "qual-20261006-jury-moyen-a4",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"cases\":5576}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "jury-moyen",
+      "attempt": "qual-20261006-jury-moyen-a4",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"cases\":5576}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "jury-difficile",
+      "attempt": "qual-20261006-jury-difficile-a7-codex",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"scenario\":\"duplicate-out-of-order-reconnect\",\"r\":{\"durable\":[{\"id\":\"m1\",\"seq\":1,\"body\":\"A\"},{\"id\":\"m2\",\"seq\":2,\"body\":\"B\"},{\"id\":\"m3\",\"seq\":3,\"body\":\"C\"}],\"replayed\":[{\"id\":\"m2\",\"seq\":2,\"body\":\"B\"},{\"id\":\"m3\",\"seq\":3,\"body\":\"C\"}],\"duplicates\":1,\"acks\":[{\"id\":\"m2\",\"seq\":2},{\"id\":\"m1\",\"seq\":1},{\"id\":\"m1\",\"seq\":1}]}}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "jury-difficile",
+      "attempt": "qual-20261006-jury-difficile-a7-codex",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"scenario\":\"duplicate-out-of-order-reconnect\",\"r\":{\"durable\":[{\"id\":\"m1\",\"seq\":1,\"body\":\"A\"},{\"id\":\"m2\",\"seq\":2,\"body\":\"B\"},{\"id\":\"m3\",\"seq\":3,\"body\":\"C\"}],\"replayed\":[{\"id\":\"m2\",\"seq\":2,\"body\":\"B\"},{\"id\":\"m3\",\"seq\":3,\"body\":\"C\"}],\"duplicates\":1}}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "jury-difficile",
+      "attempt": "qual-20261006-jury-difficile-a7-codex",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"scenario\":\"duplicate-out-of-order-reconnect\",\"r\":{\"durable\":[{\"id\":\"m1\",\"seq\":1,\"body\":\"A\"},{\"id\":\"m2\",\"seq\":2,\"body\":\"B\"},{\"id\":\"m3\",\"seq\":3,\"body\":\"C\"}],\"replayed\":[{\"id\":\"m2\",\"seq\":2,\"body\":\"B\"},{\"id\":\"m3\",\"seq\":3,\"body\":\"C\"}],\"duplicates\":1}}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "recursive-simple",
+      "attempt": "qual-20261006-recursive-simple-a1",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"cases\":201,\"zeros100\":24}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "recursive-simple",
+      "attempt": "qual-20261006-recursive-simple-a1",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"cases\":201,\"zeros100\":24}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "recursive-simple",
+      "attempt": "qual-20261006-recursive-simple-a1",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"cases\":201,\"zeros100\":24}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "recursive-moyen",
+      "attempt": "qual-20261006-recursive-moyen-a1",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"cases\":151,\"minimum63\":5,\"oracle\":\"BFS\"}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "recursive-moyen",
+      "attempt": "qual-20261006-recursive-moyen-a1",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"cases\":151,\"minimum63\":5,\"oracle\":\"BFS\"}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "recursive-moyen",
+      "attempt": "qual-20261006-recursive-moyen-a1",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"cases\":151,\"minimum63\":5,\"oracle\":\"BFS\"}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "recursive-difficile",
+      "attempt": "qual-20261006-recursive-difficile-a1",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"validOrders\":5,\"optimum\":94,\"result\":{\"order\":[\"A\",\"C\",\"E\",\"B\",\"D\",\"F\"],\"objective\":94}}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "recursive-difficile",
+      "attempt": "qual-20261006-recursive-difficile-a1",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"validOrders\":5,\"optimum\":94,\"result\":{\"order\":[\"A\",\"C\",\"E\",\"B\",\"D\",\"F\"],\"objective\":94}}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "recursive-difficile",
+      "attempt": "qual-20261006-recursive-difficile-a1",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"validOrders\":5,\"optimum\":94,\"result\":{\"order\":[\"A\",\"C\",\"E\",\"B\",\"D\",\"F\"],\"objective\":94}}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "adaptive-simple",
+      "attempt": "qual-20261006-adaptive-simple-a1",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"states\":100,\"numbers\":[72,84,96],\"uncertainty\":0}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "adaptive-simple",
+      "attempt": "qual-20261006-adaptive-simple-a1",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"states\":100,\"numbers\":[72,84,96],\"uncertainty\":0}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "adaptive-simple",
+      "attempt": "qual-20261006-adaptive-simple-a1",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"states\":100,\"numbers\":[72,84,96],\"uncertainty\":0}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "temporal-simple",
+      "attempt": "qual-20261006-temporal-simple-a1",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "PASS equal time budgets for7,90,730 days; learning effects remain conditional\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "temporal-simple",
+      "attempt": "qual-20261006-temporal-simple-a1",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "PASS equal time budgets for7,90,730 days; learning effects remain conditional\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "temporal-moyen",
+      "attempt": "qual-20261006-temporal-moyen-a1",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "PASS conditional maintenance model at30,365,1825 days; breakeven350 days; no economic forecast\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "temporal-moyen",
+      "attempt": "qual-20261006-temporal-moyen-a1",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "PASS conditional maintenance model at30,365,1825 days; breakeven350 days; no economic forecast\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "temporal-moyen",
+      "attempt": "qual-20261006-temporal-moyen-a1",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "PASS conditional maintenance model at30,365,1825 days; breakeven350 days; no economic forecast\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "temporal-difficile",
+      "attempt": "qual-20261006-temporal-difficile-a1",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "PASS executable migration dependency/order gates; no live legacy migration\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "temporal-difficile",
+      "attempt": "qual-20261006-temporal-difficile-a1",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "PASS executable migration dependency/order gates; no live legacy migration\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "temporal-difficile",
+      "attempt": "qual-20261006-temporal-difficile-a1",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "PASS executable migration dependency/order gates; no live legacy migration\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "temporal-tres-complexe",
+      "attempt": "qual-20261006-temporal-tres-complexe-a1",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "PASS portable configuration roundtrips;20-year feasibility unmeasured\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "temporal-tres-complexe",
+      "attempt": "qual-20261006-temporal-tres-complexe-a1",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "PASS portable configuration roundtrips;20-year feasibility unmeasured\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "temporal-tres-complexe",
+      "attempt": "qual-20261006-temporal-tres-complexe-a1",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "PASS portable configuration roundtrips;20-year feasibility unmeasured\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "oracular-tres-complexe",
+      "attempt": "qual-20261006-oracular-tres-complexe-a1",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "PASS60 actual process calls with10 perturbations and10 genuine-prior Brier/logLoss pairs; independence needs code review\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "oracular-tres-complexe",
+      "attempt": "qual-20261006-oracular-tres-complexe-a1",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "PASS60 actual process calls with10 perturbations and10 genuine-prior Brier/logLoss pairs; independence needs code review\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "oracular-tres-complexe",
+      "attempt": "qual-20261006-oracular-tres-complexe-a1",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "PASS60 actual process calls with10 perturbations and10 genuine-prior Brier/logLoss pairs; independence needs code review\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "exploratory-simple",
+      "attempt": "qual-20261006-exploratory-simple-a4",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"designs\":3,\"families\":3,\"transitions\":8,\"behaviorVector\":[0,0],\"niche\":\"niche_0:0\",\"measuredOnly\":\"transition graph descriptors and scenario replay; no novelty or physical feasibility certification\"}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "exploratory-simple",
+      "attempt": "qual-20261006-exploratory-simple-a4",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"designs\":3,\"families\":3,\"transitions\":7,\"behaviorVector\":[0,0],\"niche\":\"niche_0:0\",\"measuredOnly\":\"transition graph descriptors and scenario replay; no novelty or physical feasibility certification\"}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "exploratory-simple",
+      "attempt": "qual-20261006-exploratory-simple-a4",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"designs\":3,\"families\":3,\"transitions\":9,\"behaviorVector\":[0,0],\"niche\":\"niche_0:0\",\"measuredOnly\":\"transition graph descriptors and scenario replay; no novelty or physical feasibility certification\"}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "exploratory-moyen",
+      "attempt": "qual-20261006-exploratory-moyen-a3",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"designs\":6,\"families\":3,\"transitions\":30,\"behaviorVector\":[0.2,0.1],\"niche\":\"niche_1:0\",\"measuredOnly\":\"transition graph descriptors and scenario replay; no novelty or physical feasibility certification\"}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "exploratory-moyen",
+      "attempt": "qual-20261006-exploratory-moyen-a6-codex",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"designs\":3,\"families\":3,\"transitions\":12,\"behaviorVector\":[0,0],\"niche\":\"niche_0:0\",\"measuredOnly\":\"transition graph descriptors and scenario replay; no novelty or physical feasibility certification\"}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "exploratory-tres-complexe",
+      "attempt": "qual-20261006-exploratory-tres-complexe-a8-codex",
+      "world": 1,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"designs\":3,\"families\":3,\"transitions\":11,\"behaviorVector\":[0,0],\"niche\":\"niche_0:0\",\"measuredOnly\":\"transition graph descriptors and scenario replay; no novelty or physical feasibility certification\"}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "exploratory-tres-complexe",
+      "attempt": "qual-20261006-exploratory-tres-complexe-a8-codex",
+      "world": 2,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"designs\":3,\"families\":3,\"transitions\":13,\"behaviorVector\":[0,0],\"niche\":\"niche_0:0\",\"measuredOnly\":\"transition graph descriptors and scenario replay; no novelty or physical feasibility certification\"}\n",
+      "stderr": ""
+    },
+    {
+      "caseId": "exploratory-tres-complexe",
+      "attempt": "qual-20261006-exploratory-tres-complexe-a8-codex",
+      "world": 3,
+      "exitCode": 0,
+      "stdout": "{\"pass\":true,\"designs\":3,\"families\":3,\"transitions\":15,\"behaviorVector\":[0,0],\"niche\":\"niche_0:0\",\"measuredOnly\":\"transition graph descriptors and scenario replay; no novelty or physical feasibility certification\"}\n",
+      "stderr": ""
+    }
+  ]
+}

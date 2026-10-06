@@ -1,0 +1,150 @@
+{
+  "analysis": "Comparaison conditionnelle à budget égal de 7 heures par semaine : exercices seuls 7 h, mixte 4 h d’exercices et 3 h de projet. Les heures sont calculées par days/7 semaines, sans arrondi préalable. Dans ce modèle, 3 mois signifie 90 jours et 2 ans 730 jours : c’est une simplification calendaire avec semaines fractionnaires. L’intervention change uniquement la répartition du temps; elle ne mesure aucun apprentissage. La perspective de maintenance à long terme favorise une décision réversible, à réévaluer selon les difficultés observées.",
+  "uncertainties": [
+    "Niveau initial, qualité du retour, difficulté des tâches, régularité et motivation inconnus.",
+    "Les projets peuvent intégrer plusieurs compétences si leur périmètre reste accessible et si les erreurs sont corrigées; cet effet n’est pas mesuré.",
+    "L’égalité des heures prévues ne garantit ni temps effectif identique ni causalité isolée dans une expérience réelle."
+  ],
+  "horizons": [
+    {
+      "days": 7,
+      "exerciseOnly": "Sous réserve de corrections et de tâches adaptées, 7 h d’exercices pourraient renforcer la syntaxe et les automatismes sur des problèmes ciblés. Le transfert vers un programme complet reste inconnu.",
+      "mixedProjects": "Avec 4 h d’exercices et 3 h de petit projet, l’apprenant pourrait commencer à relier les notions et identifier des lacunes concrètes. Le temps de configuration pourrait toutefois absorber une partie du projet.",
+      "risks": "Exercices : mémoriser des solutions sans comprendre. Mixte : projet trop ambitieux, dispersion et frustration. Aucun gain de maîtrise n’est quantifié."
+    },
+    {
+      "days": 90,
+      "exerciseOnly": "Une pratique variée avec retour pourrait consolider la résolution de problèmes et couvrir davantage de notions isolées. Sans tâches ouvertes, organiser un logiciel et déboguer des interactions pourrait rester difficile.",
+      "mixedProjects": "Des projets progressifs accompagnés d’exercices ciblés pourraient développer l’intégration, le débogage et la lecture de documentation. Cela dépend d’un retour utile et de projets achevables; aucun avantage causal n’est établi.",
+      "risks": "Exercices : plafonnement sur des formats familiers. Mixte : copier du code sans le comprendre ou négliger les bases. L’abandon et la qualité du retour peuvent modifier les deux trajectoires."
+    },
+    {
+      "days": 730,
+      "exerciseOnly": "Des exercices renouvelés peuvent entretenir des bases solides et préparer des tâches algorithmiques. La maintenance d’un code ancien, les dépendances et l’évolution des besoins resteraient peu pratiquées si les exercices restent isolés.",
+      "mixedProjects": "Reprendre et tester d’anciens projets pourrait exercer la maintenance, la refactorisation et la compréhension de décisions passées. Un portefeuille de projets ne prouve pas une maîtrise; cet effet exige des reprises effectives et une difficulté progressive.",
+      "risks": "Exercices : spécialisation et faible transfert hors format. Mixte : dette technique, projets abandonnés et dépendances vieillissantes. Sur deux ans, disponibilité et objectifs peuvent changer; aucune extrapolation mesurée."
+    }
+  ],
+  "totals": [
+    {
+      "days": 7,
+      "exerciseOnlyHours": 7,
+      "mixedExerciseHours": 4,
+      "mixedProjectHours": 3
+    },
+    {
+      "days": 90,
+      "exerciseOnlyHours": 90,
+      "mixedExerciseHours": 51.42857142857143,
+      "mixedProjectHours": 38.57142857142857
+    },
+    {
+      "days": 730,
+      "exerciseOnlyHours": 730,
+      "mixedExerciseHours": 417.14285714285717,
+      "mixedProjectHours": 312.8571428571429
+    }
+  ],
+  "robustDecision": "Pour un objectif de création et de maintenance de logiciels Python, retenir provisoirement le mixte 4 h + 3 h avec de petits projets, du retour et des reprises de code ancien. Pour un objectif uniquement algorithmique, les exercices seuls peuvent mieux correspondre. Réévaluer chaque semaine les erreurs et le périmètre du projet à budget constant; conserver les versions permet de revenir sur les choix. Cette préférence conditionnelle n’est pas un classement empirique.",
+  "measurementLimits": "Aucun apprenant n’a été observé, aucun test de compétence, de rétention ou de transfert n’a été réalisé. Les totaux sont des allocations théoriques, non des heures observées. Les tests logiciels vérifient seulement le contrat de l’artefact et les calculs; ils ne valident pas l’efficacité pédagogique. Une étude exigerait niveau initial comparable, allocation contrôlée, temps effectif suivi, tâches de transfert communes et suivi longitudinal; la causalité et les effets restent inconnus.",
+  "counterfactual": {
+    "condition": "À niveau initial, objectifs, retour et budget prévus comparables, comparer l’allocation exercices seuls à l’allocation mixte aux horizons 7, 90 et 730 jours.",
+    "intervention": {
+      "type": "time_allocation",
+      "dimension": "resource_capacity",
+      "description": "Maintenir 7 h/semaine; réallouer 3 h des exercices vers un projet, laissant 4 h d’exercices. Comparaison conceptuelle, sans expérience sur apprenants."
+    }
+  },
+  "outcome": "success",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "L’artefact compare conditionnellement les allocations à trois horizons avec budget théorique égal; il ne démontre aucun effet d’apprentissage.",
+      "evidence": [
+        "E1",
+        "E2"
+      ],
+      "uncertainty": "La conformité structurelle ne démontre ni apprentissage ni supériorité pédagogique.",
+      "falsificationCriteria": "Réfuter la conformité si npm test échoue, si un horizon 7/90/730 manque, si les heures diffèrent de days, 4*days/7, 3*days/7 de plus de 1e-6, si un score de maîtrise ou un apprentissage observé est attribué sans données, ou si les fichiers protégés ont changé. Réfuter une préférence pédagogique lors d’une future étude contrôlée si les tâches de transfert et maintenance ne soutiennent pas le choix pour l’objectif déclaré; aucune telle étude n’est réalisée ici."
+    }
+  ],
+  "strategyTrace": [
+    {
+      "strategy": "causal_replay_intervention",
+      "decision": "retained",
+      "reason": "Intervention explicite sur l’allocation à capacité totale constante; challenge par vérification du contrat et des calculs. Aucun replay d’apprentissage disponible.",
+      "evidence": [
+        "E1",
+        "E2"
+      ]
+    }
+  ],
+  "provenance": {
+    "source": "mission.txt et instruction utilisateur",
+    "method": "prompt_defined",
+    "role": "self_correcting_implementation",
+    "world": "3 : maintenance et réversibilité à long terme",
+    "assignedStrategy": "causal_replay_intervention",
+    "preconditionsUnmet": [
+      "Aucune donnée d’apprenants ni replay empirique disponible.",
+      "Outils GenOS de routage non disponibles dans cette session."
+    ],
+    "verifierReceipts": "Attribués exclusivement par le runtime; aucun reçu généré ici."
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "type": "executed_test",
+      "command": "npm test",
+      "exitCode": 0,
+      "result": "PASS equal time budgets for7,90,730 days; learning effects remain conditional",
+      "scope": "Vérificateur local fourni; structure textuelle et 9 valeurs horaires."
+    },
+    {
+      "id": "E2",
+      "type": "executed_test",
+      "command": "node -e : contrôle supplémentaire du contrat et SHA-256",
+      "exitCode": 0,
+      "result": "PASS audit: 3 horizons, 3 budgets, unique claim, evidence links, null unmeasured dimensions, protected hashes",
+      "scope": "Intégrité des trois fichiers protégés, égalité des budgets, claim unique et traçabilité; aucun effet pédagogique mesuré."
+    }
+  ],
+  "acceptanceChecks": [
+    "npm test : structure, longueurs minimales et allocations à 1e-6 près.",
+    "Contrôle supplémentaire : claim unique, références de preuves, égalité totale et intégrité des fichiers protégés."
+  ],
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": 1
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E1",
+      "E2"
+    ],
+    "constraintCoverage": [
+      "E1",
+      "E2"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "within_budget",
+    "limit": "100 unités annoncées par le runtime",
+    "consumption": null,
+    "note": "Consommation runtime non mesurée; aucune consommation inventée."
+  },
+  "executionLimits": [
+    "Tests locaux de conformité uniquement; aucune vérification indépendante de l’efficacité pédagogique.",
+    "Pas de promotion ni consultation d’autres chambres."
+  ],
+  "evidenceVectorDefinition": "Valeur 1 = tous les contrôles locaux déclarés passent; correctness et constraintCoverage portent uniquement sur l’artefact. Les autres dimensions restent null, sans score pédagogique."
+}

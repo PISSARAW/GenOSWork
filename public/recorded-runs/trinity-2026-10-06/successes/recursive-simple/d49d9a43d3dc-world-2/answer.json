@@ -1,0 +1,5 @@
+{
+  "zeros100": 24,
+  "explanation": "Chaque zéro final correspond à un facteur 10, soit une paire de facteurs 2 et 5. Dans n!, les facteurs 2 sont au moins aussi nombreux que les facteurs 5. On compte donc les facteurs 5 par divisions entières successives : pour 100!, floor(100/5) + floor(100/25) = 20 + 4 = 24. La solution utilise une boucle avec espace constant ; le vérificateur calcule indépendamment la factorielle en BigInt et compte ses zéros décimaux. Aucun sous-problème supplémentaire ne nécessite une branche récursive.",
+  "uncertainties": []
+}

@@ -1,0 +1,2 @@
+const fs=require('node:fs');const a=require('node:assert/strict');const answer=JSON.parse(fs.readFileSync('answer.json','utf8'));a.ok(typeof answer.explanation==='string'&&answer.explanation.length>100);a.ok(Array.isArray(answer.uncertainties));const s=require('./solution.cjs');
+const xs=[];for(let n=1;n<=100;n++)if(n%4===0&&n%6===0&&n%5!==0&&n>50)xs.push(n);a.deepEqual(s.solve(),xs);a.deepEqual(answer.numbers,xs);a.equal(answer.residualUncertainty,0);console.log(JSON.stringify({pass:true,states:100,numbers:xs,uncertainty:0}));

@@ -1,0 +1,197 @@
+{
+  "stable": [
+    7,
+    19,
+    68
+  ],
+  "traces": {
+    "2": [
+      2,
+      4,
+      16,
+      37,
+      58,
+      89,
+      145,
+      42,
+      20,
+      4
+    ],
+    "7": [
+      7,
+      49,
+      97,
+      130,
+      10,
+      1
+    ],
+    "19": [
+      19,
+      82,
+      68,
+      100,
+      1
+    ],
+    "20": [
+      20,
+      4,
+      16,
+      37,
+      58,
+      89,
+      145,
+      42,
+      20
+    ],
+    "68": [
+      68,
+      100,
+      1
+    ],
+    "85": [
+      85,
+      89,
+      145,
+      42,
+      20,
+      4,
+      16,
+      37,
+      58,
+      89
+    ]
+  },
+  "terminationProof": "Pour un entier positif de d chiffres décimaux, chaque carré de chiffre est au plus 81, donc f(n)<=81d. Pour d>=4, 81d<10^(d-1)<=n : la première inégalité vaut pour d=4 (324<1000) et se conserve par induction, car d+1<=10d. Ainsi, tant que n>=1000, chaque étape diminue strictement cet entier positif; on atteint donc un entier inférieur à 1000 en un nombre fini d’étapes. L’ensemble {1,...,999} est absorbant : ses éléments ont au plus trois chiffres et 1<=f(n)<=243<=999. Les petits cas d=1,2,3 sont donc tous inclus, sans supposer une décroissance pour eux. Dans cet ensemble fini, on atteint 1 ou on répète un état après au plus 999 transitions. Puisque f est déterministe, un état répété avant 1 enferme la suite dans un cycle ne contenant pas 1. La mémorisation des états visités décide donc toujours la stabilité.",
+  "analysis": "On calcule exactement la somme des carrés des chiffres en base dix. On conserve un ensemble des états déjà rencontrés et une trace incluant l’entrée. Si l’état est 1, on conclut stable; sinon, si cet état a déjà été rencontré, on conclut non stable. À chaque nouvelle étape, on marque l’état courant, calcule f et ajoute le résultat à la trace. Le premier état répété figure donc une seconde fois en fin de trace. Les entrées stables sont 7, 19 et 68. Les entrées 2, 20 et 85 rejoignent un cycle qui évite 1. Pour des entiers arbitrairement grands, utiliser une chaîne décimale et une arithmétique entière exacte; Number en JavaScript ne représente pas tous les entiers au-delà de 2^53-1.",
+  "uncertainties": [
+    "La démonstration générale demande une revue humaine : le test local ne la vérifie pas formellement.",
+    "Les calculs fournis concernent les six entrées exactes; aucune mesure de coût, de latence ou comparaison contrefactuelle n’est encore disponible."
+  ],
+  "method": {
+    "input": "Entier positif en écriture décimale exacte",
+    "algorithm": "Arrêter à 1 ou au premier état répété; mémoriser chaque état avant de calculer son successeur."
+  },
+  "outcome": "success",
+  "evidence": [
+    {
+      "id": "E1",
+      "type": "executed_test",
+      "source": "npm test / node verify.cjs",
+      "toolOutputRef": "b574ac",
+      "exitCode": 0,
+      "observed": "PASS exact finite trajectories and digit-sum bound on100000 inputs; termination argument requires review",
+      "scope": "Six exact trajectories, sorted stable list, required text fields and bound checked on integers 1 through 100000. No formal verification of the general proof."
+    }
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Parmi les six entrées, exactement 7, 19 et 68 sont stables; la méthode par états visités termine pour tout entier positif en base dix selon la preuve fournie.",
+      "evidence": [
+        "E1",
+        "answer.json#/terminationProof",
+        "solution.md"
+      ],
+      "uncertainty": "Le résultat fini est testé; la preuve générale est un argument mathématique non vérifié formellement.",
+      "falsificationCriteria": "Réfuter si une des six traces comporte un successeur différent de la somme des carrés des chiffres, omet un état avant son arrêt, s’arrête avant 1 ou avant le premier état répété, ou si la liste stable diffère des traces aboutissant à 1. Réfuter la terminaison en montrant un défaut de 81d<10^(d-1) pour d>=4, de la décroissance pour n>=1000, de l’absorption de {1,...,999}, ou du raisonnement déterministe excluant 1 après répétition. Un échec de npm test invalide les contrôles locaux annoncés."
+    }
+  ],
+  "scopeCompletion": {
+    "scopeRef": "mission_prompt/assigned_mission",
+    "completedRefs": [
+      "answer.json",
+      "solution.md"
+    ]
+  },
+  "provenance": {
+    "workerRole": "basic_implementation",
+    "strategy": "direct",
+    "methodId": "prompt_defined",
+    "methodSource": "mission_prompt",
+    "domain": "software_engineering",
+    "sources": [
+      "mission.txt",
+      "verify.cjs",
+      "package.json",
+      "mission_prompt"
+    ],
+    "execution": "Local deterministic computation and npm test; no external chamber accessed; no peer agent spawned.",
+    "runtimeReceipts": "Not supplied or populated by this worker."
+  },
+  "counterfactual": {
+    "condition": "Condition assignée : chambre directe, stratégie cognitive direct, capacité de ressources disponible du worker borné; quantité effective non mesurée.",
+    "intervention": {
+      "type": "assigned_condition",
+      "dimension": "resource_capacity",
+      "description": "Aucune variation de capacité effectuée localement; seule la condition assignée est exécutée. Aucun effet causal comparatif mesuré."
+    }
+  },
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": 1,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E1"
+    ],
+    "coverage": [
+      "E1"
+    ]
+  },
+  "measurementDefinitions": {
+    "correctness": "1 = npm test a terminé avec le code 0; ne mesure pas la validité formelle de la preuve générale.",
+    "coverage": "1 = les 6 entrées demandées sont contrôlées par npm test (6/6); aucune couverture universelle implicite."
+  },
+  "hardConstraintsPassed": true,
+  "acceptanceChecks": [
+    {
+      "criterion": "Six trajectoires exactes et liste croissante des entrées stables",
+      "status": "passed",
+      "evidence": [
+        "E1"
+      ]
+    },
+    {
+      "criterion": "Borne f(n)<=81d testée sur 1..100000",
+      "status": "passed",
+      "evidence": [
+        "E1"
+      ]
+    },
+    {
+      "criterion": "Preuve générale avec borne finie absorbante et petits cas",
+      "status": "argument_provided_review_required",
+      "evidence": [
+        "answer.json#/terminationProof"
+      ]
+    },
+    {
+      "criterion": "Livrables answer.json et solution.md; fichiers protégés non modifiés par les commandes de création",
+      "status": "satisfied_by_construction",
+      "evidence": [
+        "answer.json",
+        "solution.md"
+      ]
+    }
+  ],
+  "budgetStatus": {
+    "status": "completed_within_available_lease",
+    "measuredConsumption": null,
+    "remaining": null
+  },
+  "executionLimits": [
+    "Une seule condition exécutée; aucun comparatif contrefactuel.",
+    "Aucun reçu du runtime inventé; E1 désigne une observation locale du test, pas un reçu de vérificateur attribué par le runtime.",
+    "Coût et latence non instrumentés; dimensions non mesurées null.",
+    "La génération des six traces utilise Number sur de petites valeurs exactes; la méthode générale requiert des entiers exacts."
+  ],
+  "unmetPreconditions": []
+}

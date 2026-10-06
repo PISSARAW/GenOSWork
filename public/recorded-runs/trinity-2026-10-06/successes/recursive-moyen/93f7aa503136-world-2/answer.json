@@ -1,0 +1,130 @@
+{
+  "minimum63": 5,
+  "explanation": "Les denominations sont des entiers strictement positifs et reutilisables sans limite. Si une solution optimale pour a contient une piece c, retirer cette piece donne une solution optimale pour a-c : une solution plus courte du reste permettrait de remplacer ce reste et de contredire la minimalite initiale. Ainsi D(0)=0 et D(a)=min(1+D(a-c)) pour c<=a, avec Infinity pour un montant inaccessible. La positivite garantit a-c<a : un calcul iteratif croissant est exact par induction. Pour 63, 17+17+17+11+1 utilise cinq pieces. Trois pieces au plus valent au plus 51; quatre pieces impaires donnent une somme paire, donc ne peuvent former 63. Cinq est donc le minimum. Le design retenu est la programmation dynamique iterative, temps O(n*coins.length), espace O(n). Le BFS independant explore les montants par nombre de pieces et sert d oracle dans verify.cjs. Un choix glouton serait insuffisant en general : pour 15, il choisirait 11 et quatre 1, alors que trois 5 suffisent.",
+  "uncertainties": [
+    "Les tres grands montants peuvent depasser les ressources memoire disponibles; aucune performance a grande echelle n est mesuree.",
+    "Aucun evenement runtime de recursion, reallocation ou promotion n est revendique."
+  ],
+  "assumptions": [
+    "Montant entier non negatif",
+    "Denominations entieres strictement positives",
+    "Reutilisation illimitee",
+    "Infinity signifie inaccessible"
+  ],
+  "outcome": "success",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Le minimum exact pour 63 est cinq pieces; la programmation dynamique iterative implemente la recurrence optimale, tandis que le BFS constitue l oracle independant et le glouton peut echouer.",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ]
+    }
+  ],
+  "workerArtifact": {
+    "files": [
+      "solution.cjs",
+      "answer.json"
+    ],
+    "role": "interview_plan_implementation",
+    "kind": "technical"
+  },
+  "specialtyAssessment": {
+    "niche": "planned_world",
+    "inScope": true,
+    "evidence": [
+      "E0",
+      "E1"
+    ]
+  },
+  "acceptanceChecks": [
+    "Comparer minCoins aux distances BFS pour les 151 montants de 0 a 150",
+    "Verifier minimum63=5",
+    "Verifier explanation et uncertainties",
+    "Conserver verify.cjs et package.json inchanges"
+  ],
+  "evidence": [
+    {
+      "source": "MISSION.txt",
+      "id": "E0",
+      "description": "Contrat local lu"
+    },
+    {
+      "source": "solution.cjs",
+      "id": "E1",
+      "description": "Implementation CommonJS et recurrence iterative"
+    },
+    {
+      "source": "answer.json",
+      "id": "E2",
+      "description": "Preuve : decomposition en cinq pieces, trois pieces insuffisantes, quatre pieces de somme paire; preuve de sous-structure optimale"
+    },
+    {
+      "source": "npm test",
+      "id": "E3",
+      "description": "npm test execute : exit 0, pass=true, cases=151, minimum63=5, oracle=BFS"
+    },
+    {
+      "id": "E4",
+      "source": "node -e, assertions supplementaires",
+      "description": "Huit assertions executees, exit 0 : montant nul, inaccessible, doublons, contre-exemple glouton, trois denominations invalides, montant negatif"
+    },
+    {
+      "id": "E5",
+      "source": "Get-FileHash solution.cjs,verify.cjs,package.json",
+      "description": "SHA256 solution=43A14F1AC34C8CD5C94B6CF72D4DB6D4C202CAC58B38B3E8CB50081420A8D81C; verify=AD5C9DA03AD1B2F122FEC1106B4A57E89DD3D5630B848FD1F3CD4C8249C97EEE; package=3F381ADF5C70CC0A792D7430BA393D31A6A0FDE68AC679491FD000538AEE5D0B"
+    }
+  ],
+  "evidenceVector": {
+    "cost": null,
+    "robustness": {
+      "additionalAssertionsPassed": 8
+    },
+    "latency": null,
+    "coverage": {
+      "bfsCases": 151,
+      "range": "0..150",
+      "additionalAssertions": 8
+    },
+    "novelty": null,
+    "uncertainty": null,
+    "constraintCoverage": null,
+    "correctness": true,
+    "reproducibility": {
+      "command": "npm test",
+      "node": "v24.18.0",
+      "npm": "11.16.0"
+    },
+    "risk": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E2",
+      "E3"
+    ],
+    "coverage": [
+      "E3",
+      "E4"
+    ],
+    "robustness": [
+      "E4"
+    ],
+    "reproducibility": [
+      "E3",
+      "E5"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "tokenBudget": null,
+    "status": "Aucune mesure de consommation disponible",
+    "executionBudgetUsed": null
+  },
+  "executionLimits": [
+    "Prototype algorithmique local uniquement",
+    "Outils GenOS organisation et publication non disponibles",
+    "Aucune delegation ni promotion effectuee"
+  ]
+}

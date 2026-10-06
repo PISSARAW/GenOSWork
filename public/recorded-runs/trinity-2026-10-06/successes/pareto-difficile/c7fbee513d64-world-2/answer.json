@@ -1,0 +1,53 @@
+{
+  "paretoFront": [
+    "monolithe",
+    "modulaire",
+    "microservices",
+    "serverless"
+  ],
+  "tradeoffs": [
+    {
+      "id": "monolithe",
+      "explanation": "Valeurs [80,100,5,1,5]. Complexite minimale (1). Face au modulaire, latence 80 contre 85 et cout 100 contre 110, indisponibilite egale a 5, mais evolution-difficulte 5 contre 2."
+    },
+    {
+      "id": "modulaire",
+      "explanation": "Valeurs [85,110,5,2,2]. Face au monolithe, evolution-difficulte reduite de 5 a 2, contre latence accrue de 80 a 85, cout de 100 a 110 et complexite de 1 a 2; indisponibilite egale. Face aux microservices, cout et complexite inferieurs, mais latence, indisponibilite et evolution-difficulte superieures."
+    },
+    {
+      "id": "microservices",
+      "explanation": "Valeurs [50,400,2,8,1]. Meilleures latence, indisponibilite et evolution-difficulte du jeu (50,2,1), contre cout maximal 400 et complexite maximale 8. Les trois autres non-domines sont moins couteux et moins complexes mais moins bons sur ces trois dimensions."
+    },
+    {
+      "id": "serverless",
+      "explanation": "Valeurs [120,60,3,5,3]. Cout minimal 60, contre latence maximale 120. Face au monolithe et au modulaire, meilleure indisponibilite (3 contre 5), mais complexite accrue; evolution meilleure que le monolithe et moins bonne que le modulaire. Face aux microservices, cout et complexite inferieurs, mais les trois autres criteres sont moins bons."
+    }
+  ],
+  "explanation": "Tous les criteres sont minimises sans poids ni scalarisation. Un candidat domine un autre si chaque valeur est inferieure ou egale et au moins une strictement inferieure. Comparaison exhaustive des candidats du fixture: monolithe et modulaire dominent fragile [100,150,7,3,6]; aucun des quatre autres candidats ne domine un autre. Aucune constraint presente: aucun constrainedFront requis. Valeurs hypothetique fixes sans unites ni mesures de production; aucune architecture gagnante universelle ne peut etre promue.",
+  "diagnostic_matrix": [
+    {
+      "predictedSignals": "Le calcul composante par composante retient les quatre IDs et exclut fragile.",
+      "discriminatingMeasurement": "Executer verify.cjs via npm test sur answer.json.",
+      "contradictoryObservations": "Un ID manquant, une domination stricte entre membres, ou fragile retenu contredirait le calcul.",
+      "status": "A verifier par oracle local; ne mesure pas la production",
+      "hypothesis": "World 1: correctness/coverage"
+    },
+    {
+      "predictedSignals": "Les valeurs fixes placent microservices a 50 en latence et serverless a 120; le calcul deterministe doit reproduire le meme front.",
+      "discriminatingMeasurement": "Reexecution sur fichiers identiques pour reproductibilite; benchmark sous charge identique pour latence reelle.",
+      "contradictoryObservations": "Un front different avec les memes donnees contredit la reproductibilite; une mesure reelle inversant les latences contredit leur extrapolation.",
+      "status": "Classement du fixture seulement; mesures de production absentes",
+      "hypothesis": "World 2: latency/reproducibility"
+    },
+    {
+      "predictedSignals": "Le fixture place serverless a 60 en cout et microservices a 400; indisponibilite respective 3 et 2.",
+      "discriminatingMeasurement": "Mesurer cout et indisponibilite sur horizon, trafic et politique de reprise identiques.",
+      "contradictoryObservations": "Facturation ou indisponibilite observees incompatibles avec ces valeurs invalideraient leur extrapolation.",
+      "status": "Conditionnel; cout et risque reels non mesures",
+      "hypothesis": "World 3: cost/risk"
+    }
+  ],
+  "dataFlow": "Lire fixture.json; comparer toutes les paires sur les cinq composantes; conserver les non-domines; ecrire answer.json; valider par verify.cjs sans modifier les entrees.",
+  "integrity": "Ne modifier ni fixture.json, ni verify.cjs, ni package.json. Aucun poids de strategie applique aux criteres de Pareto.",
+  "rollback": "En cas de rejet du test, corriger uniquement answer.json; aucun deploiement ni changement infrastructure."
+}

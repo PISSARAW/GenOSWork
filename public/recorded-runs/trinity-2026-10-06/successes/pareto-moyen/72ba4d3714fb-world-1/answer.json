@@ -1,0 +1,29 @@
+{
+  "paretoFront": ["disque", "cloud", "hybride-chiffre"],
+  "tradeoffs": [
+    {"id":"disque","explanation":"Le disque a le coût minimal (80), une complexité minimale (1) et un risque de confidentialité minimal (1), mais le risque de perte maximal (8). Le cloud réduit la perte à 2 au prix d'un coût, d'un délai et d'un risque de confidentialité supérieurs; l'hybride réduit davantage perte et délai mais augmente coût et complexité."},
+    {"id":"cloud","explanation":"Le cloud conserve une complexité minimale (1) et réduit le risque de perte à 2 contre 8 pour le disque. Il coûte davantage (120 contre 80), récupère plus lentement (30 contre 15) et présente un risque de confidentialité supérieur (4 contre 1). L'hybride améliore récupération et risques, mais coûte 180 et porte la complexité à 4."},
+    {"id":"hybride-chiffre","explanation":"L'hybride chiffré minimise le délai de récupération (10) et le risque de perte (1), avec un risque de confidentialité minimal (1). Son coût (180) et sa complexité (4) sont les plus élevés. Aucun autre candidat n'améliore toutes ses dimensions simultanément."}
+  ],
+  "explanation":"Comparaison exhaustive composante par composante des vecteurs fixes de fixture.json, tous les critères étant à minimiser. Un candidat domine un autre s'il est inférieur ou égal sur chaque critère et strictement inférieur sur au moins un. Cloud domine cloud-faible sur les cinq critères: 120<140, 30<40, 4<5, 1<2, 2<4. Les trois autres candidats échangent des avantages incompatibles et constituent le front de Pareto. Aucune pondération ni scalarisation ne désigne un gagnant absolu. Ces valeurs sont des hypothèses du cas fourni, jamais des mesures réelles. Aucune contrainte n'est fournie; aucun front contraint n'est requis.",
+  "decisionVariables": ["candidat de sauvegarde", "coût", "délai de récupération", "risque de confidentialité", "complexité", "risque de perte"],
+  "missingInputs": ["volume et évolution des données", "fréquence et rétention", "budget personnel", "objectifs réels de restauration", "gestion des clés", "fournisseur et matériel", "unités et échelles des critères"],
+  "candidates": [
+    {"id":"disque","plan":"Sauvegarder les données sur un disque; fréquence, rétention et stockage physique à préciser.","hypotheticalObjectiveVector":[80,15,1,1,8],"measuredObjectiveVector":null,"evidence":["fixture-candidates"]},
+    {"id":"cloud","plan":"Sauvegarder les données dans le cloud; fournisseur, fréquence et rétention à préciser.","hypotheticalObjectiveVector":[120,30,4,1,2],"measuredObjectiveVector":null,"evidence":["fixture-candidates"]},
+    {"id":"hybride-chiffre","plan":"Combiner sauvegarde locale et cloud avec chiffrement; clés, fréquence et rétention à préciser.","hypotheticalObjectiveVector":[180,10,1,4,1],"measuredObjectiveVector":null,"evidence":["fixture-candidates"]},
+    {"id":"cloud-faible","plan":"Variante de sauvegarde cloud du cas fourni; configuration exacte non spécifiée.","hypotheticalObjectiveVector":[140,40,5,2,4],"measuredObjectiveVector":null,"evidence":["fixture-candidates"]}
+  ],
+  "schemaConstraints": "Les IDs et l'ordre des cinq dimensions proviennent de fixture.json. Les vecteurs hypothétiques restent séparés des mesures réelles. Toute migration doit préserver ces IDs, expliciter les unités et conserver les sources; une contrainte future nécessite filtrage des admissibles puis nouveau calcul de dominance.",
+  "evidence": [
+    {"id":"fixture-candidates","source":"fixture.json","description":"Quatre vecteurs hypothétiques fixes et cinq dimensions dans l'ordre fourni."},
+    {"id":"verification-oracle","source":"verify.cjs","description":"Oracle indépendant de dominance exhaustive et vérification du contrat answer.json."}
+  ],
+  "evidenceVector": {"correctness":null,"coverage":null,"robustness":null,"reproducibility":null,"novelty":null,"cost":null,"latency":null,"risk":null,"uncertainty":null,"constraintCoverage":null},
+  "evidenceVectorEvidence": {},
+  "hardConstraintsPassed": {"allCriteriaMinimized":true,"noScalarization":true,"exactCandidateIDs":true,"hypotheticalValuesIdentified":true,"realMeasurementsClaimed":false},
+  "budgetStatus": {"status":"within assigned local scope","measuredConsumption":null},
+  "acceptanceChecks": ["npm test: oracle indépendant défini dans verify.cjs; sortie conservée dans npm-test-output.txt"],
+  "uncertainties": ["Le front vaut uniquement pour les vecteurs hypothétiques fournis.","La précondition de vecteurs mesurés dans le monde réel n'est pas satisfaite; le calcul est une comparaison du fixture, pas une validation empirique de stratégies.","Aucun factorialCell n'est assigné dans le fixture."],
+  "executionLimits": ["Aucune sauvegarde réelle déployée ou mesurée.","Aucun résultat d'autre chambre consulté.","Aucune promotion de résultat effectuée."]
+}

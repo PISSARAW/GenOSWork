@@ -1,0 +1,122 @@
+{
+  "zeros100": 24,
+  "explanation": "Chaque z?ro final correspond ? un facteur 10, compos? de 2 et de 5. Dans n!, les facteurs 2 sont au moins aussi nombreux que les facteurs 5. On compte donc les facteurs 5 par divisions enti?res successives : pour 100!, floor(100/5) + floor(100/25) = 20 + 4 = 24. Le calcul it?ratif ?vite de construire la factorielle; le banc ind?pendant construit au contraire chaque factorielle avec BigInt pour v?rifier le r?sultat.",
+  "uncertainties": [],
+  "acceptanceChecks": [
+    {
+      "passed": true,
+      "evidence": [
+        "E2",
+        "E3"
+      ],
+      "check": "Comparaison BigInt pour n=0..200 et answer.zeros100=24"
+    },
+    {
+      "passed": true,
+      "evidence": [
+        "E2",
+        "E3"
+      ],
+      "check": "explanation texte de plus de 100 caract?res et uncertainties liste"
+    }
+  ],
+  "outcome": "success",
+  "specialtyAssessment": {
+    "role": "self_correcting_implementation",
+    "assessment": "Impl?mentation confront?e au banc ind?pendant fourni; aucune correction n?cessaire apr?s v?rification."
+  },
+  "evidenceVectorEvidence": {
+    "coverage": [
+      "E2",
+      "E3"
+    ],
+    "correctness": [
+      "E2",
+      "E3"
+    ]
+  },
+  "unmetPreconditions": [],
+  "strategyTrace": [
+    {
+      "decision": "retained",
+      "strategy": "n_way_counterfactual_fork",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "reason": "Comparaison locale du design par valuation en facteurs 5 avec le design oracle BigInt du banc fourni. Aucun fork runtime, r?allocation ou promotion pr?tendu."
+    }
+  ],
+  "measurementScope": "correctness et coverage : taux de r?ussite et couverture uniquement des 201 cas requis de 0 ? 200.",
+  "budgetStatus": {
+    "runtimeUnitsRemaining": null,
+    "tokenBudget": "illimit? selon mission",
+    "status": "within_budget",
+    "measuredCost": null
+  },
+  "evidenceVector": {
+    "constraintCoverage": null,
+    "uncertainty": null,
+    "latency": null,
+    "reproducibility": null,
+    "novelty": null,
+    "coverage": 1,
+    "robustness": null,
+    "risk": null,
+    "cost": null,
+    "correctness": 1
+  },
+  "hardConstraintsPassed": true,
+  "evidence": [
+    {
+      "path": "solution.cjs",
+      "detail": "Module CommonJS cr??; divisions enti?res successives par 5 et validation des entr?es.",
+      "id": "E1",
+      "type": "file"
+    },
+    {
+      "path": "verify.cjs",
+      "detail": "Banc fourni lu sans modification; comparaison directe avec BigInt pour 201 cas.",
+      "id": "E2",
+      "type": "file"
+    },
+    {
+      "output": "{\"pass\":true,\"cases\":201,\"zeros100\":24}",
+      "command": "npm test",
+      "exitCode": 0,
+      "id": "E3",
+      "type": "command"
+    },
+    {
+      "path": "answer.json",
+      "detail": "Rapport et r?sultat demand?s.",
+      "id": "E4",
+      "type": "file"
+    }
+  ],
+  "executionLimits": [
+    "Validation ex?cut?e sur les entiers 0 ? 200; domaine accept? : entiers JavaScript s?rs non n?gatifs.",
+    "Aucun ?v?nement runtime de r?cursion, r?allocation ou promotion; aucune mesure de performance ni score externe.",
+    "Outils GenOS de publication non disponibles; remise via fichiers locaux et r?ponse finale."
+  ],
+  "workerArtifact": {
+    "files": [
+      "solution.cjs",
+      "answer.json"
+    ],
+    "module": "CommonJS",
+    "type": "technical"
+  },
+  "claims": [
+    {
+      "statement": "100! se termine par 24 z?ros. La solution compte les facteurs 5 par divisions successives; le v?rificateur construit les factorielles BigInt et compte leurs z?ros directement. Les 201 cas de 0 ? 200 passent.",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "id": "mission-answer"
+    }
+  ]
+}

@@ -1,0 +1,121 @@
+{
+  "id": "oracular-tres-complexe",
+  "startedAt": "2026-10-06T10:29:51.266Z",
+  "recordedAt": "2026-10-06T10:30:07.828Z",
+  "executor": "ollama-http-laboratory-oracle",
+  "model": "qwen2.5-coder:7b",
+  "request": {
+    "model": "qwen2.5-coder:7b",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Tu es un oracle de laboratoire. Avant toute exécution des méthodes, prédis quelle stratégie sera la plus fiable pour chaque problème fourni. Ne résous pas les problèmes et ne prétends pas exécuter des méthodes. Retourne uniquement un objet JSON {\"predictions\":[{\"problemId\":\"p1\",\"probabilities\":{\"strategyName\":0.3,...},\"rationale\":\"...\"}]} avec les trois noms exacts, chaque probabilité entre0et1 et somme exactement1. En cas de méthodes aussi fiables, exprime cette incertitude. Données: {\"strategies\":[\"exhaustive\",\"structured\",\"falsification\"],\"problems\":[{\"id\":\"p1\",\"family\":\"arithmetique\",\"type\":\"prime\",\"n\":221},{\"id\":\"p2\",\"family\":\"graphes\",\"type\":\"shortestPath\",\"nodes\":[\"A\",\"B\",\"C\",\"D\",\"E\",\"F\"],\"edges\":[[\"A\",\"B\",4],[\"A\",\"C\",2],[\"B\",\"D\",5],[\"C\",\"D\",1],[\"C\",\"E\",7],[\"D\",\"F\",3],[\"E\",\"F\",1]],\"directed\":true,\"start\":\"A\",\"end\":\"F\"},{\"id\":\"p3\",\"family\":\"optimisation\",\"type\":\"knapsack\",\"capacity\":10,\"items\":[{\"weight\":6,\"value\":14},{\"weight\":5,\"value\":11},{\"weight\":5,\"value\":11}],\"kind\":\"0/1\"},{\"id\":\"p4\",\"family\":\"probabilites\",\"type\":\"montyHall\",\"doors\":3,\"hostKnows\":true,\"hostAlwaysOpensGoat\":true,\"hostAlwaysOffersSwitch\":true},{\"id\":\"p5\",\"family\":\"logique\",\"type\":\"entailment\",\"premises\":[\"all A are B\",\"all B are C\"],\"conclusion\":\"all A are C\"},{\"id\":\"p6\",\"family\":\"debugConceptuel\",\"type\":\"lostUpdate\",\"initial\":0,\"trace\":[\"r1=x\",\"r2=x\",\"x=r1+1\",\"x=r2+1\"]},{\"id\":\"p7\",\"family\":\"combinatoire\",\"type\":\"factorialZeros\",\"n\":100},{\"id\":\"p8\",\"family\":\"optimisation\",\"type\":\"minCoins\",\"target\":63,\"coins\":[1,5,11,17]},{\"id\":\"p9\",\"family\":\"logique\",\"type\":\"divisibility\",\"min\":51,\"max\":100,\"divisibleBy\":[4,6],\"notDivisibleBy\":5},{\"id\":\"p10\",\"family\":\"probabilites\",\"type\":\"twoDice\",\"sum\":7,\"sides\":6}]}"
+      }
+    ],
+    "stream": false,
+    "format": "json",
+    "options": {
+      "num_predict": 1800,
+      "temperature": 0.2
+    }
+  },
+  "requestSha256": "f56913b6d54a3b23cfc7d9013319cbc71401056a58ce030938e8f8fcb0a3473c",
+  "rawResponse": "{\"model\":\"qwen2.5-coder:7b\",\"created_at\":\"2026-10-06T10:30:07.8229757Z\",\"message\":{\"role\":\"assistant\",\"content\":\"{\\n  \\\"predictions\\\": [\\n    {\\n      \\\"problemId\\\": \\\"p1\\\",\\n      \\\"probabilities\\\": {\\n        \\\"exhaustive\\\": 0.3,\\n        \\\"structured\\\": 0.4,\\n        \\\"falsification\\\": 0.3\\n      },\\n      \\\"rationale\\\": \\\"Le problème est de déterminer si 221 est un nombre premier. L'approche exhaustive est la plus sûre car elle vérifie tous les diviseurs potentiels. La stratégie structurée pourrait utiliser des propriétés des nombres premiers pour éliminer rapidement des possibilités. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses affirmations.\\\"\\n    },\\n    {\\n      \\\"problemId\\\": \\\"p2\\\",\\n      \\\"probabilities\\\": {\\n        \\\"exhaustive\\\": 0.2,\\n        \\\"structured\\\": 0.5,\\n        \\\"falsification\\\": 0.3\\n      },\\n      \\\"rationale\\\": \\\"Le problème consiste à trouver le chemin le plus court entre deux nœuds dans un graphe dirigé. L'approche exhaustive est trop coûteuse en temps. La stratégie structurée pourrait utiliser des algorithmes comme Dijkstra ou Bellman-Ford. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses distances.\\\"\\n    },\\n    {\\n      \\\"problemId\\\": \\\"p3\\\",\\n      \\\"probabilities\\\": {\\n        \\\"exhaustive\\\": 0.3,\\n        \\\"structured\\\": 0.4,\\n        \\\"falsification\\\": 0.3\\n      },\\n      \\\"rationale\\\": \\\"Le problème est de résoudre un problème de sac à dos 0/1. L'approche exhaustive est la plus sûre car elle vérifie tous les sous-ensembles possibles. La stratégie structurée pourrait utiliser des algorithmes comme la programmation dynamique. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses solutions.\\\"\\n    },\\n    {\\n      \\\"problemId\\\": \\\"p4\\\",\\n      \\\"probabilities\\\": {\\n        \\\"exhaustive\\\": 0.2,\\n        \\\"structured\\\": 0.6,\\n        \\\"falsification\\\": 0.2\\n      },\\n      \\\"rationale\\\": \\\"Le problème est de résoudre le problème du porteur de chèvre. La stratégie structurée pourrait utiliser des algorithmes comme l'approche de récurrence ou l'approche de programmation dynamique. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses solutions.\\\"\\n    },\\n    {\\n      \\\"problemId\\\": \\\"p5\\\",\\n      \\\"probabilities\\\": {\\n        \\\"exhaustive\\\": 0.3,\\n        \\\"structured\\\": 0.4,\\n        \\\"falsification\\\": 0.3\\n      },\\n      \\\"rationale\\\": \\\"Le problème est de déterminer si une conclusion est une conséquence logique des prémises. L'approche exhaustive est la plus sûre car elle vérifie toutes les combinaisons possibles. La stratégie structurée pourrait utiliser des règles de logique formelle. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses affirmations.\\\"\\n    },\\n    {\\n      \\\"problemId\\\": \\\"p6\\\",\\n      \\\"probabilities\\\": {\\n        \\\"exhaustive\\\": 0.2,\\n        \\\"structured\\\": 0.6,\\n        \\\"falsification\\\": 0.2\\n      },\\n      \\\"rationale\\\": \\\"Le problème est de résoudre un problème de mise à jour perdue. La stratégie structurée pourrait utiliser des techniques de versioning ou des mécanismes de résolution de conflits. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses solutions.\\\"\\n    },\\n    {\\n      \\\"problemId\\\": \\\"p7\\\",\\n      \\\"probabilities\\\": {\\n        \\\"exhaustive\\\": 0.2,\\n        \\\"structured\\\": 0.6,\\n        \\\"falsification\\\": 0.2\\n      },\\n      \\\"rationale\\\": \\\"Le problème est de compter le nombre de zéros à la fin de la factorielle d'un nombre. La stratégie structurée pourrait utiliser des propriétés des nombres factoriels. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses solutions.\\\"\\n    },\\n    {\\n      \\\"problemId\\\": \\\"p8\\\",\\n      \\\"probabilities\\\": {\\n        \\\"exhaustive\\\": 0.2,\\n        \\\"structured\\\": 0.6,\\n        \\\"falsification\\\": 0.2\\n      },\\n      \\\"rationale\\\": \\\"Le problème est de trouver le nombre minimum de pièces pour atteindre une valeur cible. La stratégie structurée pourrait utiliser des algorithmes comme la programmation dynamique. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses solutions.\\\"\\n    },\\n    {\\n      \\\"problemId\\\": \\\"p9\\\",\\n      \\\"probabilities\\\": {\\n        \\\"exhaustive\\\": 0.3,\\n        \\\"structured\\\": 0.4,\\n        \\\"falsification\\\": 0.3\\n      },\\n      \\\"rationale\\\": \\\"Le problème est de trouver les nombres divisibles par 4 et 6 dans un intervalle donné. L'approche exhaustive est la plus sûre car elle vérifie tous les nombres dans l'intervalle. La stratégie structurée pourrait utiliser des propriétés des nombres. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses affirmations.\\\"\\n    },\\n    {\\n      \\\"problemId\\\": \\\"p10\\\",\\n      \\\"probabilities\\\": {\\n        \\\"exhaustive\\\": 0.2,\\n        \\\"structured\\\": 0.6,\\n        \\\"falsification\\\": 0.2\\n      },\\n      \\\"rationale\\\": \\\"Le problème est de calculer la probabilité de obtenir une somme spécifique avec deux dés. La stratégie structurée pourrait utiliser des algorithmes comme la programmation dynamique. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses solutions.\\\"\\n    }\\n  ]\\n}\"},\"done\":true,\"done_reason\":\"stop\",\"total_duration\":16540368300,\"load_duration\":95157800,\"prompt_eval_count\":598,\"prompt_eval_cached_count\":159,\"prompt_eval_duration\":164502000,\"eval_count\":1323,\"eval_duration\":16150395000}",
+  "responseSha256": "f3cf75d91e59e9b56043f9f6e12dba4e1a89e72ef9beeddcf79f868e5d4af4ed",
+  "prediction": {
+    "predictions": [
+      {
+        "problemId": "p1",
+        "probabilities": {
+          "exhaustive": 0.3,
+          "structured": 0.4,
+          "falsification": 0.3
+        },
+        "rationale": "Le problème est de déterminer si 221 est un nombre premier. L'approche exhaustive est la plus sûre car elle vérifie tous les diviseurs potentiels. La stratégie structurée pourrait utiliser des propriétés des nombres premiers pour éliminer rapidement des possibilités. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses affirmations."
+      },
+      {
+        "problemId": "p2",
+        "probabilities": {
+          "exhaustive": 0.2,
+          "structured": 0.5,
+          "falsification": 0.3
+        },
+        "rationale": "Le problème consiste à trouver le chemin le plus court entre deux nœuds dans un graphe dirigé. L'approche exhaustive est trop coûteuse en temps. La stratégie structurée pourrait utiliser des algorithmes comme Dijkstra ou Bellman-Ford. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses distances."
+      },
+      {
+        "problemId": "p3",
+        "probabilities": {
+          "exhaustive": 0.3,
+          "structured": 0.4,
+          "falsification": 0.3
+        },
+        "rationale": "Le problème est de résoudre un problème de sac à dos 0/1. L'approche exhaustive est la plus sûre car elle vérifie tous les sous-ensembles possibles. La stratégie structurée pourrait utiliser des algorithmes comme la programmation dynamique. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses solutions."
+      },
+      {
+        "problemId": "p4",
+        "probabilities": {
+          "exhaustive": 0.2,
+          "structured": 0.6,
+          "falsification": 0.2
+        },
+        "rationale": "Le problème est de résoudre le problème du porteur de chèvre. La stratégie structurée pourrait utiliser des algorithmes comme l'approche de récurrence ou l'approche de programmation dynamique. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses solutions."
+      },
+      {
+        "problemId": "p5",
+        "probabilities": {
+          "exhaustive": 0.3,
+          "structured": 0.4,
+          "falsification": 0.3
+        },
+        "rationale": "Le problème est de déterminer si une conclusion est une conséquence logique des prémises. L'approche exhaustive est la plus sûre car elle vérifie toutes les combinaisons possibles. La stratégie structurée pourrait utiliser des règles de logique formelle. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses affirmations."
+      },
+      {
+        "problemId": "p6",
+        "probabilities": {
+          "exhaustive": 0.2,
+          "structured": 0.6,
+          "falsification": 0.2
+        },
+        "rationale": "Le problème est de résoudre un problème de mise à jour perdue. La stratégie structurée pourrait utiliser des techniques de versioning ou des mécanismes de résolution de conflits. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses solutions."
+      },
+      {
+        "problemId": "p7",
+        "probabilities": {
+          "exhaustive": 0.2,
+          "structured": 0.6,
+          "falsification": 0.2
+        },
+        "rationale": "Le problème est de compter le nombre de zéros à la fin de la factorielle d'un nombre. La stratégie structurée pourrait utiliser des propriétés des nombres factoriels. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses solutions."
+      },
+      {
+        "problemId": "p8",
+        "probabilities": {
+          "exhaustive": 0.2,
+          "structured": 0.6,
+          "falsification": 0.2
+        },
+        "rationale": "Le problème est de trouver le nombre minimum de pièces pour atteindre une valeur cible. La stratégie structurée pourrait utiliser des algorithmes comme la programmation dynamique. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses solutions."
+      },
+      {
+        "problemId": "p9",
+        "probabilities": {
+          "exhaustive": 0.3,
+          "structured": 0.4,
+          "falsification": 0.3
+        },
+        "rationale": "Le problème est de trouver les nombres divisibles par 4 et 6 dans un intervalle donné. L'approche exhaustive est la plus sûre car elle vérifie tous les nombres dans l'intervalle. La stratégie structurée pourrait utiliser des propriétés des nombres. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses affirmations."
+      },
+      {
+        "problemId": "p10",
+        "probabilities": {
+          "exhaustive": 0.2,
+          "structured": 0.6,
+          "falsification": 0.2
+        },
+        "rationale": "Le problème est de calculer la probabilité de obtenir une somme spécifique avec deux dés. La stratégie structurée pourrait utiliser des algorithmes comme la programmation dynamique. La falsification pourrait être moins fiable car elle dépend de la capacité à générer des fausses solutions."
+      }
+    ]
+  },
+  "error": null,
+  "guarantee": "Appel oracle de laboratoire terminé avant dispatch Trinity. Ne prouve pas la garantie exante propre au runtime Trinity."
+}

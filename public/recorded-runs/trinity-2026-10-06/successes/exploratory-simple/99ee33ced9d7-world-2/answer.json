@@ -1,0 +1,262 @@
+{
+  "outcome": "success",
+  "explanation": "Trois usages inhabituels sont proposés comme concepts : une feuille transformée en capteur sacrificiel de condensation, en frein mécanique pour une petite bille, et en réserve capillaire pour humidifier progressivement un pot de semis. Ils exploitent respectivement une modification de matière, une dissipation mécanique et un transfert de liquide, sans écrire, dessiner ni fabriquer un avion. Le prototype est constitué de graphes déterministes locaux : chaque événement est traité par le même acteur, sans message relayé et sans demande de confirmation. Les événements physiques sont des entrées simulées, pas des observations expérimentales.",
+  "uncertainties": [
+    "Aucune validation physique : absorption, résistance, friction et débit dépendent du papier et restent à expérimenter.",
+    "Le caractère inhabituel est une appréciation créative ; aucune nouveauté absolue n'est démontrée.",
+    "qdTargetNiche n'est pas fourni dans les données accessibles du worker ; la cible choisie est locale autonome, à vérifier auprès de l'orchestrateur.",
+    "Le banc valide seulement la structure et le rejeu des scénarios fournis ; il ne teste pas les événements inconnus.",
+    "La vérification indépendante préalable à une promotion n'a pas été réalisée ; aucune promotion n'est demandée."
+  ],
+  "physicalValidationPerformed": false,
+  "designs": [
+    {
+      "family": "capteur sacrificiel",
+      "description": "Placer une feuille pliée en accordéon sous une surface froide : la condensation peut ramollir les plis et faire s'affaisser le témoin. L'affaissement sert d'indice visible d'une exposition à l'eau, sans inscription.",
+      "states": [
+        "sec",
+        "humide",
+        "affaisse"
+      ],
+      "transitions": [
+        {
+          "from": "sec",
+          "to": "humide",
+          "trigger": "condensation_detectee",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "humide",
+          "to": "affaisse",
+          "trigger": "plis_ramollis",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [],
+          "expected": "sec"
+        },
+        {
+          "events": [
+            "condensation_detectee"
+          ],
+          "expected": "humide"
+        },
+        {
+          "events": [
+            "condensation_detectee",
+            "plis_ramollis"
+          ],
+          "expected": "affaisse"
+        }
+      ]
+    },
+    {
+      "family": "dissipation mecanique",
+      "description": "Froisser une feuille en une courte zone deformable au pied d'une rampe de jeu : une petite bille pousse et comprime le papier, qui constitue un frein sacrificiel. L'effet de ralentissement reste une hypothese physique.",
+      "states": [
+        "pret",
+        "comprime",
+        "arrete"
+      ],
+      "transitions": [
+        {
+          "from": "pret",
+          "to": "comprime",
+          "trigger": "bille_en_contact",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "comprime",
+          "to": "arrete",
+          "trigger": "energie_dissipee",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [],
+          "expected": "pret"
+        },
+        {
+          "events": [
+            "bille_en_contact"
+          ],
+          "expected": "comprime"
+        },
+        {
+          "events": [
+            "bille_en_contact",
+            "energie_dissipee"
+          ],
+          "expected": "arrete"
+        }
+      ]
+    },
+    {
+      "family": "transport capillaire",
+      "description": "Rouler une feuille en meche et relier un petit reservoir d'eau au terreau d'un pot de semis : le papier pourrait distribuer l'eau par capillarite. Le debit et la duree utile doivent etre verifies experimentalement.",
+      "states": [
+        "seche",
+        "amorcee",
+        "transfert",
+        "epuisee"
+      ],
+      "transitions": [
+        {
+          "from": "seche",
+          "to": "amorcee",
+          "trigger": "extremite_immergee",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "amorcee",
+          "to": "transfert",
+          "trigger": "front_eau_atteint_terreau",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "transfert",
+          "to": "epuisee",
+          "trigger": "reservoir_vide",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [],
+          "expected": "seche"
+        },
+        {
+          "events": [
+            "extremite_immergee"
+          ],
+          "expected": "amorcee"
+        },
+        {
+          "events": [
+            "extremite_immergee",
+            "front_eau_atteint_terreau"
+          ],
+          "expected": "transfert"
+        },
+        {
+          "events": [
+            "extremite_immergee",
+            "front_eau_atteint_terreau",
+            "reservoir_vide"
+          ],
+          "expected": "epuisee"
+        }
+      ]
+    }
+  ],
+  "behaviorVector": [
+    0,
+    0
+  ],
+  "behaviorVectorEvidence": [
+    "npm-test-1"
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Trois idées textuelles et trois prototypes comportementaux distincts : capteur de condensation par affaissement, frein sacrificiel pour bille et meche capillaire pour semis. Les scénarios locaux autonomes sont rejouables ; aucune faisabilité physique ni nouveauté absolue n'est revendiquée.",
+      "evidence": [
+        "answer-file",
+        "npm-test-1"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "mission-file",
+      "type": "file",
+      "path": "MISSION.txt",
+      "sourceRef": "tool-output:de43f3"
+    },
+    {
+      "id": "answer-file",
+      "type": "file",
+      "path": "answer.json",
+      "description": "Artefact JSON créé dans ce workspace ; contient les idées et les graphes.",
+      "sourceRef": "tool-output:40dcbe"
+    },
+    {
+      "id": "npm-test-1",
+      "type": "command",
+      "command": "npm test",
+      "description": "npm test exécuté avec code de sortie 0 : pass=true, 3 designs, 3 familles, 7 transitions, behaviorVector=[0,0], niche_0:0.",
+      "sourceRef": "tool-output:beefe7",
+      "exitCode": 0
+    }
+  ],
+  "evidenceVector": {
+    "correctness": null,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {},
+  "hardConstraintsPassed": true,
+  "acceptanceChecks": [
+    {
+      "check": "Structure JSON, familles distinctes et rejeu déterministe des scénarios",
+      "status": "passed",
+      "evidence": [
+        "npm-test-1"
+      ]
+    },
+    {
+      "check": "Fractions relayées et confirmations égales au résultat du banc",
+      "status": "passed",
+      "evidence": [
+        "npm-test-1"
+      ]
+    },
+    {
+      "check": "Idées excluant écriture, dessin et avion ; aucune validation physique revendiquée",
+      "status": "documented",
+      "evidence": [
+        "answer-file"
+      ]
+    }
+  ],
+  "budgetStatus": {
+    "status": "within_declared_budget",
+    "measuredCost": null,
+    "measuredLatency": null
+  },
+  "executionLimits": [
+    "Entrées physiques simulées.",
+    "Pas de certification de nouveauté ou faisabilité.",
+    "Pas de promotion du résultat.",
+    "Outils GenOS de routage indisponibles dans cette session."
+  ],
+  "unmetPreconditions": [
+    "qdTargetNiche absent des données accessibles.",
+    "Vérification indépendante de promotion non réalisée."
+  ],
+  "specialtyAssessment": {
+    "niche": "planned_world",
+    "inScope": true,
+    "evidence": [
+      "mission-file",
+      "answer-file"
+    ]
+  }
+}

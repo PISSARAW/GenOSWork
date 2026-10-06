@@ -1,0 +1,6 @@
+{
+  "validCandidates": ["enumeration", "conditional"],
+  "rejectedCandidates": ["fifty-fifty"],
+  "explanation": "Le dossier enumeration examine les neuf couples équiprobables (prix, choix initial). Pour chaque couple, chaque porte chèvre ouvrable reçoit le poids 1/(9 × nombre de portes ouvrables), soit 1/18 ou 1/9. Les douze observations ne sont donc pas équiprobables. Le dossier conditional constate que rester gagne exactement lorsque le choix initial est correct (1/3), et changer exactement lorsque ce choix est incorrect (2/3), puisque l'animateur ouvre toujours une chèvre non choisie. Ces deux designs admissibles sont respectivement une énumération pondérée et un raisonnement par événements complémentaires. Le dossier fifty-fifty est rejeté : retirer une chèvre avec connaissance du prix ne redistribue pas uniformément les probabilités entre les deux portes restantes. Les dossiers admissibles sont présentés uniquement sous leurs identifiants neutres, sans auteur ni provenance.",
+  "uncertainties": ["Les probabilités supposent un prix et un choix initial uniformes et indépendants, un animateur connaissant le prix, ouvrant toujours une chèvre non choisie et proposant toujours le changement.", "La remise effective à un jury externe n'est pas vérifiable avec les outils disponibles ; le dossier anonyme local est préparé pour l'orchestrateur."]
+}

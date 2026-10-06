@@ -1,0 +1,157 @@
+{
+  "strategies": [
+    "exhaustive",
+    "structured",
+    "falsification"
+  ],
+  "problems": [
+    {
+      "id": "p1",
+      "family": "arithmetique",
+      "type": "prime",
+      "n": 221
+    },
+    {
+      "id": "p2",
+      "family": "graphes",
+      "type": "shortestPath",
+      "nodes": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "edges": [
+        [
+          "A",
+          "B",
+          4
+        ],
+        [
+          "A",
+          "C",
+          2
+        ],
+        [
+          "B",
+          "D",
+          5
+        ],
+        [
+          "C",
+          "D",
+          1
+        ],
+        [
+          "C",
+          "E",
+          7
+        ],
+        [
+          "D",
+          "F",
+          3
+        ],
+        [
+          "E",
+          "F",
+          1
+        ]
+      ],
+      "directed": true,
+      "start": "A",
+      "end": "F"
+    },
+    {
+      "id": "p3",
+      "family": "optimisation",
+      "type": "knapsack",
+      "capacity": 10,
+      "items": [
+        {
+          "weight": 6,
+          "value": 14
+        },
+        {
+          "weight": 5,
+          "value": 11
+        },
+        {
+          "weight": 5,
+          "value": 11
+        }
+      ],
+      "kind": "0/1"
+    },
+    {
+      "id": "p4",
+      "family": "probabilites",
+      "type": "montyHall",
+      "doors": 3,
+      "hostKnows": true,
+      "hostAlwaysOpensGoat": true,
+      "hostAlwaysOffersSwitch": true
+    },
+    {
+      "id": "p5",
+      "family": "logique",
+      "type": "entailment",
+      "premises": [
+        "all A are B",
+        "all B are C"
+      ],
+      "conclusion": "all A are C"
+    },
+    {
+      "id": "p6",
+      "family": "debugConceptuel",
+      "type": "lostUpdate",
+      "initial": 0,
+      "trace": [
+        "r1=x",
+        "r2=x",
+        "x=r1+1",
+        "x=r2+1"
+      ]
+    },
+    {
+      "id": "p7",
+      "family": "combinatoire",
+      "type": "factorialZeros",
+      "n": 100
+    },
+    {
+      "id": "p8",
+      "family": "optimisation",
+      "type": "minCoins",
+      "target": 63,
+      "coins": [
+        1,
+        5,
+        11,
+        17
+      ]
+    },
+    {
+      "id": "p9",
+      "family": "logique",
+      "type": "divisibility",
+      "min": 51,
+      "max": 100,
+      "divisibleBy": [
+        4,
+        6
+      ],
+      "notDivisibleBy": 5
+    },
+    {
+      "id": "p10",
+      "family": "probabilites",
+      "type": "twoDice",
+      "sum": 7,
+      "sides": 6
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "numbers": [72, 84, 96],
+  "residualUncertainty": 0,
+  "explanation": "Trois pistes locales indépendantes convergent : examen exhaustif des 100 entiers ; génération des multiples du PPCM(4,6)=12 ; intersection des multiples de 4 et de 6. Au-dessus de 50, les candidats communs sont 60, 72, 84 et 96. Le nombre 60 est divisible par 5 et doit être exclu. Il reste exactement 72, 84 et 96. solve compare les trois résultats et échoue en cas de divergence. Aucune piste ne conserve une incertitude justifiée après cette vérification exhaustive, donc aucun effort supplémentaire ne lui est réalloué.",
+  "uncertainties": []
+}

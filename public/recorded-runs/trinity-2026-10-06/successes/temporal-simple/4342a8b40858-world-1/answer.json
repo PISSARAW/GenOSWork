@@ -1,0 +1,139 @@
+{
+  "analysis": "Comparaison conditionnelle à budget identique de 7 heures par semaine : exercices seuls 7 h, stratégie mixte 4 h d'exercices et 3 h de projet. L'intervention porte sur la répartition du temps, pas sur son volume. On suppose mêmes connaissances initiales, accès aux ressources, régularité et qualité du retour. Les exercices peuvent favoriser la pratique ciblée ; les projets peuvent favoriser l'intégration et le transfert si leur difficulté reste adaptée. Ces mécanismes sont des hypothèses locales, sans observations d'apprentissage. La priorité de ce monde est l'effet immédiat à 7 jours ; les horizons suivants exposent seulement des scénarios conditionnels. 3 mois = 90 jours et 2 ans = 730 jours sont des simplifications, avec semaines fractionnaires calculées par days/7.",
+  "uncertainties": [
+    "Niveau initial, motivation et régularité inconnus.",
+    "Qualité des exercices, du feedback et difficulté des projets inconnues.",
+    "Aucun effet causal ni classement des stratégies n'est mesuré.",
+    "L'accumulation des heures suppose une pratique continue sans vacances ni abandon."
+  ],
+  "horizons": [
+    {
+      "days": 7,
+      "exerciseOnly": "Avec 7 heures de pratique ciblée et un retour correctif, les exercices pourraient faciliter la répétition de la syntaxe et de petits problèmes. Une réussite sur ces tâches ne prouve pas un transfert vers un programme autonome.",
+      "mixedProjects": "Avec 4 heures d'exercices et 3 heures sur un petit projet, un débutant pourrait relier les notions à un objectif concret et rencontrer des besoins de débogage. Cela dépend d'un périmètre réalisable et d'un accompagnement adapté.",
+      "risks": "Les exercices peuvent encourager la reconnaissance de solutions répétées ; le projet peut consommer les trois heures en installation ou en blocage. Aucun avantage immédiat n'est établi."
+    },
+    {
+      "days": 90,
+      "exerciseOnly": "Si les exercices deviennent variés et progressivement difficiles, la pratique pourrait consolider les routines de résolution. Sans tâches intégrées, la conception et la maintenance de programmes complets peuvent rester peu pratiquées.",
+      "mixedProjects": "Si plusieurs projets modestes sont terminés et revus, la stratégie mixte pourrait exercer l'intégration, le débogage et la lecture de documentation. Les 4 heures d'exercices hebdomadaires peuvent cibler les lacunes révélées.",
+      "risks": "Des exercices trop similaires peuvent limiter le transfert ; des projets trop ambitieux ou copiés peuvent masquer les lacunes. Le feedback et la continuité peuvent modifier entièrement la comparaison."
+    },
+    {
+      "days": 730,
+      "exerciseOnly": "Avec diversification, révisions et problèmes nouveaux, les exercices pourraient entretenir une résolution précise. Si la pratique reste fragmentée, les compétences de conception, évolution et livraison restent moins sollicitées.",
+      "mixedProjects": "Si les projets évoluent et incluent tests, refactorisation et maintenance, le mélange pourrait soutenir l'autonomie sur des logiciels complets. Il faut continuer les exercices ciblés pour corriger les lacunes qui persistent.",
+      "risks": "Ni deux ans écoulés ni le total d'heures ne garantissent une maîtrise. Abandon, obsolescence des projets, manque de revue ou répétition routinière peuvent réduire les bénéfices des deux stratégies."
+    }
+  ],
+  "totals": [
+    {
+      "days": 7,
+      "exerciseOnlyHours": 7,
+      "mixedExerciseHours": 4,
+      "mixedProjectHours": 3
+    },
+    {
+      "days": 90,
+      "exerciseOnlyHours": 90,
+      "mixedExerciseHours": 51.42857142857143,
+      "mixedProjectHours": 38.57142857142857
+    },
+    {
+      "days": 730,
+      "exerciseOnlyHours": 730,
+      "mixedExerciseHours": 417.14285714285717,
+      "mixedProjectHours": 312.85714285714283
+    }
+  ],
+  "robustDecision": "Pour viser l'autonomie sur de petits programmes, choisir provisoirement le mélange 4 h + 3 h, avec un projet très réduit dès la première semaine et des exercices liés aux difficultés rencontrées. Pour un objectif limité à des problèmes isolés, les exercices seuls restent plausibles. Réévaluer sur une tâche nouvelle commune et un test différé, sans conclure aujourd'hui à une supériorité mesurée.",
+  "measurementLimits": "Les heures sont calculées, jamais observées. Aucun participant, score de maîtrise, taux de progression ou effet causal n'a été mesuré. Le vérificateur contrôle la structure minimale et les totaux arithmétiques ; il ne valide pas les hypothèses pédagogiques. Une comparaison empirique demanderait une allocation contrôlée, des tâches identiques inédites, un niveau initial évalué, du feedback comparable et des mesures de transfert et de rétention à chaque horizon.",
+  "counterfactual": {
+    "condition": "Même apprenant hypothétique, même budget 7 h/semaine et mêmes ressources, avec répartition alternative du temps ; aucune trajectoire observée ou rejouée.",
+    "intervention": {
+      "type": "time_allocation",
+      "dimension": "resource_capacity",
+      "description": "Remplacer 3 des 7 heures hebdomadaires d'exercices par 3 heures de projet, en conservant le budget total."
+    }
+  },
+  "acceptanceChecks": [
+    "npm test : structure minimale et calculs days/7 aux horizons 7,90,730.",
+    "Contrôle complémentaire : budget total égal, champs worker, claim unique et absence de champs de reçus ajoutés."
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Les livrables exposent une comparaison conditionnelle aux trois horizons et des budgets arithmétiquement égaux, validés par les contrôles locaux.",
+      "evidence": [
+        "E1",
+        "E2"
+      ],
+      "uncertainty": "Aucun effet pédagogique mesuré ; contrôles limités aux assertions exécutées.",
+      "falsificationCriteria": "Réfuter si npm test échoue ; si un horizon 7,90,730 manque ; si une valeur diffère de days, 4*days/7 ou 3*days/7 de plus de 1e-6 ; si les budgets totaux diffèrent ; si les champs worker ou références evidence manquent ; si plusieurs claims existent ; si un apprentissage ou score est présenté comme mesuré. Une observation contrôlée contraire réfuterait une hypothèse pédagogique, sans invalider les totaux."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "type": "executed_test",
+      "command": "npm test",
+      "exitCode": 0,
+      "result": "PASS equal time budgets for7,90,730 days; learning effects remain conditional",
+      "scope": "Structure minimale et arithmétique, pas apprentissage"
+    },
+    {
+      "id": "E2",
+      "type": "executed_test",
+      "command": "node supplemental-check.cjs (script temporaire via stdin)",
+      "exitCode": 0,
+      "result": "PASS worker fields, single claim, equal budgets, evidence references",
+      "scope": "Contrôle documentaire et égalité des budgets seulement"
+    }
+  ],
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E1",
+      "E2"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": "Aucune mesure du coût ou du budget runtime ; modèle pédagogique fixé à 7 h/semaine.",
+  "provenance": {
+    "source": "mission_prompt et mission.txt locaux",
+    "methodId": "prompt_defined",
+    "strategy": "causal_replay_intervention",
+    "recipe": "direct",
+    "world": "World 1, immediate effects, V1",
+    "scopeRef": "qual-20261006-temporal-simple-a1-parent/basic_implementation/mission-answer",
+    "externalSources": [],
+    "otherChamberOutputsConsulted": false
+  },
+  "executionLimits": [
+    "Pas d'étude pédagogique exécutée ; intervention seulement conceptuelle.",
+    "Outils GenOS de routage non disponibles dans la liste callable ; pas de publication ou promotion.",
+    "Reçus réservés au runtime, aucun reçu créé."
+  ],
+  "unmetPreconditions": [
+    "Aucune donnée d'apprentissage disponible pour une validation causale ou un replay empirique."
+  ],
+  "scopeCompletion": {
+    "scopeRef": "qual-20261006-temporal-simple-a1-parent/basic_implementation/mission-answer",
+    "completedRefs": [
+      "answer.json",
+      "solution.md"
+    ]
+  },
+  "hardConstraintsScope": "Contraintes documentaires et arithmétiques contrôlées par E1 et E2 ; aucune assurance empirique pédagogique."
+}

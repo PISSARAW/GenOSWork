@@ -1,0 +1,191 @@
+{
+  "analysis": "La décision dépend de la valeur de livrer maintenant et du coût futur de la dette. Dans le modèle fictif, le refactor coûte 14 jours initiaux et économise 0,04 jour de maintenance par jour écoulé. Le seuil comptable est 14/0,04 = 350 jours: égalité à 350, avantage maintenance strict ensuite. Ce seuil ne mesure ni revenus, ni adoption, ni risque. À court terme, privilégier la livraison si le retard détruit une opportunité et si les invariants de sécurité et de qualité restent satisfaits; un défaut critique impose au contraire une correction préalable. La valeur économique nette du refactor serait la valeur des jours économisés plus les incidents évités, moins la valeur de livraison perdue et les risques de migration. Ces termes restent inconnus. L'accent de ce monde porte sur les effets immédiats V1; les horizons longs sont des analyses conditionnelles du même modèle, sans modifier l'hypothèse assignée.",
+  "uncertainties": [
+    "Valeur de la feature, demande et revenu perdus durant le retard inconnus.",
+    "Capacité réelle, durée de vie du produit, coût des incidents et efficacité du refactor non mesurés.",
+    "Les taux constants sont fictifs; dette, changements d'équipe et architecture peuvent produire des effets non linéaires.",
+    "Deux semaines calendaires ne valent pas nécessairement 14 jours-personnes; cette équivalence est imposée uniquement pour le calcul."
+  ],
+  "horizons": [
+    {
+      "days": 30,
+      "quickDelivery": "Livrer rapidement permet de tester la demande et d'obtenir un retour utilisateur plus tôt. Le modèle attribue 3 jours de maintenance; le bénéfice commercial anticipé et les incidents éventuels sont inconnus.",
+      "refactorFirst": "Refactoriser mobilise 14 jours initiaux, puis 1,8 jour de maintenance modélisée, soit 15,8 jours. À un mois, le surcoût de 12,8 jours exige un bénéfice immédiat de fiabilité ou une capacité disponible.",
+      "conditionalDecision": "À 30 jours, choisir la livraison rapide si l'apprentissage et la fenêtre commerciale justifient la dette et si les risques critiques sont maîtrisés. Refactoriser d'abord si un obstacle technique avéré empêche une livraison acceptable."
+    },
+    {
+      "days": 365,
+      "quickDelivery": "À un an, la livraison rapide représente 36,5 jours de maintenance fictive. Elle conserve la valeur de l'avance initiale, mais peut réduire la capacité consacrée aux prochaines features si la dette persiste.",
+      "refactorFirst": "À un an, le refactor représente 21,9 jours de maintenance et 14 jours initiaux, soit 35,9 jours. Le gain de 0,6 jour est faible et pourrait être annulé par un dépassement ou un retard commercial.",
+      "conditionalDecision": "À 365 jours, le seuil comptable est dépassé de peu. Choisir le refactor si les taux sont plausibles et la valeur perdue par le retard faible; une opportunité commerciale forte peut encore justifier de livrer rapidement."
+    },
+    {
+      "days": 1825,
+      "quickDelivery": "À cinq ans, le modèle cumule 182,5 jours de maintenance pour la livraison rapide. Une dette persistante pourrait limiter la cadence, mais ni cette persistance ni ses conséquences commerciales ne sont mesurées.",
+      "refactorFirst": "À cinq ans, le refactor cumule 109,5 jours de maintenance et 14 jours initiaux, soit 123,5 jours. Les 59 jours économisés sont une projection arithmétique, conditionnée à une architecture et des taux stables.",
+      "conditionalDecision": "À 1825 jours, préférer le refactor pour un produit durable si les économies et la capacité mobilisable sont crédibles. Si la survie de la startup ou une refonte prochaine est incertaine, livrer puis cibler la dette peut garder plus de valeur."
+    }
+  ],
+  "assumptions": "Modèle fictif imposé: maintenance rapide 0,1 jour-personne par jour écoulé; maintenance après refactor 0,06; investissement initial 14 jours-personnes. On applique les deux taux sur tout l'horizon depuis t=0, sans retrancher 14 jours au second horizon. Les efforts de développement communs sont exclus. Aucun actualisation, croissance, revenu, incident ni coût de migration additionnel n'est incorporé. Une économie négative désigne un surcoût du refactor.",
+  "measurementLimits": "Les tests locaux vérifient la structure, la présence d'arguments et les calculs du modèle seulement. Ils ne valident pas les hypothèses commerciales, la capacité réelle ni un effet causal sur la maintenance. Aucun benchmark, entretien, observation en production ou expérience contrôlée n'est réalisé. Les dimensions non mesurées restent null; aucun reçu du runtime n'est produit par ce worker.",
+  "debtModel": [
+    {
+      "days": 30,
+      "quickMaintenanceDays": 3,
+      "refactorMaintenanceDays": 1.8,
+      "refactorInitialDays": 14,
+      "refactorTotalDays": 15.8,
+      "savingsDays": -12.8
+    },
+    {
+      "days": 365,
+      "quickMaintenanceDays": 36.5,
+      "refactorMaintenanceDays": 21.9,
+      "refactorInitialDays": 14,
+      "refactorTotalDays": 35.9,
+      "savingsDays": 0.6
+    },
+    {
+      "days": 1825,
+      "quickMaintenanceDays": 182.5,
+      "refactorMaintenanceDays": 109.5,
+      "refactorInitialDays": 14,
+      "refactorTotalDays": 123.5,
+      "savingsDays": 59
+    }
+  ],
+  "outcome": "success",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Les trois horizons décrivent une décision conditionnelle et les économies du modèle fictif; le seuil de maintenance est 350 jours, sans prévision économique réelle.",
+      "evidence": [
+        "E1",
+        "E2",
+        "E3"
+      ],
+      "uncertainty": "Validité externe inconnue; validation locale limitée au contrat du vérificateur.",
+      "falsificationCriteria": "Falsifié si un horizon requis manque, si les arguments ne distinguent pas livraison et dette, si un calcul diffère de 0,1d, 0,06d, 14+0,06d ou 0,04d-14 au-delà de 1e-6, si le seuil annoncé diffère de 350 jours, si une projection fictive est présentée comme une mesure réelle, ou si une dimension est dite mesurée sans evidence ID issu d'une exécution réelle."
+    }
+  ],
+  "acceptanceChecks": [
+    {
+      "id": "A1",
+      "description": "npm test doit sortir avec code 0 et vérifier les trois horizons et les cinq champs calculés par horizon.",
+      "status": "passed",
+      "evidence": [
+        "E2"
+      ]
+    },
+    {
+      "id": "A2",
+      "description": "answer.json et solution.md doivent exister; les trois fichiers protégés doivent rester identiques.",
+      "status": "passed",
+      "evidence": [
+        "E3"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "type": "source",
+      "source": "mission.txt et verify.cjs",
+      "description": "Lecture locale du contrat et du vérificateur existant; taux fictifs et conditions d'acceptation identifiés."
+    },
+    {
+      "id": "E2",
+      "type": "executed_test",
+      "command": "npm test",
+      "exitCode": 0,
+      "output": "PASS conditional maintenance model at30,365,1825 days; breakeven350 days; no economic forecast",
+      "source": "exec f8fb1e + completion fccc00",
+      "scope": "Structure et calculs des trois horizons; aucune mesure économique."
+    },
+    {
+      "id": "E3",
+      "type": "local_inspection",
+      "source": "exec c5ec3c",
+      "description": "Relecture des trois fichiers protégés identique à la lecture initiale; seules les écritures de answer.json et solution.md ont été exécutées.",
+      "sha256": {
+        "package.json": "D28DE45CFFEFCD6EB7ED9306A54F4E1209A92C90144444239859C70BA6A5471A",
+        "mission.txt": "DFFFA5DEBF7176C35325958F061495ADBEC61B16FA11911C1693C28382995736",
+        "verify.cjs": "EC8D633DA973F7EC511045F4FC252FF0B0DB82FFABA2FC75EFCD0D5A320ABC83"
+      }
+    }
+  ],
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": {
+      "evidenceIds": [
+        "E2"
+      ],
+      "definition": "Fraction des assertions du vérificateur local satisfaites; ne mesure pas la validité externe."
+    }
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "within_assigned_scope",
+    "tokenLimit": null,
+    "executionUnitsRemaining": null,
+    "description": "Budget runtime annoncé 100 unités; consommation réelle non mesurée."
+  },
+  "provenance": {
+    "workerRole": "basic_implementation",
+    "orchestrator": "qual-20261006-temporal-moyen-a1-parent",
+    "capsuleId": "6299edbe-df36-4638-9648-2e059e6e88d0_run_1791283128435",
+    "method": {
+      "version": 1,
+      "methodId": "prompt_defined",
+      "source": "mission_prompt",
+      "requiredCapabilities": [],
+      "unmetPreconditions": []
+    },
+    "recipe": "direct",
+    "strategy": "recursive_branch_evolution",
+    "hypothesis": "World 1: immediate effects (t=0..H1); value function V1",
+    "sources": [
+      "mission.txt",
+      "verify.cjs",
+      "mission_prompt"
+    ],
+    "otherChamberOutputsUsed": false,
+    "promotionPerformed": false
+  },
+  "counterfactual": {
+    "condition": "Condition assignée: World 1, effets immédiats t=0..H1, valeur V1; comparer à besoin produit identique la capacité allouée aux deux semaines de refactor.",
+    "intervention": {
+      "type": "hypothetical_resource_reallocation",
+      "dimension": "resource_capacity",
+      "description": "Affecter 14 jours-personnes initiaux au refactor au lieu de la livraison rapide; aucune intervention réelle exécutée."
+    }
+  },
+  "executionLimits": [
+    "Pas d'accès aux autres chambres ni délégation.",
+    "Outils GenOS de routage indisponibles dans la liste callable; pas de publication ni promotion.",
+    "Analyse locale et validation du contrat uniquement; reçus de vérification réservés au runtime."
+  ],
+  "scopeCompletion": {
+    "scopeRef": "qual-20261006-temporal-moyen-a1-parent/assigned-mission",
+    "completedRefs": [
+      "answer.json",
+      "solution.md"
+    ]
+  },
+  "hardConstraintsEvidence": [
+    "E1",
+    "E2",
+    "E3"
+  ]
+}

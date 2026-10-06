@@ -1,0 +1,282 @@
+{
+  "explanation": "Trois usages inhabituels proposés pour une feuille de papier, sans écrire, dessiner ni fabriquer un avion : (1) plier une languette en clapet indicateur de souffle dans un petit conduit ; (2) suspendre une bande pliée comme témoin qualitatif d’humidité, en observant une déformation éventuelle ; (3) plier la feuille en cale sacrificielle dans un assemblage léger pour matérialiser un glissement par son écrasement. Ce sont des hypothèses physiques, accompagnées de prototypes logiciels de comportements. Les événements sont injectés dans les scénarios : le logiciel ne détecte aucune grandeur réelle. Trois branches contrefactuelles sont conservées et confrontées au même banc. Toutes les transitions sont locales et autonomes, sans relais entre acteurs ni confirmation explicite. Les fractions finales proviennent exclusivement de npm test.",
+  "uncertainties": [
+    "Aucune expérimentation physique effectuée ; les trois usages restent à essayer.",
+    "La nouveauté absolue de ces idées n’est pas établie.",
+    "La sensibilité à l’humidité dépend du papier, du pliage et des conditions ; aucune calibration ni fonction de sécurité revendiquée.",
+    "Le clapet dépend du débit et de la rigidité ; la cale dépend de la charge et du frottement. Employer uniquement des montages légers sans enjeu de sécurité.",
+    "qdTargetNiche absent du prompt et des fichiers de contrat accessibles ; la conformité à une cible non fournie n’est pas vérifiable.",
+    "Le banc ne vérifie que la structure et le rejeu des scénarios, pas l’utilité réelle ni la détection des événements."
+  ],
+  "physicalValidationPerformed": false,
+  "designs": [
+    {
+      "family": "clapet_aerodynamique",
+      "description": "Une languette découpée dans la feuille et pliée sert de clapet visible dans un petit conduit : son soulèvement pourrait rendre perceptible un souffle faible. Le modèle distingue repos, ouverture et retour.",
+      "states": [
+        "repos",
+        "ouvert",
+        "retour"
+      ],
+      "transitions": [
+        {
+          "from": "repos",
+          "to": "ouvert",
+          "trigger": "souffle_applique",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "ouvert",
+          "to": "retour",
+          "trigger": "souffle_retire",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "retour",
+          "to": "repos",
+          "trigger": "pli_repose",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [],
+          "expected": "repos"
+        },
+        {
+          "events": [
+            "souffle_applique"
+          ],
+          "expected": "ouvert"
+        },
+        {
+          "events": [
+            "souffle_applique",
+            "souffle_retire"
+          ],
+          "expected": "retour"
+        },
+        {
+          "events": [
+            "souffle_applique",
+            "souffle_retire",
+            "pli_repose",
+            "souffle_applique",
+            "souffle_retire",
+            "pli_repose"
+          ],
+          "expected": "repos"
+        }
+      ]
+    },
+    {
+      "family": "temoin_hygromorphique",
+      "description": "Une bande de la feuille pliée et suspendue pourrait servir de témoin qualitatif d’exposition à l’humidité : une courbure observée déclenche le changement d’état. Aucun seuil hygrométrique ni réversibilité physique garanti.",
+      "states": [
+        "forme_initiale",
+        "courbure_observee",
+        "remplace"
+      ],
+      "transitions": [
+        {
+          "from": "forme_initiale",
+          "to": "courbure_observee",
+          "trigger": "deformation_observee",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "courbure_observee",
+          "to": "remplace",
+          "trigger": "bande_remplacee",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "remplace",
+          "to": "forme_initiale",
+          "trigger": "nouvelle_forme_stabilisee",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [],
+          "expected": "forme_initiale"
+        },
+        {
+          "events": [
+            "deformation_observee"
+          ],
+          "expected": "courbure_observee"
+        },
+        {
+          "events": [
+            "deformation_observee",
+            "bande_remplacee"
+          ],
+          "expected": "remplace"
+        },
+        {
+          "events": [
+            "deformation_observee",
+            "bande_remplacee",
+            "nouvelle_forme_stabilisee"
+          ],
+          "expected": "forme_initiale"
+        }
+      ]
+    },
+    {
+      "family": "cale_sacrificielle",
+      "description": "La feuille pliée en accordéon devient une petite cale sacrificielle dans un assemblage léger : son écrasement pourrait conserver une trace mécanique de glissement. Le remplacement est un événement local, sans validation demandée par le modèle.",
+      "states": [
+        "cale_intacte",
+        "cale_ecrasee",
+        "cale_retiree"
+      ],
+      "transitions": [
+        {
+          "from": "cale_intacte",
+          "to": "cale_ecrasee",
+          "trigger": "ecrasement_observe",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "cale_ecrasee",
+          "to": "cale_retiree",
+          "trigger": "cale_retiree",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "cale_retiree",
+          "to": "cale_intacte",
+          "trigger": "cale_neuve_posee",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [],
+          "expected": "cale_intacte"
+        },
+        {
+          "events": [
+            "ecrasement_observe"
+          ],
+          "expected": "cale_ecrasee"
+        },
+        {
+          "events": [
+            "ecrasement_observe",
+            "cale_retiree"
+          ],
+          "expected": "cale_retiree"
+        },
+        {
+          "events": [
+            "ecrasement_observe",
+            "cale_retiree",
+            "cale_neuve_posee"
+          ],
+          "expected": "cale_intacte"
+        }
+      ]
+    }
+  ],
+  "behaviorVector": [
+    0,
+    0
+  ],
+  "behaviorVectorEvidence": [
+    "npm-test-1"
+  ],
+  "evidence": [
+    {
+      "id": "artifact-answer",
+      "type": "file",
+      "path": "answer.json",
+      "description": "Livrable JSON contenant les idées, graphes et scénarios."
+    },
+    {
+      "id": "contract-files",
+      "type": "file",
+      "paths": [
+        "MISSION.txt",
+        "verify.cjs",
+        "measure.cjs",
+        "package.json"
+      ],
+      "toolOutputId": "4770c8",
+      "description": "Contrat et banc lus ; ces fichiers ne sont pas modifiés."
+    },
+    {
+      "id": "npm-test-1",
+      "type": "command",
+      "command": "npm test",
+      "description": "Exécution du banc local ; fractions et réussite rapportées dans sa sortie.",
+      "toolOutputId": "ca8bf1",
+      "exitCode": 0,
+      "observedResult": "pass=true; designs=3; families=3; transitions=9; behaviorVector=[0,0]; niche=niche_0:0"
+    }
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Trois idées et prototypes distincts : clapet réversible à souffle, témoin de déformation à remplacer et cale à écrasement sacrificiel. Les scénarios déterministes sont rejoués par npm test ; aucune nouveauté absolue ou faisabilité physique certifiée.",
+      "evidence": [
+        "artifact-answer",
+        "npm-test-1"
+      ]
+    }
+  ],
+  "strategyTrace": [
+    {
+      "strategy": "n_way_counterfactual_fork",
+      "decision": "retained",
+      "reason": "Trois branches comportementales indépendantes confrontées aux mêmes contraintes ; préservation des trois propositions sans promotion. Le rejeu met à l’épreuve les états et événements de chaque branche.",
+      "evidence": [
+        "artifact-answer",
+        "contract-files",
+        "npm-test-1"
+      ]
+    }
+  ],
+  "acceptanceChecks": [
+    "npm test : au moins trois familles, états distincts et transitions valides.",
+    "npm test : rejeu déterministe de chaque scénario depuis le premier état.",
+    "npm test : égalité exacte de behaviorVector avec measure.compute.",
+    "Inspection du livrable : trois idées textuelles hors écriture, dessin et avion ; validation physique déclarée false."
+  ],
+  "evidenceVector": {
+    "correctness": null,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {},
+  "hardConstraintsPassed": true,
+  "budgetStatus": "Aucune limite de tokens chiffrée fournie ; tâche locale terminée sans mesure de coût.",
+  "executionLimits": [
+    "Banc logiciel uniquement ; aucune validation physique.",
+    "Aucun outil organisationnel callable disponible ; aucune publication ni promotion.",
+    "Vérification indépendante exigée pour une promotion non réalisée dans cette tâche locale."
+  ],
+  "unmetPreconditions": [
+    "Cible qdTargetNiche non fournie ; conformité à cette cible indéterminée."
+  ],
+  "outcome": "success"
+}

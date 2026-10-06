@@ -1,0 +1,223 @@
+{
+  "outcome": "partial",
+  "explanation": "La recherche binaire fonctionne parce que le tri permet d'exclure une partie de l'espace de recherche à chaque comparaison, sans perdre une occurrence possible. Les trois preuves ci-dessous étudient respectivement un état conservé pendant la boucle, l'ordre des comparaisons, et la réduction du problème à une longueur plus petite.",
+  "explanations": [
+    {
+      "id": "intervalle",
+      "title": "Preuve par invariant d'intervalle",
+      "text": "Avant chaque itération, si la cible est présente, au moins une de ses occurrences se trouve dans l'intervalle fermé [lo, hi]. Initialement cet intervalle contient tout le tableau. Au milieu m, une égalité fournit un index correct. Si a[m] < cible, le tri implique a[i] <= a[m] < cible pour tout i <= m : poser lo = m + 1 conserve l'invariant. Si a[m] > cible, tous les i >= m sont exclus et hi = m - 1 conserve l'invariant. Chaque étape sans retour diminue strictement la longueur de l'intervalle. Quand lo > hi, l'intervalle est vide : l'invariant implique l'absence de cible et justifie -1."
+    },
+    {
+      "id": "monotonie",
+      "title": "Preuve par monotonie des comparaisons",
+      "text": "Pour un tableau trié, les comparaisons avec la cible forment trois zones dans cet ordre : valeurs inférieures, valeurs égales, valeurs supérieures; certaines zones peuvent être vides. Cette monotonie signifie qu'une comparaison inférieure au milieu exclut tout le préfixe qui le précède, et qu'une comparaison supérieure exclut tout le suffixe qui le suit. La zone d'égalité, si elle existe, reste donc dans la partie retenue. Chaque comparaison enlève au moins le milieu et environ la moitié des candidats. On atteint ainsi soit un élément de la zone d'égalité, soit l'épuisement des candidats, qui démontre que cette zone était vide. Les doublons étendent simplement la zone d'égalité; toute position dans cette zone est une réponse valide."
+    },
+    {
+      "id": "induction",
+      "title": "Preuve par induction forte sur la longueur",
+      "text": "Pour une longueur n = 0, retourner -1 est correct. Supposons la recherche correcte pour toute longueur strictement inférieure à n > 0. Comparons la cible à l'élément central. En cas d'égalité, son index est correct. Si la cible est plus grande, le tri exclut le centre et le préfixe : la recherche continue dans le suffixe, de longueur strictement inférieure à n. Si elle est plus petite, elle continue dans le préfixe, lui aussi strictement plus court. L'hypothèse d'induction donne alors un index correct ou établit l'absence dans cette partie; la partie exclue ne contient pas la cible. Dans l'implémentation itérative, les bornes conservent les indices originaux, donc aucun décalage d'index n'est nécessaire. Cela établit la correction pour n et pour toute longueur finie."
+    }
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "L'implémentation de recherche binaire passe les 5 576 requêtes du banc principal (tailles 0 à 40) et 3 234 requêtes complémentaires avec doublons. Les trois designs expliquent la correction par invariant d'intervalle, monotonie des comparaisons et induction sur la longueur; leur clarté n'a pas été mesurée par jury indépendant.",
+      "evidence": [
+        "E-answer",
+        "E-solution",
+        "E-contract",
+        "E-npm-test",
+        "E-challenge-run"
+      ]
+    }
+  ],
+  "strategyTrace": [
+    {
+      "strategy": "factorial_experiment",
+      "decision": "retained",
+      "reason": "Triplet fixé par le contrat; comparaison des trois designs sur les mêmes obligations de correction, de terminaison et de gestion des doublons. Aucun changement de stratégie ni promotion. La composante jury du dispositif ne peut pas être exécutée avec les outils accessibles.",
+      "evidence": [
+        "E-contract",
+        "E-answer",
+        "E-tools"
+      ]
+    },
+    {
+      "strategy": "factorial_experiment",
+      "decision": "retained",
+      "reason": "Après passage du banc imposé, contrôle adversarial sur un facteur d'entrée supplémentaire (doublons) et vérification des indices et mutations; aucune erreur observée dans ce domaine fini, donc aucune correction nécessaire. Évaluation pondérée non calculée sans mesures de jury.",
+      "evidence": [
+        "E-npm-test",
+        "E-challenge-source",
+        "E-challenge-run"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E-contract",
+      "type": "file",
+      "path": "MISSION.txt",
+      "description": "Contrat lu avec package.json et verify.cjs."
+    },
+    {
+      "id": "E-answer",
+      "type": "file",
+      "path": "answer.json",
+      "description": "Trois preuves distinctes et rapport du worker."
+    },
+    {
+      "id": "E-solution",
+      "type": "file",
+      "path": "solution.cjs",
+      "description": "Implémentation CommonJS de search."
+    },
+    {
+      "id": "E-tools",
+      "type": "tool_inventory",
+      "description": "Inspection de ALL_TOOLS : aucun outil GenOS, jury ou inference gateway callable; aucun agent délégué."
+    },
+    {
+      "id": "E-npm-test",
+      "type": "command",
+      "command": "npm test",
+      "exitCode": 0,
+      "path": "test-output.txt",
+      "result": {
+        "pass": true,
+        "cases": 5576
+      }
+    },
+    {
+      "id": "E-challenge-source",
+      "type": "file",
+      "path": "challenge.cjs",
+      "description": "Énumération de tous les tableaux non décroissants de longueur 0 à 6 sur {-2,-1,0,1,2}; cibles -3 à 3."
+    },
+    {
+      "id": "E-challenge-run",
+      "type": "command",
+      "command": "node challenge.cjs",
+      "exitCode": 0,
+      "path": "challenge-output.txt",
+      "result": {
+        "pass": true,
+        "arrays": 462,
+        "queries": 3234,
+        "duplicates": true,
+        "inputUnchanged": true
+      }
+    }
+  ],
+  "acceptanceChecks": [
+    {
+      "id": "principal",
+      "passed": true,
+      "evidence": [
+        "E-npm-test"
+      ],
+      "description": "5576 requêtes, tailles 0..40."
+    },
+    {
+      "id": "doublons",
+      "passed": true,
+      "evidence": [
+        "E-challenge-source",
+        "E-challenge-run"
+      ],
+      "description": "Index entier dans les bornes et valeur égale à la cible; -1 exactement en cas d'absence; tableau inchangé."
+    },
+    {
+      "id": "preuves",
+      "passed": true,
+      "evidence": [
+        "E-answer"
+      ],
+      "description": "Trois textes : invariant intervalle, monotonie, induction sur longueur; vérification rédactionnelle locale."
+    },
+    {
+      "id": "jury",
+      "passed": false,
+      "evidence": [
+        "E-tools"
+      ],
+      "description": "Jury aveugle à modèles distincts indisponible; aucun score ni accord calculé."
+    }
+  ],
+  "uncertainties": [
+    "Clarté des explications non évaluée par un jury aveugle indépendant.",
+    "URI de modèles distincts et accord inter-juges non mesurés.",
+    "Le banc exhaustif porte sur une famille de tableaux numériques triés et des cibles entières; il n'est pas exhaustif sur tous les tableaux possibles."
+  ],
+  "executionLimits": [
+    "Précondition : tableau numérique fini trié par ordre croissant, valeurs et cible comparables sans NaN.",
+    "Le contrat de jury nécessite des juges indépendants à URI distinctes; cette précondition est indisponible.",
+    "Aucun reçu indépendant, score ou promotion; pas de lecture d'autres chambres."
+  ],
+  "evidenceVector": {
+    "correctness": {
+      "passed": true,
+      "scope": "banc principal et contrôle complémentaire"
+    },
+    "coverage": {
+      "mainQueries": 5576,
+      "mainSizes": [
+        0,
+        40
+      ],
+      "additionalQueries": 3234,
+      "additionalArrays": 462
+    },
+    "robustness": {
+      "duplicatesPassed": true,
+      "inputUnchanged": true,
+      "scope": "contrôle complémentaire fini"
+    },
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": {
+      "localChecksPassed": 3,
+      "listedChecks": 4,
+      "juryPerformed": false
+    }
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E-npm-test",
+      "E-challenge-run"
+    ],
+    "coverage": [
+      "E-npm-test",
+      "E-challenge-source",
+      "E-challenge-run"
+    ],
+    "robustness": [
+      "E-challenge-source",
+      "E-challenge-run"
+    ],
+    "constraintCoverage": [
+      "E-answer",
+      "E-npm-test",
+      "E-challenge-run",
+      "E-tools"
+    ]
+  },
+  "hardConstraintsPassed": false,
+  "budgetStatus": {
+    "status": "within_budget",
+    "tokenBudget": "non borné selon mission",
+    "executionBudgetUnitsRemaining": null,
+    "reason": "Consommation des unités du runtime non accessible."
+  },
+  "jury": {
+    "status": "unavailable",
+    "blindEvaluationPerformed": false,
+    "modelUris": [],
+    "scores": null,
+    "interJudgeAgreement": null
+  }
+}

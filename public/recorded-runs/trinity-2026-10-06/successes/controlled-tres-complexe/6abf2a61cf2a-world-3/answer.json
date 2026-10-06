@@ -1,0 +1,184 @@
+{
+  "stable": [
+    7,
+    19,
+    68
+  ],
+  "traces": {
+    "2": [
+      2,
+      4,
+      16,
+      37,
+      58,
+      89,
+      145,
+      42,
+      20,
+      4
+    ],
+    "7": [
+      7,
+      49,
+      97,
+      130,
+      10,
+      1
+    ],
+    "19": [
+      19,
+      82,
+      68,
+      100,
+      1
+    ],
+    "20": [
+      20,
+      4,
+      16,
+      37,
+      58,
+      89,
+      145,
+      42,
+      20
+    ],
+    "68": [
+      68,
+      100,
+      1
+    ],
+    "85": [
+      85,
+      89,
+      145,
+      42,
+      20,
+      4,
+      16,
+      37,
+      58,
+      89
+    ]
+  },
+  "terminationProof": "Pour un entier positif n de d chiffres, chaque chiffre a un carré au plus 81, donc 1 <= f(n) <= 81d. Pour d >= 4, 81d < 10^(d-1) <= n : au rang 4, 324 < 1000; si cette inégalité vaut au rang d, alors 81(d+1) <= 2*81d < 2*10^(d-1) < 10^d. Ainsi tant que n >= 1000, la suite décroît strictement et finit par entrer dans [1,999]. Les petits cas sont inclus : pour d=1, f(n)<=81; pour d=2, f(n)<=162; pour d=3, f(n)<=243. L'ensemble [1,999] est donc fini et absorbant; après une étape supplémentaire on est dans [1,243], lui aussi absorbant. Dans cet ensemble fini, on atteint 1 ou on répète un état. Le test mémorise les états, s'arrête à 1 ou à la première répétition; le déterminisme de f garantit qu'une répétition avant 1 enferme la suite dans un cycle sans 1. La méthode termine donc pour tout entier positif.",
+  "analysis": "La décision utilise un ensemble des états déjà visités. Chaque trace comprend l'entrée puis toutes les images, jusqu'à 1 ou jusqu'au premier état répété inclus. Les entrées stables sont 7, 19 et 68. Les entrées 2, 20 et 85 atteignent le cycle 4,16,37,58,89,145,42,20,4. Pour des entiers arbitrairement grands, lire les chiffres comme une chaîne décimale ou utiliser des entiers exacts; une représentation flottante peut perdre des chiffres.",
+  "uncertainties": [
+    "Le test fourni contrôle les six traces et la borne sur 100000 entrées; la preuve universelle nécessite une lecture mathématique.",
+    "Aucune comparaison entre chambres, mesure de coût ou de latence, ni reçu du runtime n'est disponible."
+  ],
+  "outcome": "success",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Parmi 2,7,19,20,68,85, exactement 7,19,68 sont stables; la méthode avec mémorisation termine pour tout entier positif.",
+      "evidence": [
+        "E1",
+        "E2"
+      ],
+      "falsificationCriteria": "Réfuter si une des six traces contient une transition incorrecte, omet le premier état répété ou continue après 1; si la liste stable diffère de [7,19,68]; ou si une étape de la preuve f(n)<=81d, 81d<10^(d-1) pour d>=4, décroissance et absorption dans [1,999] est invalide."
+    }
+  ],
+  "strategyTrace": [
+    {
+      "strategy": "n_way_counterfactual_fork",
+      "decision": "retained",
+      "reason": "Implémentation locale indépendante dans la branche assignée, puis confrontation au vérificateur fourni; aucune autre chambre consultée et aucune promotion effectuée.",
+      "evidence": [
+        "E1",
+        "E2"
+      ]
+    }
+  ],
+  "provenance": {
+    "methodId": "prompt_defined",
+    "source": "mission_prompt",
+    "role": "self_correcting_implementation",
+    "artifacts": [
+      "answer.json",
+      "solution.md"
+    ],
+    "protectedFiles": [
+      "verify.cjs",
+      "package.json",
+      "mission.txt"
+    ],
+    "verification": "npm test exécuté localement; aucun reçu du runtime fabriqué"
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "type": "executed_test",
+      "command": "npm test",
+      "exitCode": 0,
+      "result": "PASS exact finite trajectories and digit-sum bound on100000 inputs; termination argument requires review"
+    },
+    {
+      "id": "E2",
+      "type": "mathematical_argument",
+      "source": "answer.json#terminationProof et solution.md",
+      "result": "Borne par chiffres, décroissance pour d>=4, petits cas et absorption finie; argument fourni, non certifié automatiquement."
+    }
+  ],
+  "acceptanceChecks": [
+    {
+      "check": "Six trajectoires exactes et liste stable croissante",
+      "status": "passed",
+      "evidence": [
+        "E1"
+      ]
+    },
+    {
+      "check": "Borne f(n)<=81d pour 1<=n<=100000",
+      "status": "passed",
+      "evidence": [
+        "E1"
+      ]
+    },
+    {
+      "check": "Terminaison universelle",
+      "status": "argument_provided_review_required",
+      "evidence": [
+        "E2"
+      ]
+    }
+  ],
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E1"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "within_budget",
+    "limit": 100,
+    "consumed": null,
+    "remaining": null
+  },
+  "counterfactual": {
+    "condition": "Branche assignée self_correcting_implementation; aucune valeur numérique de capacité assignée dans le prompt.",
+    "intervention": {
+      "type": "assigned_branch",
+      "dimension": "resource_capacity",
+      "description": "Maintien de la capacité locale disponible; aucune variation de capacité ni comparaison causale mesurée."
+    }
+  },
+  "executionLimits": [
+    "Un seul vérificateur local exécuté; correctness=1 signifie uniquement réussite de ce test, pas certification universelle.",
+    "Outils organisationnels indisponibles; aucune publication ni vérification indépendante du runtime.",
+    "Calcul numérique des traces limité aux six petites entrées; méthode générale exige une arithmétique exacte."
+  ],
+  "unmetPreconditions": []
+}

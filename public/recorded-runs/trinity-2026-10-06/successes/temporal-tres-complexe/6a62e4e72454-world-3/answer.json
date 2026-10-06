@@ -1,0 +1,128 @@
+{
+  "analysis": "Hypothèse fixe V3 : privilégier maintenance et réversibilité au-delà de H2, sans prétendre connaître les besoins futurs. 20 ans = 7300 jours, modèle simplifié sans années bissextiles. Trois designs sont comparés : A monolithe modulaire avec stockage relationnel et ports documentés ; B services événementiels et journal ouvert avec projections reconstruisibles ; C plateforme fournisseur managée derrière adaptateurs et export complet. Le choix proposé est A avec extraction progressive quand une contrainte mesurée la justifie. La chambre reste isolée ; stratégie mutated_incident_universes : muter des configurations et incidents de migration, vérifier les invariants puis corriger les pertes observables.",
+  "uncertainties": [
+    "La survie à 7300 jours, les migrations fournisseur, le coût et la latence ne sont pas mesurés.",
+    "Les données métiers, identités, politiques et dépendances exécutables exigent des tests supplémentaires ; une configuration seule ne prouve pas la réversibilité complète.",
+    "Les ressources humaines futures, obligations juridiques et compatibilité des moteurs restent inconnues."
+  ],
+  "horizons": [
+    {
+      "days": 90,
+      "delivery": "A livre un noyau modulaire et des contrats explicites ; B ajoute une charge de coordination ; C accélère sous hypothèse de compétences et services disponibles.",
+      "operations": "Priorité aux restaurations, limites de ressources et runbooks ; mutation incident : panne du service externe avec fonctionnement dégradé documenté et vérifiable.",
+      "reversibility": "Exporter configuration et données dès la première version, documenter les schémas et rejeter explicitement les valeurs non portables sans conversion silencieuse."
+    },
+    {
+      "days": 730,
+      "delivery": "Extraire un module seulement si la charge ou les équipes le justifient ; mesurer la divergence des contrats et publier les changements de schéma avec migrations.",
+      "operations": "Tester restauration isolée et reconstruction de projections ; budget de maintenance réservé ; surveiller dépendances abandonnées, privilèges et clés non exportables.",
+      "reversibility": "Effectuer une répétition de sortie vers une implémentation indépendante ; comparer données, permissions et comportement, pas uniquement les octets exportés."
+    },
+    {
+      "days": 7300,
+      "delivery": "Conserver le noyau et remplacer les adaptateurs obsolètes ; aucune architecture ne garantit sa pertinence pendant vingt ans sans maintenance et décisions révisables.",
+      "operations": "Assurer transmission des savoirs, formats lisibles et exercices périodiques ; remplacer progressivement runtimes et cryptographie selon contraintes observées.",
+      "reversibility": "Préserver exports versionnés, documentation et tests de compatibilité ; budgéter migration et coexistence, y compris réécriture lorsque les contrats deviennent inadéquats."
+    }
+  ],
+  "shortGoodLongBad": "Services propriétaires directement couplés au domaine, clés exclusivement fournisseur et formats opaques réduisent le délai initial mais peuvent bloquer toute sortie. Une migration réussie de configuration ne couvre ni les données, ni IAM, ni les fonctions de recherche, ni les engagements contractuels.",
+  "longGoodShortBad": "Formats ouverts versionnés, ports explicites et exercices de restauration augmentent le travail initial et ralentissent certaines fonctionnalités. Ils peuvent réduire le coût futur de remplacement. Une abstraction universelle prématurée et des microservices systématiques peuvent cependant augmenter durablement la dette.",
+  "optionValue": "La valeur optionnelle vient de choix remplaçables : noyau modulaire, contrats publics, exports complets et compétences transférables. Elle dépend de la possibilité économique de sortir, pas uniquement de la syntaxe JSON. Réserver une capacité de maintenance explicite et tester sa suppression en contre-factuel ; aucune valeur monétaire estimée sans données.",
+  "measurementLimits": "Le vérificateur local exerce deux documents JSON et des exigences textuelles. Des attaques locales supplémentaires couvrent pertes silencieuses et types non portables. Aucun fournisseur réel, benchmark, audit externe ou vieillissement de vingt ans exécuté. Les résultats ne démontrent aucune disponibilité future.",
+  "designs": [
+    {
+      "id": "A",
+      "architecture": "Monolithe modulaire, ports et adaptateurs, stockage relationnel exportable.",
+      "assumptions": [
+        "Équipe capable de maintenir le noyau.",
+        "Charge compatible avec un déploiement initial commun."
+      ],
+      "openExitCompatibility": "JSON UTF-8 versionné pour configuration ; schémas SQL et export logique des données ; contrat de comportement séparé."
+    },
+    {
+      "id": "B",
+      "architecture": "Services événementiels, événements documentés, projections reconstruisibles.",
+      "assumptions": [
+        "Capacité opérationnelle et gouvernance de schéma suffisantes."
+      ],
+      "openExitCompatibility": "Journal exportable avec ordre, identifiants, versions et migrations ; vérifier aussi les événements supprimés et les effets externes."
+    },
+    {
+      "id": "C",
+      "architecture": "Services managés derrière adaptateurs du domaine.",
+      "assumptions": [
+        "Export complet disponible et coût de sortie supportable."
+      ],
+      "openExitCompatibility": "Exporter données, configuration et mappings IAM ; aucune équivalence fournisseur présumée."
+    }
+  ],
+  "acceptanceChecks": [
+    "npm test : deux documents de configuration conservés après sauvegarde et relecture.",
+    "node attacks.cjs : valeurs non portables rejetées et JSON imbriqué conservé.",
+    "Aucune preuve de survie à 7300 jours ne doit être déduite des tests."
+  ],
+  "counterfactual": {
+    "condition": "Capacité de maintenance réduite après H2 dans le monde 3 ; hypothèse analytique sans mesure opérationnelle.",
+    "intervention": {
+      "type": "resource_reduction",
+      "dimension": "resource_capacity",
+      "description": "Retirer la capacité réservée aux migrations et exercices de sortie ; anticiper une dégradation de réversibilité, à falsifier par essais futurs."
+    }
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "source": "local execution d4a181: npm test",
+      "result": "exit 0; two configuration roundtrips and structural/text checks passed",
+      "scope": "Local verifier; not a runtime-issued receipt"
+    },
+    {
+      "id": "E2",
+      "source": "local execution of node attacks.cjs after count correction",
+      "result": "exit 0; 13 assertions: 10 rejection cases, nested preservation, no prototype pollution, naive JSON counterexample",
+      "scope": "Local observations; not a runtime-issued receipt"
+    }
+  ],
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": null,
+    "robustness": 1,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E1"
+    ],
+    "robustness": [
+      "E2"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": "Exécution locale limitée ; aucun budget de maintenance sur 20 ans mesuré.",
+  "provenance": {
+    "sourceRefs": [
+      "mission.txt",
+      "verify.cjs",
+      "methods.cjs"
+    ]
+  },
+  "evidenceVectorScale": "1 means all executed assertions passed within the stated test scope; not a probability or general guarantee. Other dimensions are unmeasured.",
+  "hardConstraintsScope": "Local verify.cjs assertions only; independent verification and real supplier migration remain unmet.",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "La réversibilité universelle est rejetée : JSON naïf perd NaN ; le module corrigé conserve les deux configurations testées et rejette dix cas non portables. La survie à 7300 jours reste inconnue.",
+      "evidence": [
+        "E1",
+        "E2"
+      ],
+      "falsificationCriteria": "Rejouer npm test et node attacks.cjs. Falsifier si une configuration JSON du domaine déclaré diffère après sauvegarde/relecture, si une des dix valeurs invalides est acceptée, si le getter est exécuté ou si Object.prototype est pollué. Les preuves présentes ne soutiennent ni migration fournisseur ni durabilité après crash ni survie à 7300 jours ; une telle attribution invaliderait la portée du claim."
+    }
+  ]
+}

@@ -1,0 +1,397 @@
+{
+  "primes": [
+    17,
+    29,
+    37
+  ],
+  "justification": "Un entier composé possède un diviseur entre 2 et sa racine carrée. Les restes pour 17 aux diviseurs 2,3,4 sont 1,2,1 ; pour 21 : 1,0,1 ; pour 29 aux diviseurs 2,3,4,5 : 1,2,1,4 ; pour 33 : 1,0,1,3 ; pour 37 aux diviseurs 2,3,4,5,6 : 1,1,1,2,1. Ainsi 17,29,37 sont premiers ; 21=3×7 et 33=3×11 sont composés.",
+  "analysis": "Vérification exhaustive par division entière pour chacun des cinq entiers, sans arrêt au premier facteur : n=d×quotient+reste. Si n est composé, un facteur est inférieur ou égal à sa racine carrée, car deux facteurs strictement supérieurs auraient un produit supérieur à n. Les limites entières sont respectivement 4,4,5,5,6. La stratégie assignée est conservée dans cette chambre isolée ; aucun résultat externe de chambre et aucune promotion ne sont utilisés. La couverture mesurée vaut 5/5 entiers et 19/19 divisions attendues ; correctness=1 signifie réussite du test local, sans portée statistique au-delà de ces entrées.",
+  "uncertainties": [
+    "La conclusion mathématique est déterminée sur ces cinq entiers. Les tests ne mesurent ni performance, ni robustesse hors de cet ensemble, ni reproductibilité entre environnements.",
+    "Aucune vérification indépendante du runtime ni reçu de vérificateur ne sont disponibles dans ces livrables."
+  ],
+  "outcome": "success",
+  "artifact": [
+    "answer.json",
+    "solution.md"
+  ],
+  "checks": [
+    {
+      "n": 17,
+      "limit": 4,
+      "divisions": [
+        {
+          "divisor": 2,
+          "quotient": 8,
+          "remainder": 1
+        },
+        {
+          "divisor": 3,
+          "quotient": 5,
+          "remainder": 2
+        },
+        {
+          "divisor": 4,
+          "quotient": 4,
+          "remainder": 1
+        }
+      ],
+      "prime": true
+    },
+    {
+      "n": 21,
+      "limit": 4,
+      "divisions": [
+        {
+          "divisor": 2,
+          "quotient": 10,
+          "remainder": 1
+        },
+        {
+          "divisor": 3,
+          "quotient": 7,
+          "remainder": 0
+        },
+        {
+          "divisor": 4,
+          "quotient": 5,
+          "remainder": 1
+        }
+      ],
+      "prime": false
+    },
+    {
+      "n": 29,
+      "limit": 5,
+      "divisions": [
+        {
+          "divisor": 2,
+          "quotient": 14,
+          "remainder": 1
+        },
+        {
+          "divisor": 3,
+          "quotient": 9,
+          "remainder": 2
+        },
+        {
+          "divisor": 4,
+          "quotient": 7,
+          "remainder": 1
+        },
+        {
+          "divisor": 5,
+          "quotient": 5,
+          "remainder": 4
+        }
+      ],
+      "prime": true
+    },
+    {
+      "n": 33,
+      "limit": 5,
+      "divisions": [
+        {
+          "divisor": 2,
+          "quotient": 16,
+          "remainder": 1
+        },
+        {
+          "divisor": 3,
+          "quotient": 11,
+          "remainder": 0
+        },
+        {
+          "divisor": 4,
+          "quotient": 8,
+          "remainder": 1
+        },
+        {
+          "divisor": 5,
+          "quotient": 6,
+          "remainder": 3
+        }
+      ],
+      "prime": false
+    },
+    {
+      "n": 37,
+      "limit": 6,
+      "divisions": [
+        {
+          "divisor": 2,
+          "quotient": 18,
+          "remainder": 1
+        },
+        {
+          "divisor": 3,
+          "quotient": 12,
+          "remainder": 1
+        },
+        {
+          "divisor": 4,
+          "quotient": 9,
+          "remainder": 1
+        },
+        {
+          "divisor": 5,
+          "quotient": 7,
+          "remainder": 2
+        },
+        {
+          "divisor": 6,
+          "quotient": 6,
+          "remainder": 1
+        }
+      ],
+      "prime": true
+    }
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Parmi 17,21,29,33,37, les nombres premiers sont exactement 17,29,37.",
+      "evidence": [
+        "E1",
+        "E2"
+      ],
+      "uncertainty": "Aucune incertitude arithmétique résiduelle sur cet ensemble ; portée limitée aux cinq entrées.",
+      "falsificationCriteria": "Réfuter si un entier déclaré premier a un reste nul pour un diviseur entier de 2 à floor(sqrt(n)), si un entier exclu ne possède aucun tel diviseur, si une division ne respecte pas n=d*q+r et 0<=r<d, si un diviseur manque, si la liste diffère de [17,29,37] ou si npm test échoue."
+    }
+  ],
+  "acceptanceChecks": [
+    {
+      "id": "AC1",
+      "description": "Toutes les divisions entières de 2 à floor(sqrt(n)), y compris après découverte de facteur.",
+      "evidence": [
+        "E1"
+      ],
+      "passed": true
+    },
+    {
+      "id": "AC2",
+      "description": "npm test valide la liste croissante et les champs argumentaires exigés.",
+      "evidence": [
+        "E2"
+      ],
+      "passed": true
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "type": "executed_calculation",
+      "source": "node trial division executed in workspace",
+      "result": [
+        {
+          "n": 17,
+          "limit": 4,
+          "divisions": [
+            {
+              "divisor": 2,
+              "quotient": 8,
+              "remainder": 1
+            },
+            {
+              "divisor": 3,
+              "quotient": 5,
+              "remainder": 2
+            },
+            {
+              "divisor": 4,
+              "quotient": 4,
+              "remainder": 1
+            }
+          ],
+          "prime": true
+        },
+        {
+          "n": 21,
+          "limit": 4,
+          "divisions": [
+            {
+              "divisor": 2,
+              "quotient": 10,
+              "remainder": 1
+            },
+            {
+              "divisor": 3,
+              "quotient": 7,
+              "remainder": 0
+            },
+            {
+              "divisor": 4,
+              "quotient": 5,
+              "remainder": 1
+            }
+          ],
+          "prime": false
+        },
+        {
+          "n": 29,
+          "limit": 5,
+          "divisions": [
+            {
+              "divisor": 2,
+              "quotient": 14,
+              "remainder": 1
+            },
+            {
+              "divisor": 3,
+              "quotient": 9,
+              "remainder": 2
+            },
+            {
+              "divisor": 4,
+              "quotient": 7,
+              "remainder": 1
+            },
+            {
+              "divisor": 5,
+              "quotient": 5,
+              "remainder": 4
+            }
+          ],
+          "prime": true
+        },
+        {
+          "n": 33,
+          "limit": 5,
+          "divisions": [
+            {
+              "divisor": 2,
+              "quotient": 16,
+              "remainder": 1
+            },
+            {
+              "divisor": 3,
+              "quotient": 11,
+              "remainder": 0
+            },
+            {
+              "divisor": 4,
+              "quotient": 8,
+              "remainder": 1
+            },
+            {
+              "divisor": 5,
+              "quotient": 6,
+              "remainder": 3
+            }
+          ],
+          "prime": false
+        },
+        {
+          "n": 37,
+          "limit": 6,
+          "divisions": [
+            {
+              "divisor": 2,
+              "quotient": 18,
+              "remainder": 1
+            },
+            {
+              "divisor": 3,
+              "quotient": 12,
+              "remainder": 1
+            },
+            {
+              "divisor": 4,
+              "quotient": 9,
+              "remainder": 1
+            },
+            {
+              "divisor": 5,
+              "quotient": 7,
+              "remainder": 2
+            },
+            {
+              "divisor": 6,
+              "quotient": 6,
+              "remainder": 1
+            }
+          ],
+          "prime": true
+        }
+      ]
+    },
+    {
+      "id": "E2",
+      "type": "test_execution",
+      "source": "npm test / node verify.cjs",
+      "result": {
+        "command": "npm test",
+        "exitCode": 0,
+        "stdout": "> test\n> node verify.cjs\n\nPASS independent trial division",
+        "scope": "Liste exacte et exigences argumentaires du vérificateur local."
+      }
+    }
+  ],
+  "provenance": {
+    "role": "self_correcting_implementation",
+    "recipe": "self_correcting",
+    "strategy": "n_way_counterfactual_fork",
+    "sources": [
+      "mission.txt",
+      "package.json",
+      "verify.cjs",
+      "E1",
+      "E2"
+    ],
+    "isolation": "sealed falsification chamber",
+    "otherChamberOutputsUsed": false,
+    "verifierReceipts": "Assigned only by runtime; not supplied or fabricated."
+  },
+  "strategyTrace": [
+    {
+      "strategy": "n_way_counterfactual_fork",
+      "decision": "retained",
+      "reason": "Contrat imposé : implémentation indépendante puis confrontation aux divisions exhaustives et au test local ; pas de branches interchambres accessibles.",
+      "evidence": [
+        "E1",
+        "E2"
+      ]
+    }
+  ],
+  "counterfactual": {
+    "condition": "assigned: sealed chamber falsification; resource_capacity=100 execution units as stated by prompt",
+    "intervention": {
+      "type": "assigned_condition",
+      "dimension": "resource_capacity",
+      "description": "Capacité assignée conservée ; aucune variation expérimentale de ressources exécutée."
+    },
+    "effect": null
+  },
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": 1,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E2"
+    ],
+    "coverage": [
+      "E1"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "no_exhaustion_observed",
+    "assignedExecutionUnits": 100,
+    "consumedExecutionUnits": null,
+    "remainingExecutionUnits": null
+  },
+  "executionLimits": [
+    "Outils organisationnels absents ; aucune publication effectuée.",
+    "Une seule chambre et un environnement local ; pas de mesure comparative contrefactuelle.",
+    "Préconditions de promotion indépendante non attestées ; aucune promotion demandée ou effectuée."
+  ]
+}

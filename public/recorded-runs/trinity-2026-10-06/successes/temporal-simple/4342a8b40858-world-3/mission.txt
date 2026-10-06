@@ -1,0 +1,3 @@
+Pour apprendre Python, compare les effets d'une stratégie centrée uniquement sur les exercices et d'une stratégie mêlant exercices et projets après 1 semaine, 3 mois et 2 ans.
+
+answer.json contient analysis,uncertainties,horizons [{days:7|90|730,exerciseOnly,mixedProjects,risks}],robustDecision,measurementLimits. Modèle pédagogique ajouté: même budget7h/semaine, exercice-seul7h; mixte exercices4h+projet3h. Ajoute totals [{days,exerciseOnlyHours,mixedExerciseHours,mixedProjectHours}] avec calculdays/7; comparaison d’effets conditionnels, aucun apprentissage mesuré ni score de maîtrise inventé. 3mois=90j,2ans=730j dans ce modèle, simplification explicitée.

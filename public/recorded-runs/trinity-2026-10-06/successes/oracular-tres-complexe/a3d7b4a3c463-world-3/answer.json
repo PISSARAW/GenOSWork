@@ -1,0 +1,115 @@
+{
+  "analysis": "Les trois méthodes produisent des réponses primitives calculées. Exhaustive énumère diviseurs, chemins simples, sous-ensembles, modèles et combinaisons; structured utilise Dijkstra, programmation dynamique, fermeture transitive, valuation factorielle et PPCM; falsification cherche des contre-modèles et utilise relaxation des distances, BFS des sommes et facteurs cinq. Certaines branches partagent volontairement le parseur, le moteur de trace ou une énumération : aucune indépendance totale ne peut être revendiquée. Les erreurs partagées incluent le modèle hôte, la grammaire logique limitée et les préconditions numériques. Les résultats ne sont pas des constantes par identifiant.",
+  "uncertainties": [
+    "Garantie ex ante du runtimeOracle non démontrée par preuve runtime indépendante.",
+    "La source Ollama de laboratoire est attribuée au laboratoire, pas à ce worker.",
+    "Monty Hall suppose que le présentateur laisse une seule autre porte fermée, sans conditionner sur une porte précise.",
+    "Entrées hors grammaire, grandes tailles et budgets de calcul non validés.",
+    "Aucune mesure de coût, latence, risque ou indépendance complète."
+  ],
+  "scores": [
+    {
+      "problemId": "p1",
+      "brier": 0.0066666666666666706,
+      "logLoss": 1.1080787801753422,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p2",
+      "brier": 0.04666666666666667,
+      "logLoss": 1.1688526324399937,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p3",
+      "brier": 0.0066666666666666706,
+      "logLoss": 1.1080787801753422,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p4",
+      "brier": 0.10666666666666665,
+      "logLoss": 1.243233816211397,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p5",
+      "brier": 0.0066666666666666706,
+      "logLoss": 1.1080787801753422,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p6",
+      "brier": 0.10666666666666665,
+      "logLoss": 1.243233816211397,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p7",
+      "brier": 0.10666666666666665,
+      "logLoss": 1.243233816211397,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p8",
+      "brier": 0.10666666666666665,
+      "logLoss": 1.243233816211397,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p9",
+      "brier": 0.0066666666666666706,
+      "logLoss": 1.1080787801753422,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    },
+    {
+      "problemId": "p10",
+      "brier": 0.10666666666666665,
+      "logLoss": 1.243233816211397,
+      "target": {
+        "exhaustive": 0.3333333333333333,
+        "structured": 0.3333333333333333,
+        "falsification": 0.3333333333333333
+      }
+    }
+  ],
+  "predictionSourceSha256": "b9c80f0e12285fd310e2c63dcb7d31c812649de18c0cf4870571e4d43aeb66aa",
+  "calibrationLimits": "Dix cas fixes et dépendants, sans réplications aléatoires ni validation tenue à part, ne démontrent aucune calibration empirique générale. Les probabilités sont catégorielles entre méthodes et ne représentent pas les mondes Trinity. La cible uniforme reflète une égalité de correction observée, pas des fréquences générales de succès.",
+  "routingAnalysis": "Après chaque cas, le seul historique disponible est le préfixe des cas déjà vérifiés. Toutes les méthodes sont correctes sur les cas de base : aucun avantage de fiabilité observé ne permet de sélectionner un vainqueur. Une distribution uniforme réduit rétrospectivement le Brier à zéro et la log-loss à ln(3), sans démontrer un gain prospectif. Une adaptation pourrait régulariser les probabilités vers cette égalité, mais doit être évaluée sur de nouveaux cas, mesurer les ressources et toujours faire vérifier la réponse choisie. Aucun routage non vérifié n’est autorisé."
+}

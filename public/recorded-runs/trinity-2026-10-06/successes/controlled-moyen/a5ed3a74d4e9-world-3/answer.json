@@ -1,0 +1,108 @@
+{
+  "outcome": "success",
+  "pairs": [
+    [
+      3,
+      19
+    ],
+    [
+      7,
+      15
+    ]
+  ],
+  "completenessProof": "Les complements a 22 de 3,7,8,11,15,19 sont respectivement 19,15,14,11,7,3. Le 14 est absent et un seul 11 est disponible : deux occurrences distinctes sont requises. Les deux derniers cas repetent les deux premiers. Toute paire valide a necessairement ce complement, donc seules [3,19] et [7,15] existent.",
+  "analysis": "Solution construite par complements puis contestee par enumeration independante de tous les indices i<j. Six nombres donnent 6*5/2=15 paires. Le programme Node execute a examine ces 15 paires et confirme exactement [3,19] et [7,15]. Les paires inversees sont dedupliquees et [11,11] est exclue faute de seconde occurrence. npm test execute : exit 0, PASS exhaustive unordered pairs. Correctness=1 signifie reussite du test sur cette entree; coverage=1 signifie 15/15 paires examinees, sans generalisation.",
+  "uncertainties": [
+    "Deux occurrences distinctes requises; reutiliser 11 changerait la reponse.",
+    "Condition contrefactuelle precise non fournie; aucune intervention mesuree.",
+    "Cout, latence, robustesse hors entree et consommation runtime inconnus."
+  ],
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Les seules paires sont [3,19] et [7,15].",
+      "evidence": [
+        "E1",
+        "E2"
+      ],
+      "falsificationCriteria": "Refuter si enumeration des 15 paires i<j trouve une solution absente, si une paire utilise une occurrence absente, ne somme pas a 22, contient un doublon, est mal ordonnee ou si npm test echoue. Une preuve omettant un des six complements invalide aussi le livrable."
+    }
+  ],
+  "evidence": [
+    {
+      "id": "E1",
+      "type": "executed_command",
+      "source": "node -e enumeration i<j et complements",
+      "result": "exit 0; checked=15; pairs=[[3,19],[7,15]]"
+    },
+    {
+      "id": "E2",
+      "type": "executed_test",
+      "source": "npm test -> node verify.cjs",
+      "result": "exit 0; PASS exhaustive unordered pairs"
+    }
+  ],
+  "provenance": {
+    "source": "mission_prompt, mission.txt",
+    "method": "self_correcting_implementation",
+    "strategy": "n_way_counterfactual_fork",
+    "runtimeReceipts": "Attribues exclusivement par le runtime; aucun recu cree."
+  },
+  "strategyTrace": [
+    {
+      "strategy": "n_way_counterfactual_fork",
+      "decision": "retained",
+      "reason": "Strategie assignee conservee dans la branche isolee; implementation puis falsification exhaustive locale.",
+      "evidence": [
+        "E1",
+        "E2"
+      ]
+    }
+  ],
+  "counterfactual": {
+    "condition": "Non specifiee dans assignation disponible",
+    "intervention": {
+      "type": "none",
+      "dimension": "resource_capacity",
+      "description": "Aucune variation executee; comparaison non mesuree."
+    }
+  },
+  "acceptanceChecks": [
+    "15 paires examinees",
+    "Paires croissantes uniques triees lexicographiquement",
+    "npm test reussit",
+    "Fichiers proteges inchanges"
+  ],
+  "evidenceVector": {
+    "correctness": 1,
+    "coverage": 1,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {
+    "correctness": [
+      "E2"
+    ],
+    "coverage": [
+      "E1",
+      "E2"
+    ]
+  },
+  "hardConstraintsPassed": true,
+  "budgetStatus": {
+    "status": "within_budget",
+    "measuredConsumption": null,
+    "limit": "100 unites annoncees; consommation inconnue"
+  },
+  "executionLimits": [
+    "Entree finie uniquement",
+    "Routage GenOS indisponible",
+    "Aucune promotion; assurance independante reservee au runtime"
+  ]
+}

@@ -1,0 +1,3 @@
+Défends ou réfute : « Tout nombre premier supérieur à 3 est de la forme 6k±1. » Cherche activement à casser la démonstration proposée avant de conclure.
+
+answer.json contient analysis, uncertainties, theoremTrue (booléen), converseTrue (booléen), primeResidues (liste), converseCounterexample (entier), excludedResidues (liste), proof (texte détaillé), attacks (liste de tentatives contre la preuve avec objection et réponse). Fournis une preuve générale, pas seulement des exemples.

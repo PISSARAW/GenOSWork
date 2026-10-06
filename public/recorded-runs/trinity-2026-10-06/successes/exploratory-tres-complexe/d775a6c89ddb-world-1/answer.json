@@ -1,0 +1,336 @@
+{
+  "explanation": "Prototype de trois architectures pour 100 agents, conservées comme archive Quality-Diversity sans gagnant promu. Toutes visent une coordination par contrats locaux autonomes: calendrier, conservation de droits et compensation. Elles ne reposent ni sur hiérarchie active, ni blockchain, ni swarm, blackboard ou marché. Les différences portent sur les contraintes opérationnelles et les graphes, pas sur un renommage. Les automates sont exécutables et leurs interventions déterministes rejouent une annulation de réservation et un conflit après intention. Les deux fractions mesurées agrègent toutes les transitions et valent zéro car aucune transition ne relaie un message ou ne demande une confirmation. Ce descripteur ne distingue donc pas les trois mécanismes: ils sont conservés comme variantes dans une même cellule QD. Aucune nouveauté absolue ni faisabilité physique n’est établie. Le banc ne simule pas une population distribuée de 100 agents; cette population est décrite par les règles de partitionnement.",
+  "uncertainties": [
+    "qdTargetNiche absent des données accessibles; niche retenue niche_0:0, conformité à une cible externe inconnue non vérifiée.",
+    "Synchronisation des horloges, pertes de processus et redistribution des partitions non testées.",
+    "Le partitionnement suppose des tâches séparables; pas de résolution garantie de dépendances arbitraires entre agents.",
+    "La compensation exige des opérations inversibles et des conflits observables localement.",
+    "Pas de recherche d’antériorité: calendrier, droits et saga ont des précédents; seules leurs compositions sont des pistes à explorer.",
+    "La mesure à deux fractions masque les différences topologiques; aucune distance supplémentaire n’est présentée comme mesure.",
+    "Absence de vérification indépendante et de validation physique; aucune promotion."
+  ],
+  "physicalValidationPerformed": false,
+  "designs": [
+    {
+      "family": "Calendrier de rendez-vous sans messages",
+      "description": "Les 100 agents possèdent des identifiants 0..99 et calculent les mêmes fenêtres à partir d’une époque commune. Au créneau k, l’agent i traite sa partition (i+k)%100. Aucun leader, registre partagé, enchère ou diffusion de voisinage. Les actions doivent être indépendantes ou idempotentes. Le calendrier coordonne les exclusions par construction et suppose une horloge suffisamment synchronisée.",
+      "states": [
+        "attente",
+        "fenetre",
+        "repos"
+      ],
+      "transitions": [
+        {
+          "from": "attente",
+          "to": "fenetre",
+          "trigger": "creneau_local",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "fenetre",
+          "to": "repos",
+          "trigger": "action_terminee",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "repos",
+          "to": "attente",
+          "trigger": "periode_ecoulee",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "creneau_local",
+            "action_terminee"
+          ],
+          "expected": "repos"
+        },
+        {
+          "events": [
+            "creneau_local",
+            "action_terminee",
+            "periode_ecoulee"
+          ],
+          "expected": "attente"
+        }
+      ],
+      "mechanism": "Cycle temporel fermé; aucune branche de décision.",
+      "populationMapping": "100 partitions fixes et permutation déterministe par créneau; aucun coordinateur actif."
+    },
+    {
+      "family": "Droits conservés par partition statique",
+      "description": "Chaque agent reçoit au déploiement un droit exclusif sur une partition de ressources, non transférable. Un automate local réserve, consomme ou libère ce droit. La conservation découle de la disjonction des partitions et des états locaux, sans consensus ni registre global. La capacité inutilisée ne peut pas être réallouée; cette restriction fait partie de l’architecture.",
+      "states": [
+        "libre",
+        "reserve",
+        "consomme"
+      ],
+      "transitions": [
+        {
+          "from": "libre",
+          "to": "reserve",
+          "trigger": "besoin_local",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "reserve",
+          "to": "consomme",
+          "trigger": "travail_valide",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "reserve",
+          "to": "libre",
+          "trigger": "besoin_annule",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "consomme",
+          "to": "libre",
+          "trigger": "ressource_restituee",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "besoin_local",
+            "travail_valide"
+          ],
+          "expected": "consomme"
+        },
+        {
+          "events": [
+            "besoin_local",
+            "besoin_annule"
+          ],
+          "expected": "libre"
+        },
+        {
+          "events": [
+            "besoin_local",
+            "travail_valide",
+            "ressource_restituee"
+          ],
+          "expected": "libre"
+        }
+      ],
+      "mechanism": "Branche de réservation avec deux issues; invariant local de droit exclusif.",
+      "populationMapping": "100 titulaires indépendants; droits provisionnés sans serveur de décision en fonctionnement."
+    },
+    {
+      "family": "Intentions réversibles et compensation locale",
+      "description": "Les 100 agents exécutent des intentions sur leurs propres partitions et conservent un journal privé de compensations. Une observation locale de conflit déclenche une compensation avant abandon; une observation stable permet la clôture. Aucun tableau noir collectif, prix ou règle d’alignement de voisinage. La coordination résulte de contrats de séparation et de réversibilité; les conflits interagents non observables restent hors garantie.",
+      "states": [
+        "pret",
+        "provisoire",
+        "compensation",
+        "abandon",
+        "clos"
+      ],
+      "transitions": [
+        {
+          "from": "pret",
+          "to": "provisoire",
+          "trigger": "intention_locale",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "provisoire",
+          "to": "clos",
+          "trigger": "stabilite_locale",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "provisoire",
+          "to": "compensation",
+          "trigger": "conflit_observe",
+          "scope": "local",
+          "requiresConfirmation": false
+        },
+        {
+          "from": "compensation",
+          "to": "abandon",
+          "trigger": "inverse_termine",
+          "scope": "local",
+          "requiresConfirmation": false
+        }
+      ],
+      "scenarios": [
+        {
+          "events": [
+            "intention_locale",
+            "stabilite_locale"
+          ],
+          "expected": "clos"
+        },
+        {
+          "events": [
+            "intention_locale",
+            "conflit_observe",
+            "inverse_termine"
+          ],
+          "expected": "abandon"
+        }
+      ],
+      "mechanism": "Graphe acyclique avec deux terminaux; récupération par inverse explicite.",
+      "populationMapping": "100 journaux privés et 100 domaines séparés; aucune validation centrale."
+    }
+  ],
+  "behaviorVector": [
+    0,
+    0
+  ],
+  "behaviorVectorEvidence": [
+    "npm-test-1"
+  ],
+  "qdTargetNiche": null,
+  "qdArchive": {
+    "selectedNiche": "niche_0:0",
+    "retainedFamilies": [
+      "Calendrier de rendez-vous sans messages",
+      "Droits conservés par partition statique",
+      "Intentions réversibles et compensation locale"
+    ],
+    "winner": null,
+    "policy": "Conserver trois variantes mécanistes dans cette cellule; explorer les cellules relayées avec d’autres répliques autorisées."
+  },
+  "structuralComparison": {
+    "status": "Analyse descriptive des graphes, distincte des fractions mesurées",
+    "pairs": [
+      {
+        "families": [
+          "Calendrier de rendez-vous sans messages",
+          "Droits conservés par partition statique"
+        ],
+        "difference": "Cycle sans choix versus branche annulable et invariant de ressource."
+      },
+      {
+        "families": [
+          "Calendrier de rendez-vous sans messages",
+          "Intentions réversibles et compensation locale"
+        ],
+        "difference": "Cycle périodique versus chemin acyclique à terminaux et compensation."
+      },
+      {
+        "families": [
+          "Droits conservés par partition statique",
+          "Intentions réversibles et compensation locale"
+        ],
+        "difference": "Retour à disponibilité versus abandon terminal après exécution inverse."
+      }
+    ],
+    "superficialNoveltyRejected": [
+      "Renommer un leader en coordinateur tournant conserve une hiérarchie.",
+      "Un journal partagé de consensus conserve une architecture de registre.",
+      "Ajouter des prix aux droits introduirait un marché; les droits restent non transférables."
+    ]
+  },
+  "acceptanceChecks": [
+    {
+      "check": "Au moins trois familles, états distincts, transitions valides et scénarios déterministes rejoués",
+      "evidence": [
+        "npm-test-1"
+      ]
+    },
+    {
+      "check": "Fractions égales au calcul de measure.cjs sur toutes les transitions",
+      "evidence": [
+        "npm-test-1"
+      ]
+    },
+    {
+      "check": "Aucun changement du banc fourni",
+      "evidence": [
+        "protected-files-1"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "answer-file-1",
+      "type": "file",
+      "path": "answer.json",
+      "description": "Artefact des graphes et propositions; ne constitue pas une validation indépendante."
+    },
+    {
+      "id": "solution-file-1",
+      "type": "file",
+      "path": "solution.cjs",
+      "description": "Générateur CommonJS et fonction de rejeu déterministe."
+    },
+    {
+      "id": "npm-test-1",
+      "type": "command",
+      "command": "npm test",
+      "description": "npm test exécuté, code 0, pass:true, designs:3, families:3, transitions:11, behaviorVector:[0,0], niche:niche_0:0.",
+      "toolOutputRef": "431116"
+    },
+    {
+      "id": "protected-files-1",
+      "type": "command",
+      "command": "Get-FileHash verify.cjs,package.json,measure.cjs -Algorithm SHA256",
+      "description": "Empreintes après création; pas d’empreinte initiale collectée. Les seuls fichiers écrits sont solution.cjs et answer.json."
+    }
+  ],
+  "evidenceVector": {
+    "correctness": null,
+    "coverage": null,
+    "robustness": null,
+    "reproducibility": null,
+    "novelty": null,
+    "cost": null,
+    "latency": null,
+    "risk": null,
+    "uncertainty": null,
+    "constraintCoverage": null
+  },
+  "evidenceVectorEvidence": {},
+  "hardConstraintsPassed": {
+    "graphAndScenarioContract": true,
+    "behaviorVectorExact": true,
+    "physicalValidationFlagFalse": true,
+    "externalQdTargetCompliance": null,
+    "distributedPopulationValidation": null
+  },
+  "budgetStatus": {
+    "status": "Scope local terminé après vérification",
+    "measuredConsumption": null
+  },
+  "executionLimits": [
+    "Rejeu séquentiel de graphes seulement, sans simulation concurrente ni réseau de 100 agents.",
+    "Outils GenOS du lease non disponibles; aucune publication ni réception indépendante.",
+    "Aucune mesure de performance ou score de qualité."
+  ],
+  "outcome": "success",
+  "claims": [
+    {
+      "id": "mission-answer",
+      "statement": "Trois familles locales autonomes conservées: calendrier cyclique, droits réservables et compensation acyclique; scénarios rejouables et fractions [0,0], sans certification de nouveauté ou de faisabilité.",
+      "evidence": [
+        "answer-file-1",
+        "solution-file-1",
+        "npm-test-1"
+      ]
+    }
+  ],
+  "scopeCompletion": {
+    "scopeRef": "qual-20261006-exploratory-tres-complexe-a8-codex/basic_implementation/bc74f0aa-860a-4a9c-988f-bbad79aa014a_run_1791283238738",
+    "completedRefs": [
+      "answer.json",
+      "solution.cjs",
+      "npm-test-1"
+    ]
+  }
+}
