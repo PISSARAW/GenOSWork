@@ -6,7 +6,7 @@ import { concepts } from "@/components/concepts";
 export const metadata: Metadata = {
   title: "GenOS Concept Atlas",
   description: "Explore the canonical GenOS concepts by system, implementation status, biological inspiration, mathematical model, and evidence.",
-  alternates: { canonical: "/en/concepts" },
+  alternates: { canonical: "/en/concepts", languages: { en: "/en/concepts", fr: "/fr/concepts" } },
 };
 
 export default function ConceptsPage() {

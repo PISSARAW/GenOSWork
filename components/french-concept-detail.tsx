@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Concept } from "@/components/concepts";
-import { conceptModelBySlug } from "@/components/concepts";
+import { concepts, conceptModelBySlug } from "@/components/concepts";
 import { ConceptMechanism } from "@/components/concept-mechanism";
 import { teachingFlows } from "@/components/concept-learning-data";
 import { frenchConceptFamilyNames, frenchConceptTitles } from "@/components/concept-french-titles";
@@ -19,6 +19,9 @@ export function FrenchConceptDetail({ concept }: { concept: Concept }) {
   const steps = flow.fr;
   const frenchTitle = frenchConceptTitles[concept.slug];
   const sourceUrl = `https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/docs/${concept.source}`;
+  const index = concepts.findIndex((item) => item.slug === concept.slug);
+  const previous = concepts[(index - 1 + concepts.length) % concepts.length];
+  const next = concepts[(index + 1) % concepts.length];
 
   return <div className="page-shell french-concept-detail" lang="fr">
     <section className="page-hero section-wrap concept-detail-hero">
@@ -57,5 +60,9 @@ export function FrenchConceptDetail({ concept }: { concept: Concept }) {
     <section className="concept-scope-wrap"><div className="section-wrap concept-scope"><Eyebrow light>IMPLÉMENTATION ET PREUVES</Eyebrow><h2>Vérifier la portée de {frenchTitle}.</h2><p>Le schéma animé est pédagogique. La fiche source versionnée décrit l'implémentation ; les statuts ci-dessous indiquent sa maturité sans déduire un fonctionnement réel de l'analogie scientifique.</p><div className="concept-evidence-links"><span>Implémentation : {implementationFr[concept.implementation ?? "unassessed"]}</span><span>Intégration : {integrationFr[concept.integration ?? "unassessed"]}</span><span>Preuve : {evidenceFr[concept.evidence ?? "unassessed"]}</span><a href={sourceUrl} target="_blank" rel="noreferrer">Source GenOS versionnée ↗</a>{concept.codeSources?.map((source) => <a key={source} href={`https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/${source}`} target="_blank" rel="noreferrer">Code : {source} ↗</a>)}{conceptModelBySlug[concept.slug] && <Link href={`/lab/models?model=${conceptModelBySlug[concept.slug]}`}>Simulation numérique ciblée ↗</Link>}</div></div></section>
 
     {(concept.related?.length ?? 0) > 0 && <section className="section-wrap concept-related"><Eyebrow>CONCEPTS LIÉS</Eyebrow><div>{concept.related?.filter((slug) => frenchConceptTitles[slug]).map((slug) => <Link key={slug} href={`/fr/concepts/${slug}`}><span>{frenchConceptTitles[slug]}</span><b>↗</b></Link>)}</div></section>}
+    <nav className="section-wrap concept-pagination" aria-label="Navigation entre les concepts">
+      <Link href={`/fr/concepts/${previous.slug}`}><span>PRÉCÉDENT</span><strong>← {frenchConceptTitles[previous.slug]}</strong></Link>
+      <Link href={`/fr/concepts/${next.slug}`}><span>SUIVANT</span><strong>{frenchConceptTitles[next.slug]} →</strong></Link>
+    </nav>
   </div>;
 }

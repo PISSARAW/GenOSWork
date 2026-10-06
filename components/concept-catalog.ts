@@ -76,7 +76,7 @@ const familyRows: Record<string, { source: string; rows: Row[] }> = {
       ["brier-calibration", "Brier calibration", "A scoring method for comparing probabilistic forecasts with resolved outcomes.", "savoir-et-epistemologie.md", ["beliefs", "biocenose", "evidence"], false, true],
       ["gettier", "Gettier problems", "A model for examining why a justified belief can still fail to count as knowledge.", "savoir-et-epistemologie.md", ["beliefs", "evidence", "provenance"], false, true],
       ["knowledge", "Knowledge", "A structured representation of sources, claims, inference, and uncertainty.", "savoir-et-epistemologie.md", ["epistemics", "beliefs", "evidence", "provenance"]],
-      ["genos-philosophy", "GenOS Philosophy", "The end-to-end GenOS philosophy capability: a canonical registry, implementation contracts, shared mechanisms, bounded evaluations, provenance, topology comparison, and evidence-gated promotion.", "adr/0318-contrats-implementation-concepts.md", ["epistemics", "beliefs", "evidence", "provenance", "governance", "ontogenese"]],
+      ["genos-philosophy", "GenOS Philosophy", "A canonical registry with 375 bounded executable audits over eleven shared primitives, linked to Ontogenesis verification without granting promotion authority.", "../03-reference/contrats-philosophiques-ontogenese.md", ["epistemics", "beliefs", "evidence", "provenance", "governance", "ontogenese"]],
     ],
   },
   "memory-learning": {
@@ -124,7 +124,7 @@ const familyRows: Record<string, { source: string; rows: Row[] }> = {
       ["syncytium", "Syncytium", "Members coordinate around shared, versioned state with merge operations and invariant checks.", "../02-orchestration/topologies/syncytium.md", ["shared-state", "evidence", "morphogenesis"], true, true, true],
       ["rhizome", "Rhizome", "A persisted capability graph with callable bounded multi-hop routing, local traces, and evidence-gated growth services.", "../02-orchestration/topologies/rhizome.md", ["agent-relationships", "stigmergy", "worker-kinds"], true, true, true],
       ["metapopulation", "Metapopulation", "Semi-independent demes exchange typed propagules over directed corridors, with receiver validation, verified migration cycles, and gated recolonization.", "../02-orchestration/topologies/metapopulation.md", ["populations", "evolution-selection", "resilience"], true, true, true],
-      ["biome", "Biome", "A persisted niche and resource model with eleven bounded, caller-invoked variant operations; the complete autonomous ecology loop is partial.", "../02-orchestration/topologies/biome.md", ["niches", "metabolism", "web-foraging"], true, true, true],
+      ["biome", "Biome", "Eleven variants share a bounded transactional ecology loop with persistent niches, measured resource use, authorized adapters and independent verification gates.", "../02-orchestration/topologies/biome.md", ["niches", "metabolism", "web-foraging"], true, true, true],
     ],
   },
   "evolution-ecology": {
@@ -171,7 +171,7 @@ const familyRows: Record<string, { source: string; rows: Row[] }> = {
       ["cancerous", "Cancer-like failure", "A pathology category for uncontrolled growth or replication in a runtime model.", "nosologie/05-cancers.md", ["pathologies", "reproduction", "governance"]],
       ["metabolic-pathology", "Metabolic failure", "A pathology category for unsustainable resource use or allocation.", "nosologie/06-metaboliques.md", ["pathologies", "metabolism", "biome"]],
       ["cardiovascular", "Cardiovascular failure", "A pathology category for disrupted flows or communication in a runtime model.", "nosologie/07-cardiovasculaires.md", ["pathologies", "communication-ecology"]],
-      ["psychiatric", "Psychiatric failure", "A pathology category for modeled behavioral instability; it is not a claim about human mental illness.", "nosologie/08-psychiatriques.md", ["pathologies", "cognition-control"]],
+      ["psychiatric", "Psychiatric failure", "A pathology category for modeled behavioral instability; it is not a claim about human mental illness.", "nosologie/08-psychiatriques.md", ["pathologies", "self-model"]],
       ["environmental-pathology", "Environmental failure", "A pathology category for harmful interactions between a runtime and its operating environment.", "nosologie/09-environnementales.md", ["pathologies", "sensorium", "resilience"]],
     ],
   },

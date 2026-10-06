@@ -19,6 +19,7 @@ const layoutByFamily: Record<string, string> = {
 export function ConceptMechanism({ slug, title, familyId, flow, locale = "en" }: { slug: string; title: string; familyId: string; flow: TeachingFlow; locale?: Locale }) {
   const [step, setStep] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [ready, setReady] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [assumptionHolds, setAssumptionHolds] = useState(true);
   const t = labels[locale];
@@ -29,6 +30,7 @@ export function ConceptMechanism({ slug, title, familyId, flow, locale = "en" }:
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => { setReducedMotion(preference.matches); if (preference.matches) setPlaying(false); };
     update();
+    setReady(true);
     preference.addEventListener("change", update);
     return () => preference.removeEventListener("change", update);
   }, []);
@@ -40,7 +42,7 @@ export function ConceptMechanism({ slug, title, familyId, flow, locale = "en" }:
   }, [playing, assumptionHolds]);
 
   return (
-    <section className="concept-mechanism" id="interactive-model" aria-labelledby={`${slug}-mechanism-title`}>
+    <section className="concept-mechanism" id="interactive-model" aria-labelledby={`${slug}-mechanism-title`} aria-busy={!ready}>
       <div className="concept-mechanism-head">
         <div><span className="atlas-kicker">{locale === "fr" ? "SCHÉMA ANIMÉ · MODÈLE INTERACTIF" : "ANIMATED DIAGRAM · INTERACTIVE MODEL"}</span><h2 id={`${slug}-mechanism-title`}>{t.heading}: {title}</h2><p>{t.sub}</p></div>
         <span className="concept-mechanism-index">{String(step + 1).padStart(2, "0")} / 03</span>
@@ -54,13 +56,13 @@ export function ConceptMechanism({ slug, title, familyId, flow, locale = "en" }:
         ))}
         <div className="concept-mechanism-connector concept-mechanism-connector-one" aria-hidden="true"><i /></div>
         <div className="concept-mechanism-connector concept-mechanism-connector-two" aria-hidden="true"><i /></div>
-        {layout === "feedback" && <div className="concept-mechanism-feedback" aria-hidden="true">↶</div>}
+        {layout === "feedback" && <div className="concept-mechanism-return" aria-hidden="true">↶</div>}
       </div>
       <div className="concept-mechanism-controls">
-        <button type="button" onClick={() => setPlaying((current) => !current)} aria-pressed={playing} disabled={reducedMotion} title={reducedMotion ? t.reduced : undefined}>{playing ? "Ⅱ " + t.pause : "▶ " + t.play}</button>
-        <button type="button" onClick={() => { setPlaying(false); setStep((current) => (current + 2) % 3); }} aria-label={t.previous}>←</button>
-        <button type="button" onClick={() => { setPlaying(false); setStep((current) => assumptionHolds ? (current + 1) % 3 : Math.min(current + 1, 1)); }} aria-label={t.next}>→</button>
-        <label><input type="checkbox" checked={assumptionHolds} onChange={(event) => { setAssumptionHolds(event.target.checked); if (!event.target.checked) setStep((current) => Math.min(current, 1)); }} /> {t.assumption}</label>
+        <button type="button" onClick={() => setPlaying((current) => !current)} aria-pressed={playing} disabled={!ready || reducedMotion} title={reducedMotion ? t.reduced : undefined}>{playing ? "Ⅱ " + t.pause : "▶ " + t.play}</button>
+        <button type="button" disabled={!ready} onClick={() => { setPlaying(false); setStep((current) => assumptionHolds ? (current + 2) % 3 : Math.max(current - 1, 0)); }} aria-label={t.previous} title={t.previous}>←</button>
+        <button type="button" disabled={!ready} onClick={() => { setPlaying(false); setStep((current) => assumptionHolds ? (current + 1) % 3 : Math.min(current + 1, 1)); }} aria-label={t.next} title={t.next}>→</button>
+        <label><input type="checkbox" disabled={!ready} checked={assumptionHolds} onChange={(event) => { setAssumptionHolds(event.target.checked); if (!event.target.checked) setStep((current) => Math.min(current, 1)); }} /> {t.assumption}</label>
       </div>
       <div className="concept-mechanism-readout" role="status"><span>{t.active} · {t.step} {step + 1}</span><strong>{stages[step]}</strong><p>{assumptionHolds ? t.holds : t.fails} {t.note}</p></div>
     </section>

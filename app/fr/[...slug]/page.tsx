@@ -7,7 +7,7 @@ import { topologies } from "@/components/topologies";
 import { morphogenesisCases } from "@/components/morphogenesis-cases";
 import { TranslationNotice } from "@/components/locale-controls";
 import { AgentCoordinationGuide, isCoordinationGuide } from "@/components/agent-coordination-guide";
-import { genosSource } from "@/components/product-evidence";
+import { genosSource, genosSourceCommit } from "@/components/product-evidence";
 import { FrenchConceptDetail } from "@/components/french-concept-detail";
 import { frenchConceptTitles } from "@/components/concept-french-titles";
 
@@ -69,7 +69,7 @@ function chooseSummary(path: string): Summary | undefined {
 }
 
 export async function generateStaticParams() {
-  const staticPaths = Object.keys(summaries).filter((path) => path !== "organizations").map((path) => ({
+  const staticPaths = Object.keys(summaries).filter((path) => path !== "concepts" && path !== "organizations").map((path) => ({
     slug: path.split("/"),
   }));
   const conceptPaths = concepts.map(({ slug }) => ({
@@ -111,7 +111,7 @@ export default async function FrenchOverviewPage({ params }: PageProps<"/fr/[...
   }
   if (!summary) notFound();
   const englishHref = "/en/" + path;
-  const sourceHref = path.startsWith("concepts/") ? "https://github.com/PISSARAW/GenOS/tree/698993b1d0854802c9c95b4786df9d18863dbf1a/docs/01-concepts" : path.startsWith("topologies/") ? "https://github.com/PISSARAW/GenOS/blob/698993b1d0854802c9c95b4786df9d18863dbf1a/docs/02-orchestration/topologies-et-capacites.md" : "https://github.com/PISSARAW/GenOS/tree/698993b1d0854802c9c95b4786df9d18863dbf1a/docs";
+  const sourceHref = path.startsWith("concepts/") ? `https://github.com/PISSARAW/GenOS/tree/${genosSourceCommit}/docs/01-concepts` : path.startsWith("topologies/") ? genosSource("docs/02-orchestration/topologies-et-capacites.md") : `https://github.com/PISSARAW/GenOS/tree/${genosSourceCommit}/docs`;
   const guideSlug = path.startsWith("concepts/") ? path.slice("concepts/".length) : "";
   const hasGuide = isCoordinationGuide(guideSlug);
   const guideSources: Record<string, string> = { "signal-plane": "docs/01-concepts/signal-plane-zero-text.md", "communication-ecology": "docs/02-orchestration/communication.md", "agent-relationships": "docs/02-orchestration/relations-inter-agents.md" };

@@ -1,0 +1,43 @@
+.concept-detail-hero h1 { font-size: 64px; overflow-wrap: anywhere; letter-spacing: 0; }
+.concept-detail-hero .hero-actions { flex-wrap: wrap; }
+.concept-detail-hero .hero-actions .button { height: auto; min-height: 42px; white-space: normal; }
+.atlas-filters > label, .atlas-filters input, .atlas-filters select { min-width: 0; }
+.atlas-system-rail a, .atlas-concept-card strong, .atlas-concept-meta, .atlas-concept-intro { overflow-wrap: anywhere; }
+.atlas-empty button { margin-top: 14px; border: 1px solid var(--line); background: #fff; color: var(--forest); padding: 10px 14px; cursor: pointer; }
+.concept-model-section > *, .concept-steps > *, .concept-architecture > *, .concept-literature > *, .concept-mechanism-head > div { min-width: 0; }
+.concept-model-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.concept-model-grid p, .concept-architecture code, .concept-evidence-links a, .concept-scope h2, .concept-related a, .concept-pagination strong, .concept-literature h3 { overflow-wrap: anywhere; }
+.concept-scope-wrap a:not(.button) { color: var(--ochre-soft) !important; }
+.concept-scope-wrap a:not(.button):hover { color: #fff !important; }
+.concept-mechanism-diagram.concept-mechanism-feedback { position: relative; right: auto; bottom: auto; font-size: inherit; }
+.concept-mechanism-return { position: absolute; right: 9%; bottom: -7px; color: var(--rust); font-size: 24px; }
+.concept-mechanism-head h2, .concept-mechanism-node strong { letter-spacing: 0; overflow-wrap: anywhere; }
+.concept-mechanism-head h2 { font-size: 32px; }
+.concept-mechanism-node strong { font-size: 18px; }
+.concept-mechanism-index { flex-shrink: 0; }
+.concept-mechanism-readout { min-height: 110px; overflow-wrap: anywhere; }
+.concept-mechanism-controls button { min-width: 42px; min-height: 42px; }
+.concept-mechanism-controls button:first-child { width: 88px; flex: 0 0 88px; }
+.concept-mechanism-controls label { min-height: 42px; }
+.concept-mechanism-controls input { width: 18px; height: 18px; flex-shrink: 0; }
+.concept-section-heading h2 { font-size: 44px; letter-spacing: 0; overflow-wrap: anywhere; }
+.concept-section-heading h2 em { white-space: normal; }
+.concept-diagram { overflow-x: auto; }
+.concept-diagram svg { min-width: 760px; }
+.concept-diagram .concept-svg-label { font-size: 12px; letter-spacing: 0; }
+.concept-diagram .concept-svg-detail { font-size: 11px; }
+@media (max-width: 700px) {
+  .concept-mechanism-diagram.concept-mechanism-feedback { display: flex; }
+  .concept-mechanism-return { display: none; }
+  .concept-mechanism-head { gap: 12px; }
+  .concept-mechanism-head h2 { font-size: 26px; }
+  .concept-mechanism-network .concept-mechanism-node:nth-child(2), .concept-mechanism-network .concept-mechanism-node:nth-child(2).is-active { transform: none; }
+}
+@media (max-width: 640px) {
+  .concept-detail-hero h1 { font-size: 40px; }
+  .concept-model-grid { grid-template-columns: minmax(0, 1fr); }
+  .concept-mechanism { padding: 16px; }
+  .concept-mechanism-head { flex-wrap: wrap; }
+  .concept-mechanism-controls label { font-size: 11px; }
+  .concept-section-heading h2 { font-size: 32px; }
+}

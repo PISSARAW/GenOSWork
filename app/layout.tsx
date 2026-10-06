@@ -15,6 +15,7 @@ import "./home.css";
 import "./ecosystem.css";
 import "./capabilities.css";
 import "./concept-mechanism.css";
+import "./concept-atlas.css";
 
 import { siteUrl } from "@/components/site-config";
 

@@ -1,5 +1,6 @@
 /** French display names for every concept route. Product identifiers stay unchanged. */
 export const frenchConceptTitles: Record<string, string> = {
+  "genos-philosophy": "Philosophie GenOS",
   maladies: "Maladies logicielles",
   memoire: "Mémoire",
   ontogenese: "Ontogenèse",

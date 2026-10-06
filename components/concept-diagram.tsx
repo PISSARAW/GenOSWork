@@ -11,7 +11,7 @@ const diagrams: Record<ConceptDiagram, { labels: string[]; colors: string[]; det
 export function ConceptDiagramView({ kind, title, description }: { kind: ConceptDiagram; title: string; description: string }) {
   const diagram = diagrams[kind];
   return (
-    <figure className="concept-diagram" aria-labelledby={`diagram-${kind}-title`}>
+    <figure className="concept-diagram" tabIndex={0} aria-labelledby={`diagram-${kind}-title`}>
       <figcaption><span className="concept-diagram-kicker">HOW IT WORKS</span><strong id={`diagram-${kind}-title`}>{title}</strong></figcaption>
       <svg viewBox="0 0 760 220" role="img" aria-labelledby={`diagram-${kind}-svg-title diagram-${kind}-svg-desc`}>
         <title id={`diagram-${kind}-svg-title`}>{title}</title>

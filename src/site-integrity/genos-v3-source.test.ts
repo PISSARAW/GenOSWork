@@ -3,16 +3,19 @@ import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import { catalogConcepts } from "@/components/concept-catalog";
+import { concepts } from "@/components/concepts";
 import { genosSourceCommit, productClaims } from "@/components/product-evidence";
 
 const genosRoot = resolve(process.cwd(), "..", "GenOS");
 const hasLocalSource = existsSync(join(genosRoot, ".git"));
+let publishedFiles: Set<string>;
 
 function git(...args: string[]) {
   return execFileSync("git", ["-c", `safe.directory=${genosRoot.replaceAll("\\", "/")}`, "-C", genosRoot, ...args], { encoding: "utf8" }).trim();
 }
 
 describe.skipIf(!hasLocalSource)("GenOS V3 source synchronization", () => {
+  const files = () => publishedFiles ??= new Set(git("ls-tree", "-r", "--name-only", genosSourceCommit).split("\n"));
   it("pins the current local origin/v3 revision", () => {
     expect(git("rev-parse", "refs/remotes/origin/v3")).toBe(genosSourceCommit);
   });
@@ -24,8 +27,16 @@ describe.skipIf(!hasLocalSource)("GenOS V3 source synchronization", () => {
       ...catalogConcepts.filter((concept) => v3Slugs.has(concept.slug)).map((concept) => `docs/${concept.source.replace(/^\.\.\//, "")}`),
     ];
     for (const path of new Set(paths)) {
-      expect(() => git("cat-file", "-e", `${genosSourceCommit}:${path}`), path).not.toThrow();
+      expect(files().has(path), path).toBe(true);
     }
+  });
+
+  it("resolves every atlas documentation and code reference at the published revision", () => {
+    const missing = concepts.flatMap((concept) => [`docs/${concept.source}`, ...(concept.codeSources ?? [])]
+      .filter((path) => !files().has(path)).map((path) => `${concept.slug}: ${path}`));
+    expect(missing).toEqual([]);
+    const slugs = new Set(concepts.map((concept) => concept.slug));
+    expect(concepts.flatMap((concept) => (concept.related ?? []).filter((slug) => !slugs.has(slug)).map((slug) => `${concept.slug}: ${slug}`))).toEqual([]);
   });
 
   it("retains the canonical mechanisms behind the V3 status summaries", () => {
@@ -40,5 +51,5 @@ describe.skipIf(!hasLocalSource)("GenOS V3 source synchronization", () => {
     for (const [path, marker] of markers) {
       expect(git("show", `${genosSourceCommit}:${path}`), path).toContain(marker);
     }
-  });
+  }, 30_000);
 });
