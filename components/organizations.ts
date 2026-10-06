@@ -1,5 +1,15 @@
+export const organizationIds = [
+  "specialist_expert_committee", "blind_adversarial_review", "red_blue_coevolution",
+  "brier_weighted_consensus", "quorum_with_abstention", "stigmergy", "flocking_boids",
+  "fish_school_search", "slime_mould_network", "grey_wolf_optimizer", "mycelial_routing",
+  "dynamic_polyethism", "energy_huddle", "network_silence", "strategy_arena",
+  "hierarchical_merge", "competitive_arena", "isolated_recovery", "memory_compilation",
+] as const;
+
+export type OrganizationId = typeof organizationIds[number];
+
 export type Organization = {
-  id: string;
+  id: OrganizationId;
   name: string;
   family: string;
   summary: string;

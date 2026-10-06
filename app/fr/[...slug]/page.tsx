@@ -69,7 +69,7 @@ function chooseSummary(path: string): Summary | undefined {
 }
 
 export async function generateStaticParams() {
-  const staticPaths = Object.keys(summaries).map((path) => ({
+  const staticPaths = Object.keys(summaries).filter((path) => path !== "organizations").map((path) => ({
     slug: path.split("/"),
   }));
   const conceptPaths = concepts.map(({ slug }) => ({

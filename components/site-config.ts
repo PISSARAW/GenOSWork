@@ -154,6 +154,7 @@ export const frenchFullRoutes = new Set([
   "/sandbox",
   "/ecosystem",
   "/capabilities",
+  "/organizations",
 ]);
 
 /** Explicit French summaries published by app/fr/[...slug]. Keep this list in
@@ -175,7 +176,6 @@ export const frenchSummaryRoutes = new Set([
   "/daemons",
   "/topologies",
   "/morphogenesis",
-  "/organizations",
   "/research",
   "/concepts",
   "/systems",
