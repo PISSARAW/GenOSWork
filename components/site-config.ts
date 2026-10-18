@@ -56,12 +56,14 @@ export const primaryNav: NavEntry[] = [
     questionFr: "Que conserve GenOS avec le travail ?",
     children: [
       { label: "System map", href: "/systems", note: "How parts fit together" },
+      { label: "Latest evolutions", href: "/updates", note: "Reviewed 18 October 2026" },
       { label: "Runtime overview", href: "/runtime" },
       { label: "Recorded runs", href: "/runs" },
       { label: "Concept Atlas", href: "/concepts" },
     ],
     childrenFr: [
       { label: "Carte système", href: "/fr/systems" },
+      { label: "Dernières évolutions", href: "/fr/updates" },
       { label: "Aperçu du runtime", href: "/fr/runtime" },
       { label: "Exécutions enregistrées", href: "/fr/runs" },
       { label: "Atlas des concepts", href: "/fr/concepts" },
@@ -155,6 +157,7 @@ export const frenchFullRoutes = new Set([
   "/ecosystem",
   "/capabilities",
   "/organizations",
+  "/updates",
 ]);
 
 /** Explicit French summaries published by app/fr/[...slug]. Keep this list in

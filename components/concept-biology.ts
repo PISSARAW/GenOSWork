@@ -1,5 +1,12 @@
+import { canonicalConceptAdditions } from "@/components/canonical-concept-additions";
+
 /** Biological observation followed by the bounded software design it motivates. */
 export const biologyRationale: Record<string, [english: string, french: string]> = {
+  ...Object.fromEntries(
+    canonicalConceptAdditions
+      .filter((entry) => entry.biologyEn && entry.biologyFr)
+      .map((entry) => [entry.slug, [entry.biologyEn!, entry.biologyFr!]]),
+  ),
   maladies: ["Clinical practice observes symptoms, separates possible causes and checks treatment effects. GenOS borrows that observe–classify–reassess discipline for software faults; it makes no medical claim.", "La clinique observe des signes, distingue des causes possibles et réévalue une intervention. GenOS reprend cette discipline pour les défaillances logicielles, sans prétention médicale."],
   "adaptive-epistemic-immunity": ["Adaptive immunity remembers prior exposures and refines recognition. GenOS borrows the idea of review after a suspicious signal, but its rules are authored and may miss or overreact.", "L'immunité adaptative garde la mémoire d'expositions et affine la reconnaissance. GenOS retient l'idée d'une revue après signal suspect, avec des règles écrites et faillibles."],
   "immune-system": ["Biological immunity layers recognition, containment and reassessment. The software analogy motivates staged threat handling rather than an assertion of complete protection.", "L'immunité biologique superpose reconnaissance, contention et réévaluation. L'analogie motive une réponse logicielle par étapes, sans promettre une protection complète."],

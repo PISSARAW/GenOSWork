@@ -115,7 +115,7 @@ export const literatureMechanismsByConcept: Record<string, string[]> = {
 const additionalMechanismsByConcept: Record<string, string[]> = {
   maladies: ["fault-tolerance"], memoire: ["episodic-memory"], ontogenese: ["distributed-snapshot"], ontologie: ["program-correctness"],
   phenotype: ["genetic-structure"], instinct: ["embodied-control"], reproduction: ["genetic-structure"], "speciation-graft": ["selection"],
-  gvx: ["experimental-design"], "self-model": ["program-correctness"], "theory-of-self": ["program-correctness"], "natural-search-control-plane": ["experimental-design"],
+  gvx: ["experimental-design"], "self-model": ["program-correctness"], "theory-of-self": ["program-correctness"], "natural-search-control-plane": ["experimental-design"], "endogenous-thought-test": ["experimental-design"],
   "consciousness-taxonomy": ["conscious-workspace"], "functional-indicators": ["experimental-design"],
   epistemics: ["gettier-problem"], claims: ["experimental-design"], evidence: ["experimental-design"], contradictions: ["program-correctness"], provenance: ["distributed-ordering"], gettier: ["gettier-problem"], knowledge: ["gettier-problem"],
   morphogenesis: ["biological-morphogenesis"], "epistemic-meristem": ["biological-morphogenesis"], "unblocking-spiral": ["experimental-design"], "counterexample-cambium": ["program-correctness"], chronotaxis: ["distributed-ordering"], "risk-ledger": ["experimental-design"],

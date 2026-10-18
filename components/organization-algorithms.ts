@@ -2,7 +2,7 @@ import { organizationIds, type OrganizationId } from "./organizations";
 
 // Browser-safe ports of GenOS' deterministic guidance steps. Pure functions;
 // no agent launch, permissions, network, database or promotion side effects.
-export type Agent = { id: string; role?: string; capabilities?: string[]; x?: number; y?: number; heading?: number; fitness?: number };
+export type Agent = { id: string; role?: string; capabilities?: string[]; x?: number; y?: number; heading?: number; fitness?: number; evidenceScore?: number };
 export type Edge = { id: string; flow?: number; conductivity?: number };
 export type Vote = { id?: string; support?: boolean; abstain?: boolean; weight?: number };
 export type Report = { confidence?: number; coverage?: number; resolvedOutcome?: string | null };
@@ -30,6 +30,7 @@ export type OrganizationOutput = {
   pack?: { id: string; role: string; position: Vector }[]; need?: string | null; route?: string | null;
   roleGradient?: { id: string; rank: number }[]; allocations?: { id: string; budget: number }[];
   silent?: boolean; buffered?: number; competitors?: string[]; mode?: string;
+  selectionRule?: string; evidenceGate?: boolean;
   root?: string | null; children?: string[]; isolated?: string[]; plan?: string[]; facts?: Fact[];
 };
 export type OrganizationResult = OrganizationOutput & { organization: OrganizationId };
@@ -125,9 +126,12 @@ export const organizationAlgorithms: Record<OrganizationId, Algorithm> = {
     return { allocations: groups.map((group, index) => ({ id: group.id, budget: Math.round(weights[index] / total * n(state.budget, groups.length * 1000)) })) };
   },
   network_silence: (state) => ({ silent: true, buffered: (state.agents ?? []).length }),
-  strategy_arena: (state) => ({ competitors: ids(state.agents), mode: "isolated_tournament" }),
+  strategy_arena: (state) => ({ competitors: ids(state.agents), mode: "isolated_tournament", selectionRule: "pareto_then_promotion", evidenceGate: true }),
   hierarchical_merge: (state) => ({ root: state.agents?.[0]?.id ?? null, children: (state.agents ?? []).slice(1).map((agent) => agent.id) }),
-  competitive_arena: (state) => ({ competitors: ids(state.agents), mode: "isolated_tournament" }),
+  competitive_arena: (state) => {
+    const ranked = [...(state.agents ?? [])].sort((left, right) => n(right.evidenceScore, n(right.fitness)) - n(left.evidenceScore, n(left.fitness)));
+    return { competitors: ids(ranked), mode: "isolated_comparison", selectionRule: "evidence_weighted_ranking", evidenceGate: true };
+  },
   isolated_recovery: (state) => ({ isolated: ids(state.agents), plan: state.lostRoles ?? [] }),
   memory_compilation: (state) => ({ facts: state.facts ?? [] }),
 };

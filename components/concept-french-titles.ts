@@ -1,6 +1,10 @@
+import { canonicalConceptAdditions } from "@/components/canonical-concept-additions";
+
 /** French display names for every concept route. Product identifiers stay unchanged. */
 export const frenchConceptTitles: Record<string, string> = {
+  ...Object.fromEntries(canonicalConceptAdditions.map((entry) => [entry.slug, entry.titleFr])),
   "genos-philosophy": "Philosophie GenOS",
+  "endogenous-thought-test": "Test de pensée endogène",
   maladies: "Maladies logicielles",
   memoire: "Mémoire",
   ontogenese: "Ontogenèse",

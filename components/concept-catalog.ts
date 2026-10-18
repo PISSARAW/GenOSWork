@@ -1,3 +1,5 @@
+import { canonicalConceptAdditions } from "@/components/canonical-concept-additions";
+
 export type ConceptFamily = {
   id: string;
   name: string;
@@ -59,6 +61,7 @@ const familyRows: Record<string, { source: string; rows: Row[] }> = {
       ["theory-of-self", "Theory of self", "Runtime models that describe agent identity, continuity, and change without asserting subjective experience.", "../02-orchestration/theorie-du-soi-orchestrator.md", ["genome", "ontogenese", "episodic-memory"]],
       ["predictive-system", "Predictive system", "A multi-scale prediction model that relates observations, hypotheses, and expected outcomes.", "../02-orchestration/systeme-predictif-multi-echelles.md", ["agow", "evidence", "natural-search-control-plane"], false, true],
       ["natural-search-control-plane", "Natural Search Control Plane", "A control model for bounded search using pressure, causal progress, hypotheses, and explicit control.", "natural-search-control-plane.md", ["gvx", "evidence", "mutation"], true, true],
+      ["endogenous-thought-test", "Endogenous Thought Test", "A bounded experimental protocol that detects an internal signal, formulates a falsifiable question, arbitrates whether to investigate it, produces a read-only proposal, and submits it to independent verification.", "endogenous-thought-test.md", ["agow", "ontogenese", "evidence", "functional-indicators"], false, true, true, true],
       ["attention", "Attention & salience", "Selection and prioritization signals used to direct limited agent work toward relevant inputs.", "../02-orchestration/agow.md", ["agow", "sensorium", "metabolism"], true, true],
       ["consciousness-taxonomy", "Mind and consciousness taxonomy", "A vocabulary for discussing computational indicators while separating them from claims of subjective experience.", "conscience-esprit-mental.md", ["theory-of-self", "functional-indicators"]],
       ["functional-indicators", "Functional indicators", "Observable indicators used for bounded analysis; they do not establish subjective consciousness.", "indicateurs-fonctionnels.md", ["consciousness-taxonomy", "evidence"], false, true],
@@ -76,7 +79,7 @@ const familyRows: Record<string, { source: string; rows: Row[] }> = {
       ["brier-calibration", "Brier calibration", "A scoring method for comparing probabilistic forecasts with resolved outcomes.", "savoir-et-epistemologie.md", ["beliefs", "biocenose", "evidence"], false, true],
       ["gettier", "Gettier problems", "A model for examining why a justified belief can still fail to count as knowledge.", "savoir-et-epistemologie.md", ["beliefs", "evidence", "provenance"], false, true],
       ["knowledge", "Knowledge", "A structured representation of sources, claims, inference, and uncertainty.", "savoir-et-epistemologie.md", ["epistemics", "beliefs", "evidence", "provenance"]],
-      ["genos-philosophy", "GenOS Philosophy", "A canonical registry with 375 bounded executable audits over eleven shared primitives, linked to Ontogenesis verification without granting promotion authority.", "../03-reference/contrats-philosophiques-ontogenese.md", ["epistemics", "beliefs", "evidence", "provenance", "governance", "ontogenese"]],
+      ["genos-philosophy", "GenOS Philosophy", "A canonical registry with 420 bounded executable audits over eleven shared primitives, linked to Ontogenesis verification without granting promotion authority.", "../03-reference/contrats-philosophiques-ontogenese.md", ["epistemics", "beliefs", "evidence", "provenance", "governance", "ontogenese"]],
     ],
   },
   "memory-learning": {
@@ -206,7 +209,7 @@ const familyRows: Record<string, { source: string; rows: Row[] }> = {
   },
 };
 
-export const catalogConcepts: ConceptCatalogEntry[] = Object.entries(familyRows).flatMap(([familyId, group]) =>
+const legacyCatalogConcepts: ConceptCatalogEntry[] = Object.entries(familyRows).flatMap(([familyId, group]) =>
   group.rows.map(([slug, title, intro, source, related = [], biology = false, hasMathematics = false, hasSimulation = false, hasBenchmark = false]) => {
     const rawSource = source ?? group.source;
     const normalizedSource = rawSource.replace(/^\.\.\//, "");
@@ -225,3 +228,19 @@ export const catalogConcepts: ConceptCatalogEntry[] = Object.entries(familyRows)
     };
   }),
 );
+
+export const catalogConcepts: ConceptCatalogEntry[] = [
+  ...legacyCatalogConcepts,
+  ...canonicalConceptAdditions.map((entry) => ({
+    slug: entry.slug,
+    title: entry.title,
+    familyId: entry.familyId,
+    intro: entry.introEn,
+    source: entry.source,
+    biologyInspired: Boolean(entry.biologyEn),
+    hasMathematics: true,
+    hasSimulation: Boolean(entry.hasSimulation),
+    hasBenchmark: Boolean(entry.hasBenchmark),
+    related: entry.related,
+  })),
+];

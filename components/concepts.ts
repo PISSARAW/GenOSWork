@@ -6,6 +6,7 @@ import { frenchScientificProfiles } from "@/components/concept-french-science";
 import { teachingFlows } from "@/components/concept-learning-data";
 import { biologyRationale } from "@/components/concept-biology";
 import { productClaims } from "@/components/product-evidence";
+import { canonicalConceptAdditions } from "@/components/canonical-concept-additions";
 
 export type ConceptSlug = string;
 export type ConceptDiagram = "clinical" | "memory" | "cortex" | "ontogenesis" | "ontology";
@@ -165,7 +166,7 @@ const claimIdByConcept: Record<string, string> = {
   provenance: "provenance", evidence: "evidence-barrier", "shared-state": "syncytium", "memory-fossilization": "capsules-snapshots",
   "identity-authority": "governance-approval", governance: "governance-approval", observability: "observability",
   "inference-gateway": "inference-gateway", "model-routing": "model-routing", "resident-daemons": "mission-continuity",
-  ontogenese: "mission-continuity", workflows: "a-team", "counterfactual-workspaces": "agent-git",
+  ontogenese: "mission-continuity", workflows: "a-team", "counterfactual-workspaces": "agent-git", "endogenous-thought-test": "endogenous-thought",
 };
 
 const capabilityMaturity: Record<string, { implementation: ImplementationState; integration: IntegrationState }> = {
@@ -286,7 +287,7 @@ const codeMaturity: Record<string, Partial<Concept>> = {
   "swarm-intelligence": { implementation: "experimental", integration: "callable", evidence: "unit-tested", statusNote: "Selected swarm topology algorithms and metrics exist; their registry or tests do not establish improved mission outcomes.", codeSources: ["backend/src/services/swarmTopologyAlgorithms.js", "backend/src/grpc_services/swarmService.js"] },
   symbionts: { implementation: "partial", integration: "wired", evidence: "unit-tested", statusNote: "Contractual Holobiont missions connect admission, capability execution, independent verification and host veto. Physical isolation and real measurements remain adapter responsibilities; no biological symbiosis or general gain is established.", codeSources: ["backend/src/services/holobionteCoordinationService.js", "backend/src/services/symbioteRuntimeService.js"] },
   "verification-registry": { implementation: "partial", integration: "callable", evidence: "unit-tested", statusNote: "Verified coverage and admission registries can gate selected paths; registry presence does not establish a general proof checker." },
-  "genos-philosophy": { implementation: "partial", integration: "wired", evidence: "integration-tested", statusNote: "The registry supplies 375 explicit bounded audits over eleven shared primitives, with 13,500 simulated activation, ablation and falsification observations. Ontogenesis replays requested audits from confined source-bound observations. The default maturity remains mechanism-linked; these tests do not validate philosophical theories, external truth or general mission benefit.", codeSources: ["backend/src/philosophy/operationalProfiles.js", "backend/src/services/implementationContractRouter.js", "backend/src/services/ontogenesis/missionCapabilityPlanService.js", "backend/tests/test_philosophy_executable_contracts.js", "backend/tests/test_philosophy_observation_binding.js", "backend/tests/test_philosophy_ontogenesis_integration.js"] },
+  "genos-philosophy": { implementation: "partial", integration: "wired", evidence: "integration-tested", statusNote: "The registry supplies 420 explicit bounded audits over eleven shared primitives, with 15,120 simulated activation, ablation and falsification observations. Ontogenesis replays requested audits from confined source-bound observations. The default maturity remains mechanism-linked; these tests do not validate philosophical theories, external truth or general mission benefit.", codeSources: ["backend/src/philosophy/operationalProfiles.js", "backend/src/services/implementationContractRouter.js", "backend/src/services/ontogenesis/missionCapabilityPlanService.js", "backend/tests/test_philosophy_executable_contracts.js", "backend/tests/test_philosophy_observation_binding.js", "backend/tests/test_philosophy_ontogenesis_integration.js"] },
   vfs: { implementation: "partial", integration: "wired", evidence: "integration-tested", statusNote: "Workspace file operations run under bounded sandbox policies; confinement guarantees remain path and adapter specific.", codeSources: ["backend/src/services/sandboxExecutor.js", "backend/tests/test_aeis_sandbox.js"] },
 };
 
@@ -312,14 +313,68 @@ const claimStatus = (slug: string): Partial<Concept> | undefined => {
   return { implementation, integration, evidence, statusNote: `${claim.implementedSlice} ${claim.missingWork}${testNote} Source: ${claim.sourcePath}.` };
 };
 
+const canonicalAdditionDossiers: Record<string, Partial<Concept>> = Object.fromEntries(
+  canonicalConceptAdditions.map((entry) => [entry.slug, {
+    sourceLabel: `GenOS canonical registry · ${entry.canonicalId}`,
+    scopeTitle: "Bounded canonical concept and validation boundary",
+    scope: entry.scopeEn,
+    steps: entry.teachingEn.map((title, index) => ({
+      title,
+      body: index === 0
+        ? entry.introEn
+        : index === 1
+          ? entry.formalEn
+          : "Read the linked source, implementation maturity and evidence status before extending the claim beyond this bounded mechanism.",
+    })),
+    scienceBasis: entry.scienceEn,
+    mathModel: entry.formalEn,
+    implementation: entry.implementation,
+    integration: entry.integration,
+    evidence: entry.evidence,
+    status: entry.implementation === "implemented" ? "Implemented bounded mechanism" : entry.implementation === "partial" ? "Partial implementation" : "Reference concept",
+    statusTone: entry.implementation === "implemented" ? "green" : entry.implementation === "partial" ? "amber" : "purple",
+    statusNote: `Canonical GenOS registry entry ${entry.canonicalId}. Maturity and evidence apply only to the documented mechanism and do not establish broader scientific or product claims.`,
+    useCases: entry.teachingEn,
+    failureModes: [
+      "An operational indicator can be overgeneralized into a broader scientific, philosophical or product claim.",
+      "Missing provenance, stale observations or absent independent checks can make a plausible result inadmissible.",
+    ],
+    hasMathematics: true,
+    hasSimulation: Boolean(entry.hasSimulation),
+    hasBenchmark: Boolean(entry.hasBenchmark),
+  }]),
+);
+
 const conceptDossiers: Record<string, Partial<Concept>> = {
+  ...canonicalAdditionDossiers,
+  "endogenous-thought-test": {
+    sourceLabel: "Endogenous Thought Test — ETT v1",
+    scopeTitle: "A bounded functional protocol, not a consciousness test",
+    scope: "ETT v1 currently implements a deterministic, read-only chain from detection through a persisted unverified proposal. The runner launches no model or worker, performs no network or repository mutation, and grants no implicit promotion. Although the concept document specifies independent classification, its verifier service and test are absent from the pinned published tree. The reserved comparative campaign, real resource measurement, learning transition and production loop are also not implemented. ETT therefore demonstrates a partial auditable control chain, not the benefit claimed by its preregistered hypothesis, phenomenal consciousness or general autonomy.",
+    steps: [
+      { title: "Detect and question", body: "Validate a fresh, in-scope internal signal, then persist an immutable detection receipt and a falsifiable question with method, falsifier and expected evidence." },
+      { title: "Arbitrate and queue", body: "AGOW compares investigation with planned abstention. An admitted question becomes a blocked Ontogenesis task and still has no execution authority." },
+      { title: "Run under authority", body: "A one-use SHEV authorization permits a deterministic, read-only runner to persist an unverified proposal without invoking a worker or external effect." },
+      { title: "Verify independently", body: "The protocol requires a distinct verifier to sign a supported, refuted or inconclusive verdict over the exact proposal. This stage is specified but not present in the pinned published tree." },
+      { title: "Measure before claiming", body: "The preregistered campaign must compare the full loop with controls and ablations on reserved seeds before any benefit claim can be evaluated." },
+    ],
+    scienceBasis: "ETT operationalizes a narrow functional question about internally triggered inquiry. It separates signal detection, falsifiable question formation, attention allocation, bounded proposal generation and independent classification. Observable software states can test that chain; they do not establish subjective experience, intention or consciousness.",
+    mathModel: "The detector uses s=clamp(0,1,0.25a+0.20n+0.30g+0.20l−0.025c−0.025r), then applies separate integrity, mandate, tenant, freshness, budget, cooldown and concurrency gates. The preregistered primary metric is independently verified useful discoveries divided by normalized token, time and USD cost.",
+    useCases: ["Generate falsifiable questions from scoped internal anomalies.", "Compare the endogenous loop with a planned control and registered ablations.", "Audit authority, budget, persistence and independent-verification boundaries across restarts.", "Represent abstention, refutation and inconclusive outcomes without implicit promotion."],
+    failureModes: ["A plausible proposal can be mistaken for verified evidence.", "An independently classified result can be misreported as support when the verdict is refuted or inconclusive.", "Development seeds can leak into threshold tuning and invalidate the reserved comparison.", "A functional indicator can be overgeneralized into a claim about consciousness or autonomy."],
+    codeSources: ["backend/src/services/endogenousThoughtDetectionService.js", "backend/src/services/endogenousThoughtAdmissionService.js", "backend/src/services/endogenousThoughtQueueService.js", "backend/src/services/endogenousThoughtRunnerService.js", "backend/tests/test_endogenous_thought_contract.js", "backend/tests/test_endogenous_thought_runner.js", "benchmarks/endogenous-thought/protocol-v1.json"],
+    scientificReferences: [{ label: "ETT v1 preregistered protocol", href: "https://github.com/PISSARAW/GenOS/blob/6e99e86f3fd20cf5639ba74719d1fdea7373cb6e/benchmarks/endogenous-thought/protocol-v1.json", scope: "GenOS experimental contract and registered comparison; not an executed result or external validation." }],
+    hasMathematics: true,
+    hasSimulation: true,
+    hasBenchmark: true,
+  },
   "genos-philosophy": {
     sourceLabel: "GenOS philosophy and ontology",
     scopeTitle: "A registry and bounded contracts, with explicit gaps",
-    scope: "All 375 profiles now calculate explicit bounded predicates and update audit state through eleven shared primitives. Missing or violated observations create verification tasks and response caveats; they never establish success. Ontogenesis replays explicitly requested audits before integration, while automatic suggestions remain advisory. The 13,500 observations are simulated cases on four graphs and three seeds, not real multi-agent missions. External truth, independent attestation and mission benefit remain separate obligations; promotionEligible stays false.",
+    scope: "All 420 profiles now calculate explicit bounded predicates and update audit state through eleven shared primitives. Missing or violated observations create verification tasks and response caveats; they never establish success. Ontogenesis replays explicitly requested audits before integration, while automatic suggestions remain advisory. The 15,120 observations are simulated cases on four graphs and three seeds, not real multi-agent missions. External truth, independent attestation and mission benefit remain separate obligations; promotionEligible stays false.",
     steps: [
-      { title: "Classify the registry", body: "The 375 entries are typed as notions, theories, methods, norms, or analytical frameworks, with traditions, distinctions, competing interpretations, conflicts, confidence, and sources preserved." },
-      { title: "Inspect implementation contracts", body: "Each of the 375 profiles declares its shared primitive, observed field, predicate and interpretation. Default maturity is mechanism-linked, including the 21 historical pilots; an unknown concept receives no fallback executable profile." },
+      { title: "Classify the registry", body: "The 420 entries are typed as notions, theories, methods, norms, or analytical frameworks, with traditions, distinctions, competing interpretations, conflicts, confidence, and sources preserved." },
+      { title: "Inspect implementation contracts", body: "Each of the 420 profiles declares its shared primitive, observed field, predicate and interpretation. Default maturity is mechanism-linked, including the 21 historical pilots; an unknown concept receives no fallback executable profile." },
       { title: "Evaluate bounded interpretations", body: "Supported concept adapters return scoped evaluations and their limits. Their responses do not make a philosophical theory true or a general mission verified." },
       { title: "Plan comparable experiments", body: "Readiness checks establish ready-for-experiment, not promotion. Ontogenesis passes selected contracts to the runner; compare concept-enabled behavior with the declared baseline and retain independent evidence." },
       { title: "Require independent evidence", body: "Registry health, structured contracts and successful transport are separate from tested behavior, runtime integration and validated mission outcomes." },

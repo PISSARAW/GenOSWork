@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { genosSource } from "@/components/product-evidence";
+import { productEvolutions } from "@/components/product-evolutions";
 
 const content = {
   en: {
@@ -20,6 +21,10 @@ const content = {
     outcome: "Promote, hold, or revise",
     flowNote: "A successful run alone does not establish a valid outcome.",
     facts: ["8 orchestration topologies", "Rust runtime + Node.js control plane", "CLI + leased MCP tools"],
+    updatesKicker: "REVIEWED 18 OCTOBER 2026",
+    updatesTitle: "The runtime moved forward.",
+    updatesIntro: "Topology runtimes, native workers and durable workspaces now carry stronger bounded evidence. The release review keeps every advance beside the limit that still applies.",
+    updatesAction: "Review all six evolutions",
     mechanicsKicker: "01 / THE RUNTIME",
     mechanicsLead: "Work can branch.",
     mechanicsEm: "The reasoning stays visible.",
@@ -72,6 +77,10 @@ const content = {
     outcome: "Valider, retenir ou réviser",
     flowNote: "Une exécution réussie ne prouve pas à elle seule la validité du résultat.",
     facts: ["8 topologies d’orchestration", "Runtime Rust + plan de contrôle Node.js", "CLI + outils MCP sous autorisation"],
+    updatesKicker: "REVUE DU 18 OCTOBRE 2026",
+    updatesTitle: "Le runtime a progressé.",
+    updatesIntro: "Topologies, workers natifs et workspaces durables disposent de preuves bornées plus solides. La revue conserve chaque avancée à côté de la limite qui continue de s’appliquer.",
+    updatesAction: "Examiner les six évolutions",
     mechanicsKicker: "01 / LE RUNTIME",
     mechanicsLead: "Le travail peut bifurquer.",
     mechanicsEm: "Les raisons restent visibles.",
@@ -136,6 +145,11 @@ export function GenosHome({ locale }: { locale: "en" | "fr" }) {
     </section>
 
     <div className="home-facts" aria-label={c.factsLabel}><div className="section-wrap">{c.facts.map((fact) => <span key={fact}>{fact}</span>)}</div></div>
+
+    <section className="home-updates section-wrap" aria-labelledby="home-updates-title">
+      <div className="home-updates-head"><div><p className="home-kicker">{c.updatesKicker}</p><h2 id="home-updates-title">{c.updatesTitle}</h2></div><div><p>{c.updatesIntro}</p><Link href={prefix + "/updates"}>{c.updatesAction} <span aria-hidden="true">↗</span></Link></div></div>
+      <div className="home-updates-grid">{productEvolutions.slice(0, 3).map((item, index) => <Link href={prefix + "/updates"} className="home-update-card" key={item.id}><span>0{index + 1}</span><h3>{item.title[locale]}</h3><p>{item.summary[locale]}</p><b aria-hidden="true">↗</b></Link>)}</div>
+    </section>
 
     <section className="home-section section-wrap" aria-labelledby="home-mechanics-title">
       <div className="home-section-head"><div><p className="home-kicker">{c.mechanicsKicker}</p><h2 id="home-mechanics-title">{c.mechanicsLead}<br /><em>{c.mechanicsEm}</em></h2></div><p>{c.mechanicsIntro}</p></div>

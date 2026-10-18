@@ -11,6 +11,7 @@ import { genosSourceCommit, productClaims, topologyClaim } from "@/components/pr
 import { biocenosisSqliteCampaign } from "@/components/recorded-campaigns";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
+import { canonicalConceptAdditions, canonicalConceptAliases } from "@/components/canonical-concept-additions";
 
 function sourceFiles(directory: string): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -47,6 +48,31 @@ describe("GenOS knowledge coverage (public contract)", () => {
     const familyIds = new Set(conceptFamilies.map((f) => f.id));
     for (const c of concepts) {
       if (c.familyId) expect(familyIds.has(c.familyId)).toBe(true);
+    }
+  });
+
+  it("registers ETT as a bounded, bilingual Atlas concept", () => {
+    const ett = concepts.find((concept) => concept.slug === "endogenous-thought-test");
+    expect(ett).toBeDefined();
+    expect(ett?.source).toBe("01-concepts/endogenous-thought-test.md");
+    expect(ett?.implementation).toBe("partial");
+    expect(ett?.integration).toBe("wired");
+    expect(ett?.hasBenchmark).toBe(true);
+    expect(ett?.related).toEqual(expect.arrayContaining(["agow", "ontogenese", "evidence"]));
+    expect(frenchConceptTitles[ett!.slug]).toBe("Test de pensée endogène");
+    expect(ett?.scope).toContain("phenomenal consciousness");
+  });
+
+  it("covers every new canonical GenOS concept without duplicating established Atlas pages", () => {
+    expect(canonicalConceptAdditions).toHaveLength(39);
+    expect(Object.keys(canonicalConceptAliases)).toHaveLength(45);
+    expect(concepts).toHaveLength(156);
+    const slugs = new Set(concepts.map((concept) => concept.slug));
+    for (const [canonicalId, slug] of Object.entries(canonicalConceptAliases)) {
+      expect(slugs.has(slug), `${canonicalId} -> ${slug}`).toBe(true);
+    }
+    for (const slug of ["endogenous-thought-test", "agent-ecosystem", "genomic-stability"]) {
+      expect(slugs.has(slug), slug).toBe(true);
     }
   });
 

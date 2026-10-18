@@ -1,8 +1,15 @@
+import { canonicalConceptAdditions } from "@/components/canonical-concept-additions";
+
 /** Concept-specific teaching sequences. These describe a model, not a runtime trace. */
 export type TeachingFlow = { en: [string, string, string]; fr: [string, string, string] };
 
 export const teachingFlows: Record<string, TeachingFlow> = {
+  ...Object.fromEntries(canonicalConceptAdditions.map((entry) => [entry.slug, {
+    en: entry.teachingEn as [string, string, string],
+    fr: entry.teachingFr as [string, string, string],
+  }])),
   "genos-philosophy": { en: ["Load canonical concept and provenance", "Run a bounded interpretation", "Preview effects behind authority gates"], fr: ["Charger le concept canonique et sa provenance", "Exécuter une interprétation bornée", "Prévisualiser les effets derrière les contrôles d'autorité"] },
+  "endogenous-thought-test": { en: ["Detect and formulate a falsifiable question", "Arbitrate and run a bounded proposal", "Classify independently without implicit promotion"], fr: ["Détecter puis formuler une question falsifiable", "Arbitrer et produire une proposition bornée", "Classer indépendamment sans promotion implicite"] },
   maladies: { en: ["Observe failure signals", "Classify a software pathology", "Contain and reassess"], fr: ["Observer les signaux de défaillance", "Classer la pathologie logicielle", "Contenir puis réévaluer"] },
   "adaptive-epistemic-immunity": { en: ["Receive a questionable claim", "Check source and anomaly", "Quarantine or release"], fr: ["Recevoir une affirmation douteuse", "Contrôler source et anomalie", "Isoler ou libérer"] },
   "immune-system": { en: ["Sense a threat signal", "Test detection and authority", "Apply bounded response"], fr: ["Détecter un signal de menace", "Vérifier détection et autorité", "Appliquer une réponse bornée"] },

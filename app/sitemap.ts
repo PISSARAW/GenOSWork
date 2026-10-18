@@ -27,6 +27,7 @@ const baseRoutes = [
   "/evidence",
   "/capabilities",
   "/developers",
+  "/updates",
 ];
 
 const supervisionRoutes = [
