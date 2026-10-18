@@ -51,6 +51,49 @@ describe("GenOS knowledge coverage (public contract)", () => {
     }
   });
 
+  it("keeps Atlas status triplets aligned with exact product claims and topology records", () => {
+    const evidenceByLevel = {
+      unit: "unit-tested",
+      integration: "integration-tested",
+      "end-to-end": "end-to-end-tested",
+      benchmark: "benchmark-protocol",
+      "reported-run": "reported-run",
+    } as const;
+
+    for (const claim of productClaims) {
+      const concept = concepts.find((item) => item.slug === claim.id);
+      if (!concept) continue;
+      const expectedIntegration = claim.evidenceLevel === "end-to-end"
+        ? "end-to-end"
+        : claim.evidenceLevel === "integration" || claim.evidenceLevel === "reported-run"
+          ? "wired"
+          : "callable";
+      expect(
+        { implementation: concept.implementation, integration: concept.integration, evidence: concept.evidence },
+        claim.id,
+      ).toEqual({
+        implementation: claim.status === "planned" ? "proposed" : claim.status,
+        integration: expectedIntegration,
+        evidence: evidenceByLevel[claim.evidenceLevel],
+      });
+    }
+
+    for (const topology of topologies) {
+      const concept = concepts.find((item) => item.slug === topology.slug);
+      expect(concept, topology.slug).toBeDefined();
+      expect(
+        { implementation: concept?.implementation, integration: concept?.integration, evidence: concept?.evidence },
+        topology.slug,
+      ).toEqual({ implementation: topology.implementation, integration: topology.integration, evidence: topology.evidence });
+    }
+
+    for (const concept of concepts) {
+      if (concept.implementation !== "implemented") {
+        expect(concept.status, concept.slug).not.toMatch(/^implemented\b/i);
+      }
+    }
+  });
+
   it("registers ETT as a bounded, bilingual Atlas concept", () => {
     const ett = concepts.find((concept) => concept.slug === "endogenous-thought-test");
     expect(ett).toBeDefined();
