@@ -12,6 +12,7 @@ import { biocenosisSqliteCampaign } from "@/components/recorded-campaigns";
 import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { canonicalConceptAdditions, canonicalConceptAliases } from "@/components/canonical-concept-additions";
+import { workerFamilies, workerTypes } from "@/components/worker-catalog";
 
 function sourceFiles(directory: string): string[] {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -117,6 +118,27 @@ describe("GenOS knowledge coverage (public contract)", () => {
     for (const slug of ["endogenous-thought-test", "agent-ecosystem", "genomic-stability"]) {
       expect(slugs.has(slug), slug).toBe(true);
     }
+  });
+
+  it("publishes the 20 canonical WorkerKind contracts across five families", () => {
+    expect(workerFamilies.map((family) => family.workers.length)).toEqual([2, 5, 6, 4, 3]);
+    expect(workerTypes.map((worker) => worker.id)).toEqual([
+      "scout_cell", "resident_daemon",
+      "bounded_worker", "adaptive_worker", "specialist", "procedural_executor", "symbiotic_worker",
+      "verifier_worker", "red_worker", "experimental_worker", "formal_worker", "math_worker", "synthesis_worker",
+      "creative_worker", "medical_worker", "recovery_worker", "forensic_worker",
+      "liaison_worker", "teaching_worker", "sub_orchestrator",
+    ]);
+    expect(new Set(workerTypes.map((worker) => worker.id)).size).toBe(20);
+    for (const worker of workerTypes) {
+      expect(worker.capabilities.length, `${worker.id} capabilities`).toBeGreaterThan(0);
+      expect(worker.authorityPhenotype, `${worker.id} authority`).toBeTruthy();
+      expect(worker.artifact, `${worker.id} artifact`).toBeTruthy();
+      expect(worker.detail, `${worker.id} limit`).toBeTruthy();
+    }
+    expect(workerTypes.find((worker) => worker.id === "procedural_executor")?.detail).toContain("0 model tokens");
+    expect(workerTypes.find((worker) => worker.id === "formal_worker")?.detail).toContain("0 model tokens");
+    expect(workerTypes.find((worker) => worker.id === "sub_orchestrator")?.detail).toContain("depth 1");
   });
 
   it("reports documentation depth without hiding gaps", () => {

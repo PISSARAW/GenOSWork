@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import { catalogConcepts } from "@/components/concept-catalog";
 import { concepts } from "@/components/concepts";
 import { genosSourceCommit, productClaims } from "@/components/product-evidence";
+import { workerTypes } from "@/components/worker-catalog";
 
 const genosRoot = resolve(process.cwd(), "..", "GenOS");
 const hasLocalSource = existsSync(join(genosRoot, ".git"));
@@ -37,6 +38,14 @@ describe.skipIf(!hasLocalSource)("GenOS V3 source synchronization", () => {
     expect(missing).toEqual([]);
     const slugs = new Set(concepts.map((concept) => concept.slug));
     expect(concepts.flatMap((concept) => (concept.related ?? []).filter((slug) => !slugs.has(slug)).map((slug) => `${concept.slug}: ${slug}`))).toEqual([]);
+  });
+
+  it("keeps the public worker catalog identical to the pinned Node WorkerKind registry", () => {
+    const source = git("show", `${genosSourceCommit}:backend/src/services/agents/workerKindService.js`);
+    const registry = source.match(/const KINDS = Object\.freeze\(\{([\s\S]*?)\n\}\);/)?.[1];
+    expect(registry, "KINDS registry block").toBeTruthy();
+    const sourceKinds = [...registry!.matchAll(/^\s{2}([a-z_]+):/gm)].map((match) => match[1]);
+    expect(workerTypes.map((worker) => worker.id).sort()).toEqual(sourceKinds.sort());
   });
 
   it("retains the canonical mechanisms behind the V3 status summaries", () => {
