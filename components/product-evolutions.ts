@@ -207,4 +207,23 @@ export const productEvolutions: ProductEvolution[] = [
     },
     sourcePath: "benchmarks/social-world/campaigns/socialworld-v2/README.md",
   },
+  {
+    id: "gci-capability-inheritance",
+    status: "partial",
+    date: "2026-10-24",
+    title: { en: "GCI adds linked, embedded and managed capability use", fr: "GCI ajoute les modes Linked, Embedded et Managed" },
+    summary: {
+      en: "The GenOS Capability Interface now exports explicit capability contracts, resolves and persists project inheritance, and supports Linked invocation plus Embedded and Managed adapters. Upgrade planning produces deterministic, idempotent proposals.",
+      fr: "GenOS Capability Interface exporte des contrats explicites, résout et persiste l’héritage des projets, et prend en charge l’invocation Linked ainsi que les adaptateurs Embedded et Managed. La planification des mises à niveau produit des propositions déterministes et idempotentes.",
+    },
+    evidence: {
+      en: "The committed GCI contract describes scoped REST and CLI paths, authority and revision checks, signed Embedded artifacts, delegated Managed execution, persistence, and a dry-run upgrade planner.",
+      fr: "Le contrat GCI publié décrit les parcours REST et CLI à portée contrôlée, les vérifications d’autorité et de révision, les artefacts Embedded signés, l’exécution Managed déléguée, la persistance et un planificateur de mise à niveau en simulation.",
+    },
+    limit: {
+      en: "Upgrade proposals never mutate an installation or create a PR. Embedded execution, artifact verification, revocation state and receipt storage depend on integrator-supplied components; end-to-end qualification on an external pilot project remains open.",
+      fr: "Les propositions de mise à niveau ne modifient pas l’installation et ne créent pas de PR. L’exécution Embedded, la vérification des artefacts, l’état de révocation et le stockage des reçus dépendent de composants fournis par l’intégrateur ; la qualification de bout en bout sur un projet pilote externe reste à faire.",
+    },
+    sourcePath: "docs/03-reference/gci.md",
+  },
 ];
