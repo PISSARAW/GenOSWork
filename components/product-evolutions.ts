@@ -132,6 +132,25 @@ export const productEvolutions: ProductEvolution[] = [
     sourcePath: "docs/01-concepts/endogenous-thought-test.md",
   },
   {
+    id: "variant-runtime-wiring",
+    status: "partial",
+    date: "2026-10-22",
+    title: { en: "Topology variants now drive more runtime decisions", fr: "Les variants topologiques pilotent davantage le runtime" },
+    summary: {
+      en: "Rhizome variant settings now constrain observable routing, growth, resilience, quarantine, bridge compatibility and propagation behavior. The same development adds nested Biome topologies, independent ecological-mutation checks, Syncytium graph guards and a reusable A-Team subteam adapter.",
+      fr: "Les paramètres des variants Rhizome encadrent désormais des opérations observables de routage, croissance, résilience, quarantaine, compatibilité des ponts et propagation. Ces travaux ajoutent aussi les topologies Biome imbriquées, la vérification indépendante des mutations écologiques, des barrières de graphe Syncytium et un adaptateur réutilisable de sous-équipes A-Team.",
+    },
+    evidence: {
+      en: "Accepted ADR 0718 records the wiring of all declared Rhizome profile parameters; focused implementation commits add the Biome nested-topology service, mutation oracle, Syncytium cycle/precondition checks and A-Team execution adapter.",
+      fr: "L’ADR 0718 accepté consigne le câblage des paramètres déclarés des profils Rhizome ; des commits d’implémentation ciblés ajoutent le service de topologies imbriquées Biome, l’oracle de mutation, les contrôles de cycles/préconditions Syncytium et l’adaptateur d’exécution A-Team.",
+    },
+    limit: {
+      en: "These are bounded runtime mechanisms, not evidence of globally optimal topology selection. The A-Team multi-team path still requires authenticated subrun receipts and end-to-end qualification before success can imply mission quality.",
+      fr: "Ces mécanismes de runtime sont bornés et ne prouvent pas une sélection topologique globalement optimale. Le parcours multi-équipe A-Team exige toujours des reçus authentifiés de sous-run et une qualification bout en bout avant que son succès puisse établir la qualité d’une mission.",
+    },
+    sourcePath: "docs/adr/0718-cablage-effectif-parametres-variants-rhizome.md",
+  },
+  {
     id: "autonomy-identity-shev",
     status: "partial",
     date: "2026-10-21",
