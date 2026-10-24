@@ -35,7 +35,7 @@ const demonstrations: Record<string, { input: string; steps: [string, string, st
   synthesis_worker: { input: "Several source records", steps: ["Keep source provenance", "Compare claims and conflicts", "Compose a sourced synthesis"], result: "synthesis_dossier" },
   creative_worker: { input: "Open-ended question", steps: ["Explore possible directions", "Draft a candidate", "Pair it with a falsifying test"], result: "creative_candidate · unpromoted" },
   medical_worker: { input: "Synthetic case", steps: ["Review supplied context", "State uncertainty", "Write an educational report"], result: "clinical_report" },
-  recovery_worker: { input: "Saved checkpoint", steps: ["Restore known state", "Narrow the mission", "Resume with a short limit"], result: "dossier · recovery trace" },
+  recovery_worker: { input: "Saved checkpoint + persisted mission history", steps: ["Inspect prior recovery and terminal telemetry", "Check the retry budget before redispatch", "Resume within budget or escalate"], result: "dossier · bounded recovery trace" },
   forensic_worker: { input: "Referenced incident events", steps: ["Check timestamps and declared links", "Retain causation references", "Mark causal truth unverified"], result: "causal_dossier · declared links" },
   liaison_worker: { input: "Separate participants", steps: ["Receive mission-relevant notes", "Compress shared context", "Bridge the two groups"], result: "dossier · message bridge" },
   teaching_worker: { input: "Subset-sum example + learner indices", steps: ["Execute the procedure", "Provide prerequisites and steps", "Check the learner witness"], result: "training_packet · transfer verdict" },

@@ -210,7 +210,7 @@ export const topologyGuides: Record<string, TopologyGuide> = {
       { id: "adversarial", useCase: "Safe scenario-level challenge and defense with mitigation counts and archived references; no live attack execution." },
       { id: "knowledge", useCase: "Research that treats source collections as niches, with freshness, credibility, duplication, contradiction, and provenance checks." },
       { id: "compute", useCase: "Compute tasks that need feasible provider ranking by estimated cost, latency, energy, and locality without relocating a worker." },
-      { id: "multi_scale", useCase: "Large tasks that aggregate supplied individual, population, and community measures and propagate authorized constraints." },
+      { id: "multi_scale", useCase: "Large tasks that aggregate supplied individual, population, and community measures, generate nested Biome topologies, and propagate authorized constraints." },
     ],
   },
 };
