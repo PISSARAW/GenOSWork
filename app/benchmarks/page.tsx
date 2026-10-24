@@ -37,7 +37,7 @@ export default function BenchmarksPage() {
         <Eyebrow>EXPERIMENT REGISTRY · RESULTS AND PROTOCOLS</Eyebrow>
         <h1>Scores with<br /><em>their context.</em></h1>
         <p>Every entry states its question, environment, limits, and reproduction path. A benchmark specification without an execution is not a score; scores across different tasks, versions, and models are not comparable.</p>
-        <div className="benchmark-summary"><div><strong>2</strong><span>published evaluation reports</span></div><div><strong>5</strong><span>local experiments summarized</span></div><div><strong>3</strong><span>topology protocols pending</span></div></div>
+        <div className="benchmark-summary"><div><strong>2</strong><span>published evaluation reports</span></div><div><strong>6</strong><span>local and reported experiments summarized</span></div><div><strong>3</strong><span>topology protocols pending</span></div></div>
       </section>
 
       <section className="section-wrap benchmark-section">

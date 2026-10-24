@@ -115,6 +115,20 @@ export const experiments: ExperimentRecord[] = [
     environment: "Ablation harness · 3 problems · no LLM in the loop",
     reproduction: "benchmarks/cognitive-key-ablation/README.md",
   },
+  {
+    id: "08",
+    status: "REPORTED LOCAL LLM CAMPAIGN · 48 MISSIONS",
+    tone: "reported",
+    title: "Identity Challenge · runtime v4.1",
+    intro: "A bounded local Qwen 2.5 14B campaign tested continuity/fork, false-memory provenance, and operational self-model use across four treatment arms.",
+    metrics: [["10 / 12", "GenOS full · A/B/C"], ["28 / 48", "Strict oracle passes"], ["48 / 48", "Real inferences recorded"]],
+    detail: "GenOS full met the preregistered 3/4 threshold on each challenge. The identity-sheet control matched it on A and scored higher on B. Four repetitions per cell and strongly guided tasks make these descriptive results; they do not establish generalized self-knowledge or an advantage over a minimal identity sheet.",
+    source: "Read the v4.1 report and campaign limits",
+    href: "benchmarks/identity-challenge/CAMPAIGN-REPORT-2026-10.md",
+    question: "Did the runtime pass the three preregistered identity behaviors in this bounded run?",
+    environment: "GenOS runtime · Qwen 2.5 14B via Ollama · 3 challenges × 4 arms × 4 repetitions",
+    reproduction: "See the v4.1 campaign report for the archived runner command, model digest, raw data and scoring rules.",
+  },
 ];
 
 export const plannedProtocols = [
@@ -123,4 +137,5 @@ export const plannedProtocols = [
   ["Syncytium", "Aggregator and metrics are described; campaign counters remain to be collected.", "docs/06-benchmarks/benchmark-syncytium.md"],
   ["EAB · epistemic abstention", "The runner awaits the local LoCoMo corpus and complete predictions; no complete EAB report is provided here.", "benchmarks/eab/README.md"],
   ["SWE-bench Lite · extension", "The reported result covers 26 ready tasks, not the full set of 300.", "docs/06-qualite-preuves/benchmarks/swe-bench-lite.md"],
+  ["SocialWorld V2", "Six scenario probes, runners and report oracles are available; the paired multi-seed campaign is still pending, so there is no benchmark result to report.", "benchmarks/social-world/campaigns/socialworld-v2/README.md"],
 ] as const;
