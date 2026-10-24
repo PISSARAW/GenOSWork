@@ -188,4 +188,23 @@ export const productEvolutions: ProductEvolution[] = [
     },
     sourcePath: "docs/adr/0729-mission-cc-genos-001.md",
   },
+  {
+    id: "socialworld-v2-pilot",
+    status: "experimental",
+    date: "2026-10-24",
+    title: { en: "SocialWorld V2 now has a six-scenario pilot harness", fr: "SocialWorld V2 dispose d’un banc pilote à six scénarios" },
+    summary: {
+      en: "GenOS connects a social-development loop with durable interaction memories, sourced relationship models, communication budgets and permissions, and paired campaign runners for V2-01 through V2-06.",
+      fr: "GenOS relie une boucle de développement social à des souvenirs d’interaction durables, des modèles relationnels sourcés, des budgets et permissions de communication, ainsi qu’aux runners appariés V2-01 à V2-06.",
+    },
+    evidence: {
+      en: "The six deterministic probes cover bounded dialogue memory, 24-agent routing, restart recall, verified trust updates, morphogenesis invariants and a paired metacognition oracle; report validators check that evidence is recalculable.",
+      fr: "Six sondes déterministes couvrent la mémoire de dialogue, le routage à 24 agents, le rappel après redémarrage, les mises à jour de confiance vérifiées, les invariants de morphogenèse et un oracle apparié de métacognition ; les validateurs vérifient que les preuves sont recalculables.",
+    },
+    limit: {
+      en: "These probes and runners do not establish a completed campaign: the six scenarios still require the preregistered paired arms and seeds. No general social autonomy or causal advantage is claimed.",
+      fr: "Ces sondes et runners ne prouvent pas qu’une campagne est terminée : les six scénarios exigent encore les bras appariés et graines préenregistrés. Aucune autonomie sociale générale ni supériorité causale n’est revendiquée.",
+    },
+    sourcePath: "benchmarks/social-world/campaigns/socialworld-v2/README.md",
+  },
 ];
