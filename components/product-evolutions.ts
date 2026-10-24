@@ -131,4 +131,23 @@ export const productEvolutions: ProductEvolution[] = [
     },
     sourcePath: "docs/01-concepts/endogenous-thought-test.md",
   },
+  {
+    id: "autonomy-identity-shev",
+    status: "partial",
+    date: "2026-10-21",
+    title: { en: "Autonomy gained stewardship, identity and field-execution paths", fr: "L’autonomie gagne des parcours de stewardship, d’identité et d’exécution terrain" },
+    summary: {
+      en: "Ontogenesis can turn eligible daemon findings into durable, idempotent backlog proposals; SHEV gained a real-time field-campaign adapter; identity challenges cover renamed peers, parent/fork lineage and partner choice from observed performance. Role-aware token budgets and an in-process Windows path for RAM/SWAP missions also landed.",
+      fr: "Ontogenèse peut convertir des findings admissibles du daemon en propositions durables et idempotentes du backlog ; SHEV gagne un adaptateur de campagne terrain en temps réel ; les défis d’identité couvrent les pairs renommés, la filiation parent/fork et le choix d’un partenaire selon ses performances observées. Les budgets de tokens par rôle et un parcours Windows in-process pour les missions RAM/SWAP sont également ajoutés.",
+    },
+    evidence: {
+      en: "The identity campaign records 48 real model inferences and 28/48 strict oracle passes; the daemon-stewardship and role-budget changes have dedicated contracts and tests. These results are scoped to their documented scenarios.",
+      fr: "La campagne d’identité consigne 48 inférences réelles du modèle et 28/48 réussites à l’oracle strict ; le stewardship du daemon et les budgets par rôle disposent de contrats et de tests dédiés. Ces résultats restent limités aux scénarios documentés.",
+    },
+    limit: {
+      en: "The identity tasks are controlled and do not establish general self-knowledge. SHEV's longitudinal field campaign remains protocol-only; daemon findings still pass Ontogenesis authority, budget, review and proof gates before any repair is integrated.",
+      fr: "Les tâches d’identité sont contrôlées et ne démontrent pas une connaissance de soi générale. La campagne longitudinale SHEV reste au stade du protocole ; les findings du daemon doivent toujours franchir les barrières d’autorité, de budget, de revue et de preuve d’Ontogenèse avant toute intégration de réparation.",
+    },
+    sourcePath: "benchmarks/identity-challenge/CAMPAIGN-REPORT-2026-10.md",
+  },
 ];
