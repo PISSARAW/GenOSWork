@@ -131,4 +131,118 @@ export const productEvolutions: ProductEvolution[] = [
     },
     sourcePath: "docs/01-concepts/endogenous-thought-test.md",
   },
+  {
+    id: "variant-runtime-wiring",
+    status: "partial",
+    date: "2026-10-22",
+    title: { en: "Topology variants now drive more runtime decisions", fr: "Les variants topologiques pilotent davantage le runtime" },
+    summary: {
+      en: "Rhizome variant settings now constrain observable routing, growth, resilience, quarantine, bridge compatibility and propagation behavior. The same development adds nested Biome topologies, independent ecological-mutation checks, Syncytium graph guards and a reusable A-Team subteam adapter.",
+      fr: "Les paramètres des variants Rhizome encadrent désormais des opérations observables de routage, croissance, résilience, quarantaine, compatibilité des ponts et propagation. Ces travaux ajoutent aussi les topologies Biome imbriquées, la vérification indépendante des mutations écologiques, des barrières de graphe Syncytium et un adaptateur réutilisable de sous-équipes A-Team.",
+    },
+    evidence: {
+      en: "Accepted ADR 0718 records the wiring of all declared Rhizome profile parameters; focused implementation commits add the Biome nested-topology service, mutation oracle, Syncytium cycle/precondition checks and A-Team execution adapter.",
+      fr: "L’ADR 0718 accepté consigne le câblage des paramètres déclarés des profils Rhizome ; des commits d’implémentation ciblés ajoutent le service de topologies imbriquées Biome, l’oracle de mutation, les contrôles de cycles/préconditions Syncytium et l’adaptateur d’exécution A-Team.",
+    },
+    limit: {
+      en: "These are bounded runtime mechanisms, not evidence of globally optimal topology selection. The A-Team multi-team path still requires authenticated subrun receipts and end-to-end qualification before success can imply mission quality.",
+      fr: "Ces mécanismes de runtime sont bornés et ne prouvent pas une sélection topologique globalement optimale. Le parcours multi-équipe A-Team exige toujours des reçus authentifiés de sous-run et une qualification bout en bout avant que son succès puisse établir la qualité d’une mission.",
+    },
+    sourcePath: "docs/adr/0718-cablage-effectif-parametres-variants-rhizome.md",
+  },
+  {
+    id: "autonomy-identity-shev",
+    status: "partial",
+    date: "2026-10-21",
+    title: { en: "Autonomy gained stewardship, identity and field-execution paths", fr: "L’autonomie gagne des parcours de stewardship, d’identité et d’exécution terrain" },
+    summary: {
+      en: "Ontogenesis can turn eligible daemon findings into durable, idempotent backlog proposals; SHEV gained a real-time field-campaign adapter; identity challenges cover renamed peers, parent/fork lineage and partner choice from observed performance. Role-aware token budgets and an in-process Windows path for RAM/SWAP missions also landed.",
+      fr: "Ontogenèse peut convertir des findings admissibles du daemon en propositions durables et idempotentes du backlog ; SHEV gagne un adaptateur de campagne terrain en temps réel ; les défis d’identité couvrent les pairs renommés, la filiation parent/fork et le choix d’un partenaire selon ses performances observées. Les budgets de tokens par rôle et un parcours Windows in-process pour les missions RAM/SWAP sont également ajoutés.",
+    },
+    evidence: {
+      en: "The identity campaign records 48 real model inferences and 28/48 strict oracle passes; the daemon-stewardship and role-budget changes have dedicated contracts and tests. These results are scoped to their documented scenarios.",
+      fr: "La campagne d’identité consigne 48 inférences réelles du modèle et 28/48 réussites à l’oracle strict ; le stewardship du daemon et les budgets par rôle disposent de contrats et de tests dédiés. Ces résultats restent limités aux scénarios documentés.",
+    },
+    limit: {
+      en: "The identity tasks are controlled and do not establish general self-knowledge. SHEV's longitudinal field campaign remains protocol-only; daemon findings still pass Ontogenesis authority, budget, review and proof gates before any repair is integrated.",
+      fr: "Les tâches d’identité sont contrôlées et ne démontrent pas une connaissance de soi générale. La campagne longitudinale SHEV reste au stade du protocole ; les findings du daemon doivent toujours franchir les barrières d’autorité, de budget, de revue et de preuve d’Ontogenèse avant toute intégration de réparation.",
+    },
+    sourcePath: "benchmarks/identity-challenge/CAMPAIGN-REPORT-2026-10.md",
+  },
+  {
+    id: "security-qualification-pipeline",
+    status: "partial",
+    date: "2026-10-22",
+    title: { en: "A proof-governed security pipeline takes shape", fr: "Une chaîne de sécurité gouvernée par la preuve se met en place" },
+    summary: {
+      en: "GenOS now connects digital evidence ingestion, scoped CyberCorp actions, security-specialist morphogenesis, verified security dossiers, bounded recovery and security learning. The Security Authority Kernel and Security Qualification Lab add explicit authority and qualification paths, including mission CC-GENOS-001.",
+      fr: "GenOS relie désormais l’ingestion de preuves numériques, les actions CyberCorp bornées, la morphogenèse de spécialistes, les dossiers de sécurité vérifiés, la récupération contrôlée et l’apprentissage de sécurité. Le Security Authority Kernel et le laboratoire de qualification ajoutent des parcours explicites d’autorité et de qualification, dont la mission CC-GENOS-001.",
+    },
+    evidence: {
+      en: "The committed DEO, CyberCorp gateway, SERE, SHRE, Security Authority Kernel, learning/ontogenesis and qualification-lab implementations each have focused tests; CC-GENOS-001 replays the dossier and checks rejection of out-of-mandate actions.",
+      fr: "Les implémentations commitées du DEO, de la passerelle CyberCorp, de SERE, SHRE, du Security Authority Kernel, de l’apprentissage/ontogenèse et du laboratoire de qualification disposent chacune de tests ciblés ; CC-GENOS-001 rejoue le dossier et vérifie le refus des actions hors mandat.",
+    },
+    limit: {
+      en: "CC-GENOS-001 uses synthetic fixtures unless authenticated external exports and a dedicated trust policy are supplied, so its current result is pipeline qualification rather than real CyberCorp incident-response validation. A report or recovery receipt does not authorize an action by itself.",
+      fr: "CC-GENOS-001 utilise des fixtures synthétiques tant que des exports externes authentifiés et une politique de confiance dédiée ne sont pas fournis : le résultat qualifie donc la chaîne, pas une réponse réelle à incident CyberCorp. Un rapport ou un reçu de récupération n’autorise pas une action à lui seul.",
+    },
+    sourcePath: "docs/adr/0729-mission-cc-genos-001.md",
+  },
+  {
+    id: "socialworld-v2-pilot",
+    status: "experimental",
+    date: "2026-10-24",
+    title: { en: "SocialWorld V2 now has a six-scenario pilot harness", fr: "SocialWorld V2 dispose d’un banc pilote à six scénarios" },
+    summary: {
+      en: "GenOS connects a social-development loop with durable interaction memories, sourced relationship models, communication budgets and permissions, and paired campaign runners for V2-01 through V2-06.",
+      fr: "GenOS relie une boucle de développement social à des souvenirs d’interaction durables, des modèles relationnels sourcés, des budgets et permissions de communication, ainsi qu’aux runners appariés V2-01 à V2-06.",
+    },
+    evidence: {
+      en: "The six deterministic probes cover bounded dialogue memory, 24-agent routing, restart recall, verified trust updates, morphogenesis invariants and a paired metacognition oracle; report validators check that evidence is recalculable.",
+      fr: "Six sondes déterministes couvrent la mémoire de dialogue, le routage à 24 agents, le rappel après redémarrage, les mises à jour de confiance vérifiées, les invariants de morphogenèse et un oracle apparié de métacognition ; les validateurs vérifient que les preuves sont recalculables.",
+    },
+    limit: {
+      en: "These probes and runners do not establish a completed campaign: the six scenarios still require the preregistered paired arms and seeds. No general social autonomy or causal advantage is claimed.",
+      fr: "Ces sondes et runners ne prouvent pas qu’une campagne est terminée : les six scénarios exigent encore les bras appariés et graines préenregistrés. Aucune autonomie sociale générale ni supériorité causale n’est revendiquée.",
+    },
+    sourcePath: "benchmarks/social-world/campaigns/socialworld-v2/README.md",
+  },
+  {
+    id: "gci-capability-inheritance",
+    status: "partial",
+    date: "2026-10-24",
+    title: { en: "GCI adds linked, embedded and managed capability use", fr: "GCI ajoute les modes Linked, Embedded et Managed" },
+    summary: {
+      en: "The GenOS Capability Interface now exports explicit capability contracts, resolves and persists project inheritance, and supports Linked invocation plus Embedded and Managed adapters. Upgrade planning produces deterministic, idempotent proposals.",
+      fr: "GenOS Capability Interface exporte des contrats explicites, résout et persiste l’héritage des projets, et prend en charge l’invocation Linked ainsi que les adaptateurs Embedded et Managed. La planification des mises à niveau produit des propositions déterministes et idempotentes.",
+    },
+    evidence: {
+      en: "The committed GCI contract describes scoped REST and CLI paths, authority and revision checks, signed Embedded artifacts, delegated Managed execution, persistence, and a dry-run upgrade planner.",
+      fr: "Le contrat GCI publié décrit les parcours REST et CLI à portée contrôlée, les vérifications d’autorité et de révision, les artefacts Embedded signés, l’exécution Managed déléguée, la persistance et un planificateur de mise à niveau en simulation.",
+    },
+    limit: {
+      en: "Upgrade proposals never mutate an installation or create a PR. Embedded execution, artifact verification, revocation state and receipt storage depend on integrator-supplied components; end-to-end qualification on an external pilot project remains open.",
+      fr: "Les propositions de mise à niveau ne modifient pas l’installation et ne créent pas de PR. L’exécution Embedded, la vérification des artefacts, l’état de révocation et le stockage des reçus dépendent de composants fournis par l’intégrateur ; la qualification de bout en bout sur un projet pilote externe reste à faire.",
+    },
+    sourcePath: "docs/03-reference/gci.md",
+  },
+  {
+    id: "local-worker-recovery-evidence",
+    status: "partial",
+    date: "2026-10-23",
+    title: { en: "Local worker repair now has tighter evidence and recovery gates", fr: "La réparation locale des workers gagne des barrières de preuve et de reprise" },
+    summary: {
+      en: "Retries for local code workers are bounded, identity leases can renew during long generations, recovery checks preserve terminal mission evidence, and allowlisted verification commands run in an isolated process.",
+      fr: "Les reprises des workers de code locaux sont bornées, les baux d’identité peuvent être renouvelés pendant les longues générations, les contrôles de reprise préservent les preuves terminales de mission et les commandes de vérification autorisées s’exécutent dans un processus isolé.",
+    },
+    evidence: {
+      en: "The recorded qualification includes passing local recovery, sandbox and identity-lease checks, while direct Qwen Pantry repair runs 22 and 23 ended failed and were correctly blocked from claiming mission success.",
+      fr: "La qualification consignée comprend des contrôles locaux de reprise, de sandbox et de renouvellement de bail réussis ; les réparations Pantry directes de Qwen, runs 22 et 23, se sont terminées en échec et n’ont pas été présentées à tort comme des missions réussies.",
+    },
+    limit: {
+      en: "These isolated checks do not establish general autonomous healing, production-worker recovery, or repair success on arbitrary applications. The recorded real-model runs remain failures, not evidence of a successful repair campaign.",
+      fr: "Ces contrôles isolés ne prouvent ni une auto-guérison générale, ni la reprise de workers en production, ni la réussite de réparations sur des applications quelconques. Les runs consignés avec un vrai modèle restent des échecs, pas la preuve d’une campagne de réparation réussie.",
+    },
+    sourcePath: "docs/06-qualite-preuves/rapport-experiences-auto-guerison-2026-10-23.md",
+  },
 ];

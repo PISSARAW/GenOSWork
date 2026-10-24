@@ -5,7 +5,7 @@ import { productEvolutions } from "@/components/product-evolutions";
 
 const copy = {
   en: {
-    eyebrow: "GENOS EVOLUTIONS · 6–18 OCTOBER 2026",
+    eyebrow: "GENOS EVOLUTIONS · 6–24 OCTOBER 2026",
     title: <>What changed.<br /><em>What it proves.</em></>,
     intro: "A source-backed review of the capabilities added or materially strengthened since the previous site baseline. Every item separates the working slice from what remains unqualified.",
     source: "REVIEWED SOURCE",
@@ -17,7 +17,7 @@ const copy = {
     methodBody: "This page follows the published origin/v3 revision, not uncommitted local work. Counts and statuses are scoped to the cited tests and contracts. A passing suite, persisted receipt or successful transport does not establish arbitrary mission correctness.",
   },
   fr: {
-    eyebrow: "ÉVOLUTIONS GENOS · 6–18 OCTOBRE 2026",
+    eyebrow: "ÉVOLUTIONS GENOS · 6–24 OCTOBRE 2026",
     title: <>Ce qui change.<br /><em>Ce que cela prouve.</em></>,
     intro: "Une revue sourcée des capacités ajoutées ou nettement renforcées depuis la précédente base du site. Chaque évolution sépare la tranche fonctionnelle de ce qui reste non qualifié.",
     source: "SOURCE EXAMINÉE",

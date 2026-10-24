@@ -1,6 +1,6 @@
 /** Published origin/v3 revision; previously reported local probes are scoped separately. */
-export const genosSourceCommit = "46004f1774517bd980d6691b1022eee2915987aa";
-export const genosReviewedAt = "2026-10-18";
+export const genosSourceCommit = "2aa8bf51f92d8954877f39d96a6f50cb1553422f";
+export const genosReviewedAt = "2026-10-24";
 export const genosSource = (path: string) =>
   `https://github.com/PISSARAW/GenOS/blob/${genosSourceCommit}/${path}`;
 
