@@ -169,4 +169,23 @@ export const productEvolutions: ProductEvolution[] = [
     },
     sourcePath: "benchmarks/identity-challenge/CAMPAIGN-REPORT-2026-10.md",
   },
+  {
+    id: "security-qualification-pipeline",
+    status: "partial",
+    date: "2026-10-22",
+    title: { en: "A proof-governed security pipeline takes shape", fr: "Une chaîne de sécurité gouvernée par la preuve se met en place" },
+    summary: {
+      en: "GenOS now connects digital evidence ingestion, scoped CyberCorp actions, security-specialist morphogenesis, verified security dossiers, bounded recovery and security learning. The Security Authority Kernel and Security Qualification Lab add explicit authority and qualification paths, including mission CC-GENOS-001.",
+      fr: "GenOS relie désormais l’ingestion de preuves numériques, les actions CyberCorp bornées, la morphogenèse de spécialistes, les dossiers de sécurité vérifiés, la récupération contrôlée et l’apprentissage de sécurité. Le Security Authority Kernel et le laboratoire de qualification ajoutent des parcours explicites d’autorité et de qualification, dont la mission CC-GENOS-001.",
+    },
+    evidence: {
+      en: "The committed DEO, CyberCorp gateway, SERE, SHRE, Security Authority Kernel, learning/ontogenesis and qualification-lab implementations each have focused tests; CC-GENOS-001 replays the dossier and checks rejection of out-of-mandate actions.",
+      fr: "Les implémentations commitées du DEO, de la passerelle CyberCorp, de SERE, SHRE, du Security Authority Kernel, de l’apprentissage/ontogenèse et du laboratoire de qualification disposent chacune de tests ciblés ; CC-GENOS-001 rejoue le dossier et vérifie le refus des actions hors mandat.",
+    },
+    limit: {
+      en: "CC-GENOS-001 uses synthetic fixtures unless authenticated external exports and a dedicated trust policy are supplied, so its current result is pipeline qualification rather than real CyberCorp incident-response validation. A report or recovery receipt does not authorize an action by itself.",
+      fr: "CC-GENOS-001 utilise des fixtures synthétiques tant que des exports externes authentifiés et une politique de confiance dédiée ne sont pas fournis : le résultat qualifie donc la chaîne, pas une réponse réelle à incident CyberCorp. Un rapport ou un reçu de récupération n’autorise pas une action à lui seul.",
+    },
+    sourcePath: "docs/adr/0729-mission-cc-genos-001.md",
+  },
 ];
