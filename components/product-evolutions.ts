@@ -226,4 +226,23 @@ export const productEvolutions: ProductEvolution[] = [
     },
     sourcePath: "docs/03-reference/gci.md",
   },
+  {
+    id: "local-worker-recovery-evidence",
+    status: "partial",
+    date: "2026-10-23",
+    title: { en: "Local worker repair now has tighter evidence and recovery gates", fr: "La réparation locale des workers gagne des barrières de preuve et de reprise" },
+    summary: {
+      en: "Retries for local code workers are bounded, identity leases can renew during long generations, recovery checks preserve terminal mission evidence, and allowlisted verification commands run in an isolated process.",
+      fr: "Les reprises des workers de code locaux sont bornées, les baux d’identité peuvent être renouvelés pendant les longues générations, les contrôles de reprise préservent les preuves terminales de mission et les commandes de vérification autorisées s’exécutent dans un processus isolé.",
+    },
+    evidence: {
+      en: "The recorded qualification includes passing local recovery, sandbox and identity-lease checks, while direct Qwen Pantry repair runs 22 and 23 ended failed and were correctly blocked from claiming mission success.",
+      fr: "La qualification consignée comprend des contrôles locaux de reprise, de sandbox et de renouvellement de bail réussis ; les réparations Pantry directes de Qwen, runs 22 et 23, se sont terminées en échec et n’ont pas été présentées à tort comme des missions réussies.",
+    },
+    limit: {
+      en: "These isolated checks do not establish general autonomous healing, production-worker recovery, or repair success on arbitrary applications. The recorded real-model runs remain failures, not evidence of a successful repair campaign.",
+      fr: "Ces contrôles isolés ne prouvent ni une auto-guérison générale, ni la reprise de workers en production, ni la réussite de réparations sur des applications quelconques. Les runs consignés avec un vrai modèle restent des échecs, pas la preuve d’une campagne de réparation réussie.",
+    },
+    sourcePath: "docs/06-qualite-preuves/rapport-experiences-auto-guerison-2026-10-23.md",
+  },
 ];
